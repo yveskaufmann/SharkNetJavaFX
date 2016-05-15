@@ -1,4 +1,4 @@
-package net.sharksystem.sharknet.javafx.I18N;
+package net.sharksystem.sharknet.javafx.i18n;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,7 @@ public class I18N {
 	/**
 	 * The base name of the default resource bundle
 	 */
-	private static final String MAIN_BUNDLE = "net.sharksystem.sharknet.javafx.I18N.sharknet";
+	private static final String MAIN_BUNDLE = "net.sharksystem.sharknet.javafx.i18n.sharknet";
 
 	/**
 	 * The current local resource bundle

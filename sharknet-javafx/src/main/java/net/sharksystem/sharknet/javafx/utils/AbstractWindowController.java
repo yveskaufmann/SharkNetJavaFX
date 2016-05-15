@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
-import net.sharksystem.sharknet.javafx.I18N.I18N;
+import net.sharksystem.sharknet.javafx.i18n.I18N;
 
 import java.net.URL;
 import java.util.ResourceBundle;

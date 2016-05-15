@@ -1,0 +1,69 @@
+/*------------------------------------------------------------------------------
+ * Base Styles
+ *------------------------------------------------------------------------------*/
+
+.theme-presets {
+
+	/* base colors for the app must be still discussed.
+	   This colors are a first example. */
+
+    -sn-primary-color: #4051B3;
+    -sn-secondary-color: derive(#FFFFFF, 87%);
+    -sn-accent-color: #FF09AC;
+
+	/* light text colors for light backgrounds */
+	-sn-dark-txt: #000000;
+    -sn-dark-primary-txt: derive( -sn-dark-txt  , 87%);
+    -sn-dark-secondary-txt: derive( -sn-dark-txt  , 54%);
+    -sn-dark-hint-txt: derive( -sn-dark-txt  , 38%);
+    -dn-dark-divider-txt: derive( -sn-dark-txt  , 16%);
+
+    /* dark text colors for dark backgrounds */
+    -sn-light-txt: #FFFFFF;
+	-sn-light-primary-txt: derive( -sn-light-txt, 100%);
+	-sn-light-secondary-txt: derive( -sn-light-txt, 70%);
+	-sn-light-hint-txt: derive( -sn-light-txt, 50%);
+	-dn-light-divider-txt: derive( -sn-light-txt, 12%);
+	-fx-background-color: -sn-secondary-color;
+}
+
+/*------------------------------------------------------------------------------
+ * Font Faces
+ *------------------------------------------------------------------------------*/
+
+@font-face {
+	font-family: "Roboto";
+	src: url("fonts/Roboto-Medium.ttf");
+}
+
+/*------------------------------------------------------------------------------
+ * Layout
+ *------------------------------------------------------------------------------*/
+
+#mainPane .tab-header-area {
+	-fx-max-height: 0;
+	visibility: hidden;
+}
+
+.theme-presets .profile-image {
+	-fx-background-color: -sn-secondary-color;
+	-fx-background-radius: 100%;
+}
+
+/*------------------------------------------------------------------------------
+ * Sidebar
+ *------------------------------------------------------------------------------*/
+
+
+.theme-presets .sidebar-button {
+	-fx-font-family: "Roboto";
+	-fx-font-size: 16pt;
+	-fx-padding: 0 0 0 22px;
+	-fx-background-color: #00000000;
+	-fx-text-fill: -sn-primary-color;
+	-fx-cursor: hand;
+}
+
+.theme-presets #sidebar .button:hover .text {
+	-fx-effect: dropshadow(gaussian ,-sn-dark-hint-txt, 5, 0.2, 2, 1);
+}

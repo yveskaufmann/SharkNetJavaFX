@@ -2,7 +2,7 @@ package net.sharksystem.sharknet.javafx.utils;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import net.sharksystem.sharknet.javafx.I18N.I18N;
+import net.sharksystem.sharknet.javafx.i18n.I18N;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

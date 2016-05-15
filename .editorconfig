@@ -18,6 +18,6 @@ charset = utf-8
 indent_style = tab
 indent_size = 4
 
-[*.{xhtml, xml}]
+[*.{xhtml, xml, css}]
 indent_style = tab
 indent_size = 4

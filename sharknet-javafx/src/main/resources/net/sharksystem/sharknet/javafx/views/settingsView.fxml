@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<BorderPane fx:id="settingsView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1">
+    <center>
+        <Label>Replace me with your settings view</Label>
+    </center>
+
+</BorderPane>
