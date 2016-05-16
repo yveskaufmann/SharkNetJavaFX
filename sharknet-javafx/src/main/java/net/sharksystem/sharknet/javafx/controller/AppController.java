@@ -2,16 +2,21 @@ package net.sharksystem.sharknet.javafx.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import net.sharksystem.sharknet.javafx.App;
+import net.sharksystem.sharknet.javafx.actions.Action;
+import net.sharksystem.sharknet.javafx.controlls.toolbar.Actionbar;
 import net.sharksystem.sharknet.javafx.i18n.I18N;
 import net.sharksystem.sharknet.javafx.utils.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.AbstractWindowController;
+import net.sharksystem.sharknet.javafx.utils.FontAwesomeIcon;
 
 import java.util.Map;
 
@@ -21,7 +26,6 @@ import java.util.Map;
  * all child controllers.
  */
 public class AppController extends AbstractWindowController {
-
 
 
 	enum AppAction {
@@ -34,7 +38,6 @@ public class AppController extends AbstractWindowController {
 		OPEN_GROUPS
 	}
 	private SidebarController sidebarController;
-
 	private ProfileController profileController;
 	private ChatController chatController;
 	private ContactController contactController;
@@ -42,6 +45,9 @@ public class AppController extends AbstractWindowController {
 	private TimelineController timelineController;
 	private GroupController groupController;
 	private SettingsController settingsController;
+
+	@FXML
+	private Actionbar toolbar;
 
 	/**
 	 * Container for the sidebar menu view
@@ -89,7 +95,7 @@ public class AppController extends AbstractWindowController {
 	 */
 	@Override
 	protected void onSceneCreated() {
-
+		getScene().getStylesheets().add(App.class.getResource("style.css").toExternalForm());
 	}
 
 	/**
@@ -107,6 +113,14 @@ public class AppController extends AbstractWindowController {
 	@Override
 	protected void onFxmlLoaded() {
 		sidebarPane.getChildren().add(sidebarController.getRoot());
+
+		toolbar.setNavigationAction(new Action(
+			FontAwesomeIcon.NAVICON, () -> {
+				sidebarController.toggleSidebar();
+			}
+		));
+
+
 		performAppAction(AppAction.OPEN_INBOX);
 	}
 

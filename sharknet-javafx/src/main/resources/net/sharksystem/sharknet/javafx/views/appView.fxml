@@ -3,10 +3,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
+<?import net.sharksystem.sharknet.javafx.controlls.toolbar.Actionbar?>
 
-<BorderPane fx:id="appView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="appView" maxHeight="-Infinity" maxWidth="-Infinity"  prefHeight="768.0" prefWidth="1024.0" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <Actionbar fx:id="toolbar" title="%app.title"/>
+    </top>
     <left>
-        <StackPane fx:id="sidebarPane" alignment="TOP_LEFT" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="TOP_LEFT" />
+        <StackPane fx:id="sidebarPane" alignment="TOP_LEFT" BorderPane.alignment="TOP_LEFT" />
     </left>
     <center>
       <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: red;" BorderPane.alignment="CENTER">

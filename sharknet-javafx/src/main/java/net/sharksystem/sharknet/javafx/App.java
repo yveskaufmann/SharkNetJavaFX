@@ -18,14 +18,8 @@ public class App extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		setUserAgentStylesheet(getClass().getResource("style.css").toExternalForm());
-		loadFonts();
 		appController = new AppController(primaryStage);
 		appController.show();
-	}
-
-	private void loadFonts() throws IOException {
-		Font.loadFont(App.class.getResource("fonts/Roboto-Medium.ttf").toExternalForm(), 10);
 	}
 
 

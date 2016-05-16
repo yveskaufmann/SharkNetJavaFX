@@ -1,4 +1,18 @@
 /*------------------------------------------------------------------------------
+ * Font Faces
+ *------------------------------------------------------------------------------*/
+
+@font-face {
+	font-family: "Roboto";
+	src: url("fonts/Roboto-Regular.ttf");
+}
+
+@font-face {
+	font-family: "FontAwesome";
+	src: url("fonts/fontawesome-webfont.ttf");
+}
+
+/*------------------------------------------------------------------------------
  * Base Styles
  *------------------------------------------------------------------------------*/
 
@@ -11,14 +25,14 @@
     -sn-secondary-color: derive(#FFFFFF, 87%);
     -sn-accent-color: #FF09AC;
 
-	/* light text colors for light backgrounds */
+	/* dark text colors for light backgrounds */
 	-sn-dark-txt: #000000;
     -sn-dark-primary-txt: derive( -sn-dark-txt  , 87%);
     -sn-dark-secondary-txt: derive( -sn-dark-txt  , 54%);
     -sn-dark-hint-txt: derive( -sn-dark-txt  , 38%);
     -dn-dark-divider-txt: derive( -sn-dark-txt  , 16%);
 
-    /* dark text colors for dark backgrounds */
+    /* light text colors for dark backgrounds */
     -sn-light-txt: #FFFFFF;
 	-sn-light-primary-txt: derive( -sn-light-txt, 100%);
 	-sn-light-secondary-txt: derive( -sn-light-txt, 70%);
@@ -27,13 +41,12 @@
 	-fx-background-color: -sn-secondary-color;
 }
 
-/*------------------------------------------------------------------------------
- * Font Faces
- *------------------------------------------------------------------------------*/
+.text {
+	-fx-font-family: Roboto;
+}
 
-@font-face {
-	font-family: "Roboto";
-	src: url("fonts/Roboto-Medium.ttf");
+.icon-label .text {
+	-fx-font-family: FontAwesome !important;
 }
 
 /*------------------------------------------------------------------------------
@@ -56,7 +69,7 @@
 
 
 .theme-presets .sidebar-button {
-	-fx-font-family: "Roboto";
+ 	-fx-font-family: "Roboto";
 	-fx-font-size: 16pt;
 	-fx-padding: 0 0 0 22px;
 	-fx-background-color: #00000000;
@@ -65,5 +78,51 @@
 }
 
 .theme-presets #sidebar .button:hover .text {
-	-fx-effect: dropshadow(gaussian ,-sn-dark-hint-txt, 5, 0.2, 2, 1);
+	-fx-scale-x: 1.1;
+	-fx-scale-y: 1.1;
 }
+
+/*------------------------------------------------------------------------------
+ * Actionbar
+ *------------------------------------------------------------------------------*/
+.toolbar {
+	-fx-min-height: 64px;
+	-fx-pref-height: 64px;
+	-fx-max-height: 64px;
+	-fx-padding: 16px 24px 20px 16px;
+	-fx-background-color: -sn-primary-color;
+	-fx-border-width: 0 0 1 0;
+	-fx-border-color: black;
+
+}
+
+.toolbar .text {
+	-fx-fill: -sn-light-primary-txt !important;
+	-fx-font-size: 20px;
+}
+
+.toolbar > .action-box {
+	-fx-spacing: 4px;
+}
+
+.toolbar > .button,
+.toolbar > .action-box  > .button {
+	-fx-border-color: null;
+	-fx-background-color: null;
+	-fx-padding: 4px;
+}
+
+.toolbar > .button:hover,
+.toolbar > .action-box  > .button:hover {
+	-fx-scale-x: 1.1;
+	-fx-scale-y: 1.1;
+}
+
+.toolbar > .button .text,
+.toolbar > .action-box  > .button .text {
+	-fx-font-family: FontAwesome !important;
+	-fx-font-size: 22px;
+}
+
+
+
