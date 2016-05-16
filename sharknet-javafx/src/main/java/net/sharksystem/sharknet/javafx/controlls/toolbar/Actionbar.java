@@ -72,9 +72,6 @@ public class Actionbar extends Region {
 
 		setMaxHeight(USE_PREF_SIZE);
 		setMinHeight(USE_PREF_SIZE);
-
-		actions.add(new Action(FontAwesomeIcon.COMMENT));
-		actions.add(new Action(FontAwesomeIcon.SEARCH));
 	}
 
 	private Button createActionButton(Action action) {

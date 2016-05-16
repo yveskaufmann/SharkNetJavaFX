@@ -114,6 +114,9 @@ public class AppController extends AbstractWindowController {
 	protected void onFxmlLoaded() {
 		sidebarPane.getChildren().add(sidebarController.getRoot());
 
+		// Example Set of Actions
+		toolbar.addActionEntry(new Action(FontAwesomeIcon.COMMENT));
+		toolbar.addActionEntry(new Action(FontAwesomeIcon.SEARCH));
 		toolbar.setNavigationAction(new Action(
 			FontAwesomeIcon.NAVICON, () -> {
 				sidebarController.toggleSidebar();
