@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class I18N {
@@ -13,7 +14,7 @@ public class I18N {
 	/**
 	 * The base name of the default resource bundle
 	 */
-	private static final String MAIN_BUNDLE = "net.sharksystem.sharknet.javafx.i18n.sharknet";
+	private static final String MAIN_BUNDLE = "net.sharksystem.sharknet.javafx.I18N.sharknet";
 
 	/**
 	 * The current local resource bundle
