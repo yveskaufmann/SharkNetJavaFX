@@ -12,8 +12,6 @@ import java.util.List;
  */
 public interface Chat {
 
-
-
 	/**
 	 * Add a Message to the Chat and sends it
 	 * @param message
@@ -30,4 +28,6 @@ public interface Chat {
 	 * @return
      */
     public List<Message> getMessages();
+
+	public void safeChat();
 }

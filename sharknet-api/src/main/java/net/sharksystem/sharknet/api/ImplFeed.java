@@ -9,9 +9,13 @@ import java.util.List;
  */
 public class ImplFeed implements Feed {
 
-	String content, interest, sender;
+	String content,sender;
 	List<Comment> comment_list = new LinkedList<>();
 	Timestamp datetime;
+	Interest interest;
+
+	//ToDo: Clearify - safe Method has always to be colled explicit
+
 
 	/**
 	 * This constructor is used to construct new Feeds which are going to be safed in the Database and sended
@@ -19,7 +23,7 @@ public class ImplFeed implements Feed {
 	 * @param interest
 	 * @param sender
      */
-	public ImplFeed(String content, String interest, String sender){
+	public ImplFeed(String content, Interest interest, String sender){
 		this.content = content;
 		this.interest = interest;
 		this.sender = sender;
@@ -37,16 +41,15 @@ public class ImplFeed implements Feed {
 	 * @param sender
      * @param datetime
      */
-	public ImplFeed(String content, String interest, String sender, Timestamp datetime){
+	public ImplFeed(String content, Interest interest, String sender, Timestamp datetime){
 		this.sender = sender;
 		this.interest = interest;
 		this.content = content;
 		this.datetime = datetime;
-
 	}
 
 	@Override
-	public String getInterest() {
+	public Interest getInterest() {
 		return interest;
 	}
 
@@ -67,7 +70,6 @@ public class ImplFeed implements Feed {
 
 	@Override
 	public List<Comment> getComments(int count) {
-
 		//ToDo: Shark - search for comments construct the objects and fill the list
 		return comment_list;
 	}
@@ -78,7 +80,9 @@ public class ImplFeed implements Feed {
 		comment_list.add(c);
 	}
 
-	private void safeInKB(){
+	@Override
+	public void safeInKB(){
 		//ToDo: Shark - safe Feed in KB
 	}
 }
+

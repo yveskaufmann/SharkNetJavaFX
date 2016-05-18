@@ -45,6 +45,10 @@ public interface Contact {
 	 */
 	public void updateContact(String nickname, String uid, String publicKey);
 
+	/**
+	 * Safes the Contact in the KB
+	 */
+	public void safeInKB();
 
 
 

@@ -40,7 +40,6 @@ public class ImplComment implements Comment{
 		this.sender = sender;
 		this.datetime = datetime;
 		this.reffeed = reffeed;
-
 	}
 
 	@Override
@@ -68,9 +67,8 @@ public class ImplComment implements Comment{
 		//ToDo: Shark - delete Comment from Database
 	}
 
-	private void safeInKB(){
-		//ToDo: Shark - Safe Comment in KB
+	@Override
+	public void safeInKB(){
+		//ToDo: Shark - Safe Comment in KB and send it
 	}
-
-
 }

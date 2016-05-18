@@ -39,4 +39,10 @@ public interface Comment {
 	 * Deletes Comment from DB
 	 */
 	public void deleteComment();
+
+	/**
+	 * safes the comment in the DB and sends it
+	 */
+	public void safeInKB();
 }
+

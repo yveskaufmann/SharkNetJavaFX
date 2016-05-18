@@ -13,7 +13,7 @@ public interface Feed {
 	 * Returns the name of the interest the feed references to
 	 * @return
      */
-    public String getInterest();
+    public Interest getInterest();
 
 	/**
 	 * Returns Date and Time when the feed was created
@@ -43,4 +43,9 @@ public interface Feed {
 	 * @param comment
 	 */
 	public void newComment(String comment, String author);
+
+	/**
+	 * Safes the Feed in the Database and sends it
+	 */
+	public void safeInKB();
 }

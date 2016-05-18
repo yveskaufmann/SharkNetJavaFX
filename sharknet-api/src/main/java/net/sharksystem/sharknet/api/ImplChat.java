@@ -7,6 +7,7 @@ import java.util.List;
 /**
  * Created by timol on 16.05.2016.
  */
+
 public class ImplChat implements Chat {
 
 	Contact c;
@@ -34,6 +35,11 @@ public class ImplChat implements Chat {
 	public List<Message> getMessages() {
 		fillChat();
 		return message_list;
+	}
+
+	@Override
+	public void safeChat() {
+		//ToDo: Shark - Safe Chat to the Database
 	}
 
 	/**

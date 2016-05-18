@@ -14,7 +14,7 @@ public class ImplMessage implements Message {
 	boolean isSigned, isEncrypted;
 
 	/**
-	 * Constructor for Messages which are from the Datebase and are not going to be sended
+	 * Constructor for Messages which are from the Datebase and are not going to be sended, just used by the API to fill List of Messages
 	 * @param message
 	 * @param time
 	 * @param sender
@@ -47,7 +47,7 @@ public class ImplMessage implements Message {
 	/**
 	 * writes the Message in the Database and sends it, is only called by the constructor for new Messages
 	 */
-	public void sendMessage(){
+	private void sendMessage(){
 		//ToDo: Shark - safe the Message in the Database and send it
 	}
 

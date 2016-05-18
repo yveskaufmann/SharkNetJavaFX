@@ -26,5 +26,15 @@ public interface Profile {
 	 * returns a List of all Interests the profile is interested in
 	 * @return
      */
-    public List<String> getInterests();
+    public List<Interest> getInterests();
+
+	/**
+	 * deletes a Profile
+	 */
+	public void deleteProfile();
+
+	/**
+	 * Safes the Profile in the KB
+	 */
+	public void safeProfile();
 }
