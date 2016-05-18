@@ -36,7 +36,7 @@ public interface SharkNet {
 	/**
 	 * initializes a new Feed an Safes it in the Knowledgebase
 	 */
-	public Feed newFeed(String content, String interest);
+	public Feed newFeed(String content, String interest, String sender);
 
 
 	/**
@@ -57,6 +57,6 @@ public interface SharkNet {
 	 * @param nickname
 	 * @param uid
 	 */
-	public Contact newContact(String nickname, String uid);
+	public Contact newContact(String nickname, String uid, String publickey);
 
 }

@@ -1,5 +1,8 @@
 package net.sharksystem.sharknet.api;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+
 /**
  * Created by timol on 12.05.2016.
  *
@@ -18,7 +21,7 @@ public interface Comment {
 	 * Returns the Date and Time a comment was created
 	 * @return
      */
-    public String getTimestamp();
+    public Timestamp getTimestamp();
 
 	/**
 	 * Returns the Feed the comment is referencing
@@ -29,6 +32,11 @@ public interface Comment {
 	 * returns the content of a comment
 	 * @return
 	 */
-	//ToDo: Mime Type integrieren
+	//ToDo: Implement - File - Mime Type integrieren
     public String getContent();
+
+	/**
+	 * Deletes Comment from DB
+	 */
+	public void deleteComment();
 }

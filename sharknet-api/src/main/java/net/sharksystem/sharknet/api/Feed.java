@@ -1,5 +1,6 @@
 package net.sharksystem.sharknet.api;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -18,12 +19,12 @@ public interface Feed {
 	 * Returns Date and Time when the feed was created
 	 * @return
      */
-    public String getTimestamp();
+    public Timestamp getTimestamp();
 	/**
 	 * returns the content of a Message
 	 * @return
 	 */
-	//ToDo: Mime Type integrieren
+	//ToDo: Implement - File - Mime Type integrieren
     public String getContent();
 	/**
 	 * returns the Author of a Feed
@@ -33,13 +34,13 @@ public interface Feed {
 
 	/**
 	 * Returns a List of comments referencing the feed
-	 * @param Anzahl
+	 * @param count
 	 * @return
      */
-    public List<Comment> getComments(int Anzahl);
+    public List<Comment> getComments(int count);
 	/**
 	 * adds and safes a comment to a feed
 	 * @param comment
 	 */
-	public void newComment(String comment);
+	public void newComment(String comment, String author);
 }

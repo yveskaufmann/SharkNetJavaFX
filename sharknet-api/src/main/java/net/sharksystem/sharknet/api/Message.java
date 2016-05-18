@@ -1,6 +1,8 @@
 package net.sharksystem.sharknet.api;
 
-//ToDo: Messages for Groupchats
+//ToDo: Clearify - Messages for Groupchats how to Implement
+
+import java.sql.Timestamp;
 
 /**
  * Created by timol on 12.05.2016.
@@ -12,7 +14,7 @@ public interface Message {
 	 * Returns the Date, Time when a message was created
 	 * @return
      */
-    public String getTimestamp();
+    public Timestamp getTimestamp();
 
 	/**
 	 * returns the Author of a message
@@ -28,7 +30,7 @@ public interface Message {
 	 * returns the content of a Message
 	 * @return
      */
-	//ToDo: Mime Type integrieren
+	//ToDo: Implement - File - Mime Type integrieren
     public String getContent();
 
 	/**

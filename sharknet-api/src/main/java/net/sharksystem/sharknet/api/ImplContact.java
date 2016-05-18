@@ -8,11 +8,12 @@ public class ImplContact implements Contact {
 
 	String nickname;
 	String uid;
-	String PublicKey;
+	String publickey;
 
-	public ImplContact(String nickname, String uid){
+	public ImplContact(String nickname, String uid, String publickey){
 		this.nickname = nickname;
 		this.uid = uid;
+		this.publickey = publickey;
 	}
 
 
@@ -28,6 +29,8 @@ public class ImplContact implements Contact {
 
 	@Override
 	public String getPicture() {
+
+		//ToDo: Implement Profilepictures
 		return null;
 	}
 
@@ -38,5 +41,20 @@ public class ImplContact implements Contact {
 			"FPqri0cb2JZfXJ/DgYSF6vUpwmJG8wVQZKjeGcjDOL5UlsuusFncCzWBQ7RKNUSesmQRMSGkVb1/\n" +
 			"3j+skZ6UtW+5u09lHNsj6tQ51s1SPrCBkedbNf0Tp0GbMJDyR4e9T04ZZwIDAQAB\n" +
 			"-----END PUBLIC KEY-----";
+
+		//ToDo: Implement Key-Mgmt
+	}
+
+	@Override
+	public void deleteContact() {
+		//ToDo: Shark - Delete Contact from the Database
+	}
+
+	@Override
+	public void updateContact(String nickname, String uid, String publicKey) {
+		this.nickname = nickname;
+		this.uid = uid;
+		this.publickey = publicKey;
+		//ToDo: Shark -  Update of the Contact in the Database
 	}
 }

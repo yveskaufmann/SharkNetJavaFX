@@ -26,4 +26,6 @@ public class ImplProfile implements Profile {
 	public List<String> getInterests() {
 		return null;
 	}
+	//ToDo: Implement - Interest
+	//ToDo: Implement - Settings
 }
