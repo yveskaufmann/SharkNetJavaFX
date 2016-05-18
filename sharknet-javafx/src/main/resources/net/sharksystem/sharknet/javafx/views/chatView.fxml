@@ -15,7 +15,7 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="69.0" prefWidth="550.0">
                <children>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="6.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imageViewContactProfile" fitHeight="50.0" fitWidth="50.0" layoutX="6.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/profile-placeholder.jpg" />
                      </image>
@@ -30,12 +30,12 @@
                         <Image url="@../images/doublecheck.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="436.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imageViewAdd" fitHeight="50.0" fitWidth="50.0" layoutX="436.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/plus.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="486.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imageViewAttachment" fitHeight="50.0" fitWidth="50.0" layoutX="486.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/bueroklammer.png" />
                      </image>
@@ -44,9 +44,9 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="276.0" prefWidth="550.0">
                <children>
-                  <TextArea layoutX="7.0" layoutY="7.0" prefHeight="195.0" prefWidth="537.0" text="&lt;You&gt; Hallo&#10;&lt;Contact 1&gt; Hey" />
-                  <TextField layoutX="14.0" layoutY="212.0" prefHeight="25.0" prefWidth="412.0" text="Type your message here..." />
-                  <Button layoutX="475.0" layoutY="212.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" text="Send" />
+                  <TextArea fx:id="textAreaChat" layoutX="7.0" layoutY="7.0" prefHeight="195.0" prefWidth="537.0" text="&lt;You&gt; Hallo&#10;&lt;Contact 1&gt; Hey" />
+                  <TextField fx:id="textFieldMessage" layoutX="14.0" layoutY="212.0" prefHeight="25.0" prefWidth="412.0" text="Type your message here..." />
+                  <Button fx:id="buttonSend" layoutX="475.0" layoutY="212.0" mnemonicParsing="false" onAction="#onSendClick" prefHeight="25.0" prefWidth="69.0" text="Send" />
                </children></AnchorPane>
         </items>
       </SplitPane>
