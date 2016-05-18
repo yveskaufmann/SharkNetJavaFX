@@ -10,11 +10,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import net.sharksystem.sharknet.api.Chat;
-import net.sharksystem.sharknet.api.Contact;
 import net.sharksystem.sharknet.api.ImplChat;
 import net.sharksystem.sharknet.api.Message;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.AbstractController;
+
+import java.awt.*;
+import java.util.List;
 
 public class ChatController extends AbstractController {
 
