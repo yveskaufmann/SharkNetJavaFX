@@ -10,35 +10,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import net.sharksystem.sharknet.api.Chat;
+import net.sharksystem.sharknet.api.Contact;
+import net.sharksystem.sharknet.api.ImplChat;
 import net.sharksystem.sharknet.api.Message;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.AbstractController;
 
-import java.awt.*;
-import java.util.List;
-
-class ChatImplementation implements Chat {
-
-	@Override
-	public void sendMessage(String message) {
-		System.out.println(message);
-	}
-
-	@Override
-	public void deleteChat() {
-
-	}
-
-	@Override
-	public List<Message> getMessages() {
-		return null;
-	}
-}
-
 public class ChatController extends AbstractController {
 
 	private AppController appController;
-	private ChatImplementation chat;
+	private ImplChat chat;
 
 	@FXML
 	private TextField textFieldMessage;
@@ -55,7 +36,7 @@ public class ChatController extends AbstractController {
 	public ChatController(AppController appController) {
 		super(App.class.getResource("views/chatView.fxml"));
 		this.appController = appController;
-		this.chat = new ChatImplementation();
+		this.chat = new ImplChat(null);
 	}
 
 	@Override
