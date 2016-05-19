@@ -30,6 +30,10 @@ public class I18N {
 	}
 
 	public static String getString(String key) {
+		if (key.startsWith("%")) {
+			key = key.substring(1, key.length());
+		}
+
 		if (getResourceBundle().containsKey(key)) {
 			return getResourceBundle().getString(key);
 		}
@@ -41,7 +45,4 @@ public class I18N {
 		final String pattern = getString(key);
 		return MessageFormat.format(pattern, arguments);
 	}
-
-
-
 }

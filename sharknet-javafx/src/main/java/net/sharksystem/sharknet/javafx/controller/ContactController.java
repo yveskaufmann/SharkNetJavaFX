@@ -2,6 +2,7 @@ package net.sharksystem.sharknet.javafx.controller;
 
 
 import net.sharksystem.sharknet.javafx.App;
+import net.sharksystem.sharknet.javafx.actions.annotations.Controller;
 import net.sharksystem.sharknet.javafx.utils.AbstractController;
 
 public class ContactController extends AbstractController {

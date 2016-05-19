@@ -8,6 +8,6 @@ package net.sharksystem.sharknet.javafx.utils;
 public interface FontBasedIcon {
 	/**
 	 * @return the text which represents this icon.
-     */
+	 */
 	String getText();
 }

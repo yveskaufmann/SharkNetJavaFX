@@ -1,24 +1,27 @@
 package net.sharksystem.sharknet.javafx.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import net.sharksystem.sharknet.javafx.App;
-import net.sharksystem.sharknet.javafx.actions.Action;
+import net.sharksystem.sharknet.javafx.actions.ActionEntry;
+import net.sharksystem.sharknet.javafx.actions.annotations.Action;
+import net.sharksystem.sharknet.javafx.actions.annotations.Controller;
 import net.sharksystem.sharknet.javafx.controlls.toolbar.Actionbar;
 import net.sharksystem.sharknet.javafx.i18n.I18N;
 import net.sharksystem.sharknet.javafx.utils.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.AbstractWindowController;
 import net.sharksystem.sharknet.javafx.utils.FontAwesomeIcon;
+import net.sharksystem.sharknet.javafx.utils.FontBasedIcon;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.Map;
+import java.lang.reflect.Executable;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * The Root Controller of the application
@@ -27,6 +30,7 @@ import java.util.Map;
  */
 public class AppController extends AbstractWindowController {
 
+	private static final Logger Log  = LoggerFactory.getLogger(AppController.class);
 
 	enum AppAction {
 		OPEN_PROFILE,
@@ -46,6 +50,11 @@ public class AppController extends AbstractWindowController {
 	private GroupController groupController;
 	private SettingsController settingsController;
 
+	/**
+	 * A Toolbar which contains AbstactContext sensitive actions
+	 * these action can be provided by implementing a action Provider
+	 * Interface.
+	 */
 	@FXML
 	private Actionbar toolbar;
 
@@ -115,9 +124,7 @@ public class AppController extends AbstractWindowController {
 		sidebarPane.getChildren().add(sidebarController.getRoot());
 
 		// Example Set of Actions
-		toolbar.addActionEntry(new Action(FontAwesomeIcon.COMMENT));
-		toolbar.addActionEntry(new Action(FontAwesomeIcon.SEARCH));
-		toolbar.setNavigationAction(new Action(
+		toolbar.setNavigationAction(new ActionEntry(
 			FontAwesomeIcon.NAVICON, () -> {
 				sidebarController.toggleSidebar();
 			}
@@ -155,6 +162,50 @@ public class AppController extends AbstractWindowController {
 	}
 
 	protected void showControllerView(AbstractController controller) {
+		String title = getTitle();
+		Class<?> cls = controller.getClass();
+
+		if (cls.isAnnotationPresent(Controller.class)) {
+			Controller controllerAnnotation = cls.getAnnotation(Controller.class);
+			title = controllerAnnotation.title();
+			if (! "".equals(title)) {
+				title = I18N.getString(title);
+			}
+		}
+
+		toolbar.clearActionEntries();
+		List<ActionEntry> actionEntryList = new ArrayList<>();
+		Stream.of(cls.getMethods())
+			.filter((method) -> method.isAnnotationPresent(Action.class))
+			.sorted((o1, o2) -> {
+				int p1 = o1.getAnnotation(Action.class).priority();
+				int p2 = o2.getAnnotation(Action.class).priority();
+				return p1 == p2 ? 0 : p1 < p2 ? -1 : 1;
+			})
+			.forEach((method -> {
+				Action action = method.getAnnotation(Action.class);
+				ActionEntry entry = new ActionEntry();
+				entry.setTooltip(action.tooltip());
+				entry.setTitle(action.text());
+				entry.setIcon(action::icon);
+				entry.setCallback(() -> {
+					try {
+						method.invoke(controller);
+					} catch (Exception e) {
+						Log.error("Failed to invoke the controller action {}{}.\n"
+								+ "Make sure the method is public or protected.",
+							controller.getClass().getName(),
+							method.getName());
+					}
+				});
+				actionEntryList.add(entry);
+			}));
+
+		toolbar.setTitle(title);
+		toolbar.clearActionEntries();
+		toolbar.actionEntriesProperty().addAll(actionEntryList);
+		actionEntryList.clear();
+
 		mainPane.getChildren().clear();
 		mainPane.getChildren().add(controller.getRoot());
 	}

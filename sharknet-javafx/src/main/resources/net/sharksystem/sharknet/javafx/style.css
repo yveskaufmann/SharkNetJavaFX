@@ -8,6 +8,11 @@
 }
 
 @font-face {
+	font-family: "Roboto Bold";
+	src: url("fonts/Roboto-Bold.ttf");
+}
+
+@font-face {
 	font-family: "FontAwesome";
 	src: url("fonts/fontawesome-webfont.ttf");
 }
@@ -122,7 +127,44 @@
 .toolbar > .action-box  > .button .text {
 	-fx-font-family: FontAwesome !important;
 	-fx-font-size: 22px;
+
 }
+
+.toolbar > .action-box > .button.context-menu-button {
+	-fx-scale-x: 0.2 !important;
+}
+
+/*------------------------------------------------------------------------------
+ * Context Menu
+ *------------------------------------------------------------------------------*/
+.context-menu {
+	-fx-padding: 8px 0 8px 0;
+	-fx-border-radius: 5px;
+	-fx-background-radius: 5px;
+	-fx-min-width: 112px;
+}
+
+.context-menu .menu-item {
+	-fx-pref-height: 48px;
+	-fx-min-width: 56px;
+	-fx-pref-width: -1;
+	-fx-min-width: 112px;
+}
+
+.context-menu .context-menu .menu-item .label {
+	-fx-padding: 16px 0 20px 0;
+}
+
+.context-menu .context-menu .menu-item .label .text {
+	-fx-font-family: "Roboto Bold"!important;
+	-fx-text-fill: #242424 !important;
+	-fx-fill: #242424 !important;
+	-fx-font-size: 16px;
+	-fx-padding: 0;
+	-fx-margin: 0;
+
+}
+
 
 
 
