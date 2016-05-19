@@ -7,7 +7,7 @@
 
 <BorderPane fx:id="settingsView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1">
     <center>
-        <Label>Replace me with your settings view</Label>
+        <Label wrapText="true">Replace me with your settings view</Label>
     </center>
 
 </BorderPane>
