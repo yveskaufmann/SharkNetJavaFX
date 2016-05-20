@@ -29,6 +29,8 @@ public class ChatController extends AbstractController {
 	@FXML
 	private ImageView imageViewContactProfile;
 	@FXML
+	private ImageView imageViewVote;
+	@FXML
 	private TextArea textAreaChat;
 
 
@@ -44,19 +46,24 @@ public class ChatController extends AbstractController {
 
 		// set onMouseClick for Attachment ImageView
 		imageViewAttachment.setOnMouseClicked(event -> {
-            onAttachmentClick();
-            event.consume();
-        });
+			onAttachmentClick();
+			event.consume();
+		});
 		// set onMouseClick for Add Chat Contact ImageView
 		imageViewAdd.setOnMouseClicked(event -> {
-            onAddClick();
-            event.consume();
-        });
+			onAddClick();
+			event.consume();
+		});
 		// set onMouseClick for Contact Profile ImageView
 		imageViewContactProfile.setOnMouseClicked(event -> {
-            onContactProfileClick();
-            event.consume();
-        });
+			onContactProfileClick();
+			event.consume();
+		});
+		// set onMouseClick for Vote ImageView
+		imageViewVote.setOnMouseClicked(event -> {
+			onVoteClick();
+			event.consume();
+		});
 	}
 
 	private void onAttachmentClick() {
@@ -71,10 +78,19 @@ public class ChatController extends AbstractController {
 		System.out.println("onContactProfileClick");
 	}
 
+	private void onVoteClick() {
+		System.out.println("onVoteClick");
+	}
+
 	@FXML
 	private void onSendClick(ActionEvent event) {
 		String message = textFieldMessage.getText();
 		chat.sendMessage(message);
 		textAreaChat.appendText('\n' + message);
+	}
+
+	@FXML
+	private void onNewChatClick(ActionEvent event) {
+		System.out.println("onNewChatClick");
 	}
 }
