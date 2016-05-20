@@ -1,14 +1,18 @@
-package net.sharksystem.sharknet.javafx.controller;
+package net.sharksystem.sharknet.javafx.controller.inbox;
 
+import javafx.fxml.FXML;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.actions.annotations.Action;
 import net.sharksystem.sharknet.javafx.actions.annotations.Controller;
+import net.sharksystem.sharknet.javafx.controller.AppController;
 import net.sharksystem.sharknet.javafx.utils.AbstractController;
 
 @Controller( title = "%inbox.title")
 public class InboxController extends AbstractController {
 
 	private AppController appController;
+
+
 
 	public InboxController(AppController appController) {
 		super(App.class.getResource("views/inboxView.fxml"));
