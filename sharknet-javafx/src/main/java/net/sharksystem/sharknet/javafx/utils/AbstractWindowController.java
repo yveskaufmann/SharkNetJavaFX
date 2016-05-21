@@ -4,6 +4,7 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.property.StringPropertyBase;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SceneAntialiasing;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
@@ -68,7 +69,7 @@ public abstract class AbstractWindowController extends AbstractController {
 	public Scene getScene() {
 		if (scene == null) {
 			Parent root = getRoot();
-			scene = new Scene(root);
+			scene = new Scene(root, 1024, 768, true, SceneAntialiasing.BALANCED);
 			onSceneCreated();
 		}
 		return scene;
