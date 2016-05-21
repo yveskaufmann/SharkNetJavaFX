@@ -36,7 +36,7 @@ public interface SharkNet {
 	/**
 	 * initializes a new Feed an Safes it in the Knowledgebase
 	 */
-	public Feed newFeed(String content, Interest interest, String sender);
+	public Feed newFeed(String content, Interest interest, Contact sender);
 
 
 	/**

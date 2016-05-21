@@ -42,7 +42,7 @@ public interface Feed {
 	 * adds and safes a comment to a feed
 	 * @param comment
 	 */
-	public void newComment(String comment, String author);
+	public void newComment(String comment, Contact author);
 
 	/**
 	 * Safes the Feed in the Database and sends it

@@ -76,7 +76,7 @@ public class ImplFeed implements Feed {
 	}
 
 	@Override
-	public void newComment(String comment, String author) {
+	public void newComment(String comment, Contact author) {
 		Comment c = new ImplComment(comment, author, this);
 		comment_list.add(c);
 	}

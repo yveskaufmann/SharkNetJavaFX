@@ -43,7 +43,7 @@ public class ImplSharkNet implements SharkNet {
 	}
 
 	@Override
-	public Feed newFeed(String content, Interest interest, String sender) {
+	public Feed newFeed(String content, Interest interest, Contact sender) {
 		Feed f = new ImplFeed(content, interest, sender);
 		return f;
 	}
