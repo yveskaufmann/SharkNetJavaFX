@@ -30,7 +30,7 @@ public interface Feed {
 	 * returns the Author of a Feed
 	 * @return
 	 */
-    public String getSender();
+    public Contact getSender();
 
 	/**
 	 * Returns a List of comments referencing the feed

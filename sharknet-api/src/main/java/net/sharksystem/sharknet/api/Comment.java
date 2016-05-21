@@ -15,7 +15,7 @@ public interface Comment {
 	 * Returns the author of a comment
 	 * @return
      */
-    public String getSender();
+    public Contact getSender();
 
 	/**
 	 * Returns the Date and Time a comment was created

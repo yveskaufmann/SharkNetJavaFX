@@ -9,9 +9,10 @@ public class ImplComment implements Comment{
 
 	//ToDo: Implement - File - Mine Type
 
-	String comment, sender;
+	String comment;
 	Feed reffeed;
 	Timestamp datetime;
+	Contact sender;
 
 	/**
 	 * This constructor is used to construct new Feeds which are going to be safed in the Database and sended
@@ -19,7 +20,7 @@ public class ImplComment implements Comment{
 	 * @param sender
 	 * @param reffeed
      */
-	public ImplComment(String comment, String sender, Feed reffeed){
+	public ImplComment(String comment, Contact sender, Feed reffeed){
 		this.comment = comment;
 		this.sender = sender;
 		this.reffeed = reffeed;
@@ -35,7 +36,7 @@ public class ImplComment implements Comment{
 	 * @param datetime
      * @param reffeed
      */
-	public ImplComment(String comment, String sender, Timestamp datetime, Feed reffeed){
+	public ImplComment(String comment, Contact sender, Timestamp datetime, Feed reffeed){
 		this.comment = comment;
 		this.sender = sender;
 		this.datetime = datetime;
@@ -43,7 +44,7 @@ public class ImplComment implements Comment{
 	}
 
 	@Override
-	public String getSender() {
+	public Contact getSender() {
 		return sender;
 	}
 

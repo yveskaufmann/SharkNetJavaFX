@@ -9,10 +9,11 @@ import java.util.List;
  */
 public class ImplFeed implements Feed {
 
-	String content,sender;
+	String content;
 	List<Comment> comment_list = new LinkedList<>();
 	Timestamp datetime;
 	Interest interest;
+	Contact sender;
 
 	//ToDo: Clearify - safe Method has always to be colled explicit
 
@@ -23,7 +24,7 @@ public class ImplFeed implements Feed {
 	 * @param interest
 	 * @param sender
      */
-	public ImplFeed(String content, Interest interest, String sender){
+	public ImplFeed(String content, Interest interest, Contact sender){
 		this.content = content;
 		this.interest = interest;
 		this.sender = sender;
@@ -41,7 +42,7 @@ public class ImplFeed implements Feed {
 	 * @param sender
      * @param datetime
      */
-	public ImplFeed(String content, Interest interest, String sender, Timestamp datetime){
+	public ImplFeed(String content, Interest interest, Contact sender, Timestamp datetime){
 		this.sender = sender;
 		this.interest = interest;
 		this.content = content;
@@ -64,7 +65,7 @@ public class ImplFeed implements Feed {
 	}
 
 	@Override
-	public String getSender() {
+	public Contact getSender() {
 		return sender;
 	}
 

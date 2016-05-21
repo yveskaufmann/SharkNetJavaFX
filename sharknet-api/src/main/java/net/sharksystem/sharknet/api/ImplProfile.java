@@ -3,6 +3,8 @@ package net.sharksystem.sharknet.api;
 import java.util.LinkedList;
 import java.util.List;
 
+
+
 /**
  * Created by timol on 16.05.2016.
  */
@@ -42,4 +44,7 @@ public class ImplProfile implements Profile {
 	}
 	//ToDo: Implement - Interest
 	//ToDo: Implement - Settings
+	//ToDo: Implement - Generate KeyPairs
+	//ToDo: Clearify - How Notifications for the GUI Work (Action Listener)
+
 }
