@@ -31,7 +31,6 @@
             <artifactId>slf4j-jdk14</artifactId>
             <version>1.7.21</version>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -49,6 +48,31 @@
                         </manifest>
                     </archive>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>native2ascii-maven-plugin</artifactId>
+                <version>1.0-beta-1</version>
+                <configuration>
+                    <encoding>UTF8</encoding>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>native2ascii-utf8-resources</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>native2ascii</goal>
+                        </goals>
+                        <configuration>
+                            <workDir>target/classes/net/sharksystem/sharknet/javafx/i18n</workDir>
+                            <tempDir>target</tempDir>
+                            <encoding>UTF8</encoding>
+                            <includes>
+                                <include>*.properties</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

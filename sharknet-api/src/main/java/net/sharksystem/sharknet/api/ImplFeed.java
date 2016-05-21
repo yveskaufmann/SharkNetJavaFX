@@ -1,6 +1,7 @@
 package net.sharksystem.sharknet.api;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,8 +29,7 @@ public class ImplFeed implements Feed {
 		this.content = content;
 		this.interest = interest;
 		this.sender = sender;
-		java.util.Date date= new java.util.Date();
-		datetime.setTime(date.getTime());
+		datetime = new Timestamp(new Date().getTime());
 		safeInKB();
 
 		//ToDo: clearify - if sender is contact

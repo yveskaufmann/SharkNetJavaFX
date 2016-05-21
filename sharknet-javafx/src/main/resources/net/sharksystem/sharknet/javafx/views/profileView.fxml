@@ -7,7 +7,7 @@
 
 <BorderPane fx:id="profileView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1">
     <center>
-       <Label>Here should be a Profile</Label>
+       <Label wrapText="true">Here should be a Profile</Label>
     </center>
 
 </BorderPane>

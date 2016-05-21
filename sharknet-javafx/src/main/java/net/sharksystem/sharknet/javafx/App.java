@@ -2,7 +2,6 @@ package net.sharksystem.sharknet.javafx;
 
 
 import javafx.application.Application;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.javafx.controller.AppController;
 import org.slf4j.Logger;

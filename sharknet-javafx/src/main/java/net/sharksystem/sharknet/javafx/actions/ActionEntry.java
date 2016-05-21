@@ -4,45 +4,55 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
+import net.sharksystem.sharknet.javafx.i18n.I18N;
 import net.sharksystem.sharknet.javafx.utils.FontBasedIcon;
 
 import java.util.Optional;
 
 
-public class Action {
+public class ActionEntry {
 
 	private ObjectProperty<FontBasedIcon> icon;
 	private StringProperty title;
 	private StringProperty tooltip;
 	private ObjectProperty<ActionCallback> callback;
 
-	public Action() {}
-	public Action(FontBasedIcon icon) {
+	public ActionEntry() {}
+	public ActionEntry(FontBasedIcon icon) {
 		setIcon(icon);
 	}
 
-	public Action(String text) {
+	public ActionEntry(String text) {
 		setTitle(text);
 	}
 
-	public Action(FontBasedIcon icon, String text) {
+	public ActionEntry(FontBasedIcon icon, String text) {
 		setIcon(icon);
 		setTitle(text);
 	}
 
-	public Action(FontBasedIcon icon, String text, ActionCallback callback) {
+	public ActionEntry(FontBasedIcon icon, String text, ActionCallback callback) {
 		setIcon(icon);
 		setTitle(text);
 		setCallback(callback);
 	}
 
-	public Action(FontBasedIcon icon, ActionCallback callback) {
+	public ActionEntry(FontBasedIcon icon, ActionCallback callback) {
 		setIcon(icon);
 		setCallback(callback);
 	}
 
-	public final Optional<FontBasedIcon> getIcon() {
+	public final Optional<FontBasedIcon> getIconOptional() {
 		return icon != null ? Optional.of(icon.get()) : Optional.empty();
+	}
+
+	public final String getIcon() {
+		Optional<FontBasedIcon> icon = getIconOptional();
+		if (icon.isPresent()) {
+			return icon.get().getText();
+		}
+		return "";
 	}
 
 	public final void setIcon(FontBasedIcon icon) {
@@ -84,6 +94,7 @@ public class Action {
 	public final StringProperty titleProperty() {
 		if (title == null) {
 			title = new SimpleStringProperty(this, "title");
+			title.addListener(this::convertI18NToString);
 		}
 		return title;
 	}
@@ -100,8 +111,17 @@ public class Action {
 	public final StringProperty tooltipProperty() {
 		if (tooltip == null) {
 			tooltip = new SimpleStringProperty(this, "tooltip");
+			tooltip.addListener(this::convertI18NToString);
 		}
 		return tooltip;
+	}
+
+	private void convertI18NToString(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+		if (oldValue != newValue && newValue.startsWith("%")) {
+			if (observable instanceof StringProperty) {
+				StringProperty.class.cast(observable).setValue(I18N.getString(newValue));
+			}
+		}
 	}
 
 }
