@@ -11,39 +11,61 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ResourceBundle;
 
+/**
+ * A Controller for a specific view.
+ * A view is a fxml file which is load and initialized by this controller.
+ * The controller is responsible to manage the specified view.
+ */
 public abstract class AbstractController {
 
 	/**
-	 * Abstract base logger
+	 * The logger for this class
 	 */
 	private Logger Log = LoggerFactory.getLogger(AbstractController.class);
 
 	/**
-	 * The FXML file which is corresponding to this controller
+	 * The FXML view/file which is related to this controller
 	 */
 	private URL fxmlFile;
 
 	/**
-	 * The current local Resource Bundle
+	 * The current local Resource Bundle.
+	 * The {@link ResourceBundle} contains all locale-specific
+	 * texts and strings.
 	 */
 	private ResourceBundle resourceBundle;
 
 	/**
-	 * The root element of this controller
+	 * The root node of the controlled view.
 	 */
 	protected Parent root;
 
+	/**
+	 * Creates a controller for the view which is defined
+	 * in the fxml file at the specified location.
+     */
 	public AbstractController(URL location) {
 		this(location, I18N.getResourceBundle());
 	}
 
-	public AbstractController(URL location, ResourceBundle resources) {
+	/**
+	 * <b>This constructor is only for internal use</b>
+	 *
+	 * Creates a controller for the view which is defined
+	 * in the fxml file at the specified location. And specifies
+	 * the {code ResourceBundle} which should be used by the controlled
+	 * view.
+	 *
+	 * @param location
+	 * @param resources
+     */
+	protected AbstractController(URL location, ResourceBundle resources) {
 		this.fxmlFile = location;
 		this.resourceBundle = resources;
 	}
 
 	/**
-	 * Retrieves the root element.
+	 * Retrieves the root element of the controlled view.
 	 *
 	 * @return the root element
      */
@@ -54,6 +76,11 @@ public abstract class AbstractController {
 		return this.root;
 	}
 
+	/**
+	 * Defines the parent node of the controlled view.
+	 *
+	 * @param root the parent node of the controlled view.
+     */
 	protected final void setRoot(Parent root) {
 		assert this.root == null;
 		this.root = root;
@@ -80,12 +107,25 @@ public abstract class AbstractController {
 	}
 
 	/**
-	 * Called when the fxml file was loaded
+	 * A subclass must implement its view initial logic in this method.
+	 *
+	 * <p>
+	 * Fields which are annotated with {@link javafx.fxml.FXML} are first accessible
+	 * while this method is invoked by the {@link AbstractController}.
+	 * </p>
+	 *
+	 * </p>
+	 * Called when the fxml file was loaded this is the
+	 * equivalent to {@link javafx.fxml.Initializable#initialize(URL, ResourceBundle)}.
+	 * <p>
 	 */
 	abstract protected void onFxmlLoaded();
 
 	/**
-	 * @return the assigned resource bundle
+	 * @return the assigned resource bundle which
+	 * is used for the controlled view.
+	 * The {@link ResourceBundle} contains all locale-specific
+	 * texts and strings.
 	 */
 	public ResourceBundle getResourceBundle() {
 		return resourceBundle;
@@ -93,6 +133,8 @@ public abstract class AbstractController {
 
 	/**
 	 * @return the location of the corresponding fxml file.
+	 * This contains the view which is controlled by
+	 * this controller.
 	 */
 	public URL getLocation() {
 		return fxmlFile;
