@@ -11,8 +11,6 @@ import net.sharksystem.sharknet.javafx.utils.AbstractController;
 import javafx.fxml.FXML;
 
 
-
-
 @Controller( title = "%sidebar.contacts")
 public class ContactController extends AbstractController {
 
@@ -43,17 +41,17 @@ public class ContactController extends AbstractController {
 
 	@FXML
 	private void onContactDeleteButtonClick() {
-		System.out.println("Neuen Kontakt erstellen");
+		System.out.println("Kontakt löschen");
 	}
 
 	@FXML
 	private void onContactGroupButtonClick() {
-		System.out.println("Neuen Kontakt erstellen");
+		System.out.println("Kontakt zu Gruppe");
 	}
 
 	@FXML
 	private void onContactBlockButtonClick() {
-		System.out.println("Neuen Kontakt erstellen");
+		System.out.println("Kontakt blockieren");
 	}
 
 
@@ -69,5 +67,6 @@ public class ContactController extends AbstractController {
 
 		ObservableList<String> blackListData = FXCollections.observableArrayList("Blockiert1","Blockiert2", "Blockiert3");
 		blackList.setItems(blackListData);
+
 	}
 }
