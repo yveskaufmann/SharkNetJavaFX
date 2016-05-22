@@ -49,14 +49,15 @@
           </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="276.0" prefWidth="550.0">
              <children>
-                <TextArea fx:id="textAreaChat" layoutX="7.0" layoutY="7.0" prefHeight="530.0" prefWidth="517.0" text="&lt;You&gt; Hallo&#10;&lt;Contact 1&gt; Hey" />
+                <TextArea fx:id="textAreaChat" editable="false" layoutX="7.0" layoutY="7.0" prefHeight="531.0" prefWidth="517.0" text="&lt;You&gt; Hallo&#10;&lt;Contact 1&gt; Hey" />
                 <TextField fx:id="textFieldMessage" layoutX="14.0" layoutY="561.0" prefHeight="25.0" prefWidth="412.0" text="Type your message here..." />
                 <Button fx:id="buttonSend" layoutX="446.0" layoutY="561.0" mnemonicParsing="false" onAction="#onSendClick" prefHeight="25.0" prefWidth="69.0" text="Send" />
+                  
              </children>
             </AnchorPane>
       </items>
       </SplitPane>
-      <ListView layoutX="14.0" layoutY="14.0" prefHeight="595.0" prefWidth="244.0" />
+      <ListView fx:id="listViewChatHistory" layoutX="14.0" layoutY="14.0" prefHeight="595.0" prefWidth="244.0" />
       <Button fx:id="buttonNewChat" layoutX="102.0" layoutY="635.0" mnemonicParsing="false" onAction="#onNewChatClick" text="New Chat" />
    </children>
 </AnchorPane>
