@@ -19,7 +19,7 @@ public class I18N {
 	/**
 	 * The base name of the default resource bundle
 	 */
-	private static final String MAIN_BUNDLE = "net.sharksystem.sharknet.javafx.I18N.sharknet";
+	private static final String MAIN_BUNDLE = "net.sharksystem.sharknet.javafx.i18N.sharknet";
 
 	/**
 	 * The current local resource bundle
