@@ -127,7 +127,7 @@ public class ContactController extends AbstractController {
 					setGraphic(null);
 				} else {
 					//Image image = getImageForContact(contactName);
-					Image profilePicture = new Image(App.class.getResource("images/plus.png").toExternalForm());
+					Image profilePicture = new Image(App.class.getResource("images/profile.png").toExternalForm());
 					imageView.setImage(profilePicture);
 					setText(contactName);
 					setGraphic(imageView);
