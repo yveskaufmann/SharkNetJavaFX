@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.animations.DoublePropertyTransition;
@@ -22,6 +23,8 @@ import net.sharksystem.sharknet.javafx.utils.AbstractController;
  * {@link #pinnedProperty()}.
  */
 public class SidebarController extends AbstractController {
+
+	private Rectangle clipRect;
 
 	//TODO: add action concept from the actionbar
 
@@ -49,6 +52,7 @@ public class SidebarController extends AbstractController {
 	public SidebarController(AppController appController) {
 		super(App.class.getResource("views/sidebarView.fxml"));
 		this.appController = appController;
+
 	}
 
 	/**

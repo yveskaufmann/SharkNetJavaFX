@@ -21,7 +21,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * @see ActionBar
+ */
 public class ActionbarSkin extends BehaviorSkinBase<ActionBar, ActionBarBehaviour> {
 
 	public static final int MAX_ACTIONS = 1;

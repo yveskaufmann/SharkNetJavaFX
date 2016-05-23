@@ -7,7 +7,9 @@ import net.sharksystem.sharknet.javafx.controlls.ActionBar;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * @see ActionBar
+ */
 public class ActionBarBehaviour extends BehaviorBase<ActionBar> {
 
 	/**

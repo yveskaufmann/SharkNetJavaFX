@@ -157,6 +157,7 @@ public class ActionBar extends Control {
      */
 	public static final  Button createActionButton(ActionEntry action) {
 		Button button = new Button();
+		button.getStyleClass().add("icon-label");
 		if (! "".equals(action.getTooltip())) {
 			button.setTooltip(new Tooltip(action.getTooltip()));
 		}

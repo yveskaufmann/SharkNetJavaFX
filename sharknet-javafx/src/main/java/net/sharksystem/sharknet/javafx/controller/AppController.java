@@ -9,7 +9,7 @@ import net.sharksystem.sharknet.javafx.actions.ActionEntry;
 import net.sharksystem.sharknet.javafx.actions.annotations.Action;
 import net.sharksystem.sharknet.javafx.actions.annotations.Controller;
 import net.sharksystem.sharknet.javafx.controller.inbox.InboxController;
-import net.sharksystem.sharknet.javafx.controlls.toolbar.Actionbar;
+import net.sharksystem.sharknet.javafx.controlls.ActionBar;
 import net.sharksystem.sharknet.javafx.i18n.I18N;
 import net.sharksystem.sharknet.javafx.utils.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.AbstractWindowController;
@@ -30,7 +30,7 @@ public class AppController extends AbstractWindowController {
 
 	private static final Logger Log  = LoggerFactory.getLogger(AppController.class);
 
-	enum AppAction {
+	public enum AppAction {
 		OPEN_PROFILE,
 		OPEN_CONTACTS,
 		OPEN_CHATS,
@@ -54,7 +54,7 @@ public class AppController extends AbstractWindowController {
 	 * Interface.
 	 */
 	@FXML
-	private Actionbar toolbar;
+	private ActionBar toolbar;
 
 	/**
 	 * Container for the sidebar menu view
@@ -122,11 +122,11 @@ public class AppController extends AbstractWindowController {
 		sidebarPane.getChildren().add(sidebarController.getRoot());
 
 		// Example Set of Actions
-		toolbar.setNavigationAction(new ActionEntry(
+		toolbar.setNavigationNode(ActionBar.createActionButton(new ActionEntry(
 			FontAwesomeIcon.NAVICON, () -> {
 				sidebarController.toggleSidebar();
 			}
-		));
+		)));
 
 
 		performAppAction(AppAction.OPEN_INBOX);
@@ -171,7 +171,7 @@ public class AppController extends AbstractWindowController {
 			}
 		}
 
-		toolbar.clearActionEntries();
+		toolbar.actions().clear();
 		List<ActionEntry> actionEntryList = new ArrayList<>();
 		Stream.of(cls.getMethods())
 			.filter((method) -> method.isAnnotationPresent(Action.class))
@@ -198,10 +198,9 @@ public class AppController extends AbstractWindowController {
 				});
 				actionEntryList.add(entry);
 			}));
-
 		toolbar.setTitle(title);
-		toolbar.clearActionEntries();
-		toolbar.actionEntriesProperty().addAll(actionEntryList);
+		toolbar.actions().clear();
+		toolbar.actions().addAll(actionEntryList);
 		actionEntryList.clear();
 
 		mainPane.getChildren().clear();
