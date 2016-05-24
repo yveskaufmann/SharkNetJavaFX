@@ -12,6 +12,7 @@ public class ImplProfile implements Profile {
 
 	Contact c;
 	List<Interest> interest_list = new LinkedList<>();
+	String password;
 
 	public ImplProfile(Contact c){
 		this.c = c;
@@ -40,7 +41,20 @@ public class ImplProfile implements Profile {
 
 	@Override
 	public void safeProfile() {
-		//ToDo: Shark - safe Profile in the KB
+		//ToDo: Shark - safe or update Profile in the KB
+	}
+
+	@Override
+	public boolean login(String password) {
+		if(this.password.equals(password)){
+			return true;
+		}
+		else return false;
+	}
+
+	@Override
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	//ToDo: Implement - Interest
 	//ToDo: Implement - Settings

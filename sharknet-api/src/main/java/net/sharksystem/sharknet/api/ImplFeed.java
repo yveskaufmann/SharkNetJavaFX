@@ -32,7 +32,6 @@ public class ImplFeed implements Feed {
 		datetime = new Timestamp(new Date().getTime());
 		safeInKB();
 
-		//ToDo: clearify - if sender is contact
 	}
 
 	/**
@@ -83,7 +82,7 @@ public class ImplFeed implements Feed {
 
 	@Override
 	public void safeInKB(){
-		//ToDo: Shark - safe Feed in KB
+		//ToDo: Shark - safe Feed in KB and sends it
 	}
 }
 

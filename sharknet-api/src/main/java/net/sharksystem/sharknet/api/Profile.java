@@ -37,4 +37,14 @@ public interface Profile {
 	 * Safes the Profile in the KB
 	 */
 	public void safeProfile();
+
+	/**
+	 * Method for the Login
+	 */
+
+	public boolean login(String password);
+	/**
+	 * Method to set password
+	 */
+	public void setPassword(String password);
 }
