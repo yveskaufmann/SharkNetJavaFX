@@ -3,13 +3,23 @@
  *------------------------------------------------------------------------------*/
 
 @font-face {
+	font-family: "Roboto-Light";
+	src: url("fonts/Roboto-Light.ttf");
+}
+
+@font-face {
 	font-family: "Roboto";
 	src: url("fonts/Roboto-Regular.ttf");
 }
 
 @font-face {
-	font-family: "Roboto Bold";
+	font-family: "Roboto-Bold";
 	src: url("fonts/Roboto-Bold.ttf");
+}
+
+@font-face {
+	font-family: "Roboto-BoldItalic";
+	src: url("fonts/Roboto-BoldItalic.ttf");
 }
 
 @font-face {
@@ -27,7 +37,7 @@
 	   This colors are a first example. */
 
     -sn-primary-color: #4051B3;
-    -sn-secondary-color: derive(#FFFFFF, 87%);
+    -sn-secondary-color: derive(#FFFFFF, 85%);
     -sn-accent-color: #FF09AC;
 
 	/* dark text colors for light backgrounds */
@@ -48,10 +58,44 @@
 
 .text {
 	-fx-font-family: Roboto;
+	-fx-font-smoothing-type: lcd;
+}
+
+.text-header {
+	-fx-font-family: Roboto!important;
+	-fx-font-size: 15px;
+	-fx-font-weight: bold;
+}
+
+.text-mid {
+	-fx-font-family: Roboto!important;
+	-fx-font-size: 13px;
+}
+
+.text-small {
+	-fx-font-family: Roboto-Light!important;
+	-fx-font-size: 12px;
+	-fx-fill: gray;
 }
 
 .icon-label .text {
 	-fx-font-family: FontAwesome !important;
+}
+
+.button.icon-label {
+	-fx-border-color: null;
+	-fx-background-color: null;
+	-fx-padding: 4px;
+}
+
+.button.icon-label:hover {
+	-fx-font-family: FontAwesome !important;
+	-fx-font-size: 22px;
+}
+
+.button.icon-label:hover {
+	-fx-scale-x: 1.1;
+	-fx-scale-y: 1.1;
 }
 
 /*------------------------------------------------------------------------------
@@ -72,7 +116,6 @@
  * Sidebar
  *------------------------------------------------------------------------------*/
 
-
 .theme-presets .sidebar-button {
  	-fx-font-family: "Roboto";
 	-fx-font-size: 16pt;
@@ -90,7 +133,7 @@
 /*------------------------------------------------------------------------------
  * Actionbar
  *------------------------------------------------------------------------------*/
-.toolbar {
+.actionbar {
 	-fx-min-height: 64px;
 	-fx-pref-height: 64px;
 	-fx-max-height: 64px;
@@ -101,36 +144,16 @@
 
 }
 
-.toolbar .text {
+.actionbar .text {
 	-fx-fill: -sn-light-primary-txt !important;
 	-fx-font-size: 20px;
 }
 
-.toolbar > .action-box {
+.actionbar > .action-box {
 	-fx-spacing: 4px;
 }
 
-.toolbar > .button,
-.toolbar > .action-box  > .button {
-	-fx-border-color: null;
-	-fx-background-color: null;
-	-fx-padding: 4px;
-}
-
-.toolbar > .button:hover,
-.toolbar > .action-box  > .button:hover {
-	-fx-scale-x: 1.1;
-	-fx-scale-y: 1.1;
-}
-
-.toolbar > .button .text,
-.toolbar > .action-box  > .button .text {
-	-fx-font-family: FontAwesome !important;
-	-fx-font-size: 22px;
-
-}
-
-.toolbar > .action-box > .button.context-menu-button {
+.actionbar > .action-box > .button.context-menu-button {
 	-fx-scale-x: 0.2 !important;
 }
 
@@ -165,6 +188,95 @@
 
 }
 
+/*------------------------------------------------------------------------------
+ * MediaList
+ *------------------------------------------------------------------------------*/
 
+.media-list {
+	-fx-border-width: 0px;
+	-fx-background-color: white;
+	-fx-padding: 0px;
+}
 
+.media-list .list-cell {
+	-fx-background-color: white;
+	-fx-border-color: lightgray;
+	-fx-border-width: 1px 0px 0px 0px;
+	-fx-padding: 12px;
+}
 
+.media-list .list-cell:hover {
+	-fx-background-color: derive(-sn-primary-color, 60%);
+}
+
+/*------------------------------------------------------------------------------
+ * Scrollbar
+ *------------------------------------------------------------------------------*/
+
+.scroll-bar {
+	-fx-background-color: transparent;
+}
+
+.scroll-bar .track-background {
+	-fx-background-color: transparent;
+}
+
+.scroll-bar .increment-button {
+	-fx-background-color: transparent;
+	-fx-border-color: transparent;
+}
+
+.scroll-bar .increment-button .increment-arrow {
+	-fx-background-color: lightgray;
+	-fx-border-color: transparent;
+}
+
+.scroll-bar .increment-button .increment-arrow:hover {
+	-fx-background-color: derive(-sn-primary-color, 60%);
+	-fx-border-color: transparent;
+}
+
+.scroll-bar .decrement-button {
+	-fx-background-color: transparent;
+	-fx-border-color: transparent;
+}
+
+.scroll-bar .increment-button .decrement-arrow {
+	-fx-background-color: lightgray;
+	-fx-border-color: transparent;
+}
+
+.scroll-bar .increment-button .decrement-arrow:hover {
+	-fx-background-color: derive(-sn-primary-color, 60%);
+	-fx-border-color: transparent;
+}
+
+.scroll-bar:vertical .thumb {
+	-fx-background-insets: 0 6 0 6;
+}
+
+.scroll-bar .thumb {
+	-fx-border-color: transparent;
+	-fx-background-color: lightgray;
+	-fx-background-insets: 6 0 6 0;
+}
+
+.scroll-bar .thumb:hover,
+.scroll-bar .thumb:selected,
+.scroll-bar .thumb:focused {
+	-fx-background-color: derive(-sn-primary-color, 60%);
+}
+
+/*------------------------------------------------------------------------------
+ * Inbox-Item List
+ *------------------------------------------------------------------------------*/
+
+.list-cell.inbox-item {
+
+}
+
+.list-cell.inbox-item  .round-image-view {
+	-fx-stroke-width: 1px;
+	-fx-stroke: -fx-lighter-color;
+	-fx-padding: 20px;
+}

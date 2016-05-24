@@ -16,7 +16,7 @@ public class RoundImageView extends ImageView {
 	 */
 	public RoundImageView() {
 		super();
-		makeImageViewRound();
+		initialize();
 	}
 
 	/**
@@ -34,7 +34,7 @@ public class RoundImageView extends ImageView {
 	 */
 	public RoundImageView(String url) {
 		super(url);
-		makeImageViewRound();
+		initialize();
 	}
 
 	/**
@@ -44,10 +44,11 @@ public class RoundImageView extends ImageView {
 	 */
 	public RoundImageView(Image image) {
 		super(image);
-		makeImageViewRound();
+		initialize();
 	}
 
-	private void makeImageViewRound() {
+	private void initialize() {
+		getStyleClass().add("round-image-view");
 		if (clip != null) return; // ImageView has already a clip object
 
 		clip = new Circle(getFitWidth() * 0.5, getFitHeight() * 0.5, getFitWidth() * 0.5);

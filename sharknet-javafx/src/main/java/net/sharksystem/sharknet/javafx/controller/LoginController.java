@@ -3,12 +3,17 @@ package net.sharksystem.sharknet.javafx.controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import net.sharksystem.sharknet.api.ImplSharkNet;
+import net.sharksystem.sharknet.api.Profile;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.AbstractController;
+
+import java.util.List;
 
 /**
  * Created by Benni on 18.05.2016.
@@ -16,16 +21,20 @@ import net.sharksystem.sharknet.javafx.utils.AbstractController;
 public class LoginController extends AbstractController {
 
 	private AppController appController;
+	private ImplSharkNet sharkNetModel;
+
+	@FXML
+	private Label labelProfileName;
 
 	public LoginController(AppController appController) {
 		super(App.class.getResource("views/loginView.fxml"));
 		this.appController = appController;
-
 	}
 
 	@Override
 	protected void onFxmlLoaded() {
 		//TODO: Implement chat controller
+		loadProfiles();
 	}
 
 
@@ -37,5 +46,10 @@ public class LoginController extends AbstractController {
 	@FXML
 	private void onCancelClick(ActionEvent event) {
 		System.out.println("onCancelClick");
+	}
+
+	private void loadProfiles() {
+		List<Profile> profileList = sharkNetModel.getProfiles();
+		// TODO: add Profiles to View
 	}
 }

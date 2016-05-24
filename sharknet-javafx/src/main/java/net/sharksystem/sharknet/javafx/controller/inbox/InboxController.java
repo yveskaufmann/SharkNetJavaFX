@@ -1,21 +1,30 @@
 package net.sharksystem.sharknet.javafx.controller.inbox;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
+import net.sharksystem.sharknet.api.Feed;
+import net.sharksystem.sharknet.api.ImplContact;
+import net.sharksystem.sharknet.api.ImplFeed;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.actions.annotations.Action;
 import net.sharksystem.sharknet.javafx.actions.annotations.Controller;
 import net.sharksystem.sharknet.javafx.controller.AppController;
 import net.sharksystem.sharknet.javafx.utils.AbstractController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller( title = "%inbox.title")
 public class InboxController extends AbstractController {
 
 	private AppController appController;
 
+	@FXML InboxList inboxListView;
+
 
 
 	public InboxController(AppController appController) {
-		super(App.class.getResource("views/inboxView.fxml"));
+		super(App.class.getResource("views/inbox/inboxView.fxml"));
 		this.appController = appController;
 	}
 
@@ -24,7 +33,13 @@ public class InboxController extends AbstractController {
 	 */
 	@Override
 	protected void onFxmlLoaded() {
-		// TODO: implement inbox controller
+		for(int i = 0; i < 20; i++) {// Test dummy data
+			inboxListView.getItems().add(
+				new ImplFeed("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat vero.",
+					null, new ImplContact("Lorem ipsum", "1212121", "sadasdsadsadaasdas"))
+			);
+		}
+
 	}
 
 	@Action(icon = "\uf002 ", text = "%action.search")
