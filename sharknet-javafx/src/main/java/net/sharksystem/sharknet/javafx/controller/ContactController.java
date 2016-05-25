@@ -2,9 +2,11 @@ package net.sharksystem.sharknet.javafx.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import net.sharksystem.sharknet.javafx.App;
@@ -46,6 +48,12 @@ public class ContactController extends AbstractController {
 	private ListView<String> groupList;
 	@FXML
 	private ListView<String> blackList;
+	@FXML
+	private TextField contactsSearchTextfield;
+	@FXML
+	private TextField groupsSearchTextfield;
+	@FXML
+	private TextField blacklistSearchTextfield;
 
 
 	@FXML
@@ -74,7 +82,6 @@ public class ContactController extends AbstractController {
 		System.out.println(contactList.getSelectionModel().getSelectedItem());
 	}
 
-
 	//
 	Image getImageForContact(String contactName){
 
@@ -82,12 +89,69 @@ public class ContactController extends AbstractController {
 	}
 	//
 
+
 	@Override
 	protected void onFxmlLoaded() {
 
 		ObservableList<String> contactsData = FXCollections.observableArrayList();
 		ObservableList<String> blackListData = FXCollections.observableArrayList();
 		ObservableList<String> groupsData = FXCollections.observableArrayList("Gruppe1","Gruppe2", "Gruppe3");
+		FilteredList<String> filteredContacts = new FilteredList<>(contactsData, p -> true);
+		FilteredList<String> filteredGroups = new FilteredList<>(groupsData, p -> true);
+		FilteredList<String> filteredBlocked = new FilteredList<>(blackListData, p -> true);
+
+		//TEST Suchfunktion
+		// Kontaktliste filtern
+		contactsSearchTextfield.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredContacts.setPredicate(nickname -> {
+			// If filter text is empty, display all entries.
+			if (newValue == null || newValue.isEmpty()) {
+				return true;
+			}
+			// Compare first name and last name of every person with filter text.
+			String lowerCaseFilter = newValue.toLowerCase();
+			if (nickname.toLowerCase().contains(lowerCaseFilter)) {
+				return true; // Filter matches first name.
+			}
+				return false; // Does not match.
+			});
+		});
+
+		// Gruppen filtern
+		groupsSearchTextfield.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredGroups.setPredicate(nickname -> {
+				// If filter text is empty, display all entries.
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+				// Compare first name and last name of every person with filter text.
+				String lowerCaseFilter = newValue.toLowerCase();
+
+				if (nickname.toLowerCase().contains(lowerCaseFilter)) {
+					return true; // Filter matches first name.
+				}
+				return false; // Does not match.
+			});
+		});
+
+		// Blacklist filtern
+		blacklistSearchTextfield.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredBlocked.setPredicate(nickname -> {
+				// If filter text is empty, display all entries.
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+				// Compare first name and last name of every person with filter text.
+				String lowerCaseFilter = newValue.toLowerCase();
+
+				if (nickname.toLowerCase().contains(lowerCaseFilter)) {
+					return true; // Filter matches first name.
+				}
+				return false; // Does not match.
+			});
+		});
+
+		//
 
 
 		//Mit Testwerten füllen
@@ -113,9 +177,12 @@ public class ContactController extends AbstractController {
 		}
 
 
-		contactList.setItems(contactsData);
-		blackList.setItems(blackListData);
-		groupList.setItems(groupsData);
+		contactList.setItems(filteredContacts);
+		groupList.setItems(filteredGroups);
+		blackList.setItems(filteredBlocked);
+		//contactList.setItems(contactsData);
+		//blackList.setItems(blackListData);
+		//groupList.setItems(groupsData);
 
 		contactList.setCellFactory(listView -> new ListCell<String>() {
 			private ImageView imageView = new ImageView();
@@ -134,8 +201,6 @@ public class ContactController extends AbstractController {
 				}
 			}
 		});
-
-
 
 	}
 }
