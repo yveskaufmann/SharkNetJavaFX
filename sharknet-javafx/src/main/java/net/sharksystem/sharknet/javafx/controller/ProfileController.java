@@ -5,11 +5,11 @@ import net.sharksystem.sharknet.javafx.utils.AbstractController;
 
 public class ProfileController extends AbstractController {
 
-	private AppController appController;
+	private FrontController frontController;
 
-	public ProfileController(AppController appController) {
+	public ProfileController(FrontController frontController) {
 		super(App.class.getResource("views/profileView.fxml"));
-		this.appController = appController;
+		this.frontController = frontController;
 	}
 
 	/**

@@ -25,14 +25,14 @@ import java.util.List;
 @Controller( title = "%sidebar.contacts")
 public class ContactController extends AbstractController {
 
-	private AppController appController;
+	private FrontController appController;
 
 
 	private ImplContact testKontakt;
 	private ImplContact testKontakt2;
 	private ImplContact testKontakt3;
 
-	public ContactController(AppController appController) {
+	public ContactController(FrontController appController) {
 		super(App.class.getResource("views/contactsView.fxml"));
 		this.appController = appController;
 

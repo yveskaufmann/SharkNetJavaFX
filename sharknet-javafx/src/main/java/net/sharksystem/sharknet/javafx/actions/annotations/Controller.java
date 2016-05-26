@@ -16,4 +16,12 @@ public @interface Controller {
 	 * the title will be rendered in the action bar.
      */
 	String title();
+
+	/**
+	 * Icon which will be displayed in link buttons
+	 * which leads to this controller view.
+	 *
+	 * @return a utf8 escaped character which defines the icon.
+     */
+	String icon() default "";
 }

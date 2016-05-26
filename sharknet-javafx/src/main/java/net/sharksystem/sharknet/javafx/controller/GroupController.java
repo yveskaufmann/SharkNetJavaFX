@@ -6,11 +6,11 @@ import net.sharksystem.sharknet.javafx.utils.AbstractController;
 
 public class GroupController extends AbstractController {
 
-	private AppController appController;
+	private FrontController frontController;
 
-	public GroupController(AppController appController) {
+	public GroupController(FrontController frontController) {
 		super(App.class.getResource("views/groupView.fxml"));
-		this.appController = appController;
+		this.frontController = frontController;
 	}
 
 	@Override

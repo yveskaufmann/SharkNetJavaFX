@@ -139,4 +139,26 @@ public abstract class AbstractController {
 	public URL getLocation() {
 		return fxmlFile;
 	}
+
+	/**
+	 * Will be called if the controller is terminated.
+	 * This can happen if the application exists or the
+	 * controller is unregistered from the FrontController.
+	 */
+	public void onShutdown() {
+	};
+
+	/**
+	 * Will be called before if controller
+	 * is resumed from a pause state.
+	 */
+	public void onResume() {
+	};
+
+	/**
+	 * Will be called before a controller is paused.
+	 */
+	public void onPause() {
+
+	}
 }

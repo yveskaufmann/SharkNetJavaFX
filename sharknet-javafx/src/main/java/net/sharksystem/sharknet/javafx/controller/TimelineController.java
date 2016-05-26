@@ -5,11 +5,11 @@ import net.sharksystem.sharknet.javafx.utils.AbstractController;
 
 public class TimelineController extends AbstractController {
 
-	private AppController appController;
+	private FrontController frontController;
 
-	public TimelineController(AppController appController) {
+	public TimelineController(FrontController frontController) {
 		super(App.class.getResource("views/timelineView.fxml"));
-		this.appController = appController;
+		this.frontController = frontController;
 	}
 
 	/**

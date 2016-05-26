@@ -9,7 +9,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Control;
 import javafx.scene.control.MenuItem;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.actions.ActionEntry;
@@ -53,17 +56,15 @@ public class ActionbarSkin extends BehaviorSkinBase<ActionBar, ActionBarBehaviou
 		nodeLookUp = new HashMap<>();
 		menuLookUp = new HashMap<>();
 
-
-		actionbar.setMaxHeight(Control.USE_PREF_SIZE);
-		actionbar.setMinHeight(Control.USE_PREF_SIZE);
+		getSkinnable().setPrefWidth(Control.USE_PREF_SIZE);
+		getSkinnable().setPrefHeight(Control.USE_PREF_SIZE);
 
 		getSkinnable().navigationNodeProperty().addListener(this::onNavigationNodeChanged);
 		getSkinnable().actions().addListener(this::onActionsChanged);
 
 		onNavigationNodeChanged(getSkinnable().navigationNodeProperty(), null, getSkinnable().getNavigationNode());
 		insertActionButtons(getSkinnable().actions());
-		getSkinnable().toBack();
-		getSkinnable().layout();
+		getSkinnable().setEffect(new DropShadow(BlurType.GAUSSIAN, Color.rgb(0,0,0,0.26), 30, 0.2, 0, 0.4));
 	}
 
 	private void onActionsChanged(ListChangeListener.Change<? extends ActionEntry> c) {
@@ -128,7 +129,6 @@ public class ActionbarSkin extends BehaviorSkinBase<ActionBar, ActionBarBehaviou
 	protected void layoutChildren(final double x,final double y,
 								  final double w, final double h) {
 		super.layoutChildren(x, y, w, h);
-
 		double actionBoxPrefWidth = actionbox.prefWidth(-1);
 		double actionBoxPrefHeight = actionbox.prefHeight(-1);
 		double titlePrefWidth = titleText.prefWidth(-1);

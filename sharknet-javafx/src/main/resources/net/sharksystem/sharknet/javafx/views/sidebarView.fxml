@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import net.sharksystem.sharknet.javafx.controlls.RoundImageView?>
 
-<VBox fx:id="sidebar" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" spacing="10.0" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="sidebar" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane fx:id="sidebarHeader" minHeight="240.0" minWidth="120.0" style="-fx-background-color: #4051B3;">
         <columnConstraints>
@@ -24,7 +24,7 @@
           <RowConstraints fillHeight="false" minHeight="120.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="profileButton" mnemonicParsing="false" prefHeight="56.0" prefWidth="114.0" style="-fx-text-fill: derive(-sn-primary-color, 62%); -fx-background-color: -sn-primary-color;" text="%sidebar.profile" textOverrun="CLIP">
+            <Button fx:id="profileButton" mnemonicParsing="false" prefHeight="56.0" prefWidth="114.0" text="%sidebar.profile" textOverrun="CLIP">
                <font>
                   <Font size="26.0" />
                </font></Button>

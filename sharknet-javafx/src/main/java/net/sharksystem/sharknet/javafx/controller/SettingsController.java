@@ -13,12 +13,12 @@ import net.sharksystem.sharknet.javafx.utils.AbstractController;
 @Controller( title = "%sidebar.settings")
 public class SettingsController extends AbstractController {
 
-	private AppController appController;
+	private FrontController frontController;
 
 
-	public SettingsController(AppController appController) {
+	public SettingsController(FrontController frontController) {
 		super(App.class.getResource("views/settingsView.fxml"));
-		this.appController = appController;
+		this.frontController = frontController;
 	}
 
 	@FXML

@@ -4,18 +4,23 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import net.sharksystem.sharknet.javafx.controlls.ActionBar?>
+<?import net.sharksystem.sharknet.javafx.controlls.Workbench?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="appView" maxHeight="-Infinity" maxWidth="-Infinity"  prefHeight="768.0" prefWidth="1024.0" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="appView" styleClass="theme-presets" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
     <top>
         <ActionBar fx:id="toolbar" title="%app.title"/>
     </top>
-    <left>
-        <StackPane fx:id="sidebarPane" alignment="TOP_LEFT" BorderPane.alignment="TOP_LEFT" />
-    </left>
     <center>
-      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: red;" BorderPane.alignment="CENTER">
-         <children>
-            <StackPane fx:id="mainPane" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-         </children></AnchorPane>
+        <Workbench fx:id="workbench" sidebarPosition="Left" sidebarWidth="250" sidebarPinned="true">
+            <sidebar>
+                <StackPane fx:id="sidebarPane"/>
+            </sidebar>
+            <content>
+                <StackPane fx:id="mainPane"/>
+            </content>
+        </Workbench>
    </center>
 </BorderPane>
+
+
