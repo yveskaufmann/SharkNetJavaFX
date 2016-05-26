@@ -443,11 +443,6 @@
  * Layout
  *------------------------------------------------------------------------------*/
 
-#mainPane .tab-header-area {
-	-fx-max-height: 0;
-	visibility: hidden;
-}
-
 .theme-presets .profile-image {
 	-fx-background-color: -sn-secondary-color;
 	-fx-background-radius: 100%;

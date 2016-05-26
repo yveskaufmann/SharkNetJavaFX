@@ -217,7 +217,6 @@ public class Workbench extends StackPane {
 
 		});
 		updateSidebarPosition(getSidebarPosition());
-		System.out.println(isSidebarPinned());
 		if (isSidebarPinned()) {
 			sidebarTranslate.set(0);
 		} else {
