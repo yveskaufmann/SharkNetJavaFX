@@ -53,14 +53,11 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
       </GridPane>
-      <Button fx:id="inboxButton" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="%sidebar.inbox"/>
-      <Button fx:id="groupButton" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="%sidebar.groups" />
-      <Button fx:id="contactButton" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="%sidebar.contacts" />
-      <Button fx:id="chatButton" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="%sidebar.chat" />
-      <Button fx:id="timelineButton" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" styleClass="sidebar-button" text="%sidebar.timeline">
-         <VBox.margin>
-            <Insets />
-         </VBox.margin>
-      </Button>
+       <Button fx:id="inboxButton" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="%sidebar.inbox"/>
+       <Button fx:id="homeworkButton" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="%sidebar.homework" />
+       <Button fx:id="chatButton" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="%sidebar.chat" />
+       <Button fx:id="contactButton" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="%sidebar.contacts" />
+       <Button fx:id="radarButton" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" styleClass="sidebar-button" text="%sidebar.radar"/>
+       <Button fx:id="settingsButton" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" styleClass="sidebar-button" text="%sidebar.settings"/>
    </children>
 </VBox>

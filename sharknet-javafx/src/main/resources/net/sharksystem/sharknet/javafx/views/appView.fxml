@@ -12,7 +12,7 @@
         <ActionBar fx:id="toolbar" title="%app.title"/>
     </top>
     <center>
-        <Workbench fx:id="workbench" sidebarPosition="Left" sidebarWidth="250" sidebarPinned="true">
+        <Workbench fx:id="workbench" sidebarPosition="Left" sidebarWidth="250">
             <sidebar>
                 <StackPane fx:id="sidebarPane"/>
             </sidebar>

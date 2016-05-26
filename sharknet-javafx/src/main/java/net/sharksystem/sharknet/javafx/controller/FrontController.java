@@ -127,12 +127,12 @@ public class FrontController extends AbstractWindowController {
 	
 	private void addMainControllers() {
 		sidebarController = new SidebarController(this);
-		registerController(TimelineController.class);
+		registerController(HomeworkController.class);
 		registerController(InboxController.class);
 		registerController(ProfileController.class);
 		registerController(ChatController.class);
 		registerController(ContactController.class);
-		registerController(GroupController.class);
+		registerController(RadarController.class);
 		registerController(SettingsController.class);
 	}
 
