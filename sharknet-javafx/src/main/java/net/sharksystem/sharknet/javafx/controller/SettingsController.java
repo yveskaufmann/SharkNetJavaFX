@@ -73,6 +73,15 @@ public class SettingsController extends AbstractController {
 		});
 	}
 
+	@FXML
+	private void settingsRadarOnRadioButton() {
+
+	}
+
+	@FXML
+	private void settingsRadarOffRadioButton() {
+
+	}
 
 	@Override
 	protected void onFxmlLoaded() {
