@@ -1,4 +1,4 @@
-package net.sharksystem.sharknet.javafx.controlls;
+package net.sharksystem.sharknet.javafx.controls;
 
 import javafx.beans.DefaultProperty;
 import javafx.beans.property.ObjectProperty;
@@ -15,7 +15,7 @@ import javafx.scene.control.Skin;
 import javafx.scene.control.Tooltip;
 import net.sharksystem.sharknet.javafx.actions.ActionCallback;
 import net.sharksystem.sharknet.javafx.actions.ActionEntry;
-import net.sharksystem.sharknet.javafx.controlls.skins.ActionbarSkin;
+import net.sharksystem.sharknet.javafx.controls.skins.ActionbarSkin;
 
 
 /**
@@ -37,7 +37,7 @@ public class ActionBar extends Control {
 
 	/**
 	 * This node will be shown on the left side
-	 * and is a placeholder for the menubutton.
+	 * and is a placeholder for the menu button.
 	 */
 	private ObjectProperty<Node> navigationNode;
 

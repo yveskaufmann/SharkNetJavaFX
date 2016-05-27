@@ -1,8 +1,8 @@
-package net.sharksystem.sharknet.javafx.controlls.behaviour;
+package net.sharksystem.sharknet.javafx.controls.behaviour;
 
 import com.sun.javafx.scene.control.behavior.BehaviorBase;
 import com.sun.javafx.scene.control.behavior.KeyBinding;
-import net.sharksystem.sharknet.javafx.controlls.ActionBar;
+import net.sharksystem.sharknet.javafx.controls.ActionBar;
 
 import java.util.ArrayList;
 import java.util.List;

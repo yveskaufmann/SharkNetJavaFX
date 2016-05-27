@@ -449,6 +449,55 @@
 }
 
 /*------------------------------------------------------------------------------
+ * Tabs
+ *------------------------------------------------------------------------------*/
+.tab-pane {
+	-fx-tab-min-height: 60px;
+	-fx-tab-max-height: 60px;
+	-fx-skin: "net.sharksystem.sharknet.javafx.controls.skins.TabPaneSkin";
+}
+
+.tab-pane .tab-header-area {
+	-fx-background-color: -sn-primary-color;
+	-fx-padding: 0 0 0 54px /* = 80 - 24px padding */;
+	-fx-alignment: center;
+}
+
+.tab-pane .headers-region {
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+	-fx-background-color: transparent;
+ }
+
+.tab-pane .tab-header-area .headers-region .tab:selected .focus-indicator,
+.tab-pane .tab-header-area .headers-region .tab {
+	-fx-background-color: transparent;
+	-fx-border-color: null;
+	-fx-border-width: null;
+
+}
+
+.tab-pane .tab-header-area .headers-region .tab:selected {
+	-fx-background-color: transparent;
+	-fx-border-width: 0 0 2px 0;
+	-fx-border-color: white;
+}
+
+.tab:selected .tab-label {
+	-fx-text-fill: rgba(255, 255, 255, 1.0);
+	-fx-translate-y: 2px;
+}
+
+.tab .tab-label {
+	-fx-text-fill: rgba(255, 255, 255, 0.7);
+	-fx-font-face: Roboto-Medium!important;
+	-fx-font-weight: bold;
+	-fx-font-size: 13px;
+	-fx-padding: 20px 24px 20px 24px;
+}
+
+/*------------------------------------------------------------------------------
  * Workbench
  *------------------------------------------------------------------------------*/
 .workbench {
@@ -474,7 +523,7 @@
 	-fx-max-height: 64px;
 	-fx-padding: 16px 24px 20px 16px;
 	-fx-background-color: -sn-primary-color;
-	-fx-border-width: 0 0 1 0;
+	-fx-border-width: 0 0 0 0;
 	-fx-border-color: black;
 
 }

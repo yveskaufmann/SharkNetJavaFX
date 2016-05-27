@@ -1,4 +1,4 @@
-package net.sharksystem.sharknet.javafx.controlls.skins;
+package net.sharksystem.sharknet.javafx.controls.skins;
 
 import com.sun.javafx.scene.control.skin.BehaviorSkinBase;
 import javafx.beans.value.ObservableValue;
@@ -16,8 +16,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.actions.ActionEntry;
-import net.sharksystem.sharknet.javafx.controlls.ActionBar;
-import net.sharksystem.sharknet.javafx.controlls.behaviour.ActionBarBehaviour;
+import net.sharksystem.sharknet.javafx.controls.ActionBar;
+import net.sharksystem.sharknet.javafx.controls.behaviour.ActionBarBehaviour;
 import net.sharksystem.sharknet.javafx.utils.FontAwesomeIcon;
 
 import java.util.HashMap;
