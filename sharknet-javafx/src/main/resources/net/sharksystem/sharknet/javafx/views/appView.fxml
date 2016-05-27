@@ -3,8 +3,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
-<?import net.sharksystem.sharknet.javafx.controlls.ActionBar?>
-<?import net.sharksystem.sharknet.javafx.controlls.Workbench?>
+<?import net.sharksystem.sharknet.javafx.controls.ActionBar?>
+<?import net.sharksystem.sharknet.javafx.controls.Workbench?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane fx:id="appView" styleClass="theme-presets" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">

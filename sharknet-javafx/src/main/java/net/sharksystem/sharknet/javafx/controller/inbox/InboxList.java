@@ -2,7 +2,7 @@ package net.sharksystem.sharknet.javafx.controller.inbox;
 
 
 import net.sharksystem.sharknet.api.Feed;
-import net.sharksystem.sharknet.javafx.controlls.MediaListView;
+import net.sharksystem.sharknet.javafx.controls.MediaListView;
 
 public class InboxList extends MediaListView<Feed> {
 	public InboxList() {

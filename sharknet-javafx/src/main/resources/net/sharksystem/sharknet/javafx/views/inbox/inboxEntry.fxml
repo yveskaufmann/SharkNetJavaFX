@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
-<?import net.sharksystem.sharknet.javafx.controlls.RoundImageView?>
+<?import net.sharksystem.sharknet.javafx.controls.RoundImageView?>
 
 <GridPane fx:id="container" styleClass="theme-presets inbox-entry" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1">
     <columnConstraints>

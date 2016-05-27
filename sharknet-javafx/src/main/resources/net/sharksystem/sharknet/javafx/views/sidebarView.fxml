@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
-<?import net.sharksystem.sharknet.javafx.controlls.RoundImageView?>
+<?import net.sharksystem.sharknet.javafx.controls.RoundImageView?>
 
 <VBox fx:id="sidebar" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1">
    <children>

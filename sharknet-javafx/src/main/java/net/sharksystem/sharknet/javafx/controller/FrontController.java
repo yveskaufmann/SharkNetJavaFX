@@ -14,8 +14,8 @@ import net.sharksystem.sharknet.javafx.actions.ActionEntry;
 import net.sharksystem.sharknet.javafx.actions.annotations.Action;
 import net.sharksystem.sharknet.javafx.actions.annotations.Controller;
 import net.sharksystem.sharknet.javafx.controller.inbox.InboxController;
-import net.sharksystem.sharknet.javafx.controlls.ActionBar;
-import net.sharksystem.sharknet.javafx.controlls.Workbench;
+import net.sharksystem.sharknet.javafx.controls.ActionBar;
+import net.sharksystem.sharknet.javafx.controls.Workbench;
 import net.sharksystem.sharknet.javafx.i18n.I18N;
 import net.sharksystem.sharknet.javafx.utils.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.AbstractWindowController;
@@ -171,17 +171,18 @@ public class FrontController extends AbstractWindowController {
 		Class<?> controllerType = controller.getClass();
 		ControllerMeta meta = controllerMetaData.getOrDefault(controllerType, new ControllerMeta(controller));
 
-		if (! "".equals(meta.title) && "".startsWith("%")) {
-			meta.title = I18N.getString(meta.title);
+		String title = meta.title;
+		if (! "".equals(title) && title.startsWith("%")) {
+			title = I18N.getString(title);
 		} else {
-			meta.title = getTitle();
+			title = getTitle();
 		}
 
 		if (activeControllerProperty().get() != null) {
 			activeController.get().onPause();
 		}
 
-		toolbar.setTitle(meta.title);
+		toolbar.setTitle(title);
 		toolbar.actions().setAll(meta.actionEntries);
 		mainPane.getChildren().setAll(controller.getRoot());
 		activeController.set(controller);
@@ -252,7 +253,7 @@ public class FrontController extends AbstractWindowController {
 	/**
 	 * Reads and stores MetaData about a controller.
 	 */
-	private class ControllerMeta {
+	class ControllerMeta {
 		List<ActionEntry> actionEntries = new ArrayList<>();
 		String title = "";
 		Class<? extends AbstractController> cls;
