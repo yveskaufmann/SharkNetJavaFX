@@ -9,34 +9,32 @@ import java.util.List;
  */
 public interface Profile {
 
-
 	/**
 	 * Returns the Contact of the Profile
 	 * @return
      */
     public Contact getContact();
+	public void setContact(Contact c);
 
 	/**
 	 * Returns the Settings of the App
 	 * @return
      */
     public Setting getSettings();
+	public void setSettings();
 
-	/**
-	 * returns a List of all Interests the profile is interested in
-	 * @return
-     */
-    public List<Interest> getInterests();
 
 	/**
 	 * deletes a Profile
 	 */
-	public void deleteProfile();
+	public void delete();
 
 	/**
 	 * Safes the Profile in the KB
 	 */
-	public void safeProfile();
+	public void save();
+
+	public void update();
 
 	/**
 	 * Method for the Login

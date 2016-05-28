@@ -1,17 +1,22 @@
 package net.sharksystem.sharknet.api;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Created by timol on 16.05.2016.
  */
 
 //ToDo: Clearify - Groups as own Interface/ImplClass
-
+//ToDo: Implement - publicKey can be null
+//ToDo: Implement - Contactpicture
 
 public class ImplContact implements Contact {
 
 	String nickname;
 	String uid;
 	String publickey;
+	List<Interest> interest_list = new LinkedList<>();
 
 
 	/**
@@ -25,7 +30,7 @@ public class ImplContact implements Contact {
 		this.uid = uid;
 		this.publickey = publickey;
 		//ToDo: Clearify - public key exchange
-		safeInKB();
+
 	}
 
 	@Override
@@ -34,8 +39,27 @@ public class ImplContact implements Contact {
 	}
 
 	@Override
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+
+	}
+
+	@Override
+	public List<Interest> getInterests() {
+		//ToDo: Shark - search for interessts and fill list
+		return interest_list;
+	}
+
+
+	@Override
 	public String getUID() {
 		return uid;
+	}
+
+	@Override
+	public void setUID(String uid) {
+		this.uid = uid;
+
 	}
 
 	@Override
@@ -46,31 +70,36 @@ public class ImplContact implements Contact {
 	}
 
 	@Override
-	public String getPublicKey() {
-		return "-----BEGIN PUBLIC KEY-----\n" +
-			"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqGKukO1De7zhZj6+H0qtjTkVxwTCpvKe4eCZ0\n" +
-			"FPqri0cb2JZfXJ/DgYSF6vUpwmJG8wVQZKjeGcjDOL5UlsuusFncCzWBQ7RKNUSesmQRMSGkVb1/\n" +
-			"3j+skZ6UtW+5u09lHNsj6tQ51s1SPrCBkedbNf0Tp0GbMJDyR4e9T04ZZwIDAQAB\n" +
-			"-----END PUBLIC KEY-----";
+	public void setPicture(String pic) {
 
-		//ToDo: Implement -  Key-Mgmt
 	}
 
 	@Override
-	public void deleteContact() {
+	public String getPublicKey() {
+		return publickey;
+	}
+
+	@Override
+	public void setPublicKey(String publicKey) {
+		this.publickey = publicKey;
+
+		//ToDo: Implement Method: PublicKeyExchange for NFC exchange
+
+	}
+
+	@Override
+	public void delete() {
 		//ToDo: Shark - Delete Contact from the Database
 	}
 
 	@Override
-	public void updateContact(String nickname, String uid, String publicKey) {
-		this.nickname = nickname;
-		this.uid = uid;
-		this.publickey = publicKey;
-		//ToDo: Shark -  Update of the Contact in the Database
+	public void update() {
+		//ToDo: Shark - Update the Contact in the KB
+
 	}
 
 	@Override
-	public void safeInKB(){
+	public void save(){
 		//ToDo: Shark - Safe Contact in KB
 
 	}

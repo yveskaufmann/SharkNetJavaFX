@@ -10,7 +10,11 @@ import java.util.List;
  */
 public class ImplFeed implements Feed {
 
+	//Todo: Content class mit getFiletype (aus Shark), Inputstream weiter reichen
+
+
 	String content;
+
 	List<Comment> comment_list = new LinkedList<>();
 	Timestamp datetime;
 	Interest interest;
@@ -30,8 +34,6 @@ public class ImplFeed implements Feed {
 		this.interest = interest;
 		this.sender = sender;
 		datetime = new Timestamp(new Date().getTime());
-		safeInKB();
-
 	}
 
 	/**
@@ -81,8 +83,15 @@ public class ImplFeed implements Feed {
 	}
 
 	@Override
-	public void safeInKB(){
+	public void save() {
 		//ToDo: Shark - safe Feed in KB and sends it
 	}
+
+	@Override
+	public void delete() {
+		//ToDo: Shark - delte Feed in KB
+
+	}
+
 }
 

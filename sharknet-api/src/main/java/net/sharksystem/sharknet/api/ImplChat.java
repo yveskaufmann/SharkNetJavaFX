@@ -1,6 +1,5 @@
 package net.sharksystem.sharknet.api;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class ImplChat implements Chat {
 	}
 
 	@Override
-	public void deleteChat() {
+	public void delete() {
 		//ToDo: Shark - delete Chat from Database
 	}
 
@@ -38,8 +37,13 @@ public class ImplChat implements Chat {
 	}
 
 	@Override
-	public void safeChat() {
+	public void save() {
 		//ToDo: Shark - Safe Chat to the Database
+	}
+
+	@Override
+	public void update() {
+		//ToDo: Shark - Update Chat in KB
 	}
 
 	/**

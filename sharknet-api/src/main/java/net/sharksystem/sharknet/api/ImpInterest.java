@@ -9,6 +9,8 @@ import java.util.List;
 /**
  * Created by timol on 18.05.2016.
  */
+
+//ToDo: Implement - Return SemanticNet
 public class ImpInterest implements Interest {
 
 	String name, uri;
@@ -28,8 +30,19 @@ public class ImpInterest implements Interest {
 	}
 
 	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Override
 	public String getURI() {
 		return uri;
+	}
+
+	@Override
+	public void setURI(String uri) {
+		this.uri = uri;
+
 	}
 
 	@Override
@@ -41,18 +54,19 @@ public class ImpInterest implements Interest {
 	@Override
 	public List<Interest> getParents() {
 		//ToDo: Shark - find Parent in KB
-		//ToDo: Clearify - more than one Parent possible
+		//ToDo: Clearify - more than one Parent possible - yes
+
 		return parent_list;
 	}
 
 	@Override
-	public void safeInKB() {
+	public void save() {
 		//ToDo: Shark - safe Interest in KB
 	}
 
-
 	@Override
-	public void deleteInterest() {
+	public void delete() {
 		//ToDo: Shark - delete Interest from KB
 	}
+
 }

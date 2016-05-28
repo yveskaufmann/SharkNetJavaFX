@@ -1,5 +1,7 @@
 package net.sharksystem.sharknet.api;
 
+import java.util.List;
+
 /**
  * Created by timol on 12.05.2016.
  *
@@ -14,6 +16,7 @@ public interface Contact {
 	 * @return
      */
     public String getNickname();
+	public void setNickname(String nickname);
 
 
 	/**
@@ -21,6 +24,7 @@ public interface Contact {
 	 * @return
      */
     public String getUID();
+	public void setUID(String uid);
 
 	/**
 	 * Returns the profilepicture of a contact
@@ -28,28 +32,35 @@ public interface Contact {
      */
 	//ToDo: Implement - File - Mime Type integrieren
     public String getPicture();
+	public void setPicture(String pic);
 
 	/**
 	 * returns the PublicKey of the contact
 	 * @return
      */
     public String getPublicKey();
+	public void setPublicKey(String publicKey);
 
 	/**
 	 * Deletes the Contact from the Database
 	 */
-	public void deleteContact();
+	public void delete();
 
 	/**
 	 * updates a Contact in the Database
 	 */
-	public void updateContact(String nickname, String uid, String publicKey);
+	public void update();
 
 	/**
 	 * Safes the Contact in the KB
 	 */
-	public void safeInKB();
+	public void save();
 
+	/**
+	 * returns a List of all Interests the profile is interested in
+	 * @return
+	 */
+	public List<Interest> getInterests();
 
 
 }

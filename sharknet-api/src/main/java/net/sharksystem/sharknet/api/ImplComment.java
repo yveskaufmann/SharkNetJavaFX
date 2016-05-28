@@ -15,7 +15,7 @@ public class ImplComment implements Comment{
 	Contact sender;
 
 	/**
-	 * This constructor is used to construct new Feeds which are going to be safed in the Database and sended
+	 * This constructor is used to construct new Feeds writen by a user
 	 * @param comment
 	 * @param sender
 	 * @param reffeed
@@ -26,11 +26,10 @@ public class ImplComment implements Comment{
 		this.reffeed = reffeed;
 		java.util.Date date= new java.util.Date();
 		datetime.setTime(date.getTime());
-		safeInKB();
 	}
 
 	/**
-	 * This constructor is used to construct Feeds which are already in the KB and are NOT going to be safed in the Database and sended
+	 * This constructor is used to construct Feeds which are already in the KB and are NOT going to be saved in the Database and sended
 	 * @param comment
 	 * @param sender
 	 * @param datetime
@@ -64,12 +63,14 @@ public class ImplComment implements Comment{
 	}
 
 	@Override
-	public void deleteComment() {
+	public void delete() {
+		reffeed.getComments(0).remove(this);
+
 		//ToDo: Shark - delete Comment from Database
 	}
 
 	@Override
-	public void safeInKB(){
+	public void save(){
 		//ToDo: Shark - Safe Comment in KB and send it
 	}
 }

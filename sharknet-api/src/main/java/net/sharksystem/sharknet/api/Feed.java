@@ -47,5 +47,6 @@ public interface Feed {
 	/**
 	 * Safes the Feed in the Database and sends it
 	 */
-	public void safeInKB();
+	public void save();
+	public void delete();
 }

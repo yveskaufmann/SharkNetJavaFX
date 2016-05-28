@@ -22,7 +22,7 @@ public interface Chat {
 	/**
 	 * deletes the Chat from the KnowledgeBase
 	 */
-	public void deleteChat();
+	public void delete();
 
 	/**
 	 * returns a List of all Messages within the Chat
@@ -30,5 +30,6 @@ public interface Chat {
      */
     public List<Message> getMessages();
 
-	public void safeChat();
+	public void save();
+	public void update();
 }

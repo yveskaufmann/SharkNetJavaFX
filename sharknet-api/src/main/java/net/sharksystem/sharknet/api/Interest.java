@@ -8,11 +8,13 @@ import java.util.List;
 public interface Interest {
 
 	public String getName();
+	public void setName(String name);
 	public String getURI();
+	public void setURI(String uri);
 	public List<Interest> getChilds();
 	public List<Interest> getParents();
-	public void safeInKB();
-	public void deleteInterest();
+	public void save();
+	public void delete();
 
 
 }
