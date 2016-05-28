@@ -4,18 +4,11 @@ package net.sharksystem.sharknet.javafx.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.HPos;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
 import net.sharksystem.sharknet.api.ImplChat;
 import net.sharksystem.sharknet.api.Message;
 import net.sharksystem.sharknet.javafx.App;
@@ -29,7 +22,7 @@ import java.util.List;
 @Controller( title = "%sidebar.chat")
 public class ChatController extends AbstractController {
 
-	private AppController appController;
+	private FrontController frontController;
 	private ImplChat chatModel;
 
 	private final String chatPrefix = "<You>";
@@ -49,9 +42,9 @@ public class ChatController extends AbstractController {
 	@FXML
 	private ListView listViewChatHistory;
 
-	public ChatController(AppController appController) {
+	public ChatController(FrontController frontController) {
 		super(App.class.getResource("views/chatView.fxml"));
-		this.appController = appController;
+		this.frontController = frontController;
 		this.chatModel = new ImplChat(null);
 	}
 

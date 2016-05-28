@@ -9,6 +9,15 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Action {
+
+	/**
+	 * Identifier of a action which allows it to reference
+	 * a action from outside a constructor.
+	 *
+	 * @return action identifier.
+     */
+	String id() default "";
+
 	/**
 	 * @return the text description of this
 	 * action.

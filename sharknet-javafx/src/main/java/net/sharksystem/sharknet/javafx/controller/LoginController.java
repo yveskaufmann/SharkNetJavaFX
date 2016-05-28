@@ -1,13 +1,8 @@
 package net.sharksystem.sharknet.javafx.controller;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import net.sharksystem.sharknet.api.ImplSharkNet;
 import net.sharksystem.sharknet.api.Profile;
 import net.sharksystem.sharknet.javafx.App;
@@ -20,15 +15,15 @@ import java.util.List;
  */
 public class LoginController extends AbstractController {
 
-	private AppController appController;
+	private FrontController frontController;
 	private ImplSharkNet sharkNetModel;
 
 	@FXML
 	private Label labelProfileName;
 
-	public LoginController(AppController appController) {
+	public LoginController(FrontController frontController) {
 		super(App.class.getResource("views/loginView.fxml"));
-		this.appController = appController;
+		this.frontController = frontController;
 	}
 
 	@Override

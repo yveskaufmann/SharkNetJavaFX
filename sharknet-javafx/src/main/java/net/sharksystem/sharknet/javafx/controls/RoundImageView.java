@@ -1,4 +1,4 @@
-package net.sharksystem.sharknet.javafx.controlls;
+package net.sharksystem.sharknet.javafx.controls;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

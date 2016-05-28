@@ -2,17 +2,14 @@ package net.sharksystem.sharknet.javafx.controller.inbox;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 import net.sharksystem.sharknet.api.Feed;
 import net.sharksystem.sharknet.javafx.App;
-import net.sharksystem.sharknet.javafx.controlls.RoundImageView;
+import net.sharksystem.sharknet.javafx.controls.RoundImageView;
 import net.sharksystem.sharknet.javafx.utils.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.FontAwesomeIcon;
 

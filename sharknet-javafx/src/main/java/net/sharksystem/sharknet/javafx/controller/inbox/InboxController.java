@@ -1,31 +1,26 @@
 package net.sharksystem.sharknet.javafx.controller.inbox;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
-import net.sharksystem.sharknet.api.Feed;
 import net.sharksystem.sharknet.api.ImplContact;
 import net.sharksystem.sharknet.api.ImplFeed;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.actions.annotations.Action;
 import net.sharksystem.sharknet.javafx.actions.annotations.Controller;
-import net.sharksystem.sharknet.javafx.controller.AppController;
+import net.sharksystem.sharknet.javafx.controller.FrontController;
 import net.sharksystem.sharknet.javafx.utils.AbstractController;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller( title = "%inbox.title")
 public class InboxController extends AbstractController {
 
-	private AppController appController;
+	private FrontController frontController;
 
 	@FXML InboxList inboxListView;
 
 
 
-	public InboxController(AppController appController) {
+	public InboxController(FrontController frontController) {
 		super(App.class.getResource("views/inbox/inboxView.fxml"));
-		this.appController = appController;
+		this.frontController = frontController;
 	}
 
 	/**
