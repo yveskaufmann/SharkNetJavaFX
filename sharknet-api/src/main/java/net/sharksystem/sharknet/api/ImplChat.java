@@ -8,13 +8,16 @@ import java.util.List;
  */
 
 public class ImplChat implements Chat {
-//ToDo: Implement Conact c is not being used (only listed contacts)
+
 	List<Message> message_list = new LinkedList<>();
 	List<Contact> contact_list = new LinkedList<>();
+	String title;
+	String picture;
 
 
 	public ImplChat(List <Contact> contact_List){
 		this.contact_list = contact_List;
+		setDefaultTitle();
 	}
 
 	@Override
@@ -57,6 +60,26 @@ public class ImplChat implements Chat {
 		return contact_list;
 	}
 
+	@Override
+	public void setPicture(String picture) {
+		//ToDo: Implement - Picture
+	}
+
+	@Override
+	public String getPicture() {
+		return null;
+	}
+
+	@Override
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	@Override
+	public String getTitle() {
+		return title;
+	}
+
 	/**
 	 * This Method is used to fill a Chat with Messages that are already in the Database and is only called by the API itself
 	 */
@@ -67,6 +90,22 @@ public class ImplChat implements Chat {
 		//DummyDB Implememntation
 		message_list = DummyDB.getInstance().getMessageList(this);
 
+	}
+
+	private void setDefaultTitle(){
+		String[] title_array = new String[contact_list.size()];
+		int i = 0;
+		for(Contact c : contact_list){
+			title_array[i] = c.getNickname();
+			i++;
+		}
+
+		StringBuilder builder = new StringBuilder();
+		for(String s : title_array) {
+			builder.append(s);
+			builder.append(" ");
+		}
+		title = builder.toString();
 	}
 
 }

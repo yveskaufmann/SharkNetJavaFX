@@ -31,10 +31,18 @@ public class Dummy {
 		recipients1.add(alice);
 		List<Contact> recipients2 = new ArrayList<>();
 		recipients2.add(bob);
+
+		List<Contact> recipients3 = new ArrayList<>();
+		recipients3.add(bob);
+		recipients3.add(alice);
+
 		Chat chat1 = s.newChat(recipients1);
 		Chat chat2  = s.newChat(recipients2);
+		Chat chat3  = s.newChat(recipients3);
+
 		chat1.save();
 		chat2.save();
+		chat3.save();
 
 		//Senden von Nachrichten
 		chat1.sendMessage("lorem ipsum");
@@ -44,6 +52,8 @@ public class Dummy {
 		chat2.sendMessage("bla bla bla");
 		chat2.sendMessage("arg");
 		chat2.sendMessage("lorem ipsum");
+
+		chat3.sendMessage("this is a group message");
 
 		//ToDo: Dummy - empfangene nachrichten hinzufügen
 
