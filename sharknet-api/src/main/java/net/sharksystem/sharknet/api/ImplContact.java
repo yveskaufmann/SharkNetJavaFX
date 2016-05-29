@@ -90,6 +90,8 @@ public class ImplContact implements Contact {
 	@Override
 	public void delete() {
 		//ToDo: Shark - Delete Contact from the Database
+		//Implementation of DummyDB
+		DummyDB.getInstance().removeContact(this);
 	}
 
 	@Override
@@ -101,6 +103,8 @@ public class ImplContact implements Contact {
 	@Override
 	public void save(){
 		//ToDo: Shark - Safe Contact in KB
+		//Implementation of DummyDB
+		DummyDB.getInstance().addContact(this);
 
 	}
 }

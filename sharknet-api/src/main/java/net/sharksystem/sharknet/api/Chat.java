@@ -32,4 +32,5 @@ public interface Chat {
 
 	public void save();
 	public void update();
+	public List<Contact> getContacts();
 }

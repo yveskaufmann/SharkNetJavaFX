@@ -11,7 +11,7 @@ import java.util.List;
 public class ImplProfile implements Profile {
 
 	//ToDo: Implement - Profil hat eigene Kontakte
-	//ToDo: Implement - save Interessts in Contact
+	//TODo: Seperate Datasets for Profiles
 
 
 	Contact c;
@@ -45,12 +45,16 @@ public class ImplProfile implements Profile {
 	public void delete() {
 
 		//ToDo: Shark - delete the Profile in the KB
+		//Implementation of DummyDB
+		DummyDB.getInstance().removeProfile(this);
 	}
 
 	@Override
 	public void save() {
 
 		//ToDo: Shark - saveProfile in the KB
+		//Implementation of DummyDB
+		DummyDB.getInstance().addProfile(this);
 	}
 
 	@Override

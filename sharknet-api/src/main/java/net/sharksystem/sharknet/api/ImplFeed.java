@@ -85,13 +85,15 @@ public class ImplFeed implements Feed {
 	@Override
 	public void save() {
 		//ToDo: Shark - safe Feed in KB and sends it
+		//Implementation of DummyDB
+		DummyDB.getInstance().addfeed(this);
 	}
 
 	@Override
 	public void delete() {
 		//ToDo: Shark - delte Feed in KB
-
+		//Implementation of DummyDB
+		DummyDB.getInstance().removefeed(this);
 	}
-
 }
 

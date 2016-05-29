@@ -18,6 +18,8 @@ public class ImplSharkNet implements SharkNet {
 	public List<Profile> getProfiles() {
 
 		//ToDo: Shark - search in KB for Profiles an return a List of them
+		//Implementation of DummyDB
+		profile_list = DummyDB.getInstance().getProfile_list();
 		return profile_list;
 	}
 
@@ -25,6 +27,8 @@ public class ImplSharkNet implements SharkNet {
 	public List<Feed> getFeeds(int Anzahl) {
 
 		//ToDo: Shark - Search in KB for Feeds and return a list of them
+		//Implementation of DummyDB
+		feed_list = DummyDB.getInstance().getFeed_list();
 		return feed_list;
 	}
 
@@ -32,6 +36,8 @@ public class ImplSharkNet implements SharkNet {
 	public List<Contact> getContacts() {
 
 		//ToDo: Shark - Search in KB for Contacts and return a list of them
+		//Implementation of DummyDB
+		contact_list = DummyDB.getInstance().getContact_list();
 		return contact_list;
 	}
 
@@ -39,6 +45,8 @@ public class ImplSharkNet implements SharkNet {
 	public List<Chat> getChats() {
 
 		//ToDo: Shark - Search in KB vor Chats and return a list of them
+		//Implementation of DummyDB
+		chat_list = DummyDB.getInstance().getChat_list();
 		return chat_list;
 	}
 

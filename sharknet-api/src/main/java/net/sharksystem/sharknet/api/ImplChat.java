@@ -8,12 +8,19 @@ import java.util.List;
  */
 
 public class ImplChat implements Chat {
-
+//ToDo: Implement Conact c is not being used (only listed contacts)
 	Contact c;
 	List<Message> message_list = new LinkedList<>();
+	List<Contact> contact_list = new LinkedList<>();
 
 	public ImplChat(Contact c){
+
+		this.contact_list.add(c);
 		this.c = c;
+
+	}
+	public ImplChat(List <Contact> contact_List){
+		this.contact_list = contact_List;
 	}
 
 	@Override
@@ -28,6 +35,9 @@ public class ImplChat implements Chat {
 	@Override
 	public void delete() {
 		//ToDo: Shark - delete Chat from Database
+		//DummyDB implementation
+		DummyDB.getInstance().removeChat(this);
+
 	}
 
 	@Override
@@ -39,6 +49,8 @@ public class ImplChat implements Chat {
 	@Override
 	public void save() {
 		//ToDo: Shark - Safe Chat to the Database
+		//DummmyDB implementaion
+		DummyDB.getInstance().addChat(this);
 	}
 
 	@Override
@@ -46,11 +58,21 @@ public class ImplChat implements Chat {
 		//ToDo: Shark - Update Chat in KB
 	}
 
+	@Override
+	public List<Contact> getContacts() {
+		return contact_list;
+	}
+
 	/**
 	 * This Method is used to fill a Chat with Messages that are already in the Database and is only called by the API itself
 	 */
 	public void fillChat(){
+
 		//ToDo: Shark - find Messages blonging to the chat and fill List of Messages
+
+		//DummyDB Implememntation
+		message_list = DummyDB.getInstance().getMessageList(this);
+
 	}
 
 }

@@ -1,6 +1,7 @@
 package net.sharksystem.sharknet.api;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 
 /**
  * Created by timol on 16.05.2016.
@@ -24,8 +25,10 @@ public class ImplComment implements Comment{
 		this.comment = comment;
 		this.sender = sender;
 		this.reffeed = reffeed;
-		java.util.Date date= new java.util.Date();
-		datetime.setTime(date.getTime());
+		Calendar calendar = Calendar.getInstance();
+		java.util.Date now = calendar.getTime();
+		datetime = new java.sql.Timestamp(now.getTime());
+
 	}
 
 	/**
@@ -65,12 +68,15 @@ public class ImplComment implements Comment{
 	@Override
 	public void delete() {
 		reffeed.getComments(0).remove(this);
-
 		//ToDo: Shark - delete Comment from Database
+		//Implementation of DummyDB
+		DummyDB.getInstance().removeComment(this, reffeed);
 	}
 
 	@Override
 	public void save(){
 		//ToDo: Shark - Safe Comment in KB and send it
+		//Implementation of DummyDB
+		DummyDB.getInstance().addComment(this, reffeed);
 	}
 }

@@ -10,16 +10,9 @@ public class Dummy {
 	public static void main(String[] args) {
 		ImplSharkNet s = new ImplSharkNet();
 		s.fillWithDummyData();
-
-
-
-
-
-
-
 	}
 
-	public void fillWithDummyData(SharkNet s){
+	public void fillWithDummyData(ImplSharkNet s){
 
 		//Anlegen von contacts
 		Contact bob = s.newContact("bob", "bob@htw-berlin.de", "foomanchu");
@@ -29,31 +22,46 @@ public class Dummy {
 
 		Profile p1 = s.newProfile(alice);
 		Profile p2 =s.newProfile(bob);
+		p1.save();
+		p2.save();
 
 		//Anlegen von Chats
 		Chat chat1 = s.newChat(alice);
 		Chat chat2  = s.newChat(bob);
+		chat1.save();
+		chat2.save();
 
 		//Senden von Nachrichten
+		chat1.sendMessage("lorem ipsum");
+		chat1.sendMessage("bla bla bla");
+		chat1.sendMessage("fooo");
 
+		chat2.sendMessage("bla bla bla");
+		chat2.sendMessage("arg");
+		chat2.sendMessage("lorem ipsum");
 
+		//ToDo: Dummy - empfangene nachrichten hinzufügen
 
+		Interest i1 = new ImpInterest("sport", "www.sport,de", null, null);
+		Interest i2 = new ImpInterest("shark", "www.shark,de", null, null);
+		i1.save();
+		i2.save();
 
+		Feed f1 = s.newFeed("this is the fist feed of sharkNet", i2, bob);
+		Feed f2 = s.newFeed("sth about football", i1, alice);
+		f1.save();
+		f2.save();
 
-		Chat chat = s.newChat(s.newContact("Bob", "Bob@shark.de", "foola"));
-		chat.sendMessage("foo");
-		List<Message> messages = chat.getMessages();
-		System.out.println(messages);
+		//Add Comments
 
-		boolean loggedIn = p1.login("");
-		System.out.println(loggedIn);
+		f1.newComment("this is amazing", alice);
+		f1.newComment("i know", bob);
 
-		p1.setPassword("foo");
-		System.out.println(p1.login("bla"));
-		System.out.println(p1.login("foo"));
+		List<Feed> feedlist = s.getFeeds(10);
+		System.out.println(f1.getContent());
+		System.out.println(feedlist.get(0).getContent());
 
-
-
+		System.out.println(feedlist.get(1).getComments(2));
 	}
 
 

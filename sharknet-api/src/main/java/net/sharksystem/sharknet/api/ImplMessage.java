@@ -2,6 +2,7 @@ package net.sharksystem.sharknet.api;
 
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created by timol on 16.05.2016.
@@ -49,6 +50,9 @@ public class ImplMessage implements Message {
 	 */
 	private void sendMessage(){
 		//ToDo: Shark - safe the Message in the Database and send it
+		//DummyDB Implementation
+		DummyDB db = DummyDB.getInstance();
+		db.addMessage(this, getChat());
 	}
 
 	@Override
@@ -87,4 +91,26 @@ public class ImplMessage implements Message {
 		//ToDo: Shark - delete the message from the Database
 
 	}
+
+	/**
+	 * Method is called to find the Chat the Message belongs to in the DummyDB
+	 * @return
+     */
+
+	private Chat getChat(){
+		DummyDB db = DummyDB.getInstance();
+		List<Chat> chats = db.getChat_list();
+		String rec_uid = recipient.getUID();
+		for(Chat c : chats){
+			List<Contact> cs = c.getContacts();
+			for(Contact currentc : cs){
+				if(currentc.getUID().equals(rec_uid)){
+					return c;
+				}
+			}
+		}
+		return null;
+
+	}
+	//ToDo: Dummy - does not work with groupchats
 }
