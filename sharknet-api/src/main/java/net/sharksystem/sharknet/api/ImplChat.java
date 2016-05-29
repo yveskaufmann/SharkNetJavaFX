@@ -9,16 +9,10 @@ import java.util.List;
 
 public class ImplChat implements Chat {
 //ToDo: Implement Conact c is not being used (only listed contacts)
-	Contact c;
 	List<Message> message_list = new LinkedList<>();
 	List<Contact> contact_list = new LinkedList<>();
 
-	public ImplChat(Contact c){
 
-		this.contact_list.add(c);
-		this.c = c;
-
-	}
 	public ImplChat(List <Contact> contact_List){
 		this.contact_list = contact_List;
 	}
@@ -26,7 +20,7 @@ public class ImplChat implements Chat {
 	@Override
 	public void sendMessage(String message) {
 
-		Message m = new ImplMessage(message, c);
+		Message m = new ImplMessage(message, contact_list);
 		message_list.add(m);
 
 		//ToDo: Clearify - always renew vector when sth is deleted

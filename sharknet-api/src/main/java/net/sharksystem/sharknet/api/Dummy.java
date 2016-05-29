@@ -1,5 +1,6 @@
 package net.sharksystem.sharknet.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Dummy {
@@ -26,8 +27,12 @@ public class Dummy {
 		p2.save();
 
 		//Anlegen von Chats
-		Chat chat1 = s.newChat(alice);
-		Chat chat2  = s.newChat(bob);
+		List<Contact> recipients1 = new ArrayList<>();
+		recipients1.add(alice);
+		List<Contact> recipients2 = new ArrayList<>();
+		recipients2.add(bob);
+		Chat chat1 = s.newChat(recipients1);
+		Chat chat2  = s.newChat(recipients2);
 		chat1.save();
 		chat2.save();
 

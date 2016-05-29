@@ -65,8 +65,8 @@ public class ImplSharkNet implements SharkNet {
 	}
 
 	@Override
-	public Chat newChat(Contact c) {
-		Chat chat = new ImplChat(c);
+	public Chat newChat(List<Contact> recipients) {
+		Chat chat = new ImplChat(recipients);
 		chat_list.add(chat);
 		return chat;
 	}

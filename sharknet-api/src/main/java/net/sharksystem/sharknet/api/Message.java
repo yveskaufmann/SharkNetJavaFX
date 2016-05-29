@@ -3,6 +3,7 @@ package net.sharksystem.sharknet.api;
 //ToDo: Clearify - Messages for Groupchats how to Implement
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created by timol on 12.05.2016.
@@ -24,7 +25,7 @@ public interface Message {
 	/**
 	 *returns the recipient of a message
 	 */
-    public Contact getRecipient();
+    public List<Contact> getRecipients();
 
 	/**
 	 * returns the content of a Message

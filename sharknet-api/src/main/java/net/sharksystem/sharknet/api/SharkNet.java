@@ -48,9 +48,9 @@ public interface SharkNet {
 
 	/**
 	 * Initializes a Chat and safes it in the KnowledgeBase
-	 * @param c
+	 * @param recipients
 	 */
-	public Chat newChat(Contact c);
+	public Chat newChat(List<Contact> recipients);
 
 	/**
 	 * Adds a Contact to the KnowledgeBase

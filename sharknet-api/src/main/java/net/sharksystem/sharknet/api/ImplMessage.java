@@ -10,7 +10,8 @@ import java.util.List;
 public class ImplMessage implements Message {
 
 	String message;
-	Contact sender, recipient;
+	Contact sender;
+	List<Contact> recipient_list;
 	Timestamp time;
 	boolean isSigned, isEncrypted;
 
@@ -19,15 +20,15 @@ public class ImplMessage implements Message {
 	 * @param message
 	 * @param time
 	 * @param sender
-	 * @param recipient
+	 * @param recipient_list
 	 * @param isSigned
      * @param isEncrypted
      */
-	public ImplMessage(String message, Timestamp time, Contact sender, Contact recipient, boolean isSigned, boolean isEncrypted){
+	public ImplMessage(String message, Timestamp time, Contact sender, List<Contact> recipient_list, boolean isSigned, boolean isEncrypted){
 		this.message = message;
 		this.time = time;
 		this.sender = sender;
-		this.recipient = recipient;
+		this.recipient_list= recipient_list;
 		this.isSigned = isSigned;
 		this.isEncrypted = isEncrypted;
 
@@ -36,12 +37,12 @@ public class ImplMessage implements Message {
 	/**
 	 * Constuctor for New Messages that are going to be sended
 	 * @param message
-	 * @param recipient
+	 * @param recipient_list
      */
 
-	public ImplMessage(String message, Contact recipient){
+	public ImplMessage(String message, List<Contact> recipient_list){
 		this.message = message;
-		this.recipient = recipient;
+		this.recipient_list = recipient_list;
 		sendMessage();
 	}
 
@@ -65,8 +66,8 @@ public class ImplMessage implements Message {
 	}
 
 	@Override
-	public Contact getRecipient() {
-		return recipient;
+	public List<Contact> getRecipients() {
+		return recipient_list;
 	}
 
 	@Override
@@ -100,14 +101,15 @@ public class ImplMessage implements Message {
 	private Chat getChat(){
 		DummyDB db = DummyDB.getInstance();
 		List<Chat> chats = db.getChat_list();
-		String rec_uid = recipient.getUID();
 		for(Chat c : chats){
 			List<Contact> cs = c.getContacts();
-			for(Contact currentc : cs){
+			cs.equals(recipient_list);
+/*			for(Contact currentc : cs){
 				if(currentc.getUID().equals(rec_uid)){
 					return c;
 				}
-			}
+		}
+*/
 		}
 		return null;
 

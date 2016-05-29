@@ -1,8 +1,6 @@
 package net.sharksystem.sharknet.api;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by timol on 28.05.2016.
@@ -99,5 +97,6 @@ public class DummyDB {
 	public List<Message> getMessageList(Chat c){
 		return chatmessage.get(c);
 	}
+
 
 }
