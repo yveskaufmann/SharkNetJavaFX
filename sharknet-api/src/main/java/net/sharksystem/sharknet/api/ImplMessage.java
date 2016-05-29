@@ -2,6 +2,7 @@ package net.sharksystem.sharknet.api;
 
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -43,6 +44,9 @@ public class ImplMessage implements Message {
 	public ImplMessage(String message, List<Contact> recipient_list){
 		this.message = message;
 		this.recipient_list = recipient_list;
+		Calendar calendar = Calendar.getInstance();
+		java.util.Date now = calendar.getTime();
+		time = new java.sql.Timestamp(now.getTime());
 		sendMessage();
 	}
 
@@ -103,7 +107,9 @@ public class ImplMessage implements Message {
 		List<Chat> chats = db.getChat_list();
 		for(Chat c : chats){
 			List<Contact> cs = c.getContacts();
-			cs.equals(recipient_list);
+			if(cs.equals(recipient_list)){
+				return c;
+			}
 /*			for(Contact currentc : cs){
 				if(currentc.getUID().equals(rec_uid)){
 					return c;

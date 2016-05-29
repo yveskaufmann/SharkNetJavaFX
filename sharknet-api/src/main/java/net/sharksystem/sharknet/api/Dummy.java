@@ -1,7 +1,12 @@
 package net.sharksystem.sharknet.api;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+
+
 
 public class Dummy {
 
@@ -48,6 +53,16 @@ public class Dummy {
 		chat1.sendMessage("lorem ipsum");
 		chat1.sendMessage("bla bla bla");
 		chat1.sendMessage("fooo");
+
+
+		java.util.Date fiveMinAgo = new Date(System.currentTimeMillis()-5*60*1000);
+		Timestamp time = new java.sql.Timestamp(fiveMinAgo.getTime());
+		Message m1 = new ImplMessage("answer 1", time, bob, recipients1, false, false);
+		DummyDB.getInstance().addMessage(m1, chat1);
+
+
+
+//		ImplMessage(String message, Timestamp time, Contact sender, List<Contact> recipient_list, boolean isSigned, boolean isEncrypted)
 
 		chat2.sendMessage("bla bla bla");
 		chat2.sendMessage("arg");
