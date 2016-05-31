@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import net.sharksystem.sharknet.api.*;
 import net.sharksystem.sharknet.javafx.App;
@@ -25,7 +26,7 @@ public class ChatController extends AbstractController implements ChatHistoryLis
 
 	private FrontController frontController;
 	public static ChatController chatControllerInstance;
-	private ImplChat chatModel;
+	private Chat activeChat;
 	private ImplSharkNet sharkNetModel;
 
 	private final String CHATPREFIX = "<You>";
@@ -53,7 +54,7 @@ public class ChatController extends AbstractController implements ChatHistoryLis
 
 		sharkNetModel = new ImplSharkNet();
 		sharkNetModel.fillWithDummyData();
-		//chatModel = new ImplChat(sharkNetModel.getContacts());
+		activeChat = null;
 		chatControllerInstance = this;
 	}
 
@@ -119,8 +120,10 @@ public class ChatController extends AbstractController implements ChatHistoryLis
 
 	private void onSendClick() {
 		String message = textFieldMessage.getText();
-		//chatModel.sendMessage(message);
 		textAreaChat.appendText('\n' + CHATPREFIX + " " + message);
+		if (activeChat != null) {
+			activeChat.sendMessage(message);
+		}
 	}
 
 	@FXML
@@ -131,7 +134,6 @@ public class ChatController extends AbstractController implements ChatHistoryLis
 
 	private void loadChatHistory() {
 		// TODO: seperate chats in today, yesterday, earlier...
-
 		List<Chat> chatList = sharkNetModel.getChats();
 
 		for (int i = 0; i < chatList.size(); i++) {
@@ -141,7 +143,21 @@ public class ChatController extends AbstractController implements ChatHistoryLis
 
 	@Override
 	public void onChatSelected(Chat c) {
-		System.out.println(c.getContacts().get(0).getNickname());
-		System.out.println("onchatselected");
+		fillChatArea(c);
+		activeChat = c;
+
+		if (activeChat.getPicture() != null && activeChat.getPicture().length() > 0) {
+			imageViewContactProfile.setImage(new Image(activeChat.getPicture()));
+		}
+	}
+
+	private void fillChatArea(Chat c) {
+		textAreaChat.clear();
+
+		for (int i = 0; i < c.getMessages().size(); i++) {
+			if (c.getMessages().get(i).getSender() != null && c.getMessages().get(i).getContent() != null) {
+				textAreaChat.appendText("<" + c.getMessages().get(i).getSender().getNickname() + "> " + c.getMessages().get(i).getContent() + '\n');
+			}
+		}
 	}
 }
