@@ -45,7 +45,6 @@ public class TabPaneSkin extends com.sun.javafx.scene.control.skin.TabPaneSkin {
 	@Override
 	protected void layoutChildren(double x, double y, double w, double h) {
 		super.layoutChildren(x, y, w, h);
-		// TODO: center should be optional
 		headersRegion.setTranslateX(w * 0.5 - headersRegion.prefWidth(-1) * 0.5);
 	}
 }
