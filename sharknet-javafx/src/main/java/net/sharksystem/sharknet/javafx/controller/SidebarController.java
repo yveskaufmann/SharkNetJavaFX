@@ -16,8 +16,6 @@ import net.sharksystem.sharknet.javafx.utils.AbstractController;
  **/
 public class SidebarController extends AbstractController {
 
-	//TODO: add action concept from the actionbar
-
 	@FXML
 	private VBox sidebar;
 	@FXML

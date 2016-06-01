@@ -8,39 +8,36 @@ import javafx.util.Duration;
 
 public class DoublePropertyTransition extends Transition {
 
-	private double startValue;
-	private double endValue;
 	private DoubleProperty property;
+	private double startValue;
+	private double targetValue;
 
-	public DoublePropertyTransition(Duration duration, DoubleProperty property) {
+
+	public DoublePropertyTransition(Duration duration, DoubleProperty property, double target) {
 		setCycleDuration(duration);
 		this.property = property;
-		this.startValue = 0.0;
-		this.endValue = 1.0;
+		this.startValue = property.get();
+		this.targetValue = target;
+	}
+
+	@Override
+	public void play() {
+		startValue = property.get();
+		super.play();
 	}
 
 	@Override
 	protected void interpolate(double frac) {
-		property.setValue(startValue + frac * (endValue - startValue));
+		property.setValue(startValue + frac * (targetValue - startValue));
 	}
+
+
 
 	public ReadOnlyDoubleProperty transitionProperty() {
 		return property;
 	}
 
-	public double getStartValue() {
-		return startValue;
-	}
-
-	public void setStartValue(double startValue) {
-		this.startValue = startValue;
-	}
-
-	public double getEndValue() {
-		return endValue;
-	}
-
-	public void setEndValue(double endValue) {
-		this.endValue = endValue;
+	public void setTargetValue(double targetValue) {
+		this.targetValue = targetValue;
 	}
 }

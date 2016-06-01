@@ -196,6 +196,7 @@ public class FrontController extends AbstractWindowController {
 		mainPane.getChildren().setAll(controller.getRoot());
 		activeController.set(controller);
 		controller.onResume();
+
 	}
 
 
@@ -241,11 +242,7 @@ public class FrontController extends AbstractWindowController {
 		sidebarPane.getChildren().add(sidebarController.getRoot());
 		toolbar.setNavigationNode(ActionBar.createActionButton(new ActionEntry(
 			FontAwesomeIcon.NAVICON, () -> {
-				if (workbench.isSidebarPinned()) {
-					workbench.hideSidebar();
-				} else {
-					workbench.showSidebar();
-				}
+				workbench.toggleSidebar();
 			}
 		)));
 
