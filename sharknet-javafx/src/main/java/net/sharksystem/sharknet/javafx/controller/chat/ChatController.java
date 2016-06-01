@@ -8,10 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
@@ -29,7 +26,7 @@ import java.util.List;
 
 
 @Controller( title = "%sidebar.chat")
-public class ChatController extends AbstractController implements ChatHistoryListener, ChatContactsListener{
+public class ChatController extends AbstractController implements ChatContactsListener{
 
 	private FrontController frontController;
 	public static ChatController chatControllerInstance;
@@ -104,6 +101,12 @@ public class ChatController extends AbstractController implements ChatHistoryLis
 			event.consume();
 		});
 
+
+		chatHistoryListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		chatHistoryListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			     fillChatArea(chatHistoryListView.getSelectionModel().getSelectedItem());
+			 });
+
 		loadChatHistory();
 	}
 
@@ -164,7 +167,6 @@ public class ChatController extends AbstractController implements ChatHistoryLis
 		}
 	}
 
-	@Override
 	public void onChatSelected(Chat c) {
 		fillChatArea(c);
 		activeChat = c;

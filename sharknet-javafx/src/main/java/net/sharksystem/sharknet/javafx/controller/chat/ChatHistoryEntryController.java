@@ -29,24 +29,14 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 
 	private ObjectProperty<Chat> chatProp;
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat();
-	private ChatHistoryListener historyListener;
 
 	public ChatHistoryEntryController(MediaListCell<Chat> chatHistoryListCell) {
 		super(App.class.getResource("views/chat/chatHistoryEntry.fxml"), chatHistoryListCell);
-		historyListener = null;
-	}
-
-	public void setHistoryListener(ChatHistoryListener listener) {
-		historyListener = listener;
 	}
 
 	@Override
 	protected void onFxmlLoaded() {
 
-		cell.setOnMouseClicked(event -> {
-			onCellClick();
-			event.consume();
-		});
 	}
 
 	@Override
@@ -91,10 +81,5 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 	 *
 	 * After that you doesn't need the ChatHistoryListener for this purpose of selections.
 	 */
-	private void onCellClick() {
 
-		if (historyListener != null) {
-			historyListener.onChatSelected(chatProp.get());
-		}
-	}
 }
