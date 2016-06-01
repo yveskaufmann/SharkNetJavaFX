@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Stream;
@@ -140,12 +141,17 @@ public class FrontController extends AbstractWindowController {
 	public void registerController(Class<? extends AbstractController> controllerType) {
 		if (! registeredControllers.containsKey(controllerType)) {
 			Constructor constructor = null;
+			String controllerName = controllerType.getSimpleName();
 			try {
 				constructor = controllerType.getConstructor(getClass());
 				registeredControllers.put(controllerType, (AbstractController) constructor.newInstance(FrontController.this));
 				controllerMetaData.put(controllerType, new ControllerMeta(controllerType));
-			} catch (Exception e) {
-				Log.error("Failed to register the controller: {}.\nA constructor must accept a FrontController instance.", controllerType.getName());
+			} catch (NoSuchMethodException | IllegalAccessException e) {
+				Log.warn("Failed to register {}: A controller must provide a public constructor which accept a FrontController instance.", controllerName);
+			} catch (InstantiationException e) {
+				Log.warn("Failed to register {}: Could not instantiate a instance ", controllerName, e);
+			} catch (InvocationTargetException e) {
+				Log.warn("Failed to register {}: Caused by an exception in the constructor {}.",controllerName, constructor, e.getCause());
 			}
 		}
 	};

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
+
+<GridPane fx:id="container" prefHeight="80.0" prefWidth="355.0" styleClass="theme-presets inbox-entry" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
+    <columnConstraints>
+        <ColumnConstraints halignment="LEFT" hgrow="NEVER" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
+        <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
+        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints vgrow="NEVER" />
+        <RowConstraints vgrow="SOMETIMES" />
+        <RowConstraints vgrow="ALWAYS" />
+      <RowConstraints />
+
+    </rowConstraints>
+    <children>
+
+        <ImageView fx:id="imageViewContactProfile" fitHeight="50.0" fitWidth="50.0" layoutX="10.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.rowSpan="2">
+            <image>
+                <Image url="@../../images/profile-placeholder.jpg" />
+            </image>
+        </ImageView>
+
+        <Text fx:id="chatContacts" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-header" text="Chat Contact Name" GridPane.columnIndex="1" GridPane.valignment="TOP">
+            <GridPane.margin>
+                <Insets left="10.0" top="5.0" />
+            </GridPane.margin></Text>
+
+        <Text fx:id="chatLastMessage" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small" text="01.01.2000" GridPane.columnIndex="2" GridPane.valignment="TOP">
+            <GridPane.margin>
+                <Insets right="10.0" />
+            </GridPane.margin></Text>
+
+        <Text fx:id="chatTitle" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-header" text="Chat Title" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <GridPane.margin>
+                <Insets left="10.0" top="5.0" />
+            </GridPane.margin></Text>
+
+        <Text fx:id="chatContent" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-mid" text="Chat message preview" wrappingWidth="302.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+            <GridPane.margin>
+                <Insets bottom="5.0" left="10.0" top="5.0" />
+            </GridPane.margin></Text>
+
+    </children>
+</GridPane>
