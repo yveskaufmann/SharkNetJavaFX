@@ -50,7 +50,7 @@ public interface SharkNet {
 	 * Initializes a Chat and safes it in the KnowledgeBase
 	 * @param recipients
 	 */
-	public Chat newChat(List<Contact> recipients);
+	public Chat newChat(List<Contact> recipients, Contact sender);
 
 	/**
 	 * Adds a Contact to the KnowledgeBase

@@ -68,4 +68,9 @@ public interface Chat {
 	 * @return
      */
 	public String getTitle();
+
+	/**
+	 * Returns the ID of the Chat
+	 */
+	public int getID();
 }

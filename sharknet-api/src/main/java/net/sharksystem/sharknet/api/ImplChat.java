@@ -2,6 +2,7 @@ package net.sharksystem.sharknet.api;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by timol on 16.05.2016.
@@ -9,22 +10,24 @@ import java.util.List;
 
 public class ImplChat implements Chat {
 
-	List<Message> message_list = new LinkedList<>();
 	List<Contact> contact_list = new LinkedList<>();
+	Contact sender;
 	String title;
 	String picture;
+	int id;
 
 
-	public ImplChat(List <Contact> contact_List){
+	public ImplChat(List <Contact> contact_List, Contact sender){
 		this.contact_list = contact_List;
+		this.sender = sender;
 		setDefaultTitle();
+		setID();
 	}
 
 	@Override
 	public void sendMessage(String message) {
 
-		Message m = new ImplMessage(message, contact_list);
-		message_list.add(m);
+		Message m = new ImplMessage(message, contact_list, sender);
 
 		//ToDo: Clearify - always renew vector when sth is deleted
 	}
@@ -39,7 +42,10 @@ public class ImplChat implements Chat {
 
 	@Override
 	public List<Message> getMessages() {
-		fillChat();
+		//ToDo: Shark - find Messages blonging to the chat and fill List of Messages
+
+		//DummyDB Implememntation
+		List <Message> message_list = DummyDB.getInstance().getMessageList(this);
 		return message_list;
 	}
 
@@ -80,17 +86,28 @@ public class ImplChat implements Chat {
 		return title;
 	}
 
+	@Override
+	public int getID() {
+		return id;
+	}
+
+	private void setID(){
+
+		Random rand = new Random();
+		int randomNum = rand.nextInt();
+
+		//ToDo: Shark - Validate that Id ist unique (just in the Local KB not in the hole Sharknet-Network)
+		//TODo: Shark - Check if the Chat already have a ID in the KB and use it, the chat can be find with the contact_list
+		while(!DummyDB.getInstance().validChatID(randomNum)){
+			randomNum = rand.nextInt(Integer.SIZE - 1);
+		}
+		id = randomNum;
+	}
+
 	/**
 	 * This Method is used to fill a Chat with Messages that are already in the Database and is only called by the API itself
 	 */
-	public void fillChat(){
 
-		//ToDo: Shark - find Messages blonging to the chat and fill List of Messages
-
-		//DummyDB Implememntation
-		message_list = DummyDB.getInstance().getMessageList(this);
-
-	}
 
 	private void setDefaultTitle(){
 		String[] title_array = new String[contact_list.size()];

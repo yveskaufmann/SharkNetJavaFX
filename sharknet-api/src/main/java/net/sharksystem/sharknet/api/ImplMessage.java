@@ -41,9 +41,10 @@ public class ImplMessage implements Message {
 	 * @param recipient_list
      */
 
-	public ImplMessage(String message, List<Contact> recipient_list){
+	public ImplMessage(String message, List<Contact> recipient_list, Contact sender){
 		this.message = message;
 		this.recipient_list = recipient_list;
+		this.sender = sender;
 		Calendar calendar = Calendar.getInstance();
 		java.util.Date now = calendar.getTime();
 		time = new java.sql.Timestamp(now.getTime());
