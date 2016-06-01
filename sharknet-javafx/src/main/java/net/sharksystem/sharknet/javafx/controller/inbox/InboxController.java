@@ -1,8 +1,7 @@
 package net.sharksystem.sharknet.javafx.controller.inbox;
 
 import javafx.fxml.FXML;
-import net.sharksystem.sharknet.api.ImplContact;
-import net.sharksystem.sharknet.api.ImplFeed;
+import net.sharksystem.sharknet.api.*;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.actions.annotations.Action;
 import net.sharksystem.sharknet.javafx.actions.annotations.Controller;
@@ -14,13 +13,13 @@ public class InboxController extends AbstractController {
 
 	private FrontController frontController;
 
-	@FXML InboxList inboxListView;
-
-
+	@FXML
+	private InboxList inboxListView;
 
 	public InboxController(FrontController frontController) {
 		super(App.class.getResource("views/inbox/inboxView.fxml"));
 		this.frontController = frontController;
+
 	}
 
 	/**
@@ -28,18 +27,18 @@ public class InboxController extends AbstractController {
 	 */
 	@Override
 	protected void onFxmlLoaded() {
-		for(int i = 0; i < 20; i++) {// Test dummy data
-			inboxListView.getItems().add(
-				new ImplFeed("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat vero.",
-					null, new ImplContact("Lorem ipsum", "1212121", "sadasdsadsadaasdas"))
-			);
+
+		SharkNet sharkNet = new ImplSharkNet();
+		sharkNet.getFeeds(200);
+
+		for(Feed feed : sharkNet.getFeeds(200)) {
+			inboxListView.getItems().add(feed);
 		}
 
 	}
 
 	@Action(icon = "\uf002 ", text = "%action.search")
 	public void search() {
-		System.out.println("Show Search entry");
 	}
 
 	@Action(text = "%action.my_broadcasts", priority = 1)
@@ -62,6 +61,9 @@ public class InboxController extends AbstractController {
 
 	@Action(text = "%action.system_info", priority = 5)
 	public void showSystemInfo() { System.out.println("System Info"); }
+
+
+
 
 }
 
