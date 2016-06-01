@@ -9,11 +9,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import net.sharksystem.sharknet.api.*;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.actions.annotations.Controller;
 import net.sharksystem.sharknet.javafx.utils.AbstractController;
 import javafx.fxml.FXML;
-import net.sharksystem.sharknet.api.ImplContact;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,10 +23,12 @@ import java.util.List;
 
 
 @Controller( title = "%sidebar.contacts")
-public class ContactController extends AbstractController {
+public class ContactController extends AbstractController{
 
 	private FrontController appController;
 
+
+	private ImplSharkNet implSharkNet;
 
 	private ImplContact testKontakt;
 	private ImplContact testKontakt2;
@@ -39,6 +41,8 @@ public class ContactController extends AbstractController {
 		this.testKontakt = new ImplContact("Max", "", "");
 		this.testKontakt2 = new ImplContact("Chris", "", "");
 		this.testKontakt3 = new ImplContact("Marie", "", "");
+
+		//ImplSharkNet.getContacts();
 	}
 
 
@@ -67,7 +71,7 @@ public class ContactController extends AbstractController {
 	private void onContactDeleteButtonClick() {
 		System.out.println("Kontakt löschen:");
 		System.out.println(contactList.getSelectionModel().getSelectedItem());
-		testKontakt.deleteContact();
+		//testKontakt.deleteContact();
 	}
 
 	@FXML
@@ -81,6 +85,13 @@ public class ContactController extends AbstractController {
 		System.out.println("Kontakt blockieren:");
 		System.out.println(contactList.getSelectionModel().getSelectedItem());
 	}
+
+	@FXML
+	private void onContactUnblockButtonClick(){
+		System.out.println("Kontakt wieder entsperrt:");
+		System.out.println(blackList.getSelectionModel().getSelectedItem());
+	}
+
 
 	//
 	Image getImageForContact(String contactName){
@@ -154,15 +165,19 @@ public class ContactController extends AbstractController {
 		//
 
 
+		//implSharkNet.fillWithDummyData();
+
 		//Mit Testwerten füllen
+		//List<Contact> allContacts = implSharkNet.getContacts();
 		List<ImplContact> allContacts = new ArrayList<ImplContact>();
+		List<ImplContact> allBlockedContacts = new ArrayList<ImplContact>();
+		//List<ImplGroup> allGroups = new ArrayList<ImplGroup>();
+
+
 		allContacts.add(testKontakt);
 		allContacts.add(testKontakt2);
-
-		List<ImplContact> allBlockedContacts = new ArrayList<ImplContact>();
 		allBlockedContacts.add(testKontakt3);
 
-		//List<ImplGroup> allGroups = new ArrayList<ImplGroup>();
 
 
 		// Kontaktlisten füllen
@@ -170,6 +185,15 @@ public class ContactController extends AbstractController {
 			System.out.println(ic.getNickname());
 			contactsData.add(ic.getNickname());
 		}
+
+
+
+		/* Kontaktlisten füllen
+		for (Contact c : allContacts) {
+			System.out.println(c.getNickname());
+			contactsData.add(c.getNickname());
+		}
+		*/
 
 		for (ImplContact ic : allBlockedContacts) {
 			System.out.println(ic.getNickname());
@@ -202,5 +226,44 @@ public class ContactController extends AbstractController {
 			}
 		});
 
+
+		// TODO Gruppenbild
+		/*
+		groupList.setCellFactory(listView -> new ListCell<String>() {
+			private ImageView imageView = new ImageView();
+			@Override
+			public void updateItem(String contactName, boolean empty) {
+				super.updateItem(contactName, empty);
+				if (empty) {
+					setText(null);
+					setGraphic(null);
+				} else {
+					//Image image = getImageForContact(contactName);
+					Image profilePicture = new Image(App.class.getResource("images/profile.png").toExternalForm());
+					imageView.setImage(profilePicture);
+					setText(contactName);
+					setGraphic(imageView);
+				}
+			}
+		});
+		*/
+
+		blackList.setCellFactory(listView -> new ListCell<String>() {
+			private ImageView imageView = new ImageView();
+			@Override
+			public void updateItem(String contactName, boolean empty) {
+				super.updateItem(contactName, empty);
+				if (empty) {
+					setText(null);
+					setGraphic(null);
+				} else {
+					//Image image = getImageForContact(contactName);
+					Image profilePicture = new Image(App.class.getResource("images/profile.png").toExternalForm());
+					imageView.setImage(profilePicture);
+					setText(contactName);
+					setGraphic(imageView);
+				}
+			}
+		});
 	}
 }

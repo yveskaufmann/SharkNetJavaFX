@@ -10,131 +10,135 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Button?>
 
-<TabPane fx:id="contactsView" maxHeight="Infinity" maxWidth="Infinity" minHeight="600.0" minWidth="800.0" styleClass="theme-presets" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-    <tabs>
-        <Tab text="Kontakte">
-            <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="180.0">
-                    <children>
-                  <SplitPane dividerPositions="0.2794486215538847" prefHeight="567.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <items>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                           <children>
-                                        <Button layoutX="26.0" layoutY="40.0" mnemonicParsing="false" onAction="#onNewContactButtonClick" text="Neuer Kontakt" />
-                                        <Button layoutX="28.0" layoutY="84.0" mnemonicParsing="false" onAction="#onContactDeleteButtonClick" text="Löschen" />
-                                        <Button layoutX="27.0" layoutY="133.0" mnemonicParsing="false" onAction="#onContactGroupButtonClick" text="Zu Gruppe hinzufügen" />
-                                        <Button layoutX="29.0" layoutY="180.0" mnemonicParsing="false" onAction="#onContactBlockButtonClick" text="Blockieren" />
-                           </children>
-                        </AnchorPane>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                           <children>
-                              <SplitPane dividerPositions="0.11012433392539965" orientation="VERTICAL" prefHeight="565.0" prefWidth="571.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                <items>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                                       <children>
-                                          <TextField fx:id="contactsSearchTextfield" layoutX="105.0" layoutY="15.0" />
-                                          <Label layoutX="33.0" layoutY="18.0" text="Suche:">
-                                             <font>
-                                                <Font size="17.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </AnchorPane>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                                       <children>
-                                                  <ListView fx:id="contactList" prefHeight="277.0" prefWidth="972.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                       </children>
-                                    </AnchorPane>
-                                </items>
-                              </SplitPane>
-                           </children>
-                        </AnchorPane>
-                    </items>
-                  </SplitPane>
-                    </children>
-                </AnchorPane>
-            </content>
-        </Tab>
-        <Tab text="Gruppen">
-            <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                    <children>
-                  <SplitPane dividerPositions="0.24686716791979949" prefHeight="567.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <items>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                           <children>
-                                        <Button layoutX="22.0" layoutY="28.0" mnemonicParsing="false" text="Neue Gruppe" />
-                                        <Button layoutX="21.0" layoutY="83.0" mnemonicParsing="false" text="Gruppe löschen" />
-                           </children>
-                        </AnchorPane>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                           <children>
-                              <SplitPane dividerPositions="0.09236234458259325" orientation="VERTICAL" prefHeight="565.0" prefWidth="597.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                <items>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                                       <children>
-                                          <Label layoutX="47.0" layoutY="13.0" text="Suche:">
-                                             <font>
-                                                <Font size="17.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="groupsSearchTextfield" layoutX="115.0" layoutY="11.0" />
-                                       </children>
-                                    </AnchorPane>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                                       <children>
-                                                  <ListView fx:id="groupList" prefHeight="565.0" prefWidth="395.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                       </children>
-                                    </AnchorPane>
-                                </items>
-                              </SplitPane>
-                           </children>
-                        </AnchorPane>
-                    </items>
-                  </SplitPane>
-                    </children>
-                </AnchorPane>
-            </content>
-        </Tab>
-        <Tab text="Blacklist">
-            <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                    <children>
-                  <SplitPane dividerPositions="0.29797979797979796" prefHeight="567.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <items>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                           <children>
-                                        <Button layoutX="25.0" layoutY="39.0" mnemonicParsing="false" text="Von Blacklist entfernen" />
-                           </children>
-                        </AnchorPane>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                           <children>
-                              <SplitPane dividerPositions="0.09769094138543517" orientation="VERTICAL" prefHeight="565.0" prefWidth="556.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                <items>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                                       <children>
-                                          <Label layoutX="63.0" layoutY="14.0" text="Suche:">
-                                             <font>
-                                                <Font size="17.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="blacklistSearchTextfield" layoutX="135.0" layoutY="14.0" />
-                                       </children>
-                                    </AnchorPane>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                                       <children>
-                                                  <ListView fx:id="blackList" prefHeight="565.0" prefWidth="556.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                       </children>
-                                    </AnchorPane>
-                                </items>
-                              </SplitPane>
-                           </children>
-                        </AnchorPane>
-                    </items>
-                  </SplitPane>
-                    </children>
-                </AnchorPane>
-            </content>
-        </Tab>
-    </tabs>
-</TabPane>
+<StackPane fx:id="contactsView" maxHeight="Infinity" maxWidth="Infinity" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TabPane tabClosingPolicy="UNAVAILABLE">
+          <tabs>
+              <Tab text="Kontakte">
+                  <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="180.0">
+                          <children>
+                        <SplitPane dividerPositions="0.2794486215538847" prefHeight="567.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                 <children>
+                                              <Button layoutX="26.0" layoutY="40.0" mnemonicParsing="false" onAction="#onNewContactButtonClick" text="Neuer Kontakt" />
+                                              <Button layoutX="28.0" layoutY="84.0" mnemonicParsing="false" onAction="#onContactDeleteButtonClick" text="Löschen" />
+                                              <Button layoutX="27.0" layoutY="133.0" mnemonicParsing="false" onAction="#onContactGroupButtonClick" text="Zu Gruppe hinzufügen" />
+                                              <Button layoutX="29.0" layoutY="180.0" mnemonicParsing="false" onAction="#onContactBlockButtonClick" text="Blockieren" />
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                 <children>
+                                    <SplitPane dividerPositions="0.11012433392539965" orientation="VERTICAL" prefHeight="565.0" prefWidth="571.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <items>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                             <children>
+                                                <TextField fx:id="contactsSearchTextfield" layoutX="105.0" layoutY="15.0" />
+                                                <Label layoutX="33.0" layoutY="18.0" text="Suche:">
+                                                   <font>
+                                                      <Font size="17.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </AnchorPane>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                             <children>
+                                                        <ListView fx:id="contactList" prefHeight="277.0" prefWidth="972.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                             </children>
+                                          </AnchorPane>
+                                      </items>
+                                    </SplitPane>
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                          </children>
+                      </AnchorPane>
+                  </content>
+              </Tab>
+              <Tab text="Gruppen">
+                  <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                          <children>
+                        <SplitPane dividerPositions="0.24686716791979949" prefHeight="567.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <items>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                              <Button layoutX="22.0" layoutY="28.0" mnemonicParsing="false" text="Neue Gruppe" />
+                                              <Button layoutX="21.0" layoutY="83.0" mnemonicParsing="false" text="Gruppe löschen" />
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                 <children>
+                                    <SplitPane dividerPositions="0.09236234458259325" orientation="VERTICAL" prefHeight="565.0" prefWidth="597.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <items>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                             <children>
+                                                <Label layoutX="47.0" layoutY="13.0" text="Suche:">
+                                                   <font>
+                                                      <Font size="17.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="groupsSearchTextfield" layoutX="115.0" layoutY="11.0" />
+                                             </children>
+                                          </AnchorPane>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                             <children>
+                                                        <ListView fx:id="groupList" prefHeight="565.0" prefWidth="395.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                             </children>
+                                          </AnchorPane>
+                                      </items>
+                                    </SplitPane>
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                          </children>
+                      </AnchorPane>
+                  </content>
+              </Tab>
+              <Tab text="Blacklist">
+                  <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                          <children>
+                        <SplitPane dividerPositions="0.29797979797979796" prefHeight="567.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                 <children>
+                                              <Button layoutX="25.0" layoutY="39.0" mnemonicParsing="false" onAction="#onContactUnblockButtonClick" text="Von Blacklist entfernen" />
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                 <children>
+                                    <SplitPane dividerPositions="0.09769094138543517" orientation="VERTICAL" prefHeight="565.0" prefWidth="556.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <items>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                             <children>
+                                                <Label layoutX="63.0" layoutY="14.0" text="Suche:">
+                                                   <font>
+                                                      <Font size="17.0" />
+                                                   </font>
+                                                </Label>
+                                                <TextField fx:id="blacklistSearchTextfield" layoutX="135.0" layoutY="14.0" />
+                                             </children>
+                                          </AnchorPane>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                             <children>
+                                                        <ListView fx:id="blackList" prefHeight="565.0" prefWidth="556.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                             </children>
+                                          </AnchorPane>
+                                      </items>
+                                    </SplitPane>
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                          </children>
+                      </AnchorPane>
+                  </content>
+              </Tab>
+          </tabs>
+      </TabPane>
+   </children>
+</StackPane>
