@@ -67,7 +67,7 @@ public class ContactController extends AbstractController {
 	private void onContactDeleteButtonClick() {
 		System.out.println("Kontakt löschen:");
 		System.out.println(contactList.getSelectionModel().getSelectedItem());
-		testKontakt.deleteContact();
+		testKontakt.delete();
 	}
 
 	@FXML
