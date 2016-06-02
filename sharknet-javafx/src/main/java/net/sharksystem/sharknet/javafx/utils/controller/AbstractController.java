@@ -1,14 +1,14 @@
-package net.sharksystem.sharknet.javafx.utils;
+package net.sharksystem.sharknet.javafx.utils.controller;
 
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import net.sharksystem.sharknet.javafx.context.ViewContext;
+import net.sharksystem.sharknet.javafx.controls.ActionBar;
 import net.sharksystem.sharknet.javafx.i18n.I18N;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
+import javax.annotation.PostConstruct;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.ResourceBundle;
 
 /**
@@ -36,9 +36,9 @@ public abstract class AbstractController {
 	private ResourceBundle resourceBundle;
 
 	/**
-	 * The root node of the controlled view.
+	 * Context of the controlled view.
 	 */
-	protected Parent root;
+	private ViewContext<AbstractController> viewContext;
 
 	/**
 	 * Creates a controller for the view which is defined
@@ -70,40 +70,36 @@ public abstract class AbstractController {
 	 * @return the root element
      */
 	public Parent getRoot() {
-		if (this.root == null) {
-			loadFXML();
-		}
-		return this.root;
+		return getContext().getRootNode();
 	}
 
 	/**
-	 * Defines the parent node of the controlled view.
+	 * Provides context information about this controller.
 	 *
-	 * @param root the parent node of the controlled view.
+	 * @return context about this view object.
      */
-	protected final void setRoot(Parent root) {
-		assert this.root == null;
-		this.root = root;
+	public ViewContext<AbstractController> getContext() {
+		if (viewContext == null) {
+			initiateController();
+		}
+		return viewContext;
 	}
 
 	/**
-	 * Load the corresponding fxml file which contains the
+	 * Initiate the controller and load the corresponding fxml file which contains the
 	 * view of this controller.
 	 */
-	protected void loadFXML() {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setController(this);
-		loader.setLocation(fxmlFile);
-		loader.setResources(resourceBundle);
-		loader.setCharset(Charset.forName("UTF-8"));
+	protected void initiateController() {
 		try {
-			setRoot(loader.load());
-			onFxmlLoaded();
-		} catch (IOException e) {
-			Log.debug("Loader.getController : " + loader.getController());
-			Log.debug("Loader.getLocation : " + loader.getLocation());
-			throw new RuntimeException("Failed to load " + fxmlFile.getFile(), e);
+			viewContext = ControllerBuilder.getInstance().createBy(this, (Class<AbstractController>) getClass());
+		} catch (ControllerLoaderException e) {
+			throw new RuntimeException("Failed to initiate controller" + this.getClass(), e);
 		}
+	}
+
+	@PostConstruct
+	private void triggerOnFXMLLoaded() {
+		onFxmlLoaded();
 	}
 
 	/**
@@ -118,7 +114,11 @@ public abstract class AbstractController {
 	 * Called when the fxml file was loaded this is the
 	 * equivalent to {@link javafx.fxml.Initializable#initialize(URL, ResourceBundle)}.
 	 * <p>
+	 *
+	 *  NOTE: this method is deprecated please annotate your init method
+	 *  with: @PostConstruct
 	 */
+	@Deprecated
 	abstract protected void onFxmlLoaded();
 
 	/**
@@ -127,7 +127,7 @@ public abstract class AbstractController {
 	 * The {@link ResourceBundle} contains all locale-specific
 	 * texts and strings.
 	 */
-	public ResourceBundle getResourceBundle() {
+	ResourceBundle getResourceBundle() {
 		return resourceBundle;
 	}
 
@@ -136,14 +136,19 @@ public abstract class AbstractController {
 	 * This contains the view which is controlled by
 	 * this controller.
 	 */
-	public URL getLocation() {
+	URL getLocation() {
 		return fxmlFile;
+
 	}
 
 	/**
 	 * Will be called if the controller is terminated.
 	 * This can happen if the application exists or the
 	 * controller is unregistered from the FrontController.
+	 *
+	 * Annotate your destroy method with javax.annotation.PreDestroy
+	 *
+	 * @deprecated
 	 */
 	public void onShutdown() {
 	};
@@ -151,14 +156,18 @@ public abstract class AbstractController {
 	/**
 	 * Will be called before if controller
 	 * is resumed from a pause state.
+	 * @deprecated
 	 */
 	public void onResume() {
 	};
 
 	/**
 	 * Will be called before a controller is paused.
+	 * @deprecated
 	 */
 	public void onPause() {
 
 	}
+
+
 }

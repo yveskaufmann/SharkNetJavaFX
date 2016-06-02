@@ -3,7 +3,6 @@ package net.sharksystem.sharknet.javafx.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -11,13 +10,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import net.sharksystem.sharknet.api.*;
 import net.sharksystem.sharknet.javafx.App;
-import net.sharksystem.sharknet.javafx.actions.annotations.Controller;
-import net.sharksystem.sharknet.javafx.utils.AbstractController;
+import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
+import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
+import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import javafx.fxml.FXML;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +31,9 @@ public class ContactController extends AbstractController{
 	private ImplContact testKontakt2;
 	private ImplContact testKontakt3;
 
-	public ContactController(FrontController appController) {
+	public ContactController() {
 		super(App.class.getResource("views/contactsView.fxml"));
-		this.appController = appController;
+		this.appController = Controllers.getInstance().get(FrontController.class);
 
 		this.testKontakt = new ImplContact("Max", "", "");
 		this.testKontakt2 = new ImplContact("Chris", "", "");

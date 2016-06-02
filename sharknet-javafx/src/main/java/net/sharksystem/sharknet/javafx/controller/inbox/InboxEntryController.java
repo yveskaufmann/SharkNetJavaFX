@@ -1,11 +1,8 @@
 package net.sharksystem.sharknet.javafx.controller.inbox;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import net.sharksystem.sharknet.api.Feed;
@@ -13,7 +10,6 @@ import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controls.RoundImageView;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCell;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCellController;
-import net.sharksystem.sharknet.javafx.utils.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.FontAwesomeIcon;
 
 import java.text.SimpleDateFormat;

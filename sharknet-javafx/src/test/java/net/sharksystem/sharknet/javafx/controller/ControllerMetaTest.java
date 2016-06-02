@@ -1,13 +1,10 @@
 package net.sharksystem.sharknet.javafx.controller;
 
-import net.sharksystem.sharknet.javafx.actions.annotations.Controller;
-import net.sharksystem.sharknet.javafx.context.AbstractContext;
-import net.sharksystem.sharknet.javafx.utils.AbstractController;
+import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
+import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import org.junit.Test;
 
 import java.net.URL;
-
-import static org.junit.Assert.*;
 
 
 public class ControllerMetaTest {

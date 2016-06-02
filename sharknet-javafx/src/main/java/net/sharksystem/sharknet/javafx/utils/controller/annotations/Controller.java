@@ -1,4 +1,4 @@
-package net.sharksystem.sharknet.javafx.actions.annotations;
+package net.sharksystem.sharknet.javafx.utils.controller.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

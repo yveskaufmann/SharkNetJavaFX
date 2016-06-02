@@ -6,8 +6,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import net.sharksystem.sharknet.javafx.App;
-import net.sharksystem.sharknet.javafx.actions.annotations.Controller;
-import net.sharksystem.sharknet.javafx.utils.AbstractController;
+import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
+import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
+import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
 
 @Controller( title = "%sidebar.settings")
@@ -16,9 +17,9 @@ public class SettingsController extends AbstractController {
 	private FrontController frontController;
 
 
-	public SettingsController(FrontController frontController) {
+	public SettingsController() {
 		super(App.class.getResource("views/settingsView.fxml"));
-		this.frontController = frontController;
+		this.frontController = Controllers.getInstance().get(FrontController.class);;
 	}
 
 	@FXML

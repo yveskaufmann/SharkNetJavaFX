@@ -2,7 +2,7 @@ package net.sharksystem.sharknet.javafx.controls.medialist;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import net.sharksystem.sharknet.javafx.utils.AbstractController;
+import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
 import java.net.URL;
 

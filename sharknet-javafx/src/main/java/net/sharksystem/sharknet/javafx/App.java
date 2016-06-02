@@ -4,7 +4,6 @@ package net.sharksystem.sharknet.javafx;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
-import net.sharksystem.sharknet.javafx.controller.LoginController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,9 +17,8 @@ public class App extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		//frontController = new FrontController(primaryStage);
-		//frontController.show();
-		LoginController loginController = new LoginController()
+		frontController = new FrontController(primaryStage);
+		frontController.show();
 	}
 
 

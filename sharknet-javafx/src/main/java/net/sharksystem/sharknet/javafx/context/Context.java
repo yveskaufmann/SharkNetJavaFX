@@ -7,8 +7,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * A ViewContext field annotated with this annotation will be provided
- * with ViewContext Instance.
+ * A FXMLViewContext field annotated with this annotations will be provided
+ * with FXMLViewContext Instance.
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)

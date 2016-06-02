@@ -9,9 +9,7 @@ import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.Contact;
 import net.sharksystem.sharknet.api.ImplSharkNet;
 import net.sharksystem.sharknet.javafx.App;
-import net.sharksystem.sharknet.javafx.actions.annotations.Controller;
-import net.sharksystem.sharknet.javafx.controller.FrontController;
-import net.sharksystem.sharknet.javafx.utils.AbstractController;
+import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
 import java.util.ArrayList;
 import java.util.List;

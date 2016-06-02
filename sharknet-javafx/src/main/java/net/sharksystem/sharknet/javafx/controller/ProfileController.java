@@ -1,15 +1,16 @@
 package net.sharksystem.sharknet.javafx.controller;
 
 import net.sharksystem.sharknet.javafx.App;
-import net.sharksystem.sharknet.javafx.utils.AbstractController;
+import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
+import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
 
 public class ProfileController extends AbstractController {
 
 	private FrontController frontController;
 
-	public ProfileController(FrontController frontController) {
+	public ProfileController() {
 		super(App.class.getResource("views/profileView.fxml"));
-		this.frontController = frontController;
+		this.frontController = Controllers.getInstance().get(FrontController.class);;
 	}
 
 	/**

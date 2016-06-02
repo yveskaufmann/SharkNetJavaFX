@@ -1,9 +1,6 @@
 package net.sharksystem.sharknet.javafx.actions;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
 import net.sharksystem.sharknet.javafx.i18n.I18N;
 import net.sharksystem.sharknet.javafx.utils.FontBasedIcon;
@@ -14,6 +11,7 @@ import java.util.Optional;
 public class ActionEntry {
 
 	private ObjectProperty<FontBasedIcon> icon;
+	private IntegerProperty priority;
 	private StringProperty title;
 	private StringProperty tooltip;
 	private ObjectProperty<ActionCallback> callback;
@@ -124,4 +122,18 @@ public class ActionEntry {
 		}
 	}
 
+	public final IntegerProperty priorityProperty() {
+		if (priority == null) {
+			priority = new SimpleIntegerProperty(this, "priority", 0);
+		}
+		return priority;
+	}
+
+	public void setPriority(int priority) {
+		 priorityProperty().set(priority);
+	}
+
+	public int getPriority() {
+		return priority == null ? 0 : priority.get();
+	}
 }

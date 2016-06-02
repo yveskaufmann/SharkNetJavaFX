@@ -1,4 +1,4 @@
-package net.sharksystem.sharknet.javafx.utils;
+package net.sharksystem.sharknet.javafx.utils.controller;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -96,8 +96,7 @@ public abstract class AbstractWindowController extends AbstractController {
      */
 	public Scene getScene() {
 		if (scene == null) {
-			Parent root = getRoot();
-			scene = new Scene(root, 1024, 768, true, SceneAntialiasing.BALANCED);
+			scene = new Scene(getContext().getRootNode(), 1024, 768, true, SceneAntialiasing.BALANCED);
 			onSceneCreated();
 		}
 		return scene;
