@@ -14,8 +14,7 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
 
-
-<StackPane  fx:id="settingsView" maxHeight="Infinity" maxWidth="Infinity" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane fx:id="settingsView" maxHeight="Infinity" maxWidth="Infinity" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TabPane tabClosingPolicy="UNAVAILABLE">
               <tabs>
@@ -29,7 +28,7 @@
                                  <children>
                                               <Label layoutX="22.0" layoutY="24.0" text="Weiterleitung von Datenpakteten bis:" />
                                               <TextField fx:id="maximumRouteSize" layoutX="279.0" layoutY="20.0" prefHeight="25.0" prefWidth="52.0" promptText="MB" />
-                                              <Button fx:id="settingsSaveButton" layoutX="608.0" layoutY="508.0" mnemonicParsing="false" text="Speichern" />
+                                              <Button fx:id="settingsSaveButton" layoutX="608.0" layoutY="508.0" mnemonicParsing="false" onAction="#onSettingsSaveButtonClick" text="Speichern" />
                                     <Label layoutX="22.0" layoutY="82.0" text="E-Mail-Account">
                                        <font>
                                           <Font size="18.0" />

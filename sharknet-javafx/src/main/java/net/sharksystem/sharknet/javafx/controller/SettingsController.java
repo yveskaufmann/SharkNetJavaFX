@@ -22,6 +22,13 @@ public class SettingsController extends AbstractController {
 		this.frontController = Controllers.getInstance().get(FrontController.class);;
 	}
 
+	private int maxRoutedMB = 10;
+	private int switchOffWifiDirectAfterMin = 30;
+	private String mailAddress = "";
+	private String mailPassword = "";
+	private String smtpServer = "";
+	private String imapServer = "";
+
 	@FXML
 	private Button settingsSaveButton;
 	@FXML
@@ -32,6 +39,13 @@ public class SettingsController extends AbstractController {
 	private CheckBox messagesSyncCheckbox;
 	@FXML
 	private CheckBox timelineSyncCheckbox;
+	@FXML
+	private TextField settingsMailAddress;
+	@FXML
+	private TextField settingsSMTPServer;
+	@FXML
+	private TextField settingsIMAPServer;
+
 	/*@FXML
 	private RadioButton syncMediumSelectWifi;
 	@FXML
@@ -50,6 +64,16 @@ public class SettingsController extends AbstractController {
 
 	@FXML
 	private void onSettingsSaveButtonClick() {
+
+		mailAddress = settingsMailAddress.getText();
+		smtpServer = settingsSMTPServer.getText();
+		imapServer = settingsIMAPServer.getText();
+		//mailPassword = settings
+
+		System.out.println("Mail address= "+ mailAddress);
+		System.out.println("SMTP= "+ smtpServer);
+		System.out.println("IMAP= " + imapServer);
+
 
 
 

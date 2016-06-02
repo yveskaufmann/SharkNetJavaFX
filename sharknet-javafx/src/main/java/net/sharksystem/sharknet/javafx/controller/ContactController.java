@@ -19,27 +19,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Controller( title = "%sidebar.contacts")
+@Controller(title = "%sidebar.contacts")
 public class ContactController extends AbstractController{
 
 	private FrontController appController;
 
-
 	private ImplSharkNet implSharkNet;
-
-	private ImplContact testKontakt;
-	private ImplContact testKontakt2;
-	private ImplContact testKontakt3;
+	private ImplContact testKontakt3 = new ImplContact("Jan", "", "");
 
 	public ContactController() {
 		super(App.class.getResource("views/contactsView.fxml"));
 		this.appController = Controllers.getInstance().get(FrontController.class);
 
-		this.testKontakt = new ImplContact("Max", "", "");
-		this.testKontakt2 = new ImplContact("Chris", "", "");
-		this.testKontakt3 = new ImplContact("Marie", "", "");
-
-		//ImplSharkNet.getContacts();
+		implSharkNet = new ImplSharkNet();
+		implSharkNet.fillWithDummyData();
 	}
 
 
@@ -159,31 +152,22 @@ public class ContactController extends AbstractController{
 			});
 		});
 
-		//
-
-
-		//implSharkNet.fillWithDummyData();
 
 		//Mit Testwerten füllen
-		//List<Contact> allContacts = implSharkNet.getContacts();
-		List<ImplContact> allContacts = new ArrayList<ImplContact>();
+		List<Contact> allContacts = implSharkNet.getContacts();
+		//List<ImplContact> allContacts = new ArrayList<ImplContact>();
 		List<ImplContact> allBlockedContacts = new ArrayList<ImplContact>();
 		//List<ImplGroup> allGroups = new ArrayList<ImplGroup>();
 
 
-		allContacts.add(testKontakt);
-		allContacts.add(testKontakt2);
 		allBlockedContacts.add(testKontakt3);
 
 
 
 		// Kontaktlisten füllen
-		for (ImplContact ic : allContacts) {
-			System.out.println(ic.getNickname());
-			contactsData.add(ic.getNickname());
+		for (Contact c : allContacts) {
+			contactsData.add(c.getNickname());
 		}
-
-
 
 		/* Kontaktlisten füllen
 		for (Contact c : allContacts) {
@@ -193,7 +177,6 @@ public class ContactController extends AbstractController{
 		*/
 
 		for (ImplContact ic : allBlockedContacts) {
-			System.out.println(ic.getNickname());
 			blackListData.add(ic.getNickname());
 		}
 
