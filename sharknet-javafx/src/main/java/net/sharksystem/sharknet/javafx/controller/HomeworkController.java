@@ -1,17 +1,18 @@
 package net.sharksystem.sharknet.javafx.controller;
 
 import net.sharksystem.sharknet.javafx.App;
-import net.sharksystem.sharknet.javafx.actions.annotations.Controller;
-import net.sharksystem.sharknet.javafx.utils.AbstractController;
+import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
+import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
+import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
 @Controller(title = "%sidebar.homework")
 public class HomeworkController extends AbstractController {
 
 	private FrontController frontController;
 
-	public HomeworkController(FrontController frontController) {
+	public HomeworkController() {
 		super(App.class.getResource("views/homeworkView.fxml"));
-		this.frontController = frontController;
+		this.frontController = Controllers.getInstance().get(FrontController.class);
 	}
 
 	/**

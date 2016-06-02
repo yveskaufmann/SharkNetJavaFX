@@ -6,7 +6,7 @@ import javafx.scene.layout.VBox;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controller.chat.ChatController;
 import net.sharksystem.sharknet.javafx.controller.inbox.InboxController;
-import net.sharksystem.sharknet.javafx.utils.AbstractController;
+import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
 /**
  * This controller is responsible to provide a

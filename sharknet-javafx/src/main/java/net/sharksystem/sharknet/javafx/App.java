@@ -22,9 +22,6 @@ public class App extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		ViewConfiguration viewConfiguration = new ViewConfiguration();
-		viewConfiguration.setCharset(Charset.forName("utf-8"));
-		viewConfiguration.setResources(I18N.getResourceBundle());
 		frontController = new FrontController(primaryStage);
 		frontController.show();
 	}

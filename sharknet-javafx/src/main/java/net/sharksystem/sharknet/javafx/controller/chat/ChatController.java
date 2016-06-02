@@ -1,13 +1,8 @@
 package net.sharksystem.sharknet.javafx.controller.chat;
 
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,13 +10,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.*;
 import net.sharksystem.sharknet.javafx.App;
-import net.sharksystem.sharknet.javafx.actions.annotations.Controller;
+import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
+import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
-import net.sharksystem.sharknet.javafx.utils.AbstractController;
+import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -52,9 +46,9 @@ public class ChatController extends AbstractController implements ChatContactsLi
 	@FXML
 	private Button buttonSend;
 
-	public ChatController(FrontController frontController) {
+	public ChatController() {
 		super(App.class.getResource("views/chat/chatView.fxml"));
-		this.frontController = frontController;
+		this.frontController = Controllers.getInstance().get(FrontController.class);
 		sharkNetModel = new ImplSharkNet();
 		sharkNetModel.fillWithDummyData();
 		activeChat = null;

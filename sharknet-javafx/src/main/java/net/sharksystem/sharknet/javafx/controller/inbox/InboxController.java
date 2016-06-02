@@ -4,9 +4,12 @@ import javafx.fxml.FXML;
 import net.sharksystem.sharknet.api.*;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.actions.annotations.Action;
-import net.sharksystem.sharknet.javafx.actions.annotations.Controller;
+import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
+import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
-import net.sharksystem.sharknet.javafx.utils.AbstractController;
+import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
+
+import javax.annotation.PostConstruct;
 
 @Controller( title = "%inbox.title")
 public class InboxController extends AbstractController {
@@ -16,9 +19,10 @@ public class InboxController extends AbstractController {
 	@FXML
 	private InboxList inboxListView;
 
-	public InboxController(FrontController frontController) {
+	public InboxController() {
 		super(App.class.getResource("views/inbox/inboxView.fxml"));
-		this.frontController = frontController;
+		this.frontController = Controllers.getInstance().get(FrontController.class);
+		System.out.println("inbox");
 
 	}
 
@@ -27,18 +31,22 @@ public class InboxController extends AbstractController {
 	 */
 	@Override
 	protected void onFxmlLoaded() {
+		loadEntries();
 
+	}
+
+	private void loadEntries() {
 		SharkNet sharkNet = new ImplSharkNet();
 		sharkNet.getFeeds(200);
 
 		for(Feed feed : sharkNet.getFeeds(200)) {
 			inboxListView.getItems().add(feed);
 		}
-
 	}
 
 	@Action(icon = "\uf002 ", text = "%action.search")
 	public void search() {
+		loadEntries();
 	}
 
 	@Action(text = "%action.my_broadcasts", priority = 1)

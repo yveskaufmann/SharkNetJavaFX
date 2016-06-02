@@ -12,15 +12,19 @@ import javafx.stage.WindowEvent;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.actions.ActionEntry;
 import net.sharksystem.sharknet.javafx.actions.annotations.Action;
-import net.sharksystem.sharknet.javafx.actions.annotations.Controller;
+import net.sharksystem.sharknet.javafx.context.ViewContext;
 import net.sharksystem.sharknet.javafx.controller.chat.ChatController;
 import net.sharksystem.sharknet.javafx.controller.inbox.InboxController;
 import net.sharksystem.sharknet.javafx.controls.ActionBar;
 import net.sharksystem.sharknet.javafx.controls.Workbench;
 import net.sharksystem.sharknet.javafx.i18n.I18N;
-import net.sharksystem.sharknet.javafx.utils.AbstractController;
-import net.sharksystem.sharknet.javafx.utils.AbstractWindowController;
+import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
+import net.sharksystem.sharknet.javafx.utils.controller.AbstractWindowController;
 import net.sharksystem.sharknet.javafx.utils.FontAwesomeIcon;
+import net.sharksystem.sharknet.javafx.utils.controller.ControllerMeta;
+import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
+import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
+import net.sharksystem.sharknet.javafx.utils.controller.annotations.FXMLViewContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,16 +55,6 @@ public class FrontController extends AbstractWindowController {
 	private ObjectProperty<AbstractController> activeController;
 
 	/**
-	 * Map of controller which are controlled by the app controller.
-	 */
-	private ObservableMap<Class<? extends AbstractController>, AbstractController> registeredControllers;
-
-	/**
-	 * Map with meta data of a controller.
-	 */
-	private Map<Class<? extends AbstractController>, ControllerMeta> controllerMetaData;
-
-	/**
 	 * Sidebar Controller
 	 */
 	private SidebarController sidebarController;
@@ -88,6 +82,9 @@ public class FrontController extends AbstractWindowController {
 	@FXML
 	private Workbench workbench;
 
+	@FXMLViewContext
+	private ViewContext<FrontController> context;
+
 	/******************************************************************************
 	 *                                                                             
 	 * Constructors                                                                   
@@ -96,8 +93,6 @@ public class FrontController extends AbstractWindowController {
 	
 	public FrontController(Stage stage) {
 		super(App.class.getResource("views/appView.fxml"), stage);
-		registeredControllers = FXCollections.observableHashMap();
-		controllerMetaData = new HashMap<>();
 		setTitle(I18N.getString("app.title"));
 		addMainControllers();
 	}
@@ -129,74 +124,33 @@ public class FrontController extends AbstractWindowController {
 	
 	private void addMainControllers() {
 		sidebarController = new SidebarController(this);
-		registerController(HomeworkController.class);
-		registerController(InboxController.class);
-		registerController(ProfileController.class);
-		registerController(ChatController.class);
-		registerController(ContactController.class);
-		registerController(RadarController.class);
-		registerController(SettingsController.class);
+		Controllers.getInstance().registerController(HomeworkController.class);
+		Controllers.getInstance().registerController(InboxController.class);
+		Controllers.getInstance().registerController(ProfileController.class);
+		Controllers.getInstance().registerController(ChatController.class);
+		Controllers.getInstance().registerController(ContactController.class);
+		Controllers.getInstance().registerController(RadarController.class);
+		Controllers.getInstance().registerController(SettingsController.class);
 	}
 
 
-	public void registerController(Class<? extends AbstractController> controllerType) {
-		if (! registeredControllers.containsKey(controllerType)) {
-			Constructor constructor = null;
-			String controllerName = controllerType.getSimpleName();
-			try {
-				constructor = controllerType.getConstructor(getClass());
-				registeredControllers.put(controllerType, (AbstractController) constructor.newInstance(FrontController.this));
-				controllerMetaData.put(controllerType, new ControllerMeta(controllerType));
-			} catch (NoSuchMethodException | IllegalAccessException e) {
-				Log.warn("Failed to register {}: A controller must provide a public constructor which accept a FrontController instance.", controllerName);
-			} catch (InstantiationException e) {
-				Log.warn("Failed to register {}: Could not instantiate a instance ", controllerName, e);
-			} catch (InvocationTargetException e) {
-				Log.warn("Failed to register {}: Caused by an exception in the constructor {}.",controllerName, constructor, e.getCause());
-			}
-		}
-	};
-
-	public void unregisterController(Class<? extends AbstractController> controllerType) {
-		if (registeredControllers.containsKey(controllerType)) {
-			AbstractController controller = registeredControllers.remove(controllerType);
-			controllerMetaData.remove(controllerType);
-			Log.debug("Shutdown controller {}", controllerType.getName());
-			controller.onShutdown();
-		}
-	};
-
 	public void goToView(Class<? extends AbstractController> controllerType) {
-		AbstractController controller =	registeredControllers.get(controllerType);
-		goToView(controller);
+		goToView(Controllers.getInstance().get(controllerType));
 	}
 
 	public void goToView(AbstractController controller) {
-
-		if (controller == null) {
-			registerController(controller.getClass());
-		}
-
-		Class<?> controllerType = controller.getClass();
-		ControllerMeta meta = controllerMetaData.getOrDefault(controllerType, new ControllerMeta(controller));
-
-		String title = meta.title;
-		if (! "".equals(title) && title.startsWith("%")) {
-			title = I18N.getString(title);
-		} else {
-			title = getTitle();
-		}
+		ViewContext<AbstractController> context = controller.getContext();
+		ControllerMeta meta = context.getMeta();
 
 		if (activeControllerProperty().get() != null) {
 			activeController.get().onPause();
 		}
 
-		toolbar.setTitle(title);
-		toolbar.actions().setAll(meta.actionEntries);
+		toolbar.setTitle(meta.getTitle());
+		toolbar.actions().setAll(meta.actionEntriesProperty());
 		mainPane.getChildren().setAll(controller.getRoot());
 		activeController.set(controller);
 		controller.onResume();
-
 	}
 
 
@@ -239,87 +193,14 @@ public class FrontController extends AbstractWindowController {
 	 */
 	@Override
 	protected void onFxmlLoaded() {
+
 		sidebarPane.getChildren().add(sidebarController.getRoot());
 		toolbar.setNavigationNode(ActionBar.createActionButton(new ActionEntry(
 			FontAwesomeIcon.NAVICON, () -> {
 				workbench.toggleSidebar();
 			}
 		)));
-
 		goToView(InboxController.class);
 	}
 
-
-	/******************************************************************************
-	 *
-	 * Meta-Data Reader
-	 *
-	 ******************************************************************************/
-
-	/**
-	 * Reads and stores MetaData about a controller.
-	 */
-	class ControllerMeta {
-		List<ActionEntry> actionEntries = new ArrayList<>();
-		String title = "";
-		Class<? extends AbstractController> cls;
-
-		ControllerMeta(AbstractController controller) {
-			this(controller.getClass());
-		}
-
-		ControllerMeta(Class<? extends AbstractController> controllerClass) {
-			cls = controllerClass ;
-			readMetaData();
-		}
-
-		void readMetaData() {
-			readControllerAnnotation();
-			readActionMethods();
-		}
-
-		void readControllerAnnotation() {
-			if (cls.isAnnotationPresent(Controller.class)) {
-				Controller controllerAnnotation = cls.getAnnotation(Controller.class);
-				title = controllerAnnotation.title();
-			}
-		}
-
-		void readActionMethods() {
-			actionEntries.clear();
-			Stream.of(cls.getMethods())
-				.filter((method) -> method.isAnnotationPresent(Action.class))
-				.sorted((o1, o2) -> {
-					int p1 = o1.getAnnotation(Action.class).priority();
-					int p2 = o2.getAnnotation(Action.class).priority();
-					return p1 == p2 ? 0 : p1 < p2 ? -1 : 1;
-				})
-				.forEach(this::addActionEntry);
-
-		}
-
-		void addActionEntry(Method method) {
-			Action action = method.getAnnotation(Action.class);
-			Class<?> declaringCls = method.getDeclaringClass();
-
-			ActionEntry entry = new ActionEntry();
-			entry.setTooltip(action.tooltip());
-			entry.setTitle(action.text());
-			entry.setIcon(action::icon);
-			entry.setCallback(() -> {
-				try {
-					if (registeredControllers.containsKey(declaringCls)) {
-						AbstractController controllerInstance = registeredControllers.get(declaringCls);
-						method.invoke(controllerInstance);
-					}
-				} catch (Exception e) {
-					Log.error("Failed to invoke the controller action {}{}.\n"
-							+ "Make sure the method is public or protected.",
-						declaringCls.getName(),
-						method.getName());
-				}
-			});
-			actionEntries.add(entry);
-		}
-	}
 }

@@ -6,7 +6,8 @@ import javafx.scene.control.Label;
 import net.sharksystem.sharknet.api.ImplSharkNet;
 import net.sharksystem.sharknet.api.Profile;
 import net.sharksystem.sharknet.javafx.App;
-import net.sharksystem.sharknet.javafx.utils.AbstractController;
+import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
+import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class LoginController extends AbstractController {
 
 	public LoginController(FrontController frontController) {
 		super(App.class.getResource("views/loginView.fxml"));
-		this.frontController = frontController;
+		this.frontController = Controllers.getInstance().get(FrontController.class);;
 	}
 
 	@Override

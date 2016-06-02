@@ -1,7 +1,6 @@
 package net.sharksystem.sharknet.javafx.controller.chat;
 
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 import net.sharksystem.sharknet.api.Chat;
@@ -9,7 +8,6 @@ import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCell;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCellController;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListView;
-import net.sharksystem.sharknet.javafx.utils.AbstractController;
 
 import java.text.SimpleDateFormat;
 
