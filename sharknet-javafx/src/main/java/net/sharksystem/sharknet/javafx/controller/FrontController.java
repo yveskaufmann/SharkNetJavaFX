@@ -13,6 +13,7 @@ import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.actions.ActionEntry;
 import net.sharksystem.sharknet.javafx.actions.annotations.Action;
 import net.sharksystem.sharknet.javafx.actions.annotations.Controller;
+import net.sharksystem.sharknet.javafx.controller.chat.ChatController;
 import net.sharksystem.sharknet.javafx.controller.inbox.InboxController;
 import net.sharksystem.sharknet.javafx.controls.ActionBar;
 import net.sharksystem.sharknet.javafx.controls.Workbench;
@@ -86,7 +87,7 @@ public class FrontController extends AbstractWindowController {
 
 	@FXML
 	private Workbench workbench;
-	
+
 	/******************************************************************************
 	 *                                                                             
 	 * Constructors                                                                   
@@ -167,13 +168,15 @@ public class FrontController extends AbstractWindowController {
 
 	public void goToView(Class<? extends AbstractController> controllerType) {
 		AbstractController controller =	registeredControllers.get(controllerType);
-		if (controller != null) {
-			goToView(controller);
-		}
+		goToView(controller);
 	}
 
 	public void goToView(AbstractController controller) {
-		// TODO: register unknown controller
+
+		if (controller == null) {
+			registerController(controller.getClass());
+		}
+
 		Class<?> controllerType = controller.getClass();
 		ControllerMeta meta = controllerMetaData.getOrDefault(controllerType, new ControllerMeta(controller));
 

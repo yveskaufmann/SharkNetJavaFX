@@ -18,6 +18,16 @@
         </dependency>
         <dependency>
             <groupId>org.javafxdata</groupId>
+            <artifactId>datafx-core</artifactId>
+            <version>8.0b5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.javafxdata</groupId>
+            <artifactId>datafx-cell</artifactId>
+            <version>8.0b1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.javafxdata</groupId>
             <artifactId>datafx-flow</artifactId>
             <version>8.0b5</version>
         </dependency>

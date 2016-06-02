@@ -98,5 +98,12 @@ public class DummyDB {
 		return chatmessage.get(c);
 	}
 
+	public boolean validChatID(int id){
+		for(Chat c : chat_list){
+			if ( c.getID()== id) return false;
+		}
+		return true;
+	}
+
 
 }

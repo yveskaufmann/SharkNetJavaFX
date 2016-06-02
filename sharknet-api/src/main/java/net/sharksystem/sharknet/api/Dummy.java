@@ -41,9 +41,9 @@ public class Dummy {
 		recipients3.add(bob);
 		recipients3.add(alice);
 
-		Chat chat1 = s.newChat(recipients1);
-		Chat chat2  = s.newChat(recipients2);
-		Chat chat3  = s.newChat(recipients3);
+		Chat chat1 = s.newChat(recipients1, bob);
+		Chat chat2  = s.newChat(recipients2, alice);
+		Chat chat3  = s.newChat(recipients3, bob);
 
 		chat1.save();
 		chat2.save();

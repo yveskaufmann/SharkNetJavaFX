@@ -5,24 +5,28 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.*;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.actions.annotations.Controller;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
 import net.sharksystem.sharknet.javafx.utils.AbstractController;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Controller( title = "%sidebar.chat")
-public class ChatController extends AbstractController implements ChatHistoryListener{
+public class ChatController extends AbstractController implements ChatContactsListener{
 
 	private FrontController frontController;
 	public static ChatController chatControllerInstance;
@@ -51,11 +55,11 @@ public class ChatController extends AbstractController implements ChatHistoryLis
 	public ChatController(FrontController frontController) {
 		super(App.class.getResource("views/chat/chatView.fxml"));
 		this.frontController = frontController;
-
 		sharkNetModel = new ImplSharkNet();
 		sharkNetModel.fillWithDummyData();
 		activeChat = null;
 		chatControllerInstance = this;
+
 	}
 
 	public static ChatController getInstance() {
@@ -97,15 +101,37 @@ public class ChatController extends AbstractController implements ChatHistoryLis
 			event.consume();
 		});
 
+
+		chatHistoryListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		chatHistoryListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			     fillChatArea(chatHistoryListView.getSelectionModel().getSelectedItem());
+			 });
+
 		loadChatHistory();
 	}
 
 	private void onAttachmentClick() {
 		System.out.println("onAttachmentClick");
+		if (activeChat != null) {
+			FileChooser fileChooser = new FileChooser();
+			Stage stage = new Stage();
+			fileChooser.setTitle("Select Attachment");
+			File file = fileChooser.showOpenDialog(stage);
+			//TODO: finish..
+			if (file != null) {
+
+			}
+		}
+
 	}
 
 	private void onAddClick() {
 		System.out.println("onAddClick");
+
+		if (activeChat != null) {
+			ChatContactsController c = new ChatContactsController();
+			c.setContactListListener(this);
+		}
 	}
 
 	private void onContactProfileClick() {
@@ -141,7 +167,6 @@ public class ChatController extends AbstractController implements ChatHistoryLis
 		}
 	}
 
-	@Override
 	public void onChatSelected(Chat c) {
 		fillChatArea(c);
 		activeChat = c;
@@ -158,6 +183,15 @@ public class ChatController extends AbstractController implements ChatHistoryLis
 			if (c.getMessages().get(i).getSender() != null && c.getMessages().get(i).getContent() != null) {
 				textAreaChat.appendText("<" + c.getMessages().get(i).getSender().getNickname() + "> " + c.getMessages().get(i).getContent() + '\n');
 			}
+		}
+	}
+
+	// triggered when the add contacts window is closed
+	@Override
+	public void onContactListChanged(List<Contact> c) {
+		System.out.println("oncontactslistchanged");
+		if (c.size() > 0) {
+			activeChat.getContacts().addAll(c);
 		}
 	}
 }

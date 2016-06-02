@@ -1,4 +1,4 @@
-package net.sharksystem.sharknet.javafx.controls;
+package net.sharksystem.sharknet.javafx.controls.medialist;
 
 
 import javafx.collections.ObservableList;

@@ -37,7 +37,7 @@ public class ImplSharkNet implements SharkNet {
 
 		//ToDo: Shark - Search in KB for Contacts and return a list of them
 		//Implementation of DummyDB
-		contact_list = DummyDB.getInstance().getContact_list();
+		//contact_list = DummyDB.getInstance().getContact_list();
 		return contact_list;
 	}
 
@@ -65,8 +65,8 @@ public class ImplSharkNet implements SharkNet {
 	}
 
 	@Override
-	public Chat newChat(List<Contact> recipients) {
-		Chat chat = new ImplChat(recipients);
+	public Chat newChat(List<Contact> recipients, Contact sender) {
+		Chat chat = new ImplChat(recipients, sender);
 		chat_list.add(chat);
 		return chat;
 	}

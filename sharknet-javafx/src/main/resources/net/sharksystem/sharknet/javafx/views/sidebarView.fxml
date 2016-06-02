@@ -15,7 +15,8 @@
 
 <VBox fx:id="sidebar" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane fx:id="sidebarHeader" minHeight="240.0" minWidth="120.0" style="-fx-background-color: #4051B3;">
+
+       <GridPane fx:id="sidebarHeader" minHeight="240.0" minWidth="120.0" style="-fx-background-color: #4051B3;">
         <columnConstraints>
           <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="150.0" minWidth="10.0" prefWidth="112.0" />
           <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="176.0" minWidth="200.0" prefWidth="108.0" />
@@ -24,10 +25,6 @@
           <RowConstraints fillHeight="false" minHeight="120.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="profileButton" mnemonicParsing="false" prefHeight="56.0" prefWidth="114.0" text="%sidebar.profile" textOverrun="CLIP">
-               <font>
-                  <Font size="26.0" />
-               </font></Button>
             <StackPane maxHeight="128.0" maxWidth="128.0" minHeight="128.0" minWidth="118.0" prefHeight="128.0" prefWidth="118.0" styleClass="profile-image" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                <children>
                   <Circle centerX="30.0" centerY="30.0" fill="WHITE" radius="60.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
@@ -53,6 +50,10 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
       </GridPane>
+
+
+
+       <Button fx:id="profileButton" mnemonicParsing="false" prefHeight="56.0" prefWidth="114.0" text="%sidebar.profile" textOverrun="CLIP"/>
        <Button fx:id="inboxButton" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="%sidebar.inbox"/>
        <Button fx:id="homeworkButton" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="%sidebar.homework" />
        <Button fx:id="chatButton" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="%sidebar.chat" />
