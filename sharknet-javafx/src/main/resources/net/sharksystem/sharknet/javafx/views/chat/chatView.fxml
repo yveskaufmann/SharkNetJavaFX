@@ -23,16 +23,7 @@
                       <Image url="@../../images/profile-placeholder.jpg" />
                    </image>
                 </ImageView>
-                <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="317.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                   <image>
-                      <Image url="@../../images/key.png" />
-                   </image>
-                </ImageView>
-                <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="378.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                   <image>
-                      <Image url="@../../images/doublecheck.png" />
-                   </image>
-                </ImageView>
+
                 <ImageView fx:id="imageViewAdd" fitHeight="50.0" fitWidth="50.0" layoutX="519.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                    <image>
                       <Image url="@../../images/plus.png" />

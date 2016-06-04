@@ -25,7 +25,7 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 	@FXML
 	private ImageView imageViewSigned;
 
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("H:m");
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("H:mm");
 
 	public ChatWindowListController(MediaListCell<Message> chatHistoryListCell) {
 		super(App.class.getResource("views/chat/chatWindowEntry.fxml"), chatHistoryListCell);
@@ -42,10 +42,12 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 		labelTime.setText(dateFormat.format(timestamp));
 
 		if (!message.isEncrypted()) {
-			imageViewEncrypted.setVisible(false);
+			//imageViewEncrypted.setVisible(false);
+			imageViewEncrypted.setOpacity(0.25);
 		}
 		if (!message.isSigned()) {
-			imageViewSigned.setVisible(false);
+			//imageViewSigned.setVisible(false);
+			imageViewSigned.setOpacity(0.25);
 		}
 	}
 

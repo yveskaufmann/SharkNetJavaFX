@@ -28,6 +28,10 @@ public class ChatController extends AbstractController implements ChatContactsLi
 	private ImplSharkNet sharkNetModel;
 
 	private final String CHATPREFIX = "<You>";
+	// used so we can use the same window / class for adding contacts and new chats
+	private boolean newChat;
+	private boolean addChatContacts;
+	private Contact me;
 
 	@FXML
 	private TextField textFieldMessage;
@@ -55,7 +59,10 @@ public class ChatController extends AbstractController implements ChatContactsLi
 		sharkNetModel.fillWithDummyData();
 		activeChat = null;
 		chatControllerInstance = this;
-
+		newChat = false;
+		addChatContacts = false;
+		// TODO: change me contact...
+		me = new ImplContact("me", "meuid", "pk");
 	}
 
 	public static ChatController getInstance() {
@@ -125,6 +132,7 @@ public class ChatController extends AbstractController implements ChatContactsLi
 		System.out.println("onAddClick");
 
 		if (activeChat != null) {
+			addChatContacts = true;
 			ChatContactsController c = new ChatContactsController();
 			c.setContactListListener(this);
 		}
@@ -141,10 +149,11 @@ public class ChatController extends AbstractController implements ChatContactsLi
 
 
 	private void onSendClick() {
-		String message = textFieldMessage.getText();
-		textAreaChat.appendText('\n' + CHATPREFIX + " " + message);
+
 		if (activeChat != null) {
-			activeChat.sendMessage(message);
+			Message message = new ImplMessage(textFieldMessage.getText(), activeChat.getContacts(), me);
+			chatWindowListView.getItems().add(message);
+			activeChat.sendMessage(message.getContent());
 		}
 	}
 
@@ -152,6 +161,10 @@ public class ChatController extends AbstractController implements ChatContactsLi
 	private void onNewChatClick(ActionEvent event) {
 		// TODO: new window with contacts?
 		System.out.println("onNewChatClick");
+
+		newChat = true;
+		ChatContactsController c = new ChatContactsController();
+		c.setContactListListener(this);
 	}
 
 	private void loadChatHistory() {
@@ -175,9 +188,12 @@ public class ChatController extends AbstractController implements ChatContactsLi
 	private void fillChatArea(Chat c) {
 		chatWindowListView.getItems().clear();
 
-		for (int i = 0; i < c.getMessages().size(); i++) {
-			chatWindowListView.getItems().add(c.getMessages().get(i));
+		if (c.getMessages() != null) {
+			for (int i = 0; i < c.getMessages().size(); i++) {
+				chatWindowListView.getItems().add(c.getMessages().get(i));
+			}
 		}
+
 
 
 		/*
@@ -196,8 +212,19 @@ public class ChatController extends AbstractController implements ChatContactsLi
 	@Override
 	public void onContactListChanged(List<Contact> c) {
 		System.out.println("oncontactslistchanged");
-		if (c.size() > 0) {
-			activeChat.getContacts().addAll(c);
+
+		if (addChatContacts) {
+			if (c.size() > 0) {
+				activeChat.getContacts().addAll(c);
+			}
+		} else if (newChat) {
+
+			Chat chat = new ImplChat(c, me);
+			chatHistoryListView.getItems().add(chat);
+			activeChat = chat;
 		}
+
+		addChatContacts = false;
+		newChat = false;
 	}
 }
