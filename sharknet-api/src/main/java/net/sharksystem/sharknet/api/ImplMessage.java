@@ -143,4 +143,10 @@ public class ImplMessage implements Message {
 		}
 		else return false;
 	}
+
+	@Override
+	public boolean isdisliked() {
+		return disliked;
+	}
+
 }

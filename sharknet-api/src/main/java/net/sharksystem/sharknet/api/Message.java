@@ -57,6 +57,11 @@ public interface Message {
 	public void dislike();
 
 	/**
+	 * Returns if the Comment is disliked
+	 */
+	public boolean isdisliked();
+
+	/**
 	 * returns if the Message is sent by the user
 	 * @return
      */

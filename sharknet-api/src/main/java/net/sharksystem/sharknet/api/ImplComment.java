@@ -90,4 +90,9 @@ public class ImplComment implements Comment{
 		disliked = true;
 		//ToDo: Shark - safe that the message was disliked
 	}
+
+	@Override
+	public boolean isdisliked() {
+		return disliked;
+	}
 }

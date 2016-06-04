@@ -48,5 +48,10 @@ public interface Comment {
 	 */
 	public void dislike();
 
+	/**
+	 * Returns if the Comment is disliked
+	 */
+	public boolean isdisliked();
+
 }
 

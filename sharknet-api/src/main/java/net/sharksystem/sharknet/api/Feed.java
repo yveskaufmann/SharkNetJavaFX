@@ -56,6 +56,11 @@ public interface Feed {
 	public void dislike();
 
 	/**
+	 * Returns if the Comment is disliked
+	 */
+	public boolean isdisliked();
+
+	/**
 	 * Returns the Owner of a Feed
 	 * @return
      */

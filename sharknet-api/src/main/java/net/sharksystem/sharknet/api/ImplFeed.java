@@ -107,5 +107,10 @@ public class ImplFeed implements Feed {
 	public Profile getOwner() {
 		return owner;
 	}
+
+	@Override
+	public boolean isdisliked() {
+		return disliked;
+	}
 }
 
