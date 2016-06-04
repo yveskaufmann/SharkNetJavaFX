@@ -53,8 +53,6 @@ public class ChatContactsController extends AbstractController {
 		stage.setScene(new Scene(root, 494, 414));
 		stage.getScene().getStylesheets().add(App.class.getResource("style.css").toExternalForm());
 		stage.show();
-
-
 	}
 
 	@Override

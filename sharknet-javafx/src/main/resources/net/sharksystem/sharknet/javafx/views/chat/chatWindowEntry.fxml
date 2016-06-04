@@ -9,27 +9,27 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="50" minWidth="-Infinity" prefWidth="580.0" styleClass="theme-presets inbox-entry" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="580.0" styleClass="theme-presets inbox-entry" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane prefHeight="100.0" prefWidth="452.0">
+      <GridPane prefWidth="452.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="ALWAYS" maxWidth="359.0" minWidth="10.0" prefWidth="351.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="103.0" minWidth="0.0" prefWidth="101.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="350" />
+          <ColumnConstraints hgrow="SOMETIMES" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+          <RowConstraints fillHeight="true" vgrow="ALWAYS" />
          
         </rowConstraints>
          <children>
-            <Label fx:id="labelMessage" alignment="TOP_LEFT" prefHeight="100.0" prefWidth="286.0" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet." wrapText="true" />
-            <AnchorPane prefHeight="100.0" prefWidth="133.0" GridPane.columnIndex="1">
+            <Label fx:id="labelMessage" alignment="TOP_LEFT" maxHeight="Infinity" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet." wrapText="true" />
+            <AnchorPane GridPane.columnIndex="1">
                <children>
-                  <ImageView fx:id="imageViewEncrypted" fitHeight="33.0" fitWidth="33.0" layoutX="4.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imageViewEncrypted" fitHeight="33.0" fitWidth="33.0" layoutX="43.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/key.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="imageViewSigned" fitHeight="42.0" fitWidth="33.0" layoutX="4.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imageViewSigned" fitHeight="42.0" fitWidth="33.0" layoutX="80.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../images/doublecheck.png" />
                      </image>
