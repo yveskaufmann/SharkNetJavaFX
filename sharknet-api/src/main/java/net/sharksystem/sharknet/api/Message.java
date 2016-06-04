@@ -1,7 +1,5 @@
 package net.sharksystem.sharknet.api;
 
-//ToDo: Clearify - Messages for Groupchats how to Implement
-
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -32,7 +30,9 @@ public interface Message {
 	 * @return
      */
 	//ToDo: Implement - File - Mime Type integrieren
-    public String getContent();
+    public Content getContent();
+	public void setContent(Content content);
+
 
 	/**
 	 * valuates if a Message was signed
@@ -50,4 +50,9 @@ public interface Message {
 	 * deletes the message from a chat
 	 */
 	public void deleteMessage();
+
+	/**
+	 * marks the Message as disliked. Shark will collect dislikes and after an special amount it will inform the author
+	 */
+	public void dislike();
 }

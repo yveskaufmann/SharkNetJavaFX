@@ -14,6 +14,8 @@ public class ImplComment implements Comment{
 	Feed reffeed;
 	Timestamp datetime;
 	Contact sender;
+	Boolean disliked = false;
+
 
 	/**
 	 * This constructor is used to construct new Feeds writen by a user
@@ -78,5 +80,11 @@ public class ImplComment implements Comment{
 		//ToDo: Shark - Safe Comment in KB and send it
 		//Implementation of DummyDB
 		DummyDB.getInstance().addComment(this, reffeed);
+	}
+
+	@Override
+	public void dislike() {
+		disliked = true;
+		//ToDo: Shark - safe that the message was disliked
 	}
 }

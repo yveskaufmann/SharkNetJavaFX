@@ -10,8 +10,7 @@ import java.util.List;
  */
 public class ImplProfile implements Profile {
 
-	//ToDo: Implement - Profil hat eigene Kontakte
-	//TODo: Seperate Datasets for Profiles
+	//TODo: Implement - Seperate Datasets for Profiles, that means own Contacts, Chats, Feeds, Interests
 
 
 	Contact c;

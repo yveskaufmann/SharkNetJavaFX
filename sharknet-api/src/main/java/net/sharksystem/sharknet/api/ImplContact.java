@@ -6,8 +6,6 @@ import java.util.List;
 /**
  * Created by timol on 16.05.2016.
  */
-
-//ToDo: Clearify - Groups as own Interface/ImplClass
 //ToDo: Implement - publicKey can be null
 //ToDo: Implement - Contactpicture
 

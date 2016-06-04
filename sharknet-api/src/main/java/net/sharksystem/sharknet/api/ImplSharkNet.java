@@ -9,6 +9,22 @@ import java.util.List;
  */
 public class ImplSharkNet implements SharkNet {
 
+	//ToDo: Implment - Blacklistfunctionality
+
+	//ToDo: Implement - Initialisierung bauen (inkl übergabe KB etc)
+
+	//ToDo: Implement - getter for feeds with interest as param
+
+	//ToDo: Implement - getter for feeds with searchstring
+
+	//ToDo: Implement - sort list with time per default
+
+	//ToDo: Implement - Anzahl an Messages and time from - to loadmessage(int index, int anzahl) - C
+
+
+
+
+
 	List<Feed> feed_list = new LinkedList<>();
 	List<Profile> profile_list = new LinkedList<>();
 	List<Contact> contact_list = new LinkedList<>();

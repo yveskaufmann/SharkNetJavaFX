@@ -49,4 +49,9 @@ public interface Feed {
 	 */
 	public void save();
 	public void delete();
+
+	/**
+	 * marks the Feed as disliked. Shark will collect dislikes and after an special amount it will inform the author
+	 */
+	public void dislike();
 }

@@ -2,10 +2,6 @@ package net.sharksystem.sharknet.api;
 
 import java.util.List;
 
-//ToDo: Implement - Groupchat functionality - constructor for List of Contacts
-//ToDo: Implement - Add Title and Grouppicture
-//ToDo: Clearify - Groups List of Contacts ? Chat returns always a List of Contacts (one - normal chat), Groupname
-
 /**
  * Created by timol on 12.05.2016.
  *
@@ -15,9 +11,9 @@ public interface Chat {
 
 	/**
 	 * Add a Message to the Chat and sends it
-	 * @param message
+	 * @param content
      */
-	public void sendMessage(String message);
+	public void sendMessage(Content content);
 
 	/**
 	 * deletes the Chat from the KnowledgeBase

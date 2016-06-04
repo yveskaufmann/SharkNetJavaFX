@@ -19,8 +19,7 @@ public class ImplFeed implements Feed {
 	Timestamp datetime;
 	Interest interest;
 	Contact sender;
-
-	//ToDo: Clearify - safe Method has always to be colled explicit
+	Boolean disliked = false;
 
 
 	/**
@@ -94,6 +93,12 @@ public class ImplFeed implements Feed {
 		//ToDo: Shark - delte Feed in KB
 		//Implementation of DummyDB
 		DummyDB.getInstance().removefeed(this);
+	}
+
+	@Override
+	public void dislike() {
+		disliked = true;
+		//ToDo: Shark - safe that the message was disliked
 	}
 }
 

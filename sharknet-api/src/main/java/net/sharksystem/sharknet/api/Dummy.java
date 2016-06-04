@@ -50,25 +50,26 @@ public class Dummy {
 		chat3.save();
 
 		//Senden von Nachrichten
-		chat1.sendMessage("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
-		chat1.sendMessage("bla bla bla");
-		chat1.sendMessage("fooo");
+
+		chat1.sendMessage(new ImplContent("lorem ipsum"));
+		chat1.sendMessage(new ImplContent("bla bla bla"));
+		chat1.sendMessage(new ImplContent("fooo"));
 
 
 		java.util.Date fiveMinAgo = new Date(System.currentTimeMillis()-5*60*1000);
 		Timestamp time = new java.sql.Timestamp(fiveMinAgo.getTime());
-		Message m1 = new ImplMessage("answer 1", time, bob, recipients1, false, false);
+		Message m1 = new ImplMessage(new ImplContent("answer 1"), time, bob, recipients1, false, false);
 		DummyDB.getInstance().addMessage(m1, chat1);
 
 
 
 //		ImplMessage(String message, Timestamp time, Contact sender, List<Contact> recipient_list, boolean isSigned, boolean isEncrypted)
 
-		chat2.sendMessage("bla bla bla");
-		chat2.sendMessage("arg");
-		chat2.sendMessage("lorem ipsum");
+		chat2.sendMessage(new ImplContent("bla bla bla"));
+		chat2.sendMessage(new ImplContent("arg"));
+		chat2.sendMessage(new ImplContent("lorem ipsum"));
 
-		chat3.sendMessage("this is a group message");
+		chat3.sendMessage(new ImplContent("this is a group message"));
 
 		//ToDo: Dummy - empfangene nachrichten hinzufügen
 

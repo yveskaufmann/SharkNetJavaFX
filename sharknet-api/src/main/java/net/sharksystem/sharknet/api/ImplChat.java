@@ -10,6 +10,8 @@ import java.util.Random;
 
 public class ImplChat implements Chat {
 
+	//ToDo: Implement - wenn Objekt aus DB erstellt wird Titel und uid übernehmen
+
 	List<Contact> contact_list = new LinkedList<>();
 	Contact sender;
 	String title;
@@ -25,12 +27,11 @@ public class ImplChat implements Chat {
 	}
 
 	@Override
-	public void sendMessage(String message) {
-
-		Message m = new ImplMessage(message, contact_list, sender);
-
-		//ToDo: Clearify - always renew vector when sth is deleted
+	public void sendMessage(Content content) {
+		Message m = new ImplMessage(content, contact_list, sender);
 	}
+
+
 
 	@Override
 	public void delete() {
@@ -91,6 +92,9 @@ public class ImplChat implements Chat {
 		return id;
 	}
 
+	/**
+	 * This Method is used to give the Chat a random ID including to check within the Database that the id is unique
+	 */
 	private void setID(){
 
 		Random rand = new Random();
@@ -126,3 +130,6 @@ public class ImplChat implements Chat {
 	}
 
 }
+
+//ToDo: Public key getter nur fingerprint bzw readable
+

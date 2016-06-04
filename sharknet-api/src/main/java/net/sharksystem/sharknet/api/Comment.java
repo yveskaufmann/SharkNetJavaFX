@@ -42,5 +42,11 @@ public interface Comment {
 	 * safes the comment in the DB and sends it
 	 */
 	public void save();
+
+	/**
+	 * marks the Comment as disliked. Shark will collect dislikes and after an special amount it will inform the author
+	 */
+	public void dislike();
+
 }
 
