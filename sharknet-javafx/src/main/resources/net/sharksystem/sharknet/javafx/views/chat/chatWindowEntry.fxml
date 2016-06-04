@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="50" minWidth="-Infinity" prefWidth="600.0" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <GridPane prefHeight="100.0" prefWidth="354.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="ALWAYS" maxWidth="265.0" minWidth="10.0" prefWidth="264.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="0.0" prefWidth="31.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+         
+        </rowConstraints>
+         <children>
+            <Label fx:id="labelMessage" prefHeight="175.0" prefWidth="267.0" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet." wrapText="true" />
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+               <children>
+                  <ImageView fx:id="imageViewEncrypted" fitHeight="33.0" fitWidth="33.0" layoutX="7.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/key.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="imageViewSigned" fitHeight="42.0" fitWidth="33.0" layoutX="56.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/doublecheck.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="labelTime" layoutX="10.0" layoutY="78.0" prefHeight="17.0" prefWidth="76.0" text="Label" />
+               </children>
+            </AnchorPane>
+         </children>
+      </GridPane>
+   </children>
+</HBox>

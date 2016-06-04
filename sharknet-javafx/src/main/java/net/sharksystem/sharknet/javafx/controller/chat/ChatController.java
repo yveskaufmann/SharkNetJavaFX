@@ -45,6 +45,8 @@ public class ChatController extends AbstractController implements ChatContactsLi
 	private ChatHistoryList chatHistoryListView;
 	@FXML
 	private Button buttonSend;
+	@FXML
+	private ChatWindowList chatWindowListView;
 
 	public ChatController() {
 		super(App.class.getResource("views/chat/chatView.fxml"));
@@ -98,7 +100,7 @@ public class ChatController extends AbstractController implements ChatContactsLi
 
 		chatHistoryListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		chatHistoryListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-			     fillChatArea(chatHistoryListView.getSelectionModel().getSelectedItem());
+			     onChatSelected(chatHistoryListView.getSelectionModel().getSelectedItem());
 			 });
 
 		loadChatHistory();
@@ -171,6 +173,14 @@ public class ChatController extends AbstractController implements ChatContactsLi
 	}
 
 	private void fillChatArea(Chat c) {
+		chatWindowListView.getItems().clear();
+
+		for (int i = 0; i < c.getMessages().size(); i++) {
+			chatWindowListView.getItems().add(c.getMessages().get(i));
+		}
+
+
+		/*
 		textAreaChat.clear();
 
 		for (int i = 0; i < c.getMessages().size(); i++) {
@@ -178,6 +188,8 @@ public class ChatController extends AbstractController implements ChatContactsLi
 				textAreaChat.appendText("<" + c.getMessages().get(i).getSender().getNickname() + "> " + c.getMessages().get(i).getContent() + '\n');
 			}
 		}
+		*/
+
 	}
 
 	// triggered when the add contacts window is closed
