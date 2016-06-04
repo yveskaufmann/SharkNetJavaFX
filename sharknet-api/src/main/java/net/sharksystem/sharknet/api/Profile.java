@@ -45,4 +45,11 @@ public interface Profile {
 	 * Method to set password
 	 */
 	public void setPassword(String password);
+
+	/**
+	 * Returns true if profiles are equal
+	 * @param p
+	 * @return
+     */
+	public boolean isEqual(Profile p);
 }

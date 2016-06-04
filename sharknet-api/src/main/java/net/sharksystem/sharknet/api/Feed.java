@@ -54,4 +54,12 @@ public interface Feed {
 	 * marks the Feed as disliked. Shark will collect dislikes and after an special amount it will inform the author
 	 */
 	public void dislike();
+
+	/**
+	 * Returns the Owner of a Feed
+	 * @return
+     */
+	public Profile getOwner();
+
+
 }

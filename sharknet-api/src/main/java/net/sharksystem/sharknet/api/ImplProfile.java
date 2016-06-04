@@ -10,9 +10,6 @@ import java.util.List;
  */
 public class ImplProfile implements Profile {
 
-	//TODo: Implement - Seperate Datasets for Profiles, that means own Contacts, Chats, Feeds, Interests
-
-
 	Contact c;
 	String password ="";
 
@@ -77,5 +74,11 @@ public class ImplProfile implements Profile {
 	//ToDo: Implement - Settings
 	//ToDo: Implement - Generate KeyPairs
 	//ToDo: Clearify - How Notifications for the GUI Work (Action Listener)
+
+	@Override
+	public boolean isEqual(Profile p){
+		if(p.getContact().isEqual(c)) return true;
+		else return false;
+	}
 
 }

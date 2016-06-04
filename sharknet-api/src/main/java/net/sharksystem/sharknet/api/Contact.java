@@ -62,5 +62,15 @@ public interface Contact {
 	 */
 	public List<Interest> getInterests();
 
+	/**
+	 * Method to evaluate is a Contact is equal to another
+	 * @return
+     */
+	public boolean isEqual(Contact c);
+
+	/**
+	 * Method returns the Owner of the Contact
+	 */
+	public Profile getOwner();
 
 }

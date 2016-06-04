@@ -44,7 +44,7 @@ public interface SharkNet {
 	 * @param c
 	 * @return
      */
-	public Profile newProfile(Contact c);
+	public Profile newProfile(String nickname, String uid, String publickey);
 
 	/**
 	 * Initializes a Chat and safes it in the KnowledgeBase
@@ -58,5 +58,21 @@ public interface SharkNet {
 	 * @param uid
 	 */
 	public Contact newContact(String nickname, String uid, String publickey);
+
+
+	/**
+	 * Set the Profile the User want to use during the session
+	 * @param myProfile
+	 * @param password
+	 * @return true if the authentification was sucessfull, false if not
+     */
+
+	public boolean setProfile(Profile myProfile, String password);
+
+	/**
+	 * Returns the Profile which is active at the moment
+	 * @return
+     */
+	public Profile getMyProfile();
 
 }

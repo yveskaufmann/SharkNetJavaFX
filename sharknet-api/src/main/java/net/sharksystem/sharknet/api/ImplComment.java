@@ -15,6 +15,7 @@ public class ImplComment implements Comment{
 	Timestamp datetime;
 	Contact sender;
 	Boolean disliked = false;
+	Profile owner;
 
 
 	/**
@@ -23,10 +24,11 @@ public class ImplComment implements Comment{
 	 * @param sender
 	 * @param reffeed
      */
-	public ImplComment(String comment, Contact sender, Feed reffeed){
+	public ImplComment(String comment, Contact sender, Feed reffeed, Profile owner){
 		this.comment = comment;
 		this.sender = sender;
 		this.reffeed = reffeed;
+		this.owner = owner;
 		Calendar calendar = Calendar.getInstance();
 		java.util.Date now = calendar.getTime();
 		datetime = new java.sql.Timestamp(now.getTime());
@@ -40,11 +42,12 @@ public class ImplComment implements Comment{
 	 * @param datetime
      * @param reffeed
      */
-	public ImplComment(String comment, Contact sender, Timestamp datetime, Feed reffeed){
+	public ImplComment(String comment, Contact sender, Timestamp datetime, Feed reffeed, Profile owner){
 		this.comment = comment;
 		this.sender = sender;
 		this.datetime = datetime;
 		this.reffeed = reffeed;
+		this.owner = owner;
 	}
 
 	@Override

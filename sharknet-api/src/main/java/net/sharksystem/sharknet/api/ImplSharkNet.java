@@ -29,6 +29,7 @@ public class ImplSharkNet implements SharkNet {
 	List<Profile> profile_list = new LinkedList<>();
 	List<Contact> contact_list = new LinkedList<>();
 	List<Chat> chat_list = new LinkedList<>();
+	Profile myProfile;
 
 	@Override
 	public List<Profile> getProfiles() {
@@ -44,56 +45,79 @@ public class ImplSharkNet implements SharkNet {
 
 		//ToDo: Shark - Search in KB for Feeds and return a list of them
 		//Implementation of DummyDB
-		feed_list = DummyDB.getInstance().getFeed_list();
+		if(myProfile == null) return null;
+		feed_list = DummyDB.getInstance().getFeed_list(myProfile);
 		return feed_list;
 	}
 
 	@Override
 	public List<Contact> getContacts() {
 
+		if(myProfile == null) return null;
 		//ToDo: Shark - Search in KB for Contacts and return a list of them
 		//Implementation of DummyDB
-		//contact_list = DummyDB.getInstance().getContact_list();
+		contact_list = DummyDB.getInstance().getContact_list(myProfile);
 		return contact_list;
 	}
 
 	@Override
 	public List<Chat> getChats() {
 
+		if(myProfile == null) return null;
 		//ToDo: Shark - Search in KB vor Chats and return a list of them
 		//Implementation of DummyDB
-		chat_list = DummyDB.getInstance().getChat_list();
+		chat_list = DummyDB.getInstance().getChat_list(myProfile);
 		return chat_list;
 	}
 
 	@Override
 	public Feed newFeed(String content, Interest interest, Contact sender) {
-		Feed f = new ImplFeed(content, interest, sender);
+		if(myProfile == null) return null;
+		Feed f = new ImplFeed(content, interest, sender, myProfile);
 		feed_list.add(f);
 		return f;
 	}
 
 	@Override
-	public Profile newProfile(Contact c) {
-		Profile p = new ImplProfile(c);
+	public Profile newProfile(String nickname, String uid, String publickey) {
+		Profile p = new ImplProfile(new ImplContact(nickname, uid, publickey, null));
+		ImplContact c = (ImplContact)p.getContact();
+		c.setOwner(p);
+		c.save();
 		profile_list.add(p);
 		return p;
 	}
 
 	@Override
 	public Chat newChat(List<Contact> recipients, Contact sender) {
-		Chat chat = new ImplChat(recipients, sender);
+		if(myProfile == null) return null;
+		Chat chat = new ImplChat(recipients, sender, myProfile);
 		chat_list.add(chat);
 		return chat;
 	}
 
 	@Override
 	public Contact newContact(String nickname, String uid, String publickey) {
-		Contact c = new ImplContact(nickname, uid, publickey);
+		if(myProfile == null) return null;
+		Contact c = new ImplContact(nickname, uid, publickey, myProfile);
 		contact_list.add(c);
 		return c;
 
 		//ToDo: Clearify - how to share contacts
+	}
+
+	@Override
+	public boolean setProfile(Profile myProfile, String password) {
+		if(myProfile.login(password)){
+			this.myProfile = myProfile;
+			return true;
+		}
+		else return false;
+	}
+
+	@Override
+	public Profile getMyProfile() {
+		return myProfile;
 	}
 
 	public void fillWithDummyData(){

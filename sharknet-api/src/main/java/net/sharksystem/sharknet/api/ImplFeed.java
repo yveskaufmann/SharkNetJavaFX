@@ -14,7 +14,7 @@ public class ImplFeed implements Feed {
 
 
 	String content;
-
+	Profile owner;
 	List<Comment> comment_list = new LinkedList<>();
 	Timestamp datetime;
 	Interest interest;
@@ -28,10 +28,11 @@ public class ImplFeed implements Feed {
 	 * @param interest
 	 * @param sender
      */
-	public ImplFeed(String content, Interest interest, Contact sender){
+	public ImplFeed(String content, Interest interest, Contact sender, Profile owner){
 		this.content = content;
 		this.interest = interest;
 		this.sender = sender;
+		this. owner = owner;
 		datetime = new Timestamp(new Date().getTime());
 	}
 
@@ -42,11 +43,12 @@ public class ImplFeed implements Feed {
 	 * @param sender
      * @param datetime
      */
-	public ImplFeed(String content, Interest interest, Contact sender, Timestamp datetime){
+	public ImplFeed(String content, Interest interest, Contact sender, Timestamp datetime, Profile owner){
 		this.sender = sender;
 		this.interest = interest;
 		this.content = content;
 		this.datetime = datetime;
+		this.owner = owner;
 	}
 
 	@Override
@@ -77,7 +79,7 @@ public class ImplFeed implements Feed {
 
 	@Override
 	public void newComment(String comment, Contact author) {
-		Comment c = new ImplComment(comment, author, this);
+		Comment c = new ImplComment(comment, author, this, owner);
 		comment_list.add(c);
 	}
 
@@ -99,6 +101,11 @@ public class ImplFeed implements Feed {
 	public void dislike() {
 		disliked = true;
 		//ToDo: Shark - safe that the message was disliked
+	}
+
+	@Override
+	public Profile getOwner() {
+		return owner;
 	}
 }
 

@@ -55,4 +55,11 @@ public interface Message {
 	 * marks the Message as disliked. Shark will collect dislikes and after an special amount it will inform the author
 	 */
 	public void dislike();
+
+	/**
+	 * returns if the Message is sent by the user
+	 * @return
+     */
+	public boolean isMine();
+
 }

@@ -17,18 +17,20 @@ public class ImplChat implements Chat {
 	String title;
 	String picture;
 	int id;
+	Profile owner;
 
 
-	public ImplChat(List <Contact> contact_List, Contact sender){
+	public ImplChat(List <Contact> contact_List, Contact sender, Profile owner){
 		this.contact_list = contact_List;
 		this.sender = sender;
+		this.owner = owner;
 		setDefaultTitle();
 		setID();
 	}
 
 	@Override
 	public void sendMessage(Content content) {
-		Message m = new ImplMessage(content, contact_list, sender);
+		Message m = new ImplMessage(content, contact_list, sender, owner);
 	}
 
 
@@ -43,7 +45,7 @@ public class ImplChat implements Chat {
 
 	@Override
 	public List<Message> getMessages() {
-		//ToDo: Shark - find Messages blonging to the chat and fill List of Messages
+		//ToDo: Shark - find Messages blonging to the chat AND ALSO THE OWNER OF THE CHAT (which is the currently aktive profile and fill List of Messages
 
 		//DummyDB Implememntation
 		List <Message> message_list = DummyDB.getInstance().getMessageList(this);
@@ -90,6 +92,11 @@ public class ImplChat implements Chat {
 	@Override
 	public int getID() {
 		return id;
+	}
+
+	@Override
+	public Profile getOwner() {
+		return owner;
 	}
 
 	/**

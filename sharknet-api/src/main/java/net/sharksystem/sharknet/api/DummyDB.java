@@ -28,8 +28,24 @@ public class DummyDB {
 
 
 	//Feed Lists and Values
-	public List<Feed> getFeed_list() {return feed_list;}
+	public List<Feed> getFeed_list(Profile owner) {
+
+		List<Feed> swap_f_list = new LinkedList<>();
+		for(Feed f : feed_list){
+			swap_f_list.add(f);
+		}
+
+		for(int i = swap_f_list.size()-1; i>=0; i--){
+			Feed f = swap_f_list.get(i);
+			if(!f.getOwner().isEqual(owner))swap_f_list.remove(f);
+		}
+		return swap_f_list;
+	}
+
+
+
 	public void setFeed_list(List<Feed> feed_list) {this.feed_list = feed_list;}
+
 	public void addfeed(Feed f){
 		feed_list.add(f);
 		feedcomment.put(f, new LinkedList<Comment>());
@@ -60,7 +76,22 @@ public class DummyDB {
 	public void setProfile_list(List<Profile> profile_list) {this.profile_list = profile_list;}
 
 	//Manage Contacts
-	public List<Contact> getContact_list() {return contact_list;}
+	public List<Contact> getContact_list(Profile owner) {
+
+
+		List<Contact> swap_c_list = new LinkedList<>();
+		for(Contact c : contact_list){
+			swap_c_list.add(c);
+		}
+
+		for(int i = swap_c_list.size()-1; i>=0; i--){
+			Contact c = swap_c_list.get(i);
+			if(!c.getOwner().isEqual(owner))swap_c_list.remove(c);
+		}
+		return swap_c_list;
+
+
+	}
 	public void setContact_list(List<Contact> contact_list) {this.contact_list = contact_list;}
 	public void addContact(Contact c){contact_list.add(c);}
 	public void removeContact(Contact c){contact_list.remove(c);}
@@ -75,7 +106,21 @@ public class DummyDB {
 		chat_list.remove(c);
 		chatmessage.remove(c);
 	}
-	public List<Chat> getChat_list() {return chat_list;}
+	public List<Chat> getChat_list(Profile owner) {
+
+
+		List<Chat> swap_c_list = new LinkedList<>();
+		for(Chat c : chat_list){
+			swap_c_list.add(c);
+		}
+
+		for(int i = swap_c_list.size()-1; i>=0; i--){
+			Chat c = swap_c_list.get(i);
+			if(!c.getOwner().isEqual(owner))swap_c_list.remove(c);
+		}
+		return swap_c_list;
+
+	}
 	public void setChat_list(List<Chat> chat_list) {this.chat_list = chat_list;}
 
 
@@ -104,6 +149,4 @@ public class DummyDB {
 		}
 		return true;
 	}
-
-
 }

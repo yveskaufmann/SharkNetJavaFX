@@ -4,13 +4,12 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 
 
 
 public class Dummy {
-
-	//ToDo: Dummy Daten anlegen
 
 
 	public static void main(String[] args) {
@@ -20,16 +19,21 @@ public class Dummy {
 
 	public void fillWithDummyData(ImplSharkNet s){
 
-		//Anlegen von contacts
-		Contact bob = s.newContact("bob", "bob@htw-berlin.de", "foomanchu");
-		Contact alice  = s.newContact("alice", "alice@htw-berlin.de", "foomanchu");
+		//Anlegen von Profilen
 
-		//Anlegen von profilen
+		Profile bob_p = s.newProfile("bob", "bob@htw-berlin.de", "foomanchu");
+		Profile alice_p  = s.newProfile("alice", "alice@htw-berlin.de", "foomanchu");
 
-		Profile p1 = s.newProfile(alice);
-		Profile p2 =s.newProfile(bob);
-		p1.save();
-		p2.save();
+		bob_p.save();
+		alice_p.save();
+
+		s.setProfile(alice_p, "");
+
+		Contact alice = alice_p.getContact();
+		Contact bob = bob_p.getContact();
+
+		Contact alice_bob = s.newContact(bob.getNickname(), bob.getUID(), bob.getPublicKey());
+		alice_bob.save();
 
 		//Anlegen von Chats
 		List<Contact> recipients1 = new ArrayList<>();
@@ -58,7 +62,7 @@ public class Dummy {
 
 		java.util.Date fiveMinAgo = new Date(System.currentTimeMillis()-5*60*1000);
 		Timestamp time = new java.sql.Timestamp(fiveMinAgo.getTime());
-		Message m1 = new ImplMessage(new ImplContent("answer 1"), time, bob, recipients1, false, false);
+		Message m1 = new ImplMessage(new ImplContent("answer 1"), time, bob, s.getMyProfile(), recipients1, false, false);
 		DummyDB.getInstance().addMessage(m1, chat1);
 
 
@@ -70,8 +74,6 @@ public class Dummy {
 		chat2.sendMessage(new ImplContent("lorem ipsum"));
 
 		chat3.sendMessage(new ImplContent("this is a group message"));
-
-		//ToDo: Dummy - empfangene nachrichten hinzufügen
 
 		Interest i1 = new ImpInterest("sport", "www.sport,de", null, null);
 		Interest i2 = new ImpInterest("shark", "www.shark,de", null, null);
@@ -91,8 +93,32 @@ public class Dummy {
 		List<Feed> feedlist = s.getFeeds(10);
 		System.out.println(f1.getContent());
 		System.out.println(feedlist.get(0).getContent());
+		f1.getComments(10).get(0).dislike();
 
 		System.out.println(feedlist.get(1).getComments(2));
+
+
+
+		s.setProfile(bob_p, "");
+		Contact peter = s.newContact("peter", "dagobert@entenhausen.de", "foo");
+		peter.save();
+		List<Contact> recipients = new LinkedList<>();
+		recipients.add(peter);
+		Chat bob_peter = s.newChat(recipients, bob);
+		bob_peter.save();
+		bob_peter.sendMessage(new ImplContent("hallo peter"));
+		Message m_peter_bob = new ImplMessage(new ImplContent("hallo bob"), time, peter, s.getMyProfile(), recipients1, false, false);
+		DummyDB.getInstance().addMessage(m_peter_bob, bob_peter);
+
+		Feed bob_feed1 = s.newFeed("bob thinks shark net is amazing", i2, bob);
+		bob_feed1.save();
+
+		bob_feed1.newComment("Peter thinks so too", peter);
+		s.getFeeds(5);
+
+
+
+
 	}
 
 

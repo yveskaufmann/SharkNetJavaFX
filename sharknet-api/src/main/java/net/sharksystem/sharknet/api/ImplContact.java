@@ -15,6 +15,7 @@ public class ImplContact implements Contact {
 	String uid;
 	String publickey;
 	List<Interest> interest_list = new LinkedList<>();
+	Profile owner;
 
 
 	/**
@@ -23,10 +24,11 @@ public class ImplContact implements Contact {
 	 * @param uid
 	 * @param publickey
      */
-	public ImplContact(String nickname, String uid, String publickey){
+	public ImplContact(String nickname, String uid, String publickey, Profile owner){
 		this.nickname = nickname;
 		this.uid = uid;
 		this.publickey = publickey;
+		this.owner = owner;
 		//ToDo: Clearify - public key exchange
 
 	}
@@ -46,6 +48,20 @@ public class ImplContact implements Contact {
 	public List<Interest> getInterests() {
 		//ToDo: Shark - search for interessts and fill list
 		return interest_list;
+	}
+
+	@Override
+	public boolean isEqual(Contact c) {
+
+		if(c.getNickname().equals(nickname) && c.getUID().equals(uid) && c.getPublicKey().equals(publickey)){
+			return true;
+		}
+		else return false;
+	}
+
+	@Override
+	public Profile getOwner() {
+		return owner;
 	}
 
 
@@ -105,4 +121,14 @@ public class ImplContact implements Contact {
 		DummyDB.getInstance().addContact(this);
 
 	}
+
+	/**
+	 * This Method is just used to make the Contact for a Profile
+	 * @param p
+     */
+	public void setOwner(Profile p){
+		this.owner = p;
+	}
+
+
 }

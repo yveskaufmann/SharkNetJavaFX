@@ -10,6 +10,7 @@ import java.util.List;
  */
 public class ImplMessage implements Message {
 
+	Profile owner;
 	Contact sender;
 	List<Contact> recipient_list;
 	Timestamp time;
@@ -26,13 +27,14 @@ public class ImplMessage implements Message {
 	 * @param isSigned
      * @param isEncrypted
      */
-	public ImplMessage(Content content, Timestamp time, Contact sender, List<Contact> recipient_list, boolean isSigned, boolean isEncrypted){
+	public ImplMessage(Content content, Timestamp time, Contact sender, Profile owner, List<Contact> recipient_list, boolean isSigned, boolean isEncrypted){
 		this.content = content;
 		this.time = time;
 		this.sender = sender;
 		this.recipient_list= recipient_list;
 		this.isSigned = isSigned;
 		this.isEncrypted = isEncrypted;
+		this.owner = owner;
 
 	}
 
@@ -42,8 +44,9 @@ public class ImplMessage implements Message {
 	 * @param recipient_list
      */
 
-	public ImplMessage(Content content, List<Contact> recipient_list, Contact sender){
+	public ImplMessage(Content content, List<Contact> recipient_list, Contact sender, Profile owner){
 		this.content = content;
+		this.owner = owner;
 		this.recipient_list = recipient_list;
 		this.sender = sender;
 		Calendar calendar = Calendar.getInstance();
@@ -119,8 +122,10 @@ public class ImplMessage implements Message {
      */
 
 	private Chat getChat(){
+		//Implementation of DummyDB
+		//ToDo: Shark - lookup for the Chat
 		DummyDB db = DummyDB.getInstance();
-		List<Chat> chats = db.getChat_list();
+		List<Chat> chats = db.getChat_list(owner);
 		for(Chat c : chats){
 			List<Contact> cs = c.getContacts();
 			if(cs.equals(recipient_list)){
@@ -129,5 +134,13 @@ public class ImplMessage implements Message {
 		}
 		return null;
 
+	}
+
+	@Override
+	public boolean isMine(){
+		if(sender.isEqual(owner.getContact())){
+			return true;
+		}
+		else return false;
 	}
 }

@@ -69,4 +69,9 @@ public interface Chat {
 	 * Returns the ID of the Chat
 	 */
 	public int getID();
+
+	/**
+	 * Returns the Profile of the owner of the Chat
+	 */
+	public Profile getOwner();
 }
