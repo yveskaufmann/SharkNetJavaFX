@@ -41,7 +41,6 @@ public interface SharkNet {
 
 	/**
 	 * Initilizes a Profile an Safes it in the Knowledgebase
-	 * @param c
 	 * @return
      */
 	public Profile newProfile(String nickname, String uid, String publickey);
@@ -50,7 +49,7 @@ public interface SharkNet {
 	 * Initializes a Chat and safes it in the KnowledgeBase
 	 * @param recipients
 	 */
-	public Chat newChat(List<Contact> recipients, Contact sender);
+	public Chat newChat(List<Contact> recipients);
 
 	/**
 	 * Adds a Contact to the KnowledgeBase

@@ -13,16 +13,14 @@ public class ImplChat implements Chat {
 	//ToDo: Implement - wenn Objekt aus DB erstellt wird Titel und uid übernehmen
 
 	List<Contact> contact_list = new LinkedList<>();
-	Contact sender;
 	String title;
 	String picture;
 	int id;
 	Profile owner;
 
 
-	public ImplChat(List <Contact> contact_List, Contact sender, Profile owner){
+	public ImplChat(List <Contact> contact_List, Profile owner){
 		this.contact_list = contact_List;
-		this.sender = sender;
 		this.owner = owner;
 		setDefaultTitle();
 		setID();
@@ -31,7 +29,7 @@ public class ImplChat implements Chat {
 	@Override
 	public void sendMessage(Content content) {
 
-		Message m = new ImplMessage(content, contact_list, sender, owner);
+		Message m = new ImplMessage(content, contact_list, owner.getContact(), owner);
 
 	}
 

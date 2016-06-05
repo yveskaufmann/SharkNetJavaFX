@@ -74,9 +74,9 @@ public class Dummy {
 		recipients3.add(bob);
 		recipients3.add(alice);
 
-		Chat chat1 = s.newChat(recipients1, alice);
-		Chat chat2  = s.newChat(recipients2, alice);
-		Chat chat3  = s.newChat(recipients3, alice);
+		Chat chat1 = s.newChat(recipients1);
+		Chat chat2  = s.newChat(recipients2);
+		Chat chat3  = s.newChat(recipients3);
 
 		chat1.save();
 		chat2.save();
@@ -133,7 +133,7 @@ public class Dummy {
 		peter.save();
 		List<Contact> recipients = new LinkedList<>();
 		recipients.add(peter);
-		Chat bob_peter = s.newChat(recipients, bob);
+		Chat bob_peter = s.newChat(recipients);
 		bob_peter.save();
 		bob_peter.sendMessage(new ImplContent("hallo peter"));
 		Message m_peter_bob = new ImplMessage(new ImplContent("hallo bob"), time, peter, s.getMyProfile(), recipients1, false, false);
