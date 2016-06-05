@@ -1,8 +1,10 @@
 package net.sharksystem.sharknet.javafx.controller.chat;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import net.sharksystem.sharknet.api.Message;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCell;
@@ -24,11 +26,14 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 	private ImageView imageViewEncrypted;
 	@FXML
 	private ImageView imageViewSigned;
+	@FXML
+	private HBox hboxMessage;
 
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("H:mm");
 
 	public ChatWindowListController(MediaListCell<Message> chatHistoryListCell) {
 		super(App.class.getResource("views/chat/chatWindowEntry.fxml"), chatHistoryListCell);
+
 	}
 
 	@Override
@@ -37,18 +42,19 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 			return;
 		}
 
-		labelMessage.setText(message.getContent());
+		labelMessage.setText("<" + message.getSender().getNickname() + ">" + " " + message.getContent().getMessage());
 		java.sql.Timestamp timestamp = message.getTimestamp();
 		labelTime.setText(dateFormat.format(timestamp));
 
 		if (!message.isEncrypted()) {
-			//imageViewEncrypted.setVisible(false);
 			imageViewEncrypted.setOpacity(0.25);
 		}
 		if (!message.isSigned()) {
-			//imageViewSigned.setVisible(false);
 			imageViewSigned.setOpacity(0.25);
 		}
+
+		//hboxMessage.setAlignment(Pos.TOP_RIGHT);
+
 	}
 
 	@Override

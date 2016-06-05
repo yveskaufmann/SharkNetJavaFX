@@ -52,17 +52,22 @@ public class ChatController extends AbstractController implements ChatContactsLi
 	@FXML
 	private ChatWindowList chatWindowListView;
 
+
 	public ChatController() {
 		super(App.class.getResource("views/chat/chatView.fxml"));
 		this.frontController = Controllers.getInstance().get(FrontController.class);
+
 		sharkNetModel = new ImplSharkNet();
 		sharkNetModel.fillWithDummyData();
+		sharkNetModel.setProfile(sharkNetModel.getProfiles().get(1), "");
+
+
 		activeChat = null;
 		chatControllerInstance = this;
 		newChat = false;
 		addChatContacts = false;
 		// TODO: change me contact...
-		me = new ImplContact("me", "meuid", "pk");
+		me = new ImplContact("me", "meuid", "pk", sharkNetModel.getMyProfile());
 	}
 
 	public static ChatController getInstance() {
@@ -151,9 +156,11 @@ public class ChatController extends AbstractController implements ChatContactsLi
 	private void onSendClick() {
 
 		if (activeChat != null) {
-			Message message = new ImplMessage(textFieldMessage.getText(), activeChat.getContacts(), me);
+			Message message = new ImplMessage(new ImplContent(null, "", textFieldMessage.getText()), activeChat.getContacts(), me, sharkNetModel.getMyProfile());
 			chatWindowListView.getItems().add(message);
 			activeChat.sendMessage(message.getContent());
+			//TODO: saving... seems not to work
+			activeChat.save();
 		}
 	}
 
@@ -169,6 +176,7 @@ public class ChatController extends AbstractController implements ChatContactsLi
 
 	private void loadChatHistory() {
 		// TODO: seperate chats in today, yesterday, earlier...
+		chatHistoryListView.getItems().clear();
 		List<Chat> chatList = sharkNetModel.getChats();
 
 		for (int i = 0; i < chatList.size(); i++) {
@@ -193,19 +201,6 @@ public class ChatController extends AbstractController implements ChatContactsLi
 				chatWindowListView.getItems().add(c.getMessages().get(i));
 			}
 		}
-
-
-
-		/*
-		textAreaChat.clear();
-
-		for (int i = 0; i < c.getMessages().size(); i++) {
-			if (c.getMessages().get(i).getSender() != null && c.getMessages().get(i).getContent() != null) {
-				textAreaChat.appendText("<" + c.getMessages().get(i).getSender().getNickname() + "> " + c.getMessages().get(i).getContent() + '\n');
-			}
-		}
-		*/
-
 	}
 
 	// triggered when the add contacts window is closed
@@ -219,9 +214,13 @@ public class ChatController extends AbstractController implements ChatContactsLi
 			}
 		} else if (newChat) {
 
-			Chat chat = new ImplChat(c, me);
+			Chat chat = new ImplChat(c, me, sharkNetModel.getMyProfile());
 			chatHistoryListView.getItems().add(chat);
+			// TODO: check why sharknet suddenly returns a triple size chatlist when the following lines are enables...
+			//sharkNetModel.getChats().add(chat);
 			activeChat = chat;
+			//loadChatHistory();
+
 		}
 
 		addChatContacts = false;

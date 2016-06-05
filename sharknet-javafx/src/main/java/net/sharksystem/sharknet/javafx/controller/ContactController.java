@@ -25,7 +25,7 @@ public class ContactController extends AbstractController{
 	private FrontController appController;
 
 	private ImplSharkNet implSharkNet;
-	private ImplContact testKontakt3 = new ImplContact("Jan", "", "");
+	//private ImplContact testKontakt3 = new ImplContact("Jan", "", "");
 
 	public ContactController() {
 		super(App.class.getResource("views/contactsView.fxml"));
@@ -160,7 +160,7 @@ public class ContactController extends AbstractController{
 		//List<ImplGroup> allGroups = new ArrayList<ImplGroup>();
 
 
-		allBlockedContacts.add(testKontakt3);
+		//allBlockedContacts.add(testKontakt3);
 
 
 

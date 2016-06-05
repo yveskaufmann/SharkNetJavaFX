@@ -36,12 +36,12 @@ public class InboxController extends AbstractController {
 	}
 
 	private void loadEntries() {
-		SharkNet sharkNet = new ImplSharkNet();
+		/*SharkNet sharkNet = new ImplSharkNet();
 		sharkNet.getFeeds(200);
 
 		for(Feed feed : sharkNet.getFeeds(200)) {
 			inboxListView.getItems().add(feed);
-		}
+		}*/
 	}
 
 	@Action(icon = "\uf002 ", text = "%action.search")
