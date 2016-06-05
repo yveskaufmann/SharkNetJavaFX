@@ -30,7 +30,9 @@ public class ImplChat implements Chat {
 
 	@Override
 	public void sendMessage(Content content) {
+
 		Message m = new ImplMessage(content, contact_list, sender, owner);
+
 	}
 
 

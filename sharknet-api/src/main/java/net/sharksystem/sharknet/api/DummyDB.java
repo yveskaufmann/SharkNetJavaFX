@@ -99,8 +99,10 @@ public class DummyDB {
 
 //Manage the Chat Lists
 	public void addChat(Chat c){
-		chat_list.add(c);
-		chatmessage.put(c, new LinkedList<Message>());
+		if(!chat_list.contains(c)){
+			chat_list.add(c);
+			chatmessage.put(c, new LinkedList<Message>());
+		}
 	}
 	public void removeChat(Chat c){
 		chat_list.remove(c);

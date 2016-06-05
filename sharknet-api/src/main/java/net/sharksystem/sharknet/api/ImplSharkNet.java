@@ -1,6 +1,7 @@
 package net.sharksystem.sharknet.api;
 
 import java.security.PublicKey;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class ImplSharkNet implements SharkNet {
 	List<Contact> contact_list = new LinkedList<>();
 	List<Chat> chat_list = new LinkedList<>();
 	Profile myProfile;
+	ArrayList<Dummy> chatListenerList = new ArrayList<Dummy>();
 
 	@Override
 	public List<Profile> getProfiles() {
@@ -118,6 +120,28 @@ public class ImplSharkNet implements SharkNet {
 	@Override
 	public Profile getMyProfile() {
 		return myProfile;
+	}
+
+	@Override
+	public void addChatListener(Profile p, Dummy listener) {
+		if (!chatListenerList.contains(listener)) {
+			chatListenerList.add(listener);
+		}
+	}
+
+	@Override
+	public void addFeedListener(Profile p, Dummy listener) {
+
+	}
+
+	@Override
+	public void informNewMessage(Profile p, Message m) {
+
+	}
+
+	@Override
+	public void informNewFeed(Profile p, Feed f) {
+
 	}
 
 	public void fillWithDummyData(){
