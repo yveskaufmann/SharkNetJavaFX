@@ -10,6 +10,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.*;
 import net.sharksystem.sharknet.javafx.App;
+import net.sharksystem.sharknet.javafx.model.SharkNetModel;
 import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
@@ -57,10 +58,12 @@ public class ChatController extends AbstractController implements ChatContactsLi
 		super(App.class.getResource("views/chat/chatView.fxml"));
 		this.frontController = Controllers.getInstance().get(FrontController.class);
 
+		/*
 		sharkNetModel = new ImplSharkNet();
 		sharkNetModel.fillWithDummyData();
 		sharkNetModel.setProfile(sharkNetModel.getProfiles().get(1), "");
-
+		*/
+		sharkNetModel = SharkNetModel.getInstance().getSharkNetImpl();
 
 		activeChat = null;
 		chatControllerInstance = this;
@@ -160,7 +163,7 @@ public class ChatController extends AbstractController implements ChatContactsLi
 			chatWindowListView.getItems().add(message);
 			activeChat.sendMessage(message.getContent());
 			//TODO: saving... seems not to work
-			activeChat.save();
+			//activeChat.save();
 		}
 	}
 
