@@ -1,5 +1,8 @@
 package net.sharksystem.sharknet.api;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -154,6 +157,12 @@ public class ImplSharkNet implements SharkNet {
 		this.contact_list = contact_list;
 		this.chat_list = chat_list;
 	}
+
+	public Content getContentfromFile(String filepath) throws FileNotFoundException {
+		InputStream in = new FileInputStream(filepath);
+		return new ImplContent(in, "txt", "foo");
+	}
+
 
 
 }

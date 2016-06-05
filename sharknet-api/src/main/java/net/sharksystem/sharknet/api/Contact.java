@@ -31,8 +31,8 @@ public interface Contact {
 	 * @return
      */
 	//ToDo: Implement - File - Mime Type integrieren
-    public String getPicture();
-	public void setPicture(String pic);
+    public Content getPicture();
+	public void setPicture(Content pic);
 
 	/**
 	 * returns the PublicKey of the contact
