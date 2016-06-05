@@ -1,6 +1,12 @@
 package net.sharksystem.sharknet.api;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+
+import static com.sun.xml.internal.stream.Entity.ScannedEntity.DEFAULT_BUFFER_SIZE;
+
 
 /**
  * Created by timol on 01.06.2016.
@@ -34,7 +40,8 @@ public class ImplContent implements Content {
 
 	@Override
 	public InputStream getFile() {
-		return file;
+
+		return swapFile();
 	}
 
 	@Override
@@ -45,6 +52,22 @@ public class ImplContent implements Content {
 	@Override
 	public void setMessage(String message) {
 		this.message = message;
+
+	}
+
+	private InputStream swapFile()  {
+		int read = 0;
+		byte[] bytes = new byte[DEFAULT_BUFFER_SIZE];
+
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		try {
+			while ((read = file.read(bytes)) != -1)
+                bos.write(bytes,0,read);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		byte[] ba = bos.toByteArray();
+		return new ByteArrayInputStream(ba);
 
 	}
 }

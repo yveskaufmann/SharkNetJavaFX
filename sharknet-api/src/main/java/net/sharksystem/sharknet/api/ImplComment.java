@@ -8,9 +8,8 @@ import java.util.Calendar;
  */
 public class ImplComment implements Comment{
 
-	//ToDo: Implement - File - Mine Type
 
-	String comment;
+	Content comment;
 	Feed reffeed;
 	Timestamp datetime;
 	Contact sender;
@@ -24,7 +23,7 @@ public class ImplComment implements Comment{
 	 * @param sender
 	 * @param reffeed
      */
-	public ImplComment(String comment, Contact sender, Feed reffeed, Profile owner){
+	public ImplComment(Content comment, Contact sender, Feed reffeed, Profile owner){
 		this.comment = comment;
 		this.sender = sender;
 		this.reffeed = reffeed;
@@ -42,7 +41,7 @@ public class ImplComment implements Comment{
 	 * @param datetime
      * @param reffeed
      */
-	public ImplComment(String comment, Contact sender, Timestamp datetime, Feed reffeed, Profile owner){
+	public ImplComment(Content comment, Contact sender, Timestamp datetime, Feed reffeed, Profile owner){
 		this.comment = comment;
 		this.sender = sender;
 		this.datetime = datetime;
@@ -66,7 +65,7 @@ public class ImplComment implements Comment{
 	}
 
 	@Override
-	public String getContent() {
+	public Content getContent() {
 		return comment;
 	}
 

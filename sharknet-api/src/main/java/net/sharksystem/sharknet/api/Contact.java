@@ -30,7 +30,7 @@ public interface Contact {
 	 * Returns the profilepicture of a contact
 	 * @return
      */
-	//ToDo: Implement - File - Mime Type integrieren
+
     public Content getPicture();
 	public void setPicture(Content pic);
 

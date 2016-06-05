@@ -10,11 +10,10 @@ import java.util.Random;
 
 public class ImplChat implements Chat {
 
-	//ToDo: Implement - wenn Objekt aus DB erstellt wird Titel und uid übernehmen
 
 	List<Contact> contact_list = new LinkedList<>();
 	String title;
-	String picture;
+	Content picture;
 	int id;
 	Profile owner;
 
@@ -22,9 +21,13 @@ public class ImplChat implements Chat {
 	public ImplChat(List <Contact> contact_List, Profile owner){
 		this.contact_list = contact_List;
 		this.owner = owner;
+		setDefaultPic();
 		setDefaultTitle();
 		setID();
 	}
+
+	//ToDo: Implment - Write Constructor for DB including title, picture, uid etc
+	//ToDo: Implement - get rid of save method
 
 	@Override
 	public void sendMessage(Content content) {
@@ -70,13 +73,13 @@ public class ImplChat implements Chat {
 	}
 
 	@Override
-	public void setPicture(String picture) {
-		//ToDo: Implement - Picture
+	public void setPicture(Content picture) {
+		this.picture = picture;
 	}
 
 	@Override
-	public String getPicture() {
-		return null;
+	public Content getPicture() {
+		return picture;
 	}
 
 	@Override
@@ -134,6 +137,10 @@ public class ImplChat implements Chat {
 			builder.append(" ");
 		}
 		title = builder.toString();
+	}
+
+	private void setDefaultPic(){
+		setPicture(contact_list.get(0).getPicture());
 	}
 
 }

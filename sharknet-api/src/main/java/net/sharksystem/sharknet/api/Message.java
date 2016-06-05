@@ -29,9 +29,7 @@ public interface Message {
 	 * returns the content of a Message
 	 * @return
      */
-	//ToDo: Implement - File - Mime Type integrieren
     public Content getContent();
-	public void setContent(Content content);
 
 
 	/**

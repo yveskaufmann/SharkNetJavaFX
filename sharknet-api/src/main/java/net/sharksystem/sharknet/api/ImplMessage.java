@@ -85,13 +85,6 @@ public class ImplMessage implements Message {
 	}
 
 	@Override
-	public void setContent(Content content) {
-		this.content = content;
-		//ToDo: Implement Filefunctionality
-
-	}
-
-	@Override
 	public boolean isSigned() {
 		return isSigned;
 	}

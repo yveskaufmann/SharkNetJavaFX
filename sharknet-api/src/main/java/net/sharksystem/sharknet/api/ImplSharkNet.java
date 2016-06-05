@@ -76,7 +76,7 @@ public class ImplSharkNet implements SharkNet {
 	}
 
 	@Override
-	public Feed newFeed(String content, Interest interest, Contact sender) {
+	public Feed newFeed(Content content, Interest interest, Contact sender) {
 		if(myProfile == null) return null;
 		Feed f = new ImplFeed(content, interest, sender, myProfile);
 		feed_list.add(f);
@@ -157,12 +157,5 @@ public class ImplSharkNet implements SharkNet {
 		this.contact_list = contact_list;
 		this.chat_list = chat_list;
 	}
-
-	public Content getContentfromFile(String filepath) throws FileNotFoundException {
-		InputStream in = new FileInputStream(filepath);
-		return new ImplContent(in, "txt", "foo");
-	}
-
-
 
 }

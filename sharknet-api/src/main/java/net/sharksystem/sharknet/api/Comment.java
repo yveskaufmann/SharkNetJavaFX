@@ -30,8 +30,8 @@ public interface Comment {
 	 * returns the content of a comment
 	 * @return
 	 */
-	//ToDo: Implement - File - Mime Type integrieren
-    public String getContent();
+
+    public Content getContent();
 
 	/**
 	 * Deletes Comment from DB

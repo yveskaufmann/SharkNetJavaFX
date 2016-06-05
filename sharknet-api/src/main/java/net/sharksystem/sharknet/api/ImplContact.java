@@ -7,7 +7,7 @@ import java.util.List;
  * Created by timol on 16.05.2016.
  */
 //ToDo: Implement - publicKey can be null
-//ToDo: Implement - Contactpicture
+
 
 public class ImplContact implements Contact {
 

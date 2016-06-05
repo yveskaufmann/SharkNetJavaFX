@@ -10,10 +10,9 @@ import java.util.List;
  */
 public class ImplFeed implements Feed {
 
-	//Todo: Content class mit getFiletype (aus Shark), Inputstream weiter reichen
 
 
-	String content;
+	Content content;
 	Profile owner;
 	List<Comment> comment_list = new LinkedList<>();
 	Timestamp datetime;
@@ -28,7 +27,7 @@ public class ImplFeed implements Feed {
 	 * @param interest
 	 * @param sender
      */
-	public ImplFeed(String content, Interest interest, Contact sender, Profile owner){
+	public ImplFeed(Content content, Interest interest, Contact sender, Profile owner){
 		this.content = content;
 		this.interest = interest;
 		this.sender = sender;
@@ -43,7 +42,7 @@ public class ImplFeed implements Feed {
 	 * @param sender
      * @param datetime
      */
-	public ImplFeed(String content, Interest interest, Contact sender, Timestamp datetime, Profile owner){
+	public ImplFeed(Content content, Interest interest, Contact sender, Timestamp datetime, Profile owner){
 		this.sender = sender;
 		this.interest = interest;
 		this.content = content;
@@ -62,7 +61,7 @@ public class ImplFeed implements Feed {
 	}
 
 	@Override
-	public String getContent() {
+	public Content getContent() {
 		return content;
 	}
 
@@ -78,7 +77,7 @@ public class ImplFeed implements Feed {
 	}
 
 	@Override
-	public void newComment(String comment, Contact author) {
+	public void newComment(Content comment, Contact author) {
 		Comment c = new ImplComment(comment, author, this, owner);
 		comment_list.add(c);
 	}

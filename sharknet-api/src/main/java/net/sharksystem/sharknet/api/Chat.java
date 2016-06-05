@@ -46,13 +46,13 @@ public interface Chat {
 	/**
 	 * Set the Picture of the Chat
 	 */
-	public void setPicture(String picture);
+	public void setPicture(Content picture);
 
 	/**
 	 * returns he chatpicture
 	 * @return
      */
-	public String getPicture();
+	public Content getPicture();
 
 	/**
 	 * Set Title of he Chat. By Default its a String of all Nicknames of the Contact in the Chat

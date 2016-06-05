@@ -24,8 +24,8 @@ public interface Feed {
 	 * returns the content of a Message
 	 * @return
 	 */
-	//ToDo: Implement - File - Mime Type integrieren
-    public String getContent();
+
+    public Content getContent();
 	/**
 	 * returns the Author of a Feed
 	 * @return
@@ -42,7 +42,7 @@ public interface Feed {
 	 * adds and safes a comment to a feed
 	 * @param comment
 	 */
-	public void newComment(String comment, Contact author);
+	public void newComment(Content comment, Contact author);
 
 	/**
 	 * Safes the Feed in the Database and sends it

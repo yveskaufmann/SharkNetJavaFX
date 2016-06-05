@@ -43,7 +43,7 @@ public class Dummy {
 		Content bobpic = new ImplContent(in, "jpg");
 		bob.setPicture(bobpic);
 
-/* Copy File with the ContentObject
+ //Copy File with the ContentObject
 		OutputStream out = null;
 		try {
 			out = new FileOutputStream("C:/tmp/picture.jpg");
@@ -53,14 +53,14 @@ public class Dummy {
 		int c;
 
 		try {
-			while ((c = bob.getPicture().getFile().read()) != -1) {
+			while ((c = alice.getPicture().getFile().read()) != -1) {
                 out.write(c);
             }
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-*/
+
 		Contact alice_bob = s.newContact(bob.getNickname(), bob.getUID(), bob.getPublicKey());
 		alice_bob.save();
 
@@ -109,15 +109,15 @@ public class Dummy {
 		i1.save();
 		i2.save();
 
-		Feed f1 = s.newFeed("this is the fist feed of sharkNet", i2, bob);
-		Feed f2 = s.newFeed("sth about football", i1, alice);
+		Feed f1 = s.newFeed(new ImplContent("this is the fist feed of sharkNet"), i2, bob);
+		Feed f2 = s.newFeed(new ImplContent("sth about football"), i1, alice);
 		f1.save();
 		f2.save();
 
 		//Add Comments
 
-		f1.newComment("this is amazing", alice);
-		f1.newComment("i know", bob);
+		f1.newComment(new ImplContent("this is amazing"), alice);
+		f1.newComment(new ImplContent("i know"), bob);
 
 		List<Feed> feedlist = s.getFeeds(10);
 		System.out.println(f1.getContent());
@@ -139,10 +139,10 @@ public class Dummy {
 		Message m_peter_bob = new ImplMessage(new ImplContent("hallo bob"), time, peter, s.getMyProfile(), recipients1, false, false);
 		DummyDB.getInstance().addMessage(m_peter_bob, bob_peter);
 
-		Feed bob_feed1 = s.newFeed("bob thinks shark net is amazing", i2, bob);
+		Feed bob_feed1 = s.newFeed(new ImplContent("bob thinks shark net is amazing"), i2, bob);
 		bob_feed1.save();
 
-		bob_feed1.newComment("Peter thinks so too", peter);
+		bob_feed1.newComment(new ImplContent("Peter thinks so too"), peter);
 		s.getFeeds(5);
 
 		s.setProfile(alice_p, "");
