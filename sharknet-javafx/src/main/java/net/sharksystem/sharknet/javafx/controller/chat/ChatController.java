@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import jdk.internal.util.xml.impl.Input;
 import net.sharksystem.sharknet.api.*;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.model.SharkNetModel;
@@ -16,7 +17,7 @@ import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
-import java.io.File;
+import java.io.*;
 import java.util.List;
 
 
@@ -27,11 +28,14 @@ public class ChatController extends AbstractController implements ChatContactsLi
 	public static ChatController chatControllerInstance;
 	private Chat activeChat;
 	private ImplSharkNet sharkNetModel;
-
+	private Content attachment;
 
 	// used so we can use the same window / class for adding contacts and new chats
 	private boolean newChat;
 	private boolean addChatContacts;
+
+	// if true, the next message will contain the fileAttachment
+	private boolean sendAttachment;
 
 
 	@FXML
@@ -62,7 +66,8 @@ public class ChatController extends AbstractController implements ChatContactsLi
 		chatControllerInstance = this;
 		newChat = false;
 		addChatContacts = false;
-
+		sendAttachment = false;
+		attachment = null;
 	}
 
 	public static ChatController getInstance() {
@@ -114,15 +119,29 @@ public class ChatController extends AbstractController implements ChatContactsLi
 	}
 
 	private void onAttachmentClick() {
+		// TODO: display attachment in chat somehow..
 		System.out.println("onAttachmentClick");
 		if (activeChat != null) {
 			FileChooser fileChooser = new FileChooser();
 			Stage stage = new Stage();
 			fileChooser.setTitle("Select Attachment");
 			File file = fileChooser.showOpenDialog(stage);
-			//TODO: finish..
 			if (file != null) {
+				try {
+					InputStream fileAttachment = new FileInputStream(file.getPath());
+					fileAttachment.close();
+					sendAttachment = true;
+					String extension = "";
+					int i = file.getPath().lastIndexOf('.');
+					if (i > 0) {
+						extension = file.getPath().substring(i + 1);
+					}
+					attachment = new ImplContent(fileAttachment, extension, "");
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
 
+				}
 			}
 		}
 
@@ -151,13 +170,19 @@ public class ChatController extends AbstractController implements ChatContactsLi
 	private void onSendClick() {
 
 		if (activeChat != null) {
-		//	Message message = new ImplMessage(new ImplContent(null, "", textFieldMessage.getText()), activeChat.getContacts(), sharkNetModel.getMyProfile().getContact(), sharkNetModel.getMyProfile());
-		//	chatWindowListView.getItems().add(message);
-		//	activeChat.sendMessage(message.getContent());
-		activeChat.sendMessage(new ImplContent(null, "", textFieldMessage.getText()));
+			if (sendAttachment) {
+				attachment.setMessage(textFieldMessage.getText());
+				activeChat.sendMessage(attachment);
+			} else {
+				activeChat.sendMessage(new ImplContent(null, "", textFieldMessage.getText()));
+			}
+
 				//TODO: saving... seems not to work
 			activeChat.save();
+			fillChatArea(activeChat);
+			sendAttachment = false;
 		}
+
 	}
 
 	@FXML
@@ -211,13 +236,14 @@ public class ChatController extends AbstractController implements ChatContactsLi
 		} else if (newChat) {
 
 			//Chat chat = new ImplChat(c, sharkNetModel.getMyProfile().getContact(), sharkNetModel.getMyProfile());
-			Chat chat = sharkNetModel.newChat(c, sharkNetModel.getMyProfile().getContact());
+			Chat chat = sharkNetModel.newChat(c);
 			chatHistoryListView.getItems().add(chat);
 
 			// TODO: check why sharknet suddenly returns a triple size chatlist when the following lines are enables...
 			//sharkNetModel.getChats().add(chat);
 			chat.save();
 			activeChat = chat;
+			fillChatArea(activeChat);
 			//loadChatHistory();
 
 		}
