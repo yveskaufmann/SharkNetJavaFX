@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.Contact;
 import net.sharksystem.sharknet.api.ImplSharkNet;
 import net.sharksystem.sharknet.javafx.App;
+import net.sharksystem.sharknet.javafx.model.SharkNetModel;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
 import java.util.ArrayList;
@@ -41,8 +42,7 @@ public class ChatContactsController extends AbstractController {
 	public ChatContactsController() {
 		super(App.class.getResource("views/chat/chatAddContacts.fxml"));
 
-		sharkNet = new ImplSharkNet();
-		sharkNet.fillWithDummyData();
+		sharkNet = SharkNetModel.getInstance().getSharkNetImpl();
 
 		addedContacts = new ArrayList<>();
 		listener = null;

@@ -52,7 +52,7 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 		}
 
 		chatContacts.setText(senders);
-		if (chat.getMessages() != null) {
+		if (chat.getMessages() != null && chat.getMessages().size() > 0) {
 			java.sql.Timestamp timestamp = chat.getMessages().get(chat.getMessages().size()-1).getTimestamp();
 			chatLastMessage.setText(dateFormat.format(timestamp));
 			chatContent.setText(chat.getMessages().get(chat.getMessages().size()-1).getContent().getMessage());

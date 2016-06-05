@@ -1,6 +1,7 @@
 package net.sharksystem.sharknet.javafx.controller.chat;
 
 import javafx.fxml.FXML;
+import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -52,8 +53,16 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 		if (!message.isSigned()) {
 			imageViewSigned.setOpacity(0.25);
 		}
+		if (!message.isMine()) {
+			hboxMessage.setAlignment(Pos.TOP_RIGHT);
+			//labelMessage.setAlignment(Pos.TOP_RIGHT);
+			//labelMessage.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+		} else {
+			hboxMessage.setAlignment(Pos.TOP_LEFT);
+			//labelMessage.setAlignment(Pos.TOP_LEFT);
+			//labelMessage.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
+		}
 
-		//hboxMessage.setAlignment(Pos.TOP_RIGHT);
 
 	}
 

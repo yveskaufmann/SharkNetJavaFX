@@ -28,11 +28,11 @@ public class ChatController extends AbstractController implements ChatContactsLi
 	private Chat activeChat;
 	private ImplSharkNet sharkNetModel;
 
-	private final String CHATPREFIX = "<You>";
+
 	// used so we can use the same window / class for adding contacts and new chats
 	private boolean newChat;
 	private boolean addChatContacts;
-	private Contact me;
+
 
 	@FXML
 	private TextField textFieldMessage;
@@ -57,20 +57,12 @@ public class ChatController extends AbstractController implements ChatContactsLi
 	public ChatController() {
 		super(App.class.getResource("views/chat/chatView.fxml"));
 		this.frontController = Controllers.getInstance().get(FrontController.class);
-
-		/*
-		sharkNetModel = new ImplSharkNet();
-		sharkNetModel.fillWithDummyData();
-		sharkNetModel.setProfile(sharkNetModel.getProfiles().get(1), "");
-		*/
 		sharkNetModel = SharkNetModel.getInstance().getSharkNetImpl();
-
 		activeChat = null;
 		chatControllerInstance = this;
 		newChat = false;
 		addChatContacts = false;
-		// TODO: change me contact...
-		me = new ImplContact("me", "meuid", "pk", sharkNetModel.getMyProfile());
+
 	}
 
 	public static ChatController getInstance() {
@@ -159,7 +151,7 @@ public class ChatController extends AbstractController implements ChatContactsLi
 	private void onSendClick() {
 
 		if (activeChat != null) {
-			Message message = new ImplMessage(new ImplContent(null, "", textFieldMessage.getText()), activeChat.getContacts(), me, sharkNetModel.getMyProfile());
+			Message message = new ImplMessage(new ImplContent(null, "", textFieldMessage.getText()), activeChat.getContacts(), sharkNetModel.getMyProfile().getContact(), sharkNetModel.getMyProfile());
 			chatWindowListView.getItems().add(message);
 			activeChat.sendMessage(message.getContent());
 			//TODO: saving... seems not to work
@@ -217,10 +209,13 @@ public class ChatController extends AbstractController implements ChatContactsLi
 			}
 		} else if (newChat) {
 
-			Chat chat = new ImplChat(c, me, sharkNetModel.getMyProfile());
+			//Chat chat = new ImplChat(c, sharkNetModel.getMyProfile().getContact(), sharkNetModel.getMyProfile());
+			Chat chat = sharkNetModel.newChat(c, sharkNetModel.getMyProfile().getContact());
 			chatHistoryListView.getItems().add(chat);
+
 			// TODO: check why sharknet suddenly returns a triple size chatlist when the following lines are enables...
 			//sharkNetModel.getChats().add(chat);
+			chat.save();
 			activeChat = chat;
 			//loadChatHistory();
 

@@ -13,7 +13,7 @@
    <children>
       <GridPane prefWidth="452.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="ALWAYS" fillWidth="true" />
+          <ColumnConstraints fillWidth="true" hgrow="ALWAYS" />
           <ColumnConstraints hgrow="SOMETIMES" />
         </columnConstraints>
         <rowConstraints>
@@ -21,7 +21,7 @@
          
         </rowConstraints>
          <children>
-            <Label fx:id="labelMessage" alignment="TOP_LEFT" maxHeight="Infinity" text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet." wrapText="true" />
+            <Label fx:id="labelMessage" alignment="TOP_LEFT" maxHeight="Infinity" minWidth="200" text="blablubkeks" wrapText="true" />
             <AnchorPane GridPane.columnIndex="1">
                <children>
                   <ImageView fx:id="imageViewEncrypted" fitHeight="33.0" fitWidth="33.0" layoutX="43.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
