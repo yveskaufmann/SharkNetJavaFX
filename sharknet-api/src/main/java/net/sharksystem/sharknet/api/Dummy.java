@@ -44,7 +44,7 @@ public class Dummy {
 		bob.setPicture(bobpic);
 
  //Copy File with the ContentObject
-		OutputStream out = null;
+	/*	OutputStream out = null;
 		try {
 			out = new FileOutputStream("C:/tmp/picture.jpg");
 		} catch (FileNotFoundException e) {
@@ -60,7 +60,7 @@ public class Dummy {
 			e.printStackTrace();
 		}
 
-
+*/
 		Contact alice_bob = s.newContact(bob.getNickname(), bob.getUID(), bob.getPublicKey());
 		alice_bob.save();
 
