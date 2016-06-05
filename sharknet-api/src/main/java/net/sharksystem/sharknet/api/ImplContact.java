@@ -16,6 +16,7 @@ public class ImplContact implements Contact {
 	String publickey;
 	List<Interest> interest_list = new LinkedList<>();
 	Profile owner;
+	Content picture;
 
 
 	/**
@@ -77,15 +78,13 @@ public class ImplContact implements Contact {
 	}
 
 	@Override
-	public String getPicture() {
-
-		//ToDo: Implement - Profilepictures
-		return null;
+	public Content getPicture() {
+		return picture;
 	}
 
 	@Override
-	public void setPicture(String pic) {
-
+	public void setPicture(Content pic) {
+		this.picture = pic;
 	}
 
 	@Override

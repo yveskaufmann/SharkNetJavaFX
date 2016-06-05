@@ -1,6 +1,6 @@
 package net.sharksystem.sharknet.api;
 
-import java.io.IOException;
+import java.io.*;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -33,6 +33,34 @@ public class Dummy {
 		Contact alice = alice_p.getContact();
 		Contact bob = bob_p.getContact();
 
+		//Set Profilepictures
+		InputStream in = null;
+		in = ClassLoader.getSystemClassLoader().getResourceAsStream("Alice.jpg");
+		Content alicepic = new ImplContent(in, "jpg");
+		alice.setPicture(alicepic);
+
+		in = ClassLoader.getSystemClassLoader().getResourceAsStream("Bob.jpg");
+		Content bobpic = new ImplContent(in, "jpg");
+		bob.setPicture(bobpic);
+
+/* Copy File with the ContentObject
+		OutputStream out = null;
+		try {
+			out = new FileOutputStream("C:/tmp/picture.jpg");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		int c;
+
+		try {
+			while ((c = bob.getPicture().getFile().read()) != -1) {
+                out.write(c);
+            }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+*/
 		Contact alice_bob = s.newContact(bob.getNickname(), bob.getUID(), bob.getPublicKey());
 		alice_bob.save();
 
@@ -116,24 +144,7 @@ public class Dummy {
 
 		bob_feed1.newComment("Peter thinks so too", peter);
 		s.getFeeds(5);
-/*
-		try {
-			TestFileInput contenttest = new TestFileInput();
-			Content content = contenttest.setFile("c:/tmp/testpdf.pdf");
-			bob_peter.sendMessage(content);
-			try {
-				Thread.sleep(1000);                 //1000 milliseconds is one second.
-			} catch(InterruptedException ex) {
-				Thread.currentThread().interrupt();
-			}
-			System.out.println("Copy file");
-			contenttest.copyFile(bob_peter.getMessages().get(2).getContent(), "c:/tmp/testpdfkopie.pdf");
 
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-*/
 
 
 
