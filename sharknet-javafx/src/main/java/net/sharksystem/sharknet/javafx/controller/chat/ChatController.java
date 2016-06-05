@@ -151,11 +151,12 @@ public class ChatController extends AbstractController implements ChatContactsLi
 	private void onSendClick() {
 
 		if (activeChat != null) {
-			Message message = new ImplMessage(new ImplContent(null, "", textFieldMessage.getText()), activeChat.getContacts(), sharkNetModel.getMyProfile().getContact(), sharkNetModel.getMyProfile());
-			chatWindowListView.getItems().add(message);
-			activeChat.sendMessage(message.getContent());
-			//TODO: saving... seems not to work
-			//activeChat.save();
+		//	Message message = new ImplMessage(new ImplContent(null, "", textFieldMessage.getText()), activeChat.getContacts(), sharkNetModel.getMyProfile().getContact(), sharkNetModel.getMyProfile());
+		//	chatWindowListView.getItems().add(message);
+		//	activeChat.sendMessage(message.getContent());
+		activeChat.sendMessage(new ImplContent(null, "", textFieldMessage.getText()));
+				//TODO: saving... seems not to work
+			activeChat.save();
 		}
 	}
 
