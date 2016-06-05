@@ -74,9 +74,9 @@ public class Dummy {
 		recipients3.add(bob);
 		recipients3.add(alice);
 
-		Chat chat1 = s.newChat(recipients1, bob);
+		Chat chat1 = s.newChat(recipients1, alice);
 		Chat chat2  = s.newChat(recipients2, alice);
-		Chat chat3  = s.newChat(recipients3, bob);
+		Chat chat3  = s.newChat(recipients3, alice);
 
 		chat1.save();
 		chat2.save();
@@ -144,6 +144,8 @@ public class Dummy {
 
 		bob_feed1.newComment("Peter thinks so too", peter);
 		s.getFeeds(5);
+
+		s.setProfile(alice_p, "");
 
 
 
