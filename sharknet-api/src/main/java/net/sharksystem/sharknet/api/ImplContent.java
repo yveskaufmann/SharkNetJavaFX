@@ -5,8 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static com.sun.xml.internal.stream.Entity.ScannedEntity.DEFAULT_BUFFER_SIZE;
-
 
 /**
  * Created by timol on 01.06.2016.
@@ -57,7 +55,7 @@ public class ImplContent implements Content {
 
 	private InputStream swapFile()  {
 		int read = 0;
-		byte[] bytes = new byte[DEFAULT_BUFFER_SIZE];
+		byte[] bytes = new byte[8192];
 
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		try {
