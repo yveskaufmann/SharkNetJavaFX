@@ -87,8 +87,23 @@ public class Dummy {
 
 
 		java.util.Date fiveMinAgo = new Date(System.currentTimeMillis()-5*60*1000);
-		Timestamp time = new java.sql.Timestamp(fiveMinAgo.getTime());
-		Message m1 = new ImplMessage(new ImplContent("answer 1"), time, bob, s.getMyProfile(), recipients1, false, false);
+		Timestamp time5ago = new java.sql.Timestamp(fiveMinAgo.getTime());
+			;
+		java.util.Date fiveMinAfter = new Date(System.currentTimeMillis()+5*60*1000);
+		Timestamp time5after = new java.sql.Timestamp(fiveMinAfter.getTime());
+
+		java.util.Date sevenMinAgo = new Date(System.currentTimeMillis()-100*60*1000);
+		Timestamp time7ago = new java.sql.Timestamp(fiveMinAgo.getTime());
+		;
+		java.util.Date sevenMinAfter = new Date(System.currentTimeMillis()+100*60*1000);
+		Timestamp time7after = new java.sql.Timestamp(fiveMinAfter.getTime());
+
+
+		java.util.Date now = new Date(System.currentTimeMillis());
+		Timestamp timenow = new java.sql.Timestamp(now.getTime());
+
+
+		Message m1 = new ImplMessage(new ImplContent("answer 1"), time5ago, bob, s.getMyProfile(), recipients1, false, false);
 		DummyDB.getInstance().addMessage(m1, chat1);
 
 
@@ -106,46 +121,61 @@ public class Dummy {
 		i1.save();
 		i2.save();
 
+		Feed fold = new ImplFeed((new ImplContent("this is the start")), i2, alice, time5ago, alice_p);
+		Feed fnew = new ImplFeed((new ImplContent("this is the end")), i2, alice, time5after, alice_p);
+		DummyDB.getInstance().addfeed(fold);
+		DummyDB.getInstance().addfeed(fnew);
 		Feed f1 = s.newFeed(new ImplContent("this is the fist feed of sharkNet"), i2, bob);
 		Feed f2 = s.newFeed(new ImplContent("sth about football"), i1, alice);
+		Feed f3 = s.newFeed(new ImplContent("football sucks"), i1, alice);
 
 		//Add Comments
 
 		f1.newComment(new ImplContent("this is amazing"), alice);
 		f1.newComment(new ImplContent("i know"), bob);
 
-		List<Feed> feedlist = s.getFeeds(10);
-		System.out.println(f1.getContent());
-		System.out.println(feedlist.get(0).getContent());
-		f1.getComments(10).get(0).dislike();
-
-		System.out.println(feedlist.get(1).getComments(2));
-
-
-
-		s.setProfile(bob_p, "");
-		Contact peter = s.newContact("peter", "dagobert@entenhausen.de", "foo");
-		List<Contact> recipients = new LinkedList<>();
-		recipients.add(peter);
-		Chat bob_peter = s.newChat(recipients);
-		bob_peter.sendMessage(new ImplContent("hallo peter"));
-		Message m_peter_bob = new ImplMessage(new ImplContent("hallo bob"), time, peter, s.getMyProfile(), recipients1, false, false);
-		DummyDB.getInstance().addMessage(m_peter_bob, bob_peter);
-
-		Feed bob_feed1 = s.newFeed(new ImplContent("bob thinks shark net is amazing"), i2, bob);
-
-		bob_feed1.newComment(new ImplContent("Peter thinks so too"), peter);
-		s.getFeeds(5);
-
-		bob_p.getBlacklist().add(new ImplContact("bad hacker", "bad@hacker.com", "", bob_p));
-
-		s.setProfile(alice_p, "");
-
 
 		alice_p.getBlacklist().add(new ImplContact("alice exboyfriend", "hotboy@elitepartner.com", "", alice_p));
 
 
 
+		List<Feed> feedlist = s.getFeeds(0, 15);
+		System.out.println(f1.getContent());
+		System.out.println(feedlist.get(0).getContent());
+		f1.getComments().get(0).dislike();
+
+		System.out.println(feedlist.get(0).getComments());
+
+
+//Bobs stuff
+		s.setProfile(bob_p, "");
+		Contact peter = s.newContact("peter", "dagobert@entenhausen.de", "foo");
+		List<Contact> recipients = new LinkedList<>();
+		recipients.add(peter);
+		Chat bob_peter = s.newChat(recipients);
+		Message m_peter_bob = new ImplMessage(new ImplContent("hallo bob"), time5ago, peter, s.getMyProfile(), recipients1, false, false);
+		DummyDB.getInstance().addMessage(m_peter_bob, bob_peter);
+		bob_peter.sendMessage(new ImplContent("hallo peter"));
+
+
+		Feed bob_feed1 = s.newFeed(new ImplContent("bob thinks shark net is amazing"), i2, bob);
+
+		bob_feed1.newComment(new ImplContent("Peter thinks so too"), peter);
+		s.getFeeds(5, 10);
+
+		bob_p.getBlacklist().add(new ImplContact("bad hacker", "bad@hacker.com", "", bob_p));
+
+
+
+		time7ago = java.sql.Timestamp.valueOf("2012-04-06 09:01:10");
+		time7after = java.sql.Timestamp.valueOf("2017-04-06 09:01:10");
+
+		s.setProfile(alice_p, "");
+		List <Feed> foo = s.getFeeds("about", 0, 5);
+		List <Feed> foo1 = s.getFeeds(timenow, time7after, 0, 10);
+
+		List <Feed> foo2 = s.getFeeds(time7ago, timenow, 0, 10);
+		List <Feed> foo3 = s.getFeeds(time7ago, time7after, 0, 10);
 	}
 
 

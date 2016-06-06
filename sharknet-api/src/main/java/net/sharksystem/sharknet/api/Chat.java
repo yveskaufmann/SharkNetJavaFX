@@ -1,5 +1,6 @@
 package net.sharksystem.sharknet.api;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  *
  * Interface for the Chat Implementation - A Chat represents a Conversation with one or more contacts
  */
-public interface Chat {
+public interface Chat extends Timeable {
 
 	/**
 	 * Add a Message to the Chat and sends it
@@ -25,6 +26,11 @@ public interface Chat {
 	 * @return
      */
     public List<Message> getMessages();
+	public List<Message> getMessages(int startIndex, int stopIndex);
+	public List<Message> getMessages(Timestamp start, Timestamp stop);
+	public List<Message> getMessages(Timestamp start, Timestamp stop, int startIndex, int stopIndex);
+	public List<Message> getMessages(String search, int startIndex, int stopIndex);
+
 
 	/**
 	 * Updates the chat in the Database
@@ -69,4 +75,9 @@ public interface Chat {
 	 * Returns the Profile of the owner of the Chat
 	 */
 	public Profile getOwner();
+
+	/**
+	 * Returns the Timestamp of the most recent Message
+	 */
+	public Timestamp getTimestamp();
 }

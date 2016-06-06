@@ -8,7 +8,7 @@ import java.util.List;
  *
  * Interface represents the Feed-Functionality (Timeline)
  */
-public interface Feed {
+public interface Feed extends Timeable, ContainsContent{
 	/**
 	 * Returns the name of the interest the feed references to
 	 * @return
@@ -34,10 +34,15 @@ public interface Feed {
 
 	/**
 	 * Returns a List of comments referencing the feed
-	 * @param count
 	 * @return
      */
-    public List<Comment> getComments(int count);
+    public List<Comment> getComments();
+	public List<Comment> getComments(int startIndex, int stopIndex);
+	public List<Comment> getComments(Timestamp start, Timestamp stop);
+	public List<Comment> getComments(Timestamp start, Timestamp stop, int startIndex, int stopIndex);
+	public List<Comment> getComments(String search, int startIndex, int stopIndex);
+
+
 	/**
 	 * adds and safes a comment to a feed
 	 * @param comment

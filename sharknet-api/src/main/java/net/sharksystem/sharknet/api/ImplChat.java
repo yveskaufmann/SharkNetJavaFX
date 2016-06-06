@@ -1,5 +1,7 @@
 package net.sharksystem.sharknet.api;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -10,12 +12,11 @@ import java.util.Random;
 
 public class ImplChat implements Chat {
 
-
-	List<Contact> contact_list = new LinkedList<>();
 	String title;
 	Content picture;
 	int id;
 	Profile owner;
+	Timestamp lastmessage;
 
 	/**
 	 * Constructor for new Chat which is going to be saved in the DB
@@ -24,55 +25,80 @@ public class ImplChat implements Chat {
      */
 
 	public ImplChat(List <Contact> contact_List, Profile owner){
-		this.contact_list = contact_List;
 		this.owner = owner;
+		safeContactList(contact_List);
 		setDefaultPic();
 		setDefaultTitle();
 		setID();
+		setDefaultLastMessage();
 		save();
 	}
 
 	/**
 	 * Constructor for Chats from the Database which are not going to be saved
-	 * @param contact_List
 	 * @param owner
 	 * @param title
 	 * @param picture
      * @param id
      */
 
-	public ImplChat(List <Contact> contact_List, Profile owner, String title, Content picture, int id){
-		this.contact_list = contact_List;
+	public ImplChat(Profile owner, String title, Content picture, int id, Timestamp lastmessage){
 		this.title=title;
 		this.picture = picture;
 		this.id = id;
 		this.owner = owner;
+		this.lastmessage = lastmessage;
+
 	}
 
 
 	@Override
 	public void sendMessage(Content content) {
-
-		Message m = new ImplMessage(content, contact_list, owner.getContact(), owner);
-
+		Message m = new ImplMessage(content, getContacts(), owner.getContact(), owner);
 	}
-
-
 
 	@Override
 	public void delete() {
 		//ToDo: Shark - delete Chat from Database
 		//DummyDB implementation
 		DummyDB.getInstance().removeChat(this);
-
 	}
 
 	@Override
 	public List<Message> getMessages() {
 		//ToDo: Shark - find Messages blonging to the chat AND ALSO THE OWNER OF THE CHAT (which is the currently aktive profile and fill List of Messages
-
 		//DummyDB Implememntation
 		List <Message> message_list = DummyDB.getInstance().getMessageList(this);
+		return message_list;
+	}
+
+	@Override
+	public List<Message> getMessages(int startIndex, int stopIndex) {
+		//ToDo: Shark - fill List with Messages from the chat within the given intervall - sorted by time
+		List <Message> message_list = DummyDB.getInstance().getMessageList(this, startIndex, stopIndex);
+		return message_list;
+
+	}
+
+	@Override
+	public List<Message> getMessages(Timestamp start, Timestamp stop) {
+		//ToDo: Shark - fill List with Messages from the chat within the given timerange - sorted by time
+		List <Message> message_list = DummyDB.getInstance().getMessageList(this, start, stop);
+		return message_list;
+	}
+
+	@Override
+	public List<Message> getMessages(Timestamp start, Timestamp stop, int startIndex, int stopIndex) {
+		//ToDo: Shark - fill List with Messages from the chat within the given intervall and timerange - sorted by time
+		List <Message> message_list = DummyDB.getInstance().getMessageList(this, startIndex, stopIndex, start, stop);
+		return message_list;
+
+	}
+
+	@Override
+	public List<Message> getMessages(String search, int startIndex, int stopIndex) {
+		//ToDo: Shark - fill List with Messages from the chat within the given intervall and containing search string - sorted by time
+		List <Message> message_list = DummyDB.getInstance().getMessageList(this, search, startIndex, stopIndex);
 		return message_list;
 	}
 
@@ -92,7 +118,7 @@ public class ImplChat implements Chat {
 
 	@Override
 	public List<Contact> getContacts() {
-		return contact_list;
+		return DummyDB.getInstance().getChatContacts(this);
 	}
 
 	@Override
@@ -125,6 +151,17 @@ public class ImplChat implements Chat {
 		return owner;
 	}
 
+	@Override
+	public Timestamp getTimestamp() {
+		//ToDo: Shark - get Timestamp from the most recent Message
+		Timestamp recentMessage = null;
+		if(!DummyDB.getInstance().getMessageList(this).isEmpty()){
+			DummyDB.getInstance().getMessageList(this).get(0).getTimestamp();
+		}
+
+		return recentMessage;
+	}
+
 	/**
 	 * This Method is used to give the Chat a random ID including to check within the Database that the id is unique
 	 */
@@ -142,14 +179,12 @@ public class ImplChat implements Chat {
 	}
 
 	/**
-	 * This Method is used to fill a Chat with Messages that are already in the Database and is only called by the API itself
+	 * Sets the default Title which is the Nickname of all Contacts in the List
 	 */
-
-
 	private void setDefaultTitle(){
-		String[] title_array = new String[contact_list.size()];
+		String[] title_array = new String[getContacts().size()];
 		int i = 0;
-		for(Contact c : contact_list){
+		for(Contact c : getContacts()){
 			title_array[i] = c.getNickname();
 			i++;
 		}
@@ -162,11 +197,30 @@ public class ImplChat implements Chat {
 		title = builder.toString();
 	}
 
+	/**
+	 * Sets a default picture. The Picture of the first Contact in the List
+	 */
 	private void setDefaultPic(){
-		setPicture(contact_list.get(0).getPicture());
+		setPicture(getContacts().get(0).getPicture());
+	}
+
+	/**
+	 * Sets the default Value for Timestamp lastmessage which is the creation date
+	 */
+	private void setDefaultLastMessage(){
+		Calendar calendar = Calendar.getInstance();
+		java.util.Date now = calendar.getTime();
+		lastmessage = new java.sql.Timestamp(now.getTime());
+	}
+
+	/**
+	 * Private Method to SetContactList in Database
+	 */
+	private void safeContactList(List<Contact> contact_list) {
+		//ToDo: Shark - Safe ContactList int the Database
+		//DummmyDB implementaion
+		DummyDB.getInstance().setChatContacts(this, contact_list);
 	}
 
 }
-
-//ToDo: Public key getter nur fingerprint bzw readable
 

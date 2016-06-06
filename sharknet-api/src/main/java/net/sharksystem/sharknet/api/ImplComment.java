@@ -72,7 +72,6 @@ public class ImplComment implements Comment{
 
 	@Override
 	public void delete() {
-		reffeed.getComments(0).remove(this);
 		//ToDo: Shark - delete Comment from Database
 		//Implementation of DummyDB
 		DummyDB.getInstance().removeComment(this, reffeed);
