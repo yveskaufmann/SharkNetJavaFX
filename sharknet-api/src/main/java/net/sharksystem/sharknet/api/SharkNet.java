@@ -74,6 +74,7 @@ public interface SharkNet {
      */
 	public Profile getMyProfile();
 
+
 	public void addChatListener(Profile p, Dummy listener);
 	public void addFeedListener(Profile p, Dummy listener);
 	public void informNewMessage(Profile p, Message m);

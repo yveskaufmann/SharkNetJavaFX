@@ -13,6 +13,7 @@ public class ImplProfile implements Profile {
 	Contact c;
 	String password ="";
 	Setting setting;
+	Blacklist blacklist;
 
 	/**
 	 * Constructor for new Profiles which are going to be saved
@@ -84,13 +85,19 @@ public class ImplProfile implements Profile {
 	}
 	//ToDo: Implement - Interest
 	//ToDo: Implement - Settings
-	//ToDo: Implement - Generate KeyPairs
-	//ToDo: Clearify - How Notifications for the GUI Work (Action Listener)
 
 	@Override
 	public boolean isEqual(Profile p){
 		if(p.getContact().isEqual(c)) return true;
 		else return false;
+	}
+
+	@Override
+	public Blacklist getBlacklist() {
+		if(blacklist == null){
+			blacklist = new ImplBlacklist(this);
+		}
+		return blacklist;
 	}
 
 }

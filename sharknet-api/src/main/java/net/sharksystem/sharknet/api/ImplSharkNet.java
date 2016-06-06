@@ -13,7 +13,8 @@ import java.util.List;
  */
 public class ImplSharkNet implements SharkNet {
 
-	//ToDo: Implment - Blacklistfunctionality
+
+	//ToDo: Implement - Notifications for the GUI (Action Listener)
 
 	//ToDo: Implement - Initialisierung bauen (inkl übergabe KB etc)
 

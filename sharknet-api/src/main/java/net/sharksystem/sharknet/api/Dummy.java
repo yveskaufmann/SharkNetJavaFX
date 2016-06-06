@@ -137,8 +137,12 @@ public class Dummy {
 		bob_feed1.newComment(new ImplContent("Peter thinks so too"), peter);
 		s.getFeeds(5);
 
+		bob_p.getBlacklist().add(new ImplContact("bad hacker", "bad@hacker.com", "", bob_p));
+
 		s.setProfile(alice_p, "");
 
+
+		alice_p.getBlacklist().add(new ImplContact("alice exboyfriend", "hotboy@elitepartner.com", "", alice_p));
 
 
 

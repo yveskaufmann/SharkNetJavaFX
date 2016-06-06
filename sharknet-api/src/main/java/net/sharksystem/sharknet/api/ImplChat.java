@@ -50,8 +50,6 @@ public class ImplChat implements Chat {
 	}
 
 
-	//ToDo: Implement - get rid of save method
-
 	@Override
 	public void sendMessage(Content content) {
 

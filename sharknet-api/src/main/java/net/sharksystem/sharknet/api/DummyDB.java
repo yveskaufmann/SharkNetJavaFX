@@ -9,6 +9,7 @@ public class DummyDB {
 	List<Feed> feed_list = new LinkedList<>();
 	List<Profile> profile_list = new LinkedList<>();
 	List<Contact> contact_list = new LinkedList<>();
+	HashMap<Profile, List<Contact>> blacklist_map = new HashMap<>();
 	List<Chat> chat_list = new LinkedList<>();
 	HashMap<Chat, List<Message>> chatmessage = new HashMap<>();
 	HashMap<Feed, List<Comment>> feedcomment = new HashMap<>();
@@ -150,5 +151,22 @@ public class DummyDB {
 			if ( c.getID()== id) return false;
 		}
 		return true;
+	}
+
+	public void blacklistAdd(Contact c, Profile owner){
+		if(blacklist_map.containsKey(owner)) blacklist_map.get(owner).add(c);
+		else{
+			blacklist_map.put(owner, new LinkedList<Contact>());
+			blacklist_map.get(owner).add(c);
+		}
+	}
+
+	public void blacklistRemove(Contact c, Profile owner){
+		if(blacklist_map.containsKey(owner) && blacklist_map.get(owner).contains(c)){
+			blacklist_map.get(owner).remove(c);
+		}
+	}
+	public List<Contact> blacklistGet(Profile owner){
+		return blacklist_map.get(owner);
 	}
 }

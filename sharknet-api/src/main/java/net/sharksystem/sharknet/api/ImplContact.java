@@ -6,10 +6,10 @@ import java.util.List;
 /**
  * Created by timol on 16.05.2016.
  */
-//ToDo: Implement - publicKey can be null
-
 
 public class ImplContact implements Contact {
+
+	//ToDo: Implement - Generate KeyPairs
 
 	String nickname;
 	String uid;
@@ -31,7 +31,6 @@ public class ImplContact implements Contact {
 		this.publickey = publickey;
 		this.owner = owner;
 		save();
-		//ToDo: Clearify - public key exchange
 
 	}
 

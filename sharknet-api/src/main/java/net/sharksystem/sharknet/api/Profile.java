@@ -52,4 +52,10 @@ public interface Profile {
 	 * @return
      */
 	public boolean isEqual(Profile p);
+
+	/**
+	 * Returns the Blacklist of the Profile
+	 * @return
+     */
+	public Blacklist getBlacklist();
 }
