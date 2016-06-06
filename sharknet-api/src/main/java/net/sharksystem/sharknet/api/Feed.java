@@ -45,9 +45,8 @@ public interface Feed {
 	public void newComment(Content comment, Contact author);
 
 	/**
-	 * Safes the Feed in the Database and sends it
+	 * Deletes the Feed from the Database
 	 */
-	public void save();
 	public void delete();
 
 	/**

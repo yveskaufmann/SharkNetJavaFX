@@ -51,10 +51,6 @@ public interface Contact {
 	 */
 	public void update();
 
-	/**
-	 * Safes the Contact in the KB
-	 */
-	public void save();
 
 	/**
 	 * returns a List of all Interests the profile is interested in

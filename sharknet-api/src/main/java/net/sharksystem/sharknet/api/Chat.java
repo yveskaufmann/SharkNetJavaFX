@@ -27,11 +27,6 @@ public interface Chat {
     public List<Message> getMessages();
 
 	/**
-	 * Saves the chat in the Database
-	 */
-	public void save();
-
-	/**
 	 * Updates the chat in the Database
 	 */
 	public void update();

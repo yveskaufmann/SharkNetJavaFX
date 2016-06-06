@@ -12,10 +12,22 @@ public class ImplProfile implements Profile {
 
 	Contact c;
 	String password ="";
+	Setting setting;
 
+	/**
+	 * Constructor for new Profiles which are going to be saved
+	 * @param c
+     */
 	public ImplProfile(Contact c){
 		this.c = c;
 	}
+
+	public ImplProfile(Contact c, String password, Setting setting){
+		this.c = c;
+		this.password = password;
+		this.setting = setting;
+	}
+
 
 	@Override
 	public Contact getContact() {

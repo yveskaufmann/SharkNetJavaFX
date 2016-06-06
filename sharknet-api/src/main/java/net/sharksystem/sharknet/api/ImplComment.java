@@ -31,6 +31,7 @@ public class ImplComment implements Comment{
 		Calendar calendar = Calendar.getInstance();
 		java.util.Date now = calendar.getTime();
 		datetime = new java.sql.Timestamp(now.getTime());
+		save();
 
 	}
 
@@ -77,8 +78,7 @@ public class ImplComment implements Comment{
 		DummyDB.getInstance().removeComment(this, reffeed);
 	}
 
-	@Override
-	public void save(){
+	private void save(){
 		//ToDo: Shark - Safe Comment in KB and send it
 		//Implementation of DummyDB
 		DummyDB.getInstance().addComment(this, reffeed);

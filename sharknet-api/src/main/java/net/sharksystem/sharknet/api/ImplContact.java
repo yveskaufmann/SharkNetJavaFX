@@ -30,11 +30,27 @@ public class ImplContact implements Contact {
 		this.uid = uid;
 		this.publickey = publickey;
 		this.owner = owner;
+		save();
 		//ToDo: Clearify - public key exchange
 
 	}
 
-	@Override
+	/**
+	 * Contructor for the Objects from the Database which are not going to be saved
+	 */
+
+	public ImplContact(String nickname, String uid, String publickey, Profile owner, Content pic, List<Interest> interest_list){
+
+		this.nickname = nickname;
+		this.uid = uid;
+		this.publickey = publickey;
+		this.interest_list = interest_list;
+		this.owner = owner;
+		this.picture = pic;
+	}
+
+
+		@Override
 	public String getNickname() {
 		return nickname;
 	}
@@ -113,8 +129,11 @@ public class ImplContact implements Contact {
 
 	}
 
-	@Override
-	public void save(){
+	/**
+	 * Save the Contact to the Database
+	 */
+
+	private void save(){
 		//ToDo: Shark - Safe Contact in KB
 		//Implementation of DummyDB
 		DummyDB.getInstance().addContact(this);

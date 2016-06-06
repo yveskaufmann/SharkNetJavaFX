@@ -17,6 +17,11 @@ public class ImplChat implements Chat {
 	int id;
 	Profile owner;
 
+	/**
+	 * Constructor for new Chat which is going to be saved in the DB
+	 * @param contact_List
+	 * @param owner
+     */
 
 	public ImplChat(List <Contact> contact_List, Profile owner){
 		this.contact_list = contact_List;
@@ -24,9 +29,27 @@ public class ImplChat implements Chat {
 		setDefaultPic();
 		setDefaultTitle();
 		setID();
+		save();
 	}
 
-	//ToDo: Implment - Write Constructor for DB including title, picture, uid etc
+	/**
+	 * Constructor for Chats from the Database which are not going to be saved
+	 * @param contact_List
+	 * @param owner
+	 * @param title
+	 * @param picture
+     * @param id
+     */
+
+	public ImplChat(List <Contact> contact_List, Profile owner, String title, Content picture, int id){
+		this.contact_list = contact_List;
+		this.title=title;
+		this.picture = picture;
+		this.id = id;
+		this.owner = owner;
+	}
+
+
 	//ToDo: Implement - get rid of save method
 
 	@Override
@@ -55,8 +78,10 @@ public class ImplChat implements Chat {
 		return message_list;
 	}
 
-	@Override
-	public void save() {
+	/**
+	 * Save Chat to the DB
+	 */
+	private void save() {
 		//ToDo: Shark - Safe Chat to the Database
 		//DummmyDB implementaion
 		DummyDB.getInstance().addChat(this);

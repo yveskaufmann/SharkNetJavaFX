@@ -36,11 +36,11 @@ public class Dummy {
 		//Set Profilepictures
 		InputStream in = null;
 		in = ClassLoader.getSystemClassLoader().getResourceAsStream("Alice.jpg");
-		Content alicepic = new ImplContent(in, "jpg");
+		Content alicepic = new ImplContent(in, "jpg", "Alice profile picture");
 		alice.setPicture(alicepic);
 
 		in = ClassLoader.getSystemClassLoader().getResourceAsStream("Bob.jpg");
-		Content bobpic = new ImplContent(in, "jpg");
+		Content bobpic = new ImplContent(in, "jpg", "Bob profile picture");
 		bob.setPicture(bobpic);
 
  //Copy File with the ContentObject
@@ -62,7 +62,7 @@ public class Dummy {
 
 */
 		Contact alice_bob = s.newContact(bob.getNickname(), bob.getUID(), bob.getPublicKey());
-		alice_bob.save();
+
 
 		//Anlegen von Chats
 		List<Contact> recipients1 = new ArrayList<>();
@@ -78,9 +78,6 @@ public class Dummy {
 		Chat chat2  = s.newChat(recipients2);
 		Chat chat3  = s.newChat(recipients3);
 
-		chat1.save();
-		chat2.save();
-		chat3.save();
 
 		//Senden von Nachrichten
 
@@ -111,8 +108,6 @@ public class Dummy {
 
 		Feed f1 = s.newFeed(new ImplContent("this is the fist feed of sharkNet"), i2, bob);
 		Feed f2 = s.newFeed(new ImplContent("sth about football"), i1, alice);
-		f1.save();
-		f2.save();
 
 		//Add Comments
 
@@ -130,17 +125,14 @@ public class Dummy {
 
 		s.setProfile(bob_p, "");
 		Contact peter = s.newContact("peter", "dagobert@entenhausen.de", "foo");
-		peter.save();
 		List<Contact> recipients = new LinkedList<>();
 		recipients.add(peter);
 		Chat bob_peter = s.newChat(recipients);
-		bob_peter.save();
 		bob_peter.sendMessage(new ImplContent("hallo peter"));
 		Message m_peter_bob = new ImplMessage(new ImplContent("hallo bob"), time, peter, s.getMyProfile(), recipients1, false, false);
 		DummyDB.getInstance().addMessage(m_peter_bob, bob_peter);
 
 		Feed bob_feed1 = s.newFeed(new ImplContent("bob thinks shark net is amazing"), i2, bob);
-		bob_feed1.save();
 
 		bob_feed1.newComment(new ImplContent("Peter thinks so too"), peter);
 		s.getFeeds(5);

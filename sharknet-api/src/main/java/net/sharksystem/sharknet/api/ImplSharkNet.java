@@ -88,7 +88,6 @@ public class ImplSharkNet implements SharkNet {
 		Profile p = new ImplProfile(new ImplContact(nickname, uid, publickey, null));
 		ImplContact c = (ImplContact)p.getContact();
 		c.setOwner(p);
-		c.save();
 		profile_list.add(p);
 		return p;
 	}

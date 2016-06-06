@@ -54,6 +54,11 @@ public class ImplContent implements Content {
 		return filename;
 	}
 
+	@Override
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
 	/**
 	 * Returns a Copy of the IO Stream. This is because once the IOStream was read it will be closed.
 	 * With shark implementation it could be possible to not just copy the io stream but make a new one

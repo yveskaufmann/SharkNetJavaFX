@@ -30,4 +30,9 @@ public interface Content {
      */
 	public String getFileName();
 
+	/**
+	 * Setter for the Message
+	 */
+	public void setMessage(String message);
+
 }

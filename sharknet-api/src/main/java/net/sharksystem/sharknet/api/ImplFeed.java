@@ -22,7 +22,7 @@ public class ImplFeed implements Feed {
 
 
 	/**
-	 * This constructor is used to construct new Feeds which are going to be safed in the Database and sended
+	 * This constructor is used to construct new Feeds which are going to be saved in the Database and sended
 	 * @param content
 	 * @param interest
 	 * @param sender
@@ -33,6 +33,7 @@ public class ImplFeed implements Feed {
 		this.sender = sender;
 		this. owner = owner;
 		datetime = new Timestamp(new Date().getTime());
+		save();
 	}
 
 	/**
@@ -82,8 +83,11 @@ public class ImplFeed implements Feed {
 		comment_list.add(c);
 	}
 
-	@Override
-	public void save() {
+	/**
+	 * Saves the Feed in the DB
+	 */
+
+	private void save() {
 		//ToDo: Shark - safe Feed in KB and sends it
 		//Implementation of DummyDB
 		DummyDB.getInstance().addfeed(this);
