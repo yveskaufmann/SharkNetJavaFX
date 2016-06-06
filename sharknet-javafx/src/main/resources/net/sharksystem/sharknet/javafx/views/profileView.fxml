@@ -14,7 +14,7 @@
 <?import net.sharksystem.sharknet.javafx.controls.TextField?>
 <StackPane fx:id="profileView" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1">
   <TabPane fx:id="profileTabs" tabClosingPolicy="UNAVAILABLE">
-      <Tab fx:id="profileTab" text="%profile.title">
+      <Tab fx:id="profileTab" text="%profile.text">
           <BorderPane>
               <center>
                   <VBox spacing="5" alignment="TOP_CENTER" maxWidth="400" >

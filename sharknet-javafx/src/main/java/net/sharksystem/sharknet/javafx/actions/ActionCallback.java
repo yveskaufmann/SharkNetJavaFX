@@ -11,5 +11,5 @@ public interface ActionCallback {
 	 * Invoke the underlying callback and
 	 * execute the action.
 	 */
-	void invoke();
+	void invoke(ActionEntry actionEntry);
 }

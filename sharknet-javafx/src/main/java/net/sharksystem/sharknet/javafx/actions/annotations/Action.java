@@ -1,6 +1,9 @@
 package net.sharksystem.sharknet.javafx.actions.annotations;
 
 
+import net.sharksystem.sharknet.javafx.utils.FontAwesomeIcon;
+import net.sharksystem.sharknet.javafx.utils.FontBasedIcon;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -25,21 +28,21 @@ public @interface Action {
 	String text() default "";
 
 	/**
-	 * @return the utf-8 escaped character
-	 * which specifies the font icon.
-	 *
-     */
-	String icon() default "";
-
-	/**
 	 * @return the tooltip for this action.
      */
 	String tooltip() default "";
 
-	/**
+	/*
 	 * The priority specifies in which order actions are rendered.
 	 * A low priority means that the action will be rendered after all
 	 * actions with a higher priority.
      */
 	int priority() default 0;
+
+	/**
+	 * The Font icon which should be used by this action.
+	 *
+	 * @return
+     */
+	FontAwesomeIcon fontIcon() default FontAwesomeIcon.NONE;
 }

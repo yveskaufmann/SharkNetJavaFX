@@ -6,9 +6,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import net.sharksystem.sharknet.javafx.actions.ActionEntry;
 import net.sharksystem.sharknet.javafx.actions.annotations.Action;
+import net.sharksystem.sharknet.javafx.context.ApplicationContext;
 import net.sharksystem.sharknet.javafx.context.ViewContext;
 import net.sharksystem.sharknet.javafx.controls.FontIcon;
 import net.sharksystem.sharknet.javafx.i18n.I18N;
+import net.sharksystem.sharknet.javafx.utils.FontAwesomeIcon;
 import net.sharksystem.sharknet.javafx.utils.ReflectionUtils;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.FXMLViewContext;
@@ -139,6 +141,7 @@ public class ControllerBuilder {
 				injectFieldValue(field, ctx);
 			}
 		}
+		ApplicationContext.getInstance().getInjector().injectMembers(ctx.getController());
 	}
 
 	private <T extends AbstractController> void loadMethodMetaData(Class<T> controllerClass, T controller, ControllerMeta meta) {
@@ -147,11 +150,11 @@ public class ControllerBuilder {
 		for (Method method : actionMethods) {
 			Action action = method.getAnnotation(Action.class);
 
-			ActionEntry actionEntry = new ActionEntry();
+			final ActionEntry actionEntry = new ActionEntry();
 			actionEntry.setTooltip(action.tooltip());
-			actionEntry.setTitle(action.text());
-			actionEntry.setIcon(action::icon);
-			actionEntry.setCallback(() -> {
+			actionEntry.setText(action.text());
+			actionEntry.setIcon(action.fontIcon());
+			actionEntry.setOnAction((calledAction) -> {
 				try {
 					Platform.runLater(() -> ReflectionUtils.invokeMethod(controller, method));
 				} catch (Exception ex) {

@@ -1,5 +1,6 @@
 package net.sharksystem.sharknet.javafx.controller;
 
+import com.google.inject.Inject;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -9,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.actions.ActionEntry;
 import net.sharksystem.sharknet.javafx.actions.annotations.Action;
@@ -176,7 +178,7 @@ public class FrontController extends AbstractWindowController {
 	 */
 	@Override
 	protected void onSceneCreated() {
-		getScene().getStylesheets().add(App.class.getResource("style.css").toExternalForm());
+		getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
 	}
 
 	/**
@@ -196,11 +198,11 @@ public class FrontController extends AbstractWindowController {
 
 		sidebarPane.getChildren().add(sidebarController.getRoot());
 		toolbar.setNavigationNode(ActionBar.createActionButton(new ActionEntry(
-			FontAwesomeIcon.NAVICON, () -> {
+			FontAwesomeIcon.NAVICON, (action) -> {
 				workbench.toggleSidebar();
 			}
 		)));
-		goToView(InboxController.class);
+		goToView(ChatController.class);
 	}
 
 }

@@ -1,64 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.image.Image?>
-<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.text.Font?>
 <?import net.sharksystem.sharknet.javafx.controls.RoundImageView?>
 
+<?import net.sharksystem.sharknet.javafx.controls.Navigation?>
+<?import net.sharksystem.sharknet.javafx.actions.ActionEntry?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.RowConstraints?>
 <VBox fx:id="sidebar" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1">
    <children>
 
-       <GridPane fx:id="sidebarHeader" minHeight="240.0" minWidth="120.0" style="-fx-background-color: #4051B3;">
-        <columnConstraints>
-          <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="150.0" minWidth="10.0" prefWidth="112.0" />
-          <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="176.0" minWidth="200.0" prefWidth="108.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints fillHeight="false" minHeight="120.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <StackPane maxHeight="128.0" maxWidth="128.0" minHeight="128.0" minWidth="118.0" prefHeight="128.0" prefWidth="118.0" styleClass="profile-image" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-               <children>
-                  <Circle centerX="30.0" centerY="30.0" fill="WHITE" radius="60.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
-                     <StackPane.margin>
-                        <Insets bottom="120.0" left="120.0" />
-                     </StackPane.margin>
-                  </Circle>
-                  <RoundImageView fx:id="sidebarProfileImage" fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
-                     <image>
-                        <Image url="@../images/profile-placeholder.jpg" />
-                     </image>
-                     <StackPane.margin>
-                        <Insets />
-                     </StackPane.margin>
-                  </RoundImageView>
-               </children>
-               <GridPane.margin>
-                  <Insets bottom="20.0" right="64.0" top="84.0" />
-               </GridPane.margin>
-            </StackPane>
-         </children>
-         <padding>
-            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-         </padding>
-      </GridPane>
+       <!-- Header -->
+       <GridPane fx:id="sidebarHeader"  style="-fx-background-color: derive(-sn-primary-color, 20%);">
+           <columnConstraints>
+           </columnConstraints>
+           <rowConstraints>
+               <RowConstraints vgrow="ALWAYS"/>
+               <RowConstraints vgrow="NEVER" valignment="CENTER" prefHeight="56" />
+           </rowConstraints>
+           <children>
+               <RoundImageView fx:id="profileImage" fitHeight="64" fitWidth="64" pickOnBounds="true" preserveRatio="true">
+                   <image>
+                       <Image url="@../images/profile-placeholder.jpg" />
+                   </image>
+               </RoundImageView>
+               <VBox GridPane.rowIndex="1" alignment="CENTER_LEFT">
+                    <Label styleClass="title" fx:id="profileUsername" text="Hans Wurst"/>
+                    <Label styleClass="subtitle" fx:id="profileEmail" text="hans.wurst@wurst.de "/>
+               </VBox>
+           </children>
+           <padding>
+              <Insets top="16" bottom="16" left="16" right="16"/>
+           </padding>
+       </GridPane>
 
+       <!-- Navigation elements -->
 
-
-       <Button fx:id="profileButton" mnemonicParsing="false" prefHeight="56.0" prefWidth="114.0" text="%sidebar.profile" textOverrun="CLIP"/>
-       <Button fx:id="inboxButton" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="%sidebar.inbox"/>
-       <Button fx:id="homeworkButton" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="%sidebar.homework" />
-       <Button fx:id="chatButton" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="%sidebar.chat" />
-       <Button fx:id="contactButton" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="sidebar-button" text="%sidebar.contacts" />
-       <Button fx:id="radarButton" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" styleClass="sidebar-button" text="%sidebar.radar"/>
-       <Button fx:id="settingsButton" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" styleClass="sidebar-button" text="%sidebar.settings"/>
+       <Navigation fx:id="navigation">
+           <items>
+               <ActionEntry text="%sidebar.inbox"  icon="ENVELOPE" id="inbox"/>
+               <ActionEntry text="%sidebar.homework" icon="GRADUATION_CAP" id="homework"/>
+               <ActionEntry text="%sidebar.chat" icon="COMMENTS" id="chats"/>
+               <ActionEntry text="%sidebar.contacts" icon="GROUP" id="contacts"/>
+               <ActionEntry text="%sidebar.radar" icon="GROUP" id="radar"/>
+               <ActionEntry text="%sidebar.settings" icon="GEARS" id="settings"/>
+           </items>
+       </Navigation>
    </children>
 </VBox>

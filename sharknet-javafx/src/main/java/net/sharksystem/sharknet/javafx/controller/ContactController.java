@@ -3,21 +3,21 @@ package net.sharksystem.sharknet.javafx.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import net.sharksystem.sharknet.api.*;
+import net.sharksystem.sharknet.api.Contact;
+import net.sharksystem.sharknet.api.ImplContact;
+import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
-import net.sharksystem.sharknet.javafx.controller.FrontController;
-import net.sharksystem.sharknet.javafx.model.SharkNetModel;
+import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
-import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
-import javafx.fxml.FXML;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,15 +26,15 @@ import java.util.List;
 public class ContactController extends AbstractController{
 
 	private FrontController appController;
+	@Inject
+	private SharkNet sharkNetModel;
 
-	private ImplSharkNet sharkNetModel;
 	//private ImplContact testKontakt3 = new ImplContact("Jan", "", "");
 
 	public ContactController() {
 		super(App.class.getResource("views/contactsView.fxml"));
 		this.appController = Controllers.getInstance().get(FrontController.class);
 
-		sharkNetModel = SharkNetModel.getInstance().getSharkNetImpl();
 
 	}
 

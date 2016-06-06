@@ -1,10 +1,11 @@
 package net.sharksystem.sharknet.javafx.controller;
 
+import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import net.sharksystem.sharknet.api.ImplSharkNet;
 import net.sharksystem.sharknet.api.Profile;
+import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
@@ -16,8 +17,9 @@ import java.util.List;
  */
 public class LoginController extends AbstractController {
 
+	@Inject
+	private SharkNet sharkNet;
 	private FrontController frontController;
-	private ImplSharkNet sharkNetModel;
 
 	@FXML
 	private Label labelProfileName;
@@ -45,7 +47,7 @@ public class LoginController extends AbstractController {
 	}
 
 	private void loadProfiles() {
-		List<Profile> profileList = sharkNetModel.getProfiles();
+		List<Profile> profileList = sharkNet.getProfiles();
 		// TODO: add Profiles to View
 	}
 }

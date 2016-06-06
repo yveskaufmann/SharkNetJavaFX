@@ -1,9 +1,13 @@
 package net.sharksystem.sharknet.javafx;
 
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import net.sharksystem.sharknet.javafx.context.ApplicationContext;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
+import net.sharksystem.sharknet.javafx.modules.SharkNetModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,9 +27,21 @@ public class App extends Application {
 
 
 	public static void main(String[] args) {
+		Injector injector = Guice.createInjector(new SharkNetModule());
+		ApplicationContext.getInstance().registerInjector(injector);
+
+		enableLCDTextAntiAliasing();
 		enableLogging();
 		launch(args);
 	}
+
+	private static void enableLCDTextAntiAliasing() {
+		// Improves javafx font rendering results
+		System.setProperty("prism.lcdtext", "false");
+		System.setProperty("prism.text", "t2k");
+	}
+
+
 
 	private static void enableLogging() {
 		try {

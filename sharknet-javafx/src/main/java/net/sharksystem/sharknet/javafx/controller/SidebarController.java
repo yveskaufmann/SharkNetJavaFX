@@ -1,12 +1,22 @@
 package net.sharksystem.sharknet.javafx.controller;
 
+import com.google.inject.Inject;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
+import net.sharksystem.sharknet.api.Profile;
+import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controller.chat.ChatController;
 import net.sharksystem.sharknet.javafx.controller.inbox.InboxController;
+import net.sharksystem.sharknet.javafx.controls.Navigation;
+import net.sharksystem.sharknet.javafx.controls.dialogs.ImageChooserDialog;
+import net.sharksystem.sharknet.javafx.controls.RoundImageView;
+import net.sharksystem.sharknet.javafx.services.ImageManager;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
+
+import java.io.IOException;
 
 /**
  * This controller is responsible to provide a
@@ -17,21 +27,26 @@ import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 public class SidebarController extends AbstractController {
 
 	@FXML
+	private RoundImageView profileImage;
+
+	@FXML
+	private Label profileUsername;
+
+	@FXML
+	private Label profileEmail;
+
+	@FXML
 	private VBox sidebar;
+
 	@FXML
-	private Button profileButton;
-	@FXML
-	private Button homeworkButton;
-	@FXML
-	private Button inboxButton;
-	@FXML
-	private Button contactButton;
-	@FXML
-	private Button chatButton;
-	@FXML
-	private Button radarButton;
-	@FXML
-	private Button settingsButton;
+	private Navigation navigation;
+
+	@Inject
+	private SharkNet sharkNet;
+
+	@Inject
+	private ImageManager imageManager;
+
 
 	private FrontController frontController;
 
@@ -47,13 +62,39 @@ public class SidebarController extends AbstractController {
 	 */
 	@Override
 	protected void onFxmlLoaded() {
-		profileButton.setOnAction((event -> frontController.goToView(ProfileController.class)));
-		homeworkButton.setOnAction((event -> frontController.goToView(HomeworkController.class)));
-		inboxButton.setOnAction((event -> frontController.goToView(InboxController.class)));
-		contactButton.setOnAction((event -> frontController.goToView(ContactController.class)));
-		chatButton.setOnAction((event -> frontController.goToView(ChatController.class)));
-		radarButton.setOnAction((event -> frontController.goToView(RadarController.class)));
-		settingsButton.setOnAction((event -> frontController.goToView(SettingsController.class)));
+		navigation.setOnAction((actionEntry -> {
+			switch (actionEntry.getId()) {
+				case "homework":   frontController.goToView(HomeworkController.class); break;
+				case "inbox":   frontController.goToView(InboxController.class); break;
+				case "contacts":   frontController.goToView(ContactController.class); break;
+				case "chats":   frontController.goToView(ChatController.class); break;
+				case "radar":   frontController.goToView(RadarController.class); break;
+				case "settings":   frontController.goToView(SettingsController.class); break;
+			}
+		}));
+
+		profileImage.setOnMouseClicked(e -> {
+			ImageChooserDialog dialog = new ImageChooserDialog(null);
+			dialog.showAndWait().ifPresent(this::changeProfileImage);
+		});
+
+		readProfileInformation();
 	}
 
+	private void changeProfileImage(Image image) {
+		// sidebarProfileImage.setImage(image);
+		// TODO: save in profile
+	}
+
+	private void readProfileInformation() {
+		Profile profile = sharkNet.getMyProfile();
+		profileUsername.setText(profile.getContact().getNickname());
+		// TODO: order email
+		// profileEmail.setText(profile,getContext().getEmail());
+		try {
+			imageManager.readSync(profile.getContact().getPicture()).ifPresent((image -> profileImage.setImage(image)));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

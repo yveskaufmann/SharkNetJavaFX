@@ -1,5 +1,6 @@
 package net.sharksystem.sharknet.javafx.controller.chat;
 
+import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -7,9 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.Contact;
-import net.sharksystem.sharknet.api.ImplSharkNet;
+import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
-import net.sharksystem.sharknet.javafx.model.SharkNetModel;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
 import java.util.ArrayList;
@@ -32,7 +32,8 @@ public class ChatContactsController extends AbstractController {
 	@FXML
 	private Button buttonOk;
 
-	private ImplSharkNet sharkNet;
+	@Inject
+	private SharkNet sharkNet;
 	private List<Contact> allContacts;
 	private List<Contact> addedContacts;
 	private ChatContactsListener listener;
@@ -41,9 +42,6 @@ public class ChatContactsController extends AbstractController {
 
 	public ChatContactsController() {
 		super(App.class.getResource("views/chat/chatAddContacts.fxml"));
-
-		sharkNet = SharkNetModel.getInstance().getSharkNetImpl();
-
 		addedContacts = new ArrayList<>();
 		listener = null;
 
@@ -51,7 +49,7 @@ public class ChatContactsController extends AbstractController {
 		stage = new Stage();
 		stage.setTitle("Choose the contacts you want to add");
 		stage.setScene(new Scene(root, 494, 414));
-		stage.getScene().getStylesheets().add(App.class.getResource("style.css").toExternalForm());
+		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
 		stage.show();
 	}
 

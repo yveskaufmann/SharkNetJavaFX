@@ -1,21 +1,23 @@
 package net.sharksystem.sharknet.javafx.controller.chat;
 
 
+import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
+import javafx.scene.control.Button;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import jdk.internal.util.xml.impl.Input;
 import net.sharksystem.sharknet.api.*;
 import net.sharksystem.sharknet.javafx.App;
-import net.sharksystem.sharknet.javafx.model.SharkNetModel;
+import net.sharksystem.sharknet.javafx.controller.FrontController;
+import net.sharksystem.sharknet.javafx.services.ImageManager;
+import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
-import net.sharksystem.sharknet.javafx.controller.FrontController;
-import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
 import java.io.*;
 import java.util.List;
@@ -24,10 +26,17 @@ import java.util.List;
 @Controller( title = "%sidebar.chat")
 public class ChatController extends AbstractController implements ChatContactsListener{
 
+	@Inject
+	private SharkNet sharkNetModel;
+
+	@Inject
+	private ImageManager imageManager;
+
 	private FrontController frontController;
+
+
 	public static ChatController chatControllerInstance;
 	private Chat activeChat;
-	private ImplSharkNet sharkNetModel;
 	private Content attachment;
 
 	// used so we can use the same window / class for adding contacts and new chats
@@ -59,11 +68,9 @@ public class ChatController extends AbstractController implements ChatContactsLi
 	@FXML
 	private ChatWindowList chatWindowListView;
 
-
 	public ChatController() {
 		super(App.class.getResource("views/chat/chatView.fxml"));
 		this.frontController = Controllers.getInstance().get(FrontController.class);
-		sharkNetModel = SharkNetModel.getInstance().getSharkNetImpl();
 		activeChat = null;
 		chatControllerInstance = this;
 		newChat = false;
@@ -121,7 +128,6 @@ public class ChatController extends AbstractController implements ChatContactsLi
 		chatHistoryListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			     onChatSelected(chatHistoryListView.getSelectionModel().getSelectedItem());
 			 });
-
 		loadChatHistory();
 	}
 
@@ -206,6 +212,7 @@ public class ChatController extends AbstractController implements ChatContactsLi
 	private void loadChatHistory() {
 		// TODO: seperate chats in today, yesterday, earlier...
 		chatHistoryListView.getItems().clear();
+		System.out.println(sharkNetModel);
 		List<Chat> chatList = sharkNetModel.getChats();
 
 		for (int i = 0; i < chatList.size(); i++) {
@@ -218,7 +225,11 @@ public class ChatController extends AbstractController implements ChatContactsLi
 		activeChat = c;
 
 		if (activeChat.getPicture() != null) {
-			imageViewContactProfile.setImage(new Image(activeChat.getPicture().getFile()));
+			try {
+				imageManager.readSync(activeChat.getPicture()).ifPresent(imageViewContactProfile::setImage);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -252,7 +263,7 @@ public class ChatController extends AbstractController implements ChatContactsLi
 			//chat.save();
 			activeChat = chat;
 			fillChatArea(activeChat);
-			//loadChatHistory();
+			loadChatHistory();
 
 		}
 

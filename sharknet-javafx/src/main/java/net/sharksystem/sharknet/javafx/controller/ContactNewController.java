@@ -7,33 +7,31 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.Contact;
-import net.sharksystem.sharknet.api.ImplSharkNet;
+import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
-import net.sharksystem.sharknet.javafx.model.SharkNetModel;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
-import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
 
-import java.util.ArrayList;
+import javax.inject.Inject;
 import java.util.List;
 
 
 public class ContactNewController extends AbstractController {
 
-	private ImplSharkNet sharkNet;
-	private List<Contact> allContacts;
+	@Inject
+	private SharkNet sharkNet;
 
+	private List<Contact> allContacts;
 	private Stage stage;
+
+
 
 	public ContactNewController(){
 		super(App.class.getResource("views/newContactView.fxml"));
-
-		sharkNet = SharkNetModel.getInstance().getSharkNetImpl();
 
 		Parent root = super.getRoot();
 		stage = new Stage();
 		stage.setTitle("Neuen Kontakt erstellen");
 		stage.setScene(new Scene(root, 494, 414));
-		//stage.getScene().getStylesheets().add(App.class.getResource("style.css").toExternalForm());
 		stage.show();
 	}
 

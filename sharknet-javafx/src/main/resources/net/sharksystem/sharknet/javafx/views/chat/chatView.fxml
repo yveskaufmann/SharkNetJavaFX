@@ -12,17 +12,23 @@
 <?import net.sharksystem.sharknet.javafx.controller.chat.ChatHistoryList?>
 <?import net.sharksystem.sharknet.javafx.controller.chat.ChatWindowList?>
 
+<?import javafx.scene.Node?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.Pane?>
+<?import net.sharksystem.sharknet.javafx.controls.RoundImageView?>
 <AnchorPane maxHeight="Infinity" maxWidth="Infinity" minHeight="600" minWidth="800" prefHeight="768.0" prefWidth="1046.0" styleClass="theme-presets" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <SplitPane fx:id="chatView" dividerPositions="0.09007832898172324" layoutX="401.0" minHeight="0.0" orientation="VERTICAL" prefHeight="768.0" prefWidth="635.0">
       <items>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="69.0" prefWidth="550.0">
              <children>
-                <ImageView fx:id="imageViewContactProfile" fitHeight="50.0" fitWidth="50.0" layoutX="10.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                <RoundImageView fx:id="imageViewContactProfile" fitHeight="50.0" fitWidth="50.0" layoutX="10.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                    <image>
                       <Image url="@../../images/profile-placeholder.jpg" />
                    </image>
-                </ImageView>
+                </RoundImageView>
 
                 <ImageView fx:id="imageViewAdd" fitHeight="50.0" fitWidth="50.0" layoutX="519.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                    <image>
@@ -50,7 +56,11 @@
                  <ChatWindowList fx:id="chatWindowListView"  layoutX="14.0" layoutY="14.0" prefHeight="531.0" prefWidth="607.0" />
                  <TextField id="emoji" fx:id="textFieldMessage" layoutX="14.0" layoutY="561.0" prefHeight="25.0" prefWidth="412.0" text="Type your message here..." />
 
-                 <ImageView fx:id="imageViewEmoji" fitHeight="40.0" fitWidth="40.0" layoutX="440.0" layoutY="561.0" pickOnBounds="true" preserveRatio="true">
+                 <!-- Example for emojis with css -->
+                 <Pane styleClass="emojione,emojione-1f603"/>
+                 <Pane layoutX="40" styleClass="emojione,emojione-1f648"/>
+
+                 <ImageView fx:id="imageViewEmoji" fitHeight="32.0" fitWidth="32.0" layoutX="440.0" layoutY="561.0" pickOnBounds="true"  preserveRatio="true">
                      <image>
                          <Image url="@../../images/smiley.png" />
                      </image>

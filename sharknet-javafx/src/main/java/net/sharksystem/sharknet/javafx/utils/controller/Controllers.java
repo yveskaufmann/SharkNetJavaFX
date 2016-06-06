@@ -79,5 +79,4 @@ public class Controllers {
 		return null;
 	}
 
-	// TODO register by context
 }

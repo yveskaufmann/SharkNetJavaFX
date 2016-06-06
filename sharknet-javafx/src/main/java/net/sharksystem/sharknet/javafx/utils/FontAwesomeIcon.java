@@ -1,5 +1,7 @@
 package net.sharksystem.sharknet.javafx.utils;
 
+import net.sharksystem.sharknet.javafx.controls.FontIcon;
+
 /**
  * <p>
  * A enum with all <a href="http://fontawesome.io/" >Font Awesome</a> icons,
@@ -654,7 +656,8 @@ public enum FontAwesomeIcon implements FontBasedIcon {
 	YOAST("\uf2b1"),
 	THEMEISLE("\uf2b2"),
 	GOOGLE_PLUS_OFFICIAL("\uf2b3"),
-	FONT_AWESOME("\uf2b4");
+	FONT_AWESOME("\uf2b4"),
+	NONE("");
 
 
 	private String icon;
@@ -672,4 +675,5 @@ public enum FontAwesomeIcon implements FontBasedIcon {
 	public String toString() {
 		return getText();
 	}
+
 }
