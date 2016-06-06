@@ -7,7 +7,7 @@ import java.sql.Timestamp;
  *
  * Interface represents the comments belonging to feeds
  */
-public interface Comment {
+public interface Comment extends Timeable, ContainsContent {
 
 	/**
 	 * Returns the author of a comment

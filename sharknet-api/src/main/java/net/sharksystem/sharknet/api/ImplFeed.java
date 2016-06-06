@@ -10,11 +10,8 @@ import java.util.List;
  */
 public class ImplFeed implements Feed {
 
-
-
 	Content content;
 	Profile owner;
-	List<Comment> comment_list = new LinkedList<>();
 	Timestamp datetime;
 	Interest interest;
 	Contact sender;
@@ -72,15 +69,45 @@ public class ImplFeed implements Feed {
 	}
 
 	@Override
-	public List<Comment> getComments(int count) {
-		//ToDo: Shark - search for comments construct the objects and fill the list
-		return comment_list;
+	public List<Comment> getComments() {
+		//ToDo: Shark - search for comments construct the objects and fill the list - sorted by time
+		List<Comment> commentlist = DummyDB.getInstance().getComments(this);
+		return commentlist;
 	}
+
+	@Override
+	public List<Comment> getComments(int startIndex, int stopIndex) {
+		//ToDo: Shark - search for comments within the intervall - sorted by time
+		List<Comment> commentlist = DummyDB.getInstance().getComments(this, startIndex, stopIndex);
+		return commentlist;
+	}
+
+	@Override
+	public List<Comment> getComments(Timestamp start, Timestamp stop) {
+		//ToDo: Shark - search for comments within the timerange  - sorted by time
+		List<Comment> commentlist = DummyDB.getInstance().getComments(this, start, stop);
+		return commentlist;
+	}
+
+	@Override
+	public List<Comment> getComments(Timestamp start, Timestamp stop, int startIndex, int stopIndex) {
+		//ToDo: Shark - search for comments within the timerange and intervall - sorted by time
+		List<Comment> commentlist = DummyDB.getInstance().getComments(this, startIndex, stopIndex, start, stop);
+		return commentlist;
+	}
+
+	@Override
+	public List<Comment> getComments(String search, int startIndex, int stopIndex) {
+		//ToDo: Shark - search for comments within the intervall containing the searchstring - sorted by time
+		List<Comment> commentlist = DummyDB.getInstance().getComments(this, search,  startIndex, stopIndex);
+		return commentlist;
+	}
+
 
 	@Override
 	public void newComment(Content comment, Contact author) {
 		Comment c = new ImplComment(comment, author, this, owner);
-		comment_list.add(c);
+		DummyDB.getInstance().addComment(c, this);
 	}
 
 	/**

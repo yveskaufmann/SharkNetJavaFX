@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.security.PublicKey;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,19 +19,6 @@ public class ImplSharkNet implements SharkNet {
 
 	//ToDo: Implement - Initialisierung bauen (inkl übergabe KB etc)
 
-	//ToDo: Implement - getter for feeds with interest as param
-
-	//ToDo: Implement - getter for feeds with searchstring
-
-	//ToDo: Implement - sort list with time per default
-
-	//ToDo: Implement - Anzahl an Messages and time from - to loadmessage(int index, int anzahl) - C
-
-
-
-
-
-	List<Feed> feed_list = new LinkedList<>();
 	List<Profile> profile_list = new LinkedList<>();
 	List<Contact> contact_list = new LinkedList<>();
 	List<Chat> chat_list = new LinkedList<>();
@@ -47,12 +35,50 @@ public class ImplSharkNet implements SharkNet {
 	}
 
 	@Override
-	public List<Feed> getFeeds(int Anzahl) {
+	public List<Feed> getFeeds() {
+		//ToDo: Shark - Search in KB for Feeds and return a list of them - sorted by Time
 
-		//ToDo: Shark - Search in KB for Feeds and return a list of them
+		if(myProfile == null) return null;
+
+		//Implementation of DummyDB
+		List<Feed> feed_list = DummyDB.getInstance().getFeed_list(myProfile);
+		return feed_list;
+	}
+
+	@Override
+	public List<Feed> getFeeds(int start_index, int stop_index) {
+		//ToDo: Shark - Search in KB for Feeds and return a list of them within the given intervall - sorted by time
+
 		//Implementation of DummyDB
 		if(myProfile == null) return null;
-		feed_list = DummyDB.getInstance().getFeed_list(myProfile);
+		List<Feed> feed_list = DummyDB.getInstance().getFeed_list(myProfile, start_index, stop_index);
+		return feed_list;
+	}
+
+	@Override
+	public List<Feed> getFeeds(Interest i, int start_index, int stop_index) {
+		//ToDo: Implement - return feeds with interest i from start to stop, sorted by time
+		return null;
+	}
+
+	@Override
+	public List<Feed> getFeeds(String search, int start_index, int stop_index) {
+		//ToDo: Shark - Search in KB for Feeds and return a list of them within the given intervall and containing the search string - sorted by time
+		//Implementation of DummyDB
+		if(myProfile == null) return null;
+		List<Feed> feed_list = DummyDB.getInstance().getFeed_list(myProfile,search, start_index, stop_index);
+		return feed_list;
+
+	}
+
+	@Override
+	public List<Feed> getFeeds(Timestamp start, Timestamp end, int start_index, int stop_index) {
+
+		//ToDo: Shark - Search in KB for Feeds and return a list of them within the given intervall and timerange - sorted by time
+
+		//Implementation of DummyDB
+		if(myProfile == null) return null;
+		List<Feed> feed_list = DummyDB.getInstance().getFeed_list(myProfile, start_index, stop_index, start, end);
 		return feed_list;
 	}
 
@@ -80,7 +106,6 @@ public class ImplSharkNet implements SharkNet {
 	public Feed newFeed(Content content, Interest interest, Contact sender) {
 		if(myProfile == null) return null;
 		Feed f = new ImplFeed(content, interest, sender, myProfile);
-		feed_list.add(f);
 		return f;
 	}
 
@@ -150,12 +175,6 @@ public class ImplSharkNet implements SharkNet {
 	public void fillWithDummyData(){
 		Dummy d = new Dummy();
 		d.fillWithDummyData(this);
-	}
-	public void updateListwithDummyData(List<Feed> feed_list, List<Profile> profile_list, List<Contact> contact_list, List<Chat> chat_list){
-		this.feed_list = feed_list;
-		this.profile_list = profile_list;
-		this.contact_list = contact_list;
-		this.chat_list = chat_list;
 	}
 
 }

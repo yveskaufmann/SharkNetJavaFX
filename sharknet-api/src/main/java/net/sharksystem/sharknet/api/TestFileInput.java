@@ -45,7 +45,7 @@ public class TestFileInput {
 	public static void main(String[] args) {
 		ImplSharkNet s = new ImplSharkNet();
 		s.fillWithDummyData();
-		List<Feed> flist = s.getFeeds(10);
+		List<Feed> flist = s.getFeeds(10, 15);
 		System.out.println("foo");
 
 	}

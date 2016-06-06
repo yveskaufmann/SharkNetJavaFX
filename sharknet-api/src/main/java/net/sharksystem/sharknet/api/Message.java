@@ -1,5 +1,6 @@
 package net.sharksystem.sharknet.api;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  * Interface for the Messages used in Chats
  */
 
-public interface Message {
+public interface Message extends Timeable, ContainsContent {
 	/**
 	 * Returns the Date, Time when a message was created
 	 * @return
