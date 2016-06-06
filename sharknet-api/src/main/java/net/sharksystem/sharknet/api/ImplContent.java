@@ -1,9 +1,11 @@
 package net.sharksystem.sharknet.api;
+
+import net.sharksystem.sharknet.api.utils.ResetOnCloseInputStream;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
 
 /**
  * Created by timol on 01.06.2016.
@@ -41,7 +43,7 @@ public class ImplContent implements Content {
 
 	@Override
 	public InputStream getFile() {
-		return swapFile();
+		return new ResetOnCloseInputStream(file);
 	}
 
 	@Override
@@ -64,9 +66,28 @@ public class ImplContent implements Content {
 	 * With shark implementation it could be possible to not just copy the io stream but make a new one
  	 * @return
      */
-    private InputStream swapFile()  {
+	private InputStream swapFile()  {
+		/***
+		 * Funktioniert leider nicht, da der Stream mehrfach gelesen wird
+		 * nach dem ersten Lesen befindet sich der interne Pointer bereits am Ende
+		 * der Datei oder des Buffers.
+		 *
+		 * Würde dir folgende alternativen Vorschlagen:
+		 *
+		 * 1. Ähnlich deiner SwapFile Implementierung nur,
+		 * dass nur einmal gelesen wird und die bytes in einer Member
+		 * Variable gespeichert werden. Ich denke das war deine Intention
+		 * dahinter :)
+		 *
+		 *
+		 * 2. Du stellst sicher, dass der zurück gegebene Stream beim Aufruf von {@link InputStream#close()}
+		 * zurück gesetzt wird. Ich habe dir einen entsprechenden proxy InputStream gebaut
+		 * und den exemplarisch in {@link #getFile()} eingebaut.
+		 */
+
 		int read = 0;
 		byte[] bytes = new byte[8192];
+
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		try {
 			while ((read = file.read(bytes)) != -1)
@@ -79,5 +100,4 @@ public class ImplContent implements Content {
 	}
 
 	//ToDo: Shark - How to save file in Shark
-
 }
