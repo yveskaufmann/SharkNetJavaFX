@@ -59,7 +59,7 @@ public class InboxEntryController extends MediaListCellController<Feed> {
 		if (feed == null) return;
 
 		contactName.setText(feed.getSender().getNickname());
-		feedContent.setText(feed.getContent());
+		feedContent.setText(feed.getContent().getMessage());
 
 		java.sql.Timestamp timestamp = feed.getTimestamp();
 		receiveDate.setText(dateFormat.format(timestamp));

@@ -49,6 +49,8 @@ public class ChatController extends AbstractController implements ChatContactsLi
 	@FXML
 	private ImageView imageViewVote;
 	@FXML
+	private ImageView imageViewEmoji;
+	@FXML
 	private TextArea textAreaChat;
 	@FXML
 	private ChatHistoryList chatHistoryListView;
@@ -101,6 +103,11 @@ public class ChatController extends AbstractController implements ChatContactsLi
 		// set onMouseClick for Vote ImageView
 		imageViewVote.setOnMouseClicked(event -> {
 			onVoteClick();
+			event.consume();
+		});
+
+		imageViewEmoji.setOnMouseClicked(event -> {
+			onEmojiClick();
 			event.consume();
 		});
 
@@ -170,17 +177,18 @@ public class ChatController extends AbstractController implements ChatContactsLi
 	private void onSendClick() {
 
 		if (activeChat != null) {
-			if (sendAttachment) {
-				attachment.setMessage(textFieldMessage.getText());
+			if (sendAttachment && attachment != null) {
+				//attachment.setMessage(textFieldMessage.getText());
 				activeChat.sendMessage(attachment);
 			} else {
-				activeChat.sendMessage(new ImplContent(null, "", textFieldMessage.getText()));
+				activeChat.sendMessage(new ImplContent(null, "", "", textFieldMessage.getText()));
 			}
 
 				//TODO: saving... seems not to work
-			activeChat.save();
+			//activeChat.save();
 			fillChatArea(activeChat);
 			sendAttachment = false;
+			attachment = null;
 		}
 
 	}
@@ -205,12 +213,12 @@ public class ChatController extends AbstractController implements ChatContactsLi
 		}
 	}
 
-	public void onChatSelected(Chat c) {
+	private void onChatSelected(Chat c) {
 		fillChatArea(c);
 		activeChat = c;
 
-		if (activeChat.getPicture() != null && activeChat.getPicture().length() > 0) {
-			imageViewContactProfile.setImage(new Image(activeChat.getPicture()));
+		if (activeChat.getPicture() != null) {
+			imageViewContactProfile.setImage(new Image(activeChat.getPicture().getFile()));
 		}
 	}
 
@@ -241,7 +249,7 @@ public class ChatController extends AbstractController implements ChatContactsLi
 
 			// TODO: check why sharknet suddenly returns a triple size chatlist when the following lines are enables...
 			//sharkNetModel.getChats().add(chat);
-			chat.save();
+			//chat.save();
 			activeChat = chat;
 			fillChatArea(activeChat);
 			//loadChatHistory();
@@ -250,5 +258,11 @@ public class ChatController extends AbstractController implements ChatContactsLi
 
 		addChatContacts = false;
 		newChat = false;
+	}
+
+	private void onEmojiClick() {
+		System.out.println("onEmojiClick");
+		EmojiController e = new EmojiController();
+
 	}
 }
