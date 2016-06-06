@@ -9,7 +9,6 @@ import net.sharksystem.sharknet.api.Chat;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCell;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCellController;
-import net.sharksystem.sharknet.javafx.controls.medialist.MediaListView;
 import net.sharksystem.sharknet.javafx.services.ImageManager;
 
 import java.io.IOException;
@@ -72,7 +71,7 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 
 		try {
 			// TODO: image reloading must be avoided
-			imageManager.readSync(chat.getPicture()).ifPresent(imageViewContactProfile::setImage);
+			imageManager.readImageFromSync(chat.getPicture()).ifPresent(imageViewContactProfile::setImage);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

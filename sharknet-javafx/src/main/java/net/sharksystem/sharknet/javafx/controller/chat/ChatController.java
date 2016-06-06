@@ -226,7 +226,7 @@ public class ChatController extends AbstractController implements ChatContactsLi
 
 		if (activeChat.getPicture() != null) {
 			try {
-				imageManager.readSync(activeChat.getPicture()).ifPresent(imageViewContactProfile::setImage);
+				imageManager.readImageFromSync(activeChat.getPicture()).ifPresent(imageViewContactProfile::setImage);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

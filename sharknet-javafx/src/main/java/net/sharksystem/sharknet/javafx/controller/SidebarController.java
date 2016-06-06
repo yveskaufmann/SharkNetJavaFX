@@ -92,7 +92,7 @@ public class SidebarController extends AbstractController {
 		// TODO: order email
 		// profileEmail.setText(profile,getContext().getEmail());
 		try {
-			imageManager.readSync(profile.getContact().getPicture()).ifPresent((image -> profileImage.setImage(image)));
+			imageManager.readImageFromSync(profile.getContact().getPicture()).ifPresent((image -> profileImage.setImage(image)));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -42,7 +42,7 @@ public class ImageManager {
 		alreadyLoadedContentImages = Collections.synchronizedMap(new WeakHashMap<>());
 	}
 
-	public Optional<Image> readSync(Content content) throws IOException {
+	public Optional<Image> readImageFromSync(Content content) throws IOException {
 
 		//TODO: check mime type
 		//TODO: test image object caching with changed profile image
