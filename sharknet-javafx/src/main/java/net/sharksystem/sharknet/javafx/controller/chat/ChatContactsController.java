@@ -72,7 +72,6 @@ public class ChatContactsController extends AbstractController {
 			event.consume();
 		});
 
-
 		loadContacts();
 	}
 

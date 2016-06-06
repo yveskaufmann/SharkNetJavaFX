@@ -9,35 +9,35 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<HBox fx:id="hboxMessage" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="580.0" styleClass="theme-presets inbox-entry" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <GridPane prefWidth="452.0">
-        <columnConstraints>
-          <ColumnConstraints fillWidth="true" hgrow="ALWAYS" />
-          <ColumnConstraints hgrow="SOMETIMES" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints fillHeight="true" vgrow="ALWAYS" />
-         
-        </rowConstraints>
-         <children>
-            <Label fx:id="labelMessage" alignment="TOP_LEFT" maxHeight="Infinity" minWidth="200" text="blablubkeks" wrapText="true" />
-            <AnchorPane GridPane.columnIndex="1">
-               <children>
-                  <ImageView fx:id="imageViewEncrypted" fitHeight="33.0" fitWidth="33.0" layoutX="43.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../images/key.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="imageViewSigned" fitHeight="42.0" fitWidth="33.0" layoutX="80.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../images/doublecheck.png" />
-                     </image>
-                  </ImageView>
-                  <Label fx:id="labelTime" layoutX="4.0" layoutY="6.0" prefHeight="17.0" prefWidth="76.0" text="Label" />
-               </children>
-            </AnchorPane>
-         </children>
-      </GridPane>
-   </children>
+<HBox fx:id="hboxMessage" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="580.0" styleClass="theme-presets inbox-entry" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <GridPane prefWidth="350.0">
+            <columnConstraints>
+                <ColumnConstraints fillWidth="true" hgrow="ALWAYS" />
+                <ColumnConstraints hgrow="SOMETIMES" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints fillHeight="true" vgrow="ALWAYS" />
+
+            </rowConstraints>
+            <children>
+                <Label fx:id="labelMessage" alignment="TOP_LEFT" maxHeight="Infinity" minWidth="191.0" text="blablubkeks" wrapText="true" />
+                <AnchorPane GridPane.columnIndex="1">
+                    <children>
+                        <ImageView fx:id="imageViewEncrypted" fitHeight="33.0" fitWidth="33.0" layoutX="43.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../images/key.png" />
+                            </image>
+                        </ImageView>
+                        <ImageView fx:id="imageViewSigned" fitHeight="42.0" fitWidth="33.0" layoutX="80.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../images/doublecheck.png" />
+                            </image>
+                        </ImageView>
+                        <Label fx:id="labelTime" layoutX="4.0" layoutY="6.0" prefHeight="17.0" prefWidth="76.0" text="Label" />
+                    </children>
+                </AnchorPane>
+            </children>
+        </GridPane>
+    </children>
 </HBox>

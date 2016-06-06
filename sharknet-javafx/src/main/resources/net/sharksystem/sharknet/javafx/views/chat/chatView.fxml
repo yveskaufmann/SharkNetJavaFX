@@ -48,8 +48,15 @@
                  <TextArea fx:id="textAreaChat" editable="false" layoutX="14.0" layoutY="14.0" prefHeight="531.0" prefWidth="607.0" text="&lt;You&gt; Hallo&#10;&lt;Contact 1&gt; Hey" />
                 -->
                  <ChatWindowList fx:id="chatWindowListView"  layoutX="14.0" layoutY="14.0" prefHeight="531.0" prefWidth="607.0" />
-                <TextField id="emoji" fx:id="textFieldMessage" layoutX="14.0" layoutY="561.0" prefHeight="25.0" prefWidth="412.0" text="Type your message here..." />
-                <Button fx:id="buttonSend" layoutX="446.0" layoutY="561.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" text="Send" />
+                 <TextField id="emoji" fx:id="textFieldMessage" layoutX="14.0" layoutY="561.0" prefHeight="25.0" prefWidth="412.0" text="Type your message here..." />
+
+                 <ImageView fx:id="imageViewEmoji" fitHeight="40.0" fitWidth="40.0" layoutX="440.0" layoutY="561.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                         <Image url="@../../images/smiley.png" />
+                     </image>
+                 </ImageView>
+
+                 <Button fx:id="buttonSend" layoutX="500.0" layoutY="561.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" text="Send" />
                   
              </children>
             </AnchorPane>
