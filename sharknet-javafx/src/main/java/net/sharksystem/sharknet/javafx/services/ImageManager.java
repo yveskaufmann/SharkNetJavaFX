@@ -1,5 +1,7 @@
 package net.sharksystem.sharknet.javafx.services;
 
+import com.sun.istack.internal.NotNull;
+import com.sun.istack.internal.Nullable;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import net.sharksystem.sharknet.api.Content;
@@ -42,8 +44,24 @@ public class ImageManager {
 		alreadyLoadedContentImages = Collections.synchronizedMap(new WeakHashMap<>());
 	}
 
-	public Optional<Image> readImageFromSync(Content content) throws IOException {
-
+	/**
+	 * Loads a image synchronously from a passed content object and return it
+	 * as a {@link Optional<Image>} object. When the content isn't readable
+	 * then a empty optional is returned.
+	 *
+	 * <p> Usage example:
+	 * <pre>
+	 *     private ImageView imageView;
+	 *     // ...
+	 *     public void loadImageFromContact(Contact contact) {
+	 *         readImageFrom(contact.getPicture()).ifPresent(imageView::setImage);
+	 *     }
+	 * </pre>
+	 *
+	 * @param content the content to read from
+	 * @return a optional which contains the image if content is not null and readable.
+     */
+	public Optional<Image> readImageFrom(@Nullable Content content) {
 		//TODO: check mime type
 		//TODO: test image object caching with changed profile image
 
@@ -52,27 +70,31 @@ public class ImageManager {
 			return Optional.of(alreadyLoadedContentImages.get(content));
 		}
 
-		String type = content.getFileExtension();
-		if (! SUPPORTED_FORMATS.contains(content.getFileExtension())) {
-			throw new IllegalArgumentException("Content isn't a supported image format");
-		}
+		if (content != null && isImage(content)) {
 
-		try (InputStream in = content.getFile()) {
-			assert in.available() > 0;
-			BufferedImage bufferedImage = ImageIO.read(in);
-			if (bufferedImage != null) {
-				Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-				alreadyLoadedContentImages.put(content, image);
-				Log.debug("Load image from content: " + content);
-				return Optional.of(image);
+			try (InputStream in = content.getFile()) {
+				assert in.available() > 0;
+				BufferedImage bufferedImage = ImageIO.read(in);
+				if (bufferedImage != null) {
+					Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+					alreadyLoadedContentImages.put(content, image);
+					Log.debug("Load image from content: " + content);
+					return Optional.of(image);
+				}
+			} catch (IOException e) {
+				Log.warn("Could not load image from content", e);
 			}
-		} catch (IOException e) {
-			throw new IOException("Could not load image from content", e);
 		}
-
 		return Optional.empty();
-	};
+	}
 
+	public boolean isImage(@NotNull Content content) {
+		String type = Objects.toString(content.getFileExtension(), "");
+		if(SUPPORTED_FORMATS.contains(type)) return true;
+
+		Log.warn("Content doesn't contains a image, invalid type: '" + type + "'");
+		return false;
+	}
 
 	public void write(Image image, String format, OutputStream out) throws IOException {
 		BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);

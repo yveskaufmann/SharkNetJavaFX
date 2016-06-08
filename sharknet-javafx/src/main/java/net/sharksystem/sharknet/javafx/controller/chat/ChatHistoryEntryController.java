@@ -68,13 +68,8 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 		}
 
 		chatTitle.setText(chat.getTitle());
+		imageManager.readImageFrom(chat.getPicture()).ifPresent(imageViewContactProfile::setImage);
 
-		try {
-			// TODO: image reloading must be avoided
-			imageManager.readImageFromSync(chat.getPicture()).ifPresent(imageViewContactProfile::setImage);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 
