@@ -56,10 +56,6 @@
                  <ChatWindowList fx:id="chatWindowListView"  layoutX="14.0" layoutY="14.0" prefHeight="531.0" prefWidth="607.0" />
                  <TextField id="emoji" fx:id="textFieldMessage" layoutX="14.0" layoutY="561.0" prefHeight="25.0" prefWidth="412.0" text="Type your message here..." />
 
-                 <!-- Example for emojis with css -->
-                 <Pane styleClass="emojione,emojione-1f603"/>
-                 <Pane layoutX="40" styleClass="emojione,emojione-1f648"/>
-
                  <ImageView fx:id="imageViewEmoji" fitHeight="32.0" fitWidth="32.0" layoutX="440.0" layoutY="561.0" pickOnBounds="true"  preserveRatio="true">
                      <image>
                          <Image url="@../../images/smiley.png" />

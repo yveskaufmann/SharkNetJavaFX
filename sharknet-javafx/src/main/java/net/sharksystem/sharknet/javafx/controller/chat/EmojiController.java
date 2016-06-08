@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
@@ -17,6 +18,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.util.List;
 
 /**
  * Created by Benni on 06.06.2016.
@@ -27,7 +29,7 @@ public class EmojiController extends AbstractController {
 	GridPane gridPaneEmojis;
 
 	private Emoji emoji;
-	private BufferedImage[][] emojis;
+	private List<String> emojis;
 
 	public EmojiController() {
 		super(App.class.getResource("views/chat/emojiView.fxml"));
@@ -38,43 +40,28 @@ public class EmojiController extends AbstractController {
 		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
 		stage.show();
 
-		// TODO: relative path
-
-		try {
-			emoji = new Emoji(App.class.getResource("images/emojione-sprites.png").openStream());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+		emoji = new Emoji();
 		emoji.loadEmojis();
 		emojis = emoji.getEmojis();
 
+		int counter = 0;
 		for (int i = 0; i < Emoji.cols; i++) {
 			for (int j = 0; j < Emoji.rows; j++) {
-				ImageView smiley = new ImageView();
-				smiley.setFitHeight(32);
-				smiley.setFitWidth(32);
-				smiley.setPreserveRatio(true);
-
-				ByteArrayOutputStream os = new ByteArrayOutputStream();
-				try {
-
-					ImageIO.write(emojis[i][j], "png", os);
-					InputStream is = new ByteArrayInputStream(os.toByteArray());
-					smiley.setImage(new Image(is));
-					gridPaneEmojis.add(smiley, i, j);
-				} catch (IOException e) {
-					e.printStackTrace();
+				if (counter < emojis.size()) {
+					Pane pane = new Pane();
+					pane.getStyleClass().addAll("emojione", emojis.get(counter));
+					System.out.println(emojis.get(counter));
+					pane.setPrefHeight(64);
+					pane.setPrefWidth(64);
+					gridPaneEmojis.add(pane, i, j);
+					counter += 1;
 				}
-
 			}
 		}
 	}
 
 	@Override
 	protected void onFxmlLoaded() {
-
-
 
 	}
 }

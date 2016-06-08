@@ -9,6 +9,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.*;
@@ -126,9 +127,11 @@ public class ChatController extends AbstractController implements ChatContactsLi
 
 		chatHistoryListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		chatHistoryListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-			     onChatSelected(chatHistoryListView.getSelectionModel().getSelectedItem());
-			 });
+			onChatSelected(chatHistoryListView.getSelectionModel().getSelectedItem());
+		});
 		loadChatHistory();
+
+
 	}
 
 	private void onAttachmentClick() {
@@ -184,7 +187,7 @@ public class ChatController extends AbstractController implements ChatContactsLi
 
 		if (activeChat != null) {
 			if (sendAttachment && attachment != null) {
-				//attachment.setMessage(textFieldMessage.getText());
+				attachment.setMessage(textFieldMessage.getText());
 				activeChat.sendMessage(attachment);
 			} else {
 				activeChat.sendMessage(new ImplContent(null, "", "", textFieldMessage.getText()));
