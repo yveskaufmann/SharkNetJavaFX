@@ -5,7 +5,10 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.TextField;
+import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
+import net.sharksystem.sharknet.javafx.controls.*;
 import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
@@ -16,11 +19,7 @@ public class SettingsController extends AbstractController {
 
 	private FrontController frontController;
 
-
-	public SettingsController() {
-		super(App.class.getResource("views/settingsView.fxml"));
-		this.frontController = Controllers.getInstance().get(FrontController.class);;
-	}
+	private SharkNet sharkNetModel;
 
 	private int maxRoutedMB = 10;
 	private int switchOffWifiDirectAfterMin = 30;
@@ -28,6 +27,7 @@ public class SettingsController extends AbstractController {
 	private String mailPassword = "";
 	private String smtpServer = "";
 	private String imapServer = "";
+	private boolean radar;
 
 	@FXML
 	private Button settingsSaveButton;
@@ -45,6 +45,23 @@ public class SettingsController extends AbstractController {
 	private TextField settingsSMTPServer;
 	@FXML
 	private TextField settingsIMAPServer;
+	@FXML
+	private TextField maximumRouteSize;
+	@FXML
+	private TextField settingsWiFiDirectOffMinutes;
+
+
+	public SettingsController() {
+		super(App.class.getResource("views/settingsView.fxml"));
+		this.frontController = Controllers.getInstance().get(FrontController.class);
+
+		//ImplSetting implSetting = sharkNetModel.getMyProfile().getSettings()
+
+	}
+
+
+
+
 
 	/*@FXML
 	private RadioButton syncMediumSelectWifi;
@@ -62,19 +79,21 @@ public class SettingsController extends AbstractController {
 	private ToggleGroup radarSwitch;
 
 
+
+
 	@FXML
 	private void onSettingsSaveButtonClick() {
 
 		mailAddress = settingsMailAddress.getText();
 		smtpServer = settingsSMTPServer.getText();
 		imapServer = settingsIMAPServer.getText();
+		//maxRoutedMB = maximumRoutedMB.getText();
 		//mailPassword = settings
 
 		System.out.println("Mail address= "+ mailAddress);
 		System.out.println("SMTP= "+ smtpServer);
 		System.out.println("IMAP= " + imapServer);
-
-
+		System.out.println("MaxMB= " + maxRoutedMB);
 
 
 		radarSwitch.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
@@ -82,6 +101,7 @@ public class SettingsController extends AbstractController {
 			public void changed(ObservableValue<? extends Toggle> ov, Toggle t, Toggle t1) {
 				RadioButton chk = (RadioButton) t1.getToggleGroup().getSelectedToggle(); // Cast object to radio button
 				System.out.println("Selected Radio Button - " + chk.getText());
+				// implSetting.setRadar();
 			}
 		});
 	}
@@ -100,16 +120,19 @@ public class SettingsController extends AbstractController {
 
 	@FXML
 	private void settingsRadarOnRadioButton() {
-
+		radar = true;
 	}
 
 	@FXML
 	private void settingsRadarOffRadioButton() {
-
+		radar = false;
 	}
 
 	@Override
 	protected void onFxmlLoaded() {
+		settingsWiFiDirectOffMinutes.setText(""+switchOffWifiDirectAfterMin);
+		maximumRouteSize.setText(""+maxRoutedMB);
+		//radar = implSetting.getRadar();
 
 	}
 }

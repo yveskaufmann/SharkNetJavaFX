@@ -11,13 +11,20 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import net.sharksystem.sharknet.api.Contact;
 import net.sharksystem.sharknet.api.ImplContact;
+import net.sharksystem.sharknet.api.Profile;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
+import net.sharksystem.sharknet.javafx.controls.RoundImageView;
+import net.sharksystem.sharknet.javafx.services.ImageManager;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
 
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,13 +36,11 @@ public class ContactController extends AbstractController{
 	@Inject
 	private SharkNet sharkNetModel;
 
-	//private ImplContact testKontakt3 = new ImplContact("Jan", "", "");
+	private ImageManager imageManager;
 
 	public ContactController() {
 		super(App.class.getResource("views/contactsView.fxml"));
 		this.appController = Controllers.getInstance().get(FrontController.class);
-
-
 	}
 
 
@@ -58,7 +63,6 @@ public class ContactController extends AbstractController{
 		System.out.println("Neuen Kontakt erstellen");
 
 		ContactNewController c = new ContactNewController();
-
 		//appController.getChildren().clear();
 		//appController.getChildren().add(FXMLLoader.load(getClass().getResource("Content2.fxml"));
 	}
@@ -67,7 +71,7 @@ public class ContactController extends AbstractController{
 	private void onContactDeleteButtonClick() {
 		System.out.println("Kontakt löschen:");
 		System.out.println(contactList.getSelectionModel().getSelectedItem());
-		//testKontakt.deleteContact();
+
 	}
 
 	@FXML
@@ -128,24 +132,32 @@ public class ContactController extends AbstractController{
 		});
 
 
+
+
+
+		/*
+		System.out.println("sharkNetModel.getMyProfile().getContact():");
+		System.out.println(sharkNetModel.getMyProfile().getContact().getNickname());
+		//sharkNetModel.getContacts()
+
+		System.out.println("Blacklist:");
+		System.out.println(sharkNetModel.getMyProfile().getBlacklist().getList());
+		*/
+
 		List<Contact> allContacts = sharkNetModel.getContacts();
-		List<ImplContact> allBlockedContacts = new ArrayList<ImplContact>();
+		List<Contact> allBlockedContacts = sharkNetModel.getMyProfile().getBlacklist().getList();
+		//List<ImplContact> allBlockedContacts = new ArrayList<ImplContact>();
+
+
+
 
 
 		// Kontaktlisten füllen
 		for (Contact c : allContacts) {
 			contactsData.add(c.getNickname());
 		}
-
-		/* Kontaktlisten füllen
-		for (Contact c : allContacts) {
-			System.out.println(c.getNickname());
-			contactsData.add(c.getNickname());
-		}
-		*/
-
-		for (ImplContact ic : allBlockedContacts) {
-			blackListData.add(ic.getNickname());
+		for (Contact c : allBlockedContacts) {
+			blackListData.add(c.getNickname());
 		}
 
 
@@ -155,7 +167,9 @@ public class ContactController extends AbstractController{
 		//blackList.setItems(blackListData);
 
 		contactList.setCellFactory(listView -> new ListCell<String>() {
+
 			private ImageView imageView = new ImageView();
+			//private RoundImageView roundImageView = new RoundImageView();
 			@Override
 			public void updateItem(String contactName, boolean empty) {
 				super.updateItem(contactName, empty);
@@ -164,10 +178,24 @@ public class ContactController extends AbstractController{
 					setGraphic(null);
 				} else {
 					//Image image = getImageForContact(contactName);
-					Image profilePicture = new Image(App.class.getResource("images/profile.png").toExternalForm());
-					imageView.setImage(profilePicture);
+					//Image profilePicture = new Image(App.class.getResource("images/profile.png").toExternalForm());
+
+					/*
+					try{
+						//imageManager.readImageFromSync(sharkNetModel.getContacts().get(1).getPicture()).ifPresent(imageView::setImage);
+						imageManager.readImageFromSync(sharkNetModel.getContacts().get(1).getPicture().getFile());
+					}catch (IOException e){e.printStackTrace();}
+					*/
+					//imageManager.readImageFromSync(sharkNetModel.getContacts().get(1).getPicture().getFile());
+					InputStream inputStream = sharkNetModel.getContacts().get(1).getPicture().getFile();
+					Image image = new Image(inputStream);
+					imageView.setImage(image);
+
+					//imageView.setImage(profilePicture);
+					//roundImageView.setImage(profilePicture);
 					setText(contactName);
 					setGraphic(imageView);
+					//setGraphic(roundImageView);
 				}
 			}
 		});
