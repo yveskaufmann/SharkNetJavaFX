@@ -227,11 +227,7 @@ public class ChatController extends AbstractController implements ChatListener {
 		activeChat = c;
 
 		if (activeChat.getPicture() != null) {
-			try {
-				imageManager.readImageFromSync(activeChat.getPicture()).ifPresent(imageViewContactProfile::setImage);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			imageManager.readImageFrom(activeChat.getPicture()).ifPresent(imageViewContactProfile::setImage);
 		}
 	}
 

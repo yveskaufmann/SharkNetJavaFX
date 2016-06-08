@@ -32,9 +32,9 @@
             <version>8.40.10</version>
         </dependency>
         <dependency>
-            <groupId>org.bytedeco</groupId>
-            <artifactId>javacv</artifactId>
-            <version>1.1</version>
+            <groupId>com.github.sarxos</groupId>
+            <artifactId>webcam-capture</artifactId>
+            <version>0.3.11</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -46,12 +46,21 @@
             <artifactId>guice</artifactId>
             <version>3.0</version>
         </dependency>
+
+        <!-- Test dependencies -->
         <dependency>
             <groupId>com.carlosbecker</groupId>
             <artifactId>guice-junit-test-runner</artifactId>
             <version>1.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.9.5</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
