@@ -57,6 +57,12 @@ public class ContactController extends AbstractController{
 	@FXML
 	private TextField blacklistSearchTextfield;
 
+	List<Contact> allContacts;
+	List<Contact> allBlockedContacts;
+	ObservableList<String> contactsData;
+	ObservableList<String> blackListData;
+	FilteredList<String> filteredContacts;
+	FilteredList<String> filteredBlocked;
 
 	@FXML
 	private void onNewContactButtonClick() {
@@ -69,46 +75,75 @@ public class ContactController extends AbstractController{
 
 	@FXML
 	private void onContactDeleteButtonClick() {
-		System.out.println("Kontakt löschen:");
-		System.out.println(contactList.getSelectionModel().getSelectedItem());
-
+		int index = contactList.getSelectionModel().getSelectedIndex();
+		if (index >= 0) {
+			System.out.println("Kontakt löschen:");
+			System.out.println(contactList.getSelectionModel().getSelectedItem());
+			System.out.println("Index: " + index);
+			sharkNetModel.getContacts().get(index).delete();
+			loadContactAndBlacklist();
+		}
 	}
-
 	@FXML
 	private void onContactBlockButtonClick() {
-		System.out.println("Kontakt blockieren:");
-		System.out.println(contactList.getSelectionModel().getSelectedItem());
+		int index = contactList.getSelectionModel().getSelectedIndex();
+		System.out.println("Index: " + index);
+		if(index >= 0) {
+			System.out.println("Kontakt blockieren:");
+			System.out.println(contactList.getSelectionModel().getSelectedItem());
+			sharkNetModel.getContacts().remove(index);
+			sharkNetModel.getMyProfile().getBlacklist().add(sharkNetModel.getContacts().get(index));
+			loadContactAndBlacklist();
+		}
 	}
 
 	@FXML
 	private void onContactUnblockButtonClick(){
-		System.out.println("Kontakt wieder entsperrt:");
-		System.out.println(blackList.getSelectionModel().getSelectedItem());
+		int index = blackList.getSelectionModel().getSelectedIndex();
+		if(index >= 0) {
+			System.out.println("Kontakt wieder entsperrt:");
+			System.out.println(blackList.getSelectionModel().getSelectedItem());
+			System.out.println("Index: " + index);
+			loadContactAndBlacklist();
+		}
+		//sharkNetModel.getContacts().add(sharkNetModel.getMyProfile().getBlacklist().get(index));
+		//sharkNetModel.getMyProfile().getBlacklist().remove(sharkNetModel.getMyProfile().getBlacklist().get(index));
 	}
 
 
+	private void loadContactAndBlacklist(){
+		allContacts = sharkNetModel.getContacts();
+		allBlockedContacts = sharkNetModel.getMyProfile().getBlacklist().getList();
 
-	@Override
-	protected void onFxmlLoaded() {
+		contactsData = FXCollections.observableArrayList();
+		blackListData = FXCollections.observableArrayList();
+		filteredContacts = new FilteredList<>(contactsData, p -> true);
+		filteredBlocked = new FilteredList<>(blackListData, p -> true);
 
-		ObservableList<String> contactsData = FXCollections.observableArrayList();
-		ObservableList<String> blackListData = FXCollections.observableArrayList();
-		FilteredList<String> filteredContacts = new FilteredList<>(contactsData, p -> true);
-		FilteredList<String> filteredBlocked = new FilteredList<>(blackListData, p -> true);
+		// Kontaktlisten füllen
+		for (Contact c : allContacts) {
+			contactsData.add(c.getNickname());
+		}
+		for (Contact c : allBlockedContacts) {
+			blackListData.add(c.getNickname());
+		}
 
-		//TEST Suchfunktion
+		contactList.setItems(filteredContacts);
+		blackList.setItems(filteredBlocked);
+
+
 		// Kontaktliste filtern
 		contactsSearchTextfield.textProperty().addListener((observable, oldValue, newValue) -> {
 			filteredContacts.setPredicate(nickname -> {
-			// If filter text is empty, display all entries.
-			if (newValue == null || newValue.isEmpty()) {
-				return true;
-			}
-			// Compare first name and last name of every person with filter text.
-			String lowerCaseFilter = newValue.toLowerCase();
-			if (nickname.toLowerCase().contains(lowerCaseFilter)) {
-				return true; // Filter matches first name.
-			}
+				// If filter text is empty, display all entries.
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+				// Compare first name and last name of every person with filter text.
+				String lowerCaseFilter = newValue.toLowerCase();
+				if (nickname.toLowerCase().contains(lowerCaseFilter)) {
+					return true; // Filter matches first name.
+				}
 				return false; // Does not match.
 			});
 		});
@@ -131,10 +166,6 @@ public class ContactController extends AbstractController{
 			});
 		});
 
-
-
-
-
 		/*
 		System.out.println("sharkNetModel.getMyProfile().getContact():");
 		System.out.println(sharkNetModel.getMyProfile().getContact().getNickname());
@@ -144,25 +175,7 @@ public class ContactController extends AbstractController{
 		System.out.println(sharkNetModel.getMyProfile().getBlacklist().getList());
 		*/
 
-		List<Contact> allContacts = sharkNetModel.getContacts();
-		List<Contact> allBlockedContacts = sharkNetModel.getMyProfile().getBlacklist().getList();
-		//List<ImplContact> allBlockedContacts = new ArrayList<ImplContact>();
 
-
-
-
-
-		// Kontaktlisten füllen
-		for (Contact c : allContacts) {
-			contactsData.add(c.getNickname());
-		}
-		for (Contact c : allBlockedContacts) {
-			blackListData.add(c.getNickname());
-		}
-
-
-		contactList.setItems(filteredContacts);
-		blackList.setItems(filteredBlocked);
 		//contactList.setItems(contactsData);
 		//blackList.setItems(blackListData);
 
@@ -178,7 +191,7 @@ public class ContactController extends AbstractController{
 					setGraphic(null);
 				} else {
 					//Image image = getImageForContact(contactName);
-					//Image profilePicture = new Image(App.class.getResource("images/profile.png").toExternalForm());
+					Image profilePicture = new Image(App.class.getResource("images/profile.png").toExternalForm());
 
 					/*
 					try{
@@ -187,11 +200,13 @@ public class ContactController extends AbstractController{
 					}catch (IOException e){e.printStackTrace();}
 					*/
 					//imageManager.readImageFromSync(sharkNetModel.getContacts().get(1).getPicture().getFile());
+					/*
 					InputStream inputStream = sharkNetModel.getContacts().get(1).getPicture().getFile();
 					Image image = new Image(inputStream);
 					imageView.setImage(image);
+					*/
 
-					//imageView.setImage(profilePicture);
+					imageView.setImage(profilePicture);
 					//roundImageView.setImage(profilePicture);
 					setText(contactName);
 					setGraphic(imageView);
@@ -199,7 +214,6 @@ public class ContactController extends AbstractController{
 				}
 			}
 		});
-
 
 		blackList.setCellFactory(listView -> new ListCell<String>() {
 			private ImageView imageView = new ImageView();
@@ -218,5 +232,10 @@ public class ContactController extends AbstractController{
 				}
 			}
 		});
+	}
+
+	@Override
+	protected void onFxmlLoaded() {
+		loadContactAndBlacklist();
 	}
 }

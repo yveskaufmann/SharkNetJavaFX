@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="52.0" layoutY="48.0" text="Name:" />
-      <Button fx:id="saveButton" layoutX="332.0" layoutY="314.0" mnemonicParsing="false" text="Speichern" />
-      <Button fx:id="backButton"  layoutX="248.0" layoutY="314.0" mnemonicParsing="false" text="Zurück" />
-      <TextField fx:id="nameInputTextField" layoutX="156.0" layoutY="43.0" />
+      <Label layoutX="88.0" layoutY="132.0" text="Name:" />
+      <Button fx:id="saveButton" layoutX="456.0" layoutY="348.0" mnemonicParsing="false" text="Speichern" />
+      <Button fx:id="backButton" layoutX="352.0" layoutY="348.0" mnemonicParsing="false" text="Zurück" />
+      <TextField fx:id="nameInputTextField" layoutX="192.0" layoutY="127.0" />
+      <Button fx:id="newContactScanQRButton" layoutX="225.0" layoutY="234.0" mnemonicParsing="false" text="QR-Code scannen" />
+      <Label layoutX="84.0" layoutY="37.0" text="Neuer Kontakt:">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <TextField fx:id="mailInputTextField" layoutX="192.0" layoutY="173.0" />
+      <Label layoutX="88.0" layoutY="178.0" text="E-Mail:" />
+      <Label layoutX="187.0" layoutY="240.0" text="oder" />
    </children>
 </AnchorPane>

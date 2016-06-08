@@ -25,6 +25,8 @@ public class ContactNewController extends AbstractController {
 	private Button saveButton;
 	@FXML
 	private Button backButton;
+	@FXML
+	private Button newContactScanQRButton;
 	@Inject
 	private SharkNet sharkNetModel;
 
@@ -40,9 +42,15 @@ public class ContactNewController extends AbstractController {
 		Parent root = super.getRoot();
 		stage = new Stage();
 		stage.setTitle("Neuen Kontakt erstellen");
-		stage.setScene(new Scene(root, 494, 414));
+		stage.setScene(new Scene(root, 600, 500));
 		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
 		stage.show();
+	}
+
+	private void scanQRCode(){
+		publickey = "TESTKEY";
+		System.out.println("QR-Code scannen: " + publickey);
+		ImplContact newContact = new ImplContact("", uid, publickey, sharkNetModel.getMyProfile());
 	}
 
 	@Override
@@ -59,6 +67,10 @@ public class ContactNewController extends AbstractController {
 		backButton.setOnMouseClicked(event -> {
 			stage.close();
 			event.consume();
+		});
+
+		newContactScanQRButton.setOnMouseClicked(event -> {
+			scanQRCode();
 		});
 	}
 
