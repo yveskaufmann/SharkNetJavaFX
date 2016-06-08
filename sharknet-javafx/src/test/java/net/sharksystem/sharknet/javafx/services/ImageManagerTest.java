@@ -2,23 +2,21 @@ package net.sharksystem.sharknet.javafx.services;
 
 import com.carlosbecker.guice.GuiceModules;
 import com.carlosbecker.guice.GuiceTestRunner;
-import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
 import javafx.scene.image.Image;
-import net.sharksystem.sharknet.api.*;
+import net.sharksystem.sharknet.api.Content;
+import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.modules.SharkNetModule;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import javax.inject.Inject;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @GuiceModules(SharkNetModule.class)
 @RunWith(GuiceTestRunner.class)
@@ -49,11 +47,18 @@ public class ImageManagerTest {
 	}
 
 	@Test
-	public void testReadImageFromNull() throws IOException {
-		Optional<Image> image = imageManager.readImageFrom(null);
-		assertFalse(image.isPresent());
-	}
+	public void isImage() throws Exception {
 
+
+		String[] requiredSupportedTypes = {"bmp","jpg","jpeg","png"};
+
+		for(String format : requiredSupportedTypes) {
+			Content content = Mockito.mock(Content.class);
+			Mockito.when(content.getFileExtension()).thenReturn(format);
+			assertTrue("Format must be supported " + format, imageManager.isImage(content));
+		}
+
+	}
 
 
 }
