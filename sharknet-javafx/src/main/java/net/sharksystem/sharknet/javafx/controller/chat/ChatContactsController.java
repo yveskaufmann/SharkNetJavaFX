@@ -36,7 +36,7 @@ public class ChatContactsController extends AbstractController {
 	private SharkNet sharkNet;
 	private List<Contact> allContacts;
 	private List<Contact> addedContacts;
-	private ChatContactsListener listener;
+	private ChatListener listener;
 
 	private Stage stage;
 
@@ -110,7 +110,7 @@ public class ChatContactsController extends AbstractController {
 		stage.close();
 	}
 
-	public void setContactListListener(ChatContactsListener c) {
+	public void setContactListListener(ChatListener c) {
 		listener = c;
 	}
 }

@@ -9,7 +9,6 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.*;
@@ -25,7 +24,7 @@ import java.util.List;
 
 
 @Controller( title = "%sidebar.chat")
-public class ChatController extends AbstractController implements ChatContactsListener{
+public class ChatController extends AbstractController implements ChatListener {
 
 	@Inject
 	private SharkNet sharkNetModel;
@@ -274,9 +273,14 @@ public class ChatController extends AbstractController implements ChatContactsLi
 		newChat = false;
 	}
 
+	@Override
+	public void onEmojiChoose(String emojiClass) {
+		textFieldMessage.appendText(":" + emojiClass + ":");
+	}
+
 	private void onEmojiClick() {
 		System.out.println("onEmojiClick");
 		EmojiController e = new EmojiController();
-
+		e.setListener(this);
 	}
 }

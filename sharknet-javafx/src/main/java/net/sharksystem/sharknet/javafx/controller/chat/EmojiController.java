@@ -30,9 +30,12 @@ public class EmojiController extends AbstractController {
 
 	private Emoji emoji;
 	private List<String> emojis;
+	private ChatListener listener;
 
 	public EmojiController() {
 		super(App.class.getResource("views/chat/emojiView.fxml"));
+
+		listener = null;
 
 		Parent root = super.getRoot();
 		Stage stage = new Stage();
@@ -53,6 +56,10 @@ public class EmojiController extends AbstractController {
 					System.out.println(emojis.get(counter));
 					pane.setPrefHeight(64);
 					pane.setPrefWidth(64);
+					pane.setOnMouseClicked(event -> {
+						onEmojiClicked(pane);
+						event.consume();
+					});
 					gridPaneEmojis.add(pane, i, j);
 					counter += 1;
 				}
@@ -63,5 +70,15 @@ public class EmojiController extends AbstractController {
 	@Override
 	protected void onFxmlLoaded() {
 
+	}
+
+	private void onEmojiClicked(Pane p) {
+		if (listener != null) {
+			listener.onEmojiChoose(p.getStyleClass().get(1));
+		}
+	}
+
+	public void setListener(ChatListener listener) {
+		this.listener = listener;
 	}
 }
