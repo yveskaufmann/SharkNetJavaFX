@@ -431,6 +431,7 @@
 	-fx-min-width: 88px;
 	-fx-min-height: 36px;
 	-fx-label-padding: 0 16px;
+	-fx-cursor: hand;
 }
 
 .button:hover {

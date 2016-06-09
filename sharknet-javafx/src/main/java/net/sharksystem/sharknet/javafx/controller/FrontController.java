@@ -202,7 +202,7 @@ public class FrontController extends AbstractWindowController {
 				workbench.toggleSidebar();
 			}
 		)));
-		goToView(ChatController.class);
+		goToView(InboxController.class);
 	}
 
 }

@@ -11,6 +11,7 @@ import net.sharksystem.sharknet.javafx.controls.RoundImageView;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCell;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCellController;
 import net.sharksystem.sharknet.javafx.utils.FontAwesomeIcon;
+import net.sharksystem.sharknet.javafx.utils.TimeUtils;
 
 import java.text.SimpleDateFormat;
 
@@ -61,7 +62,6 @@ public class InboxEntryController extends MediaListCellController<Feed> {
 		contactName.setText(feed.getSender().getNickname());
 		feedContent.setText(feed.getContent().getMessage());
 
-		java.sql.Timestamp timestamp = feed.getTimestamp();
-		receiveDate.setText(dateFormat.format(timestamp));
+		receiveDate.setText(TimeUtils.formatDateTime(feed.getTimestamp()));
 	}
 }
