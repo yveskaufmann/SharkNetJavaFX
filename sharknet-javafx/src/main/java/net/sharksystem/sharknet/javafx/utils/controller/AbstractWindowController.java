@@ -97,7 +97,7 @@ public abstract class AbstractWindowController extends AbstractController {
 	public Scene getScene() {
 		if (scene == null) {
 			Parent root = getContext().getRootNode();
-			scene = new Scene(root, 1024, 768, true, SceneAntialiasing.BALANCED);
+			scene = new Scene(root, 1024, 768, true, SceneAntialiasing.BALANCED	);
 			onSceneCreated();
 		}
 		return scene;
