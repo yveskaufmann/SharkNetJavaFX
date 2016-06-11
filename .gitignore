@@ -3,6 +3,7 @@
 *.iml
 *.log
 *.log.*
+logs/
 .idea/
 target/
 build/
