@@ -20,12 +20,21 @@ public class Emoji {
 	private List<String> emojis;
 	public static final int cols = 43;
 	public static final int rows = 43;
+	private static Emoji emojiInstance = null;
 
-	public Emoji() {
+	private Emoji() {
 		emojis = new ArrayList<>();
+		loadEmojis();
 	}
 
-	public void loadEmojis() {
+	public static Emoji getInstance() {
+		if (emojiInstance == null) {
+			emojiInstance = new Emoji();
+		}
+		return emojiInstance;
+	}
+
+	private void loadEmojis() {
 		URI cssPath = null;
 		try {
 			cssPath = App.class.getResource("css/emojis.css").toURI();

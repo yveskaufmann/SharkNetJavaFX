@@ -43,8 +43,7 @@ public class EmojiController extends AbstractController {
 		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
 		stage.show();
 
-		emoji = new Emoji();
-		emoji.loadEmojis();
+		emoji = Emoji.getInstance();
 		emojis = emoji.getEmojis();
 
 		int counter = 0;
@@ -53,7 +52,7 @@ public class EmojiController extends AbstractController {
 				if (counter < emojis.size()) {
 					Pane pane = new Pane();
 					pane.getStyleClass().addAll("emojione", emojis.get(counter));
-					System.out.println(emojis.get(counter));
+					//System.out.println(emojis.get(counter));
 					pane.setPrefHeight(64);
 					pane.setPrefWidth(64);
 					pane.setOnMouseClicked(event -> {
