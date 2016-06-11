@@ -1,6 +1,5 @@
 package net.sharksystem.sharknet.javafx.context;
 
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.controller.ControllerMeta;
@@ -23,7 +22,7 @@ public class ViewContext<T extends AbstractController> extends AbstractContext {
 	}
 
 	public ApplicationContext getApplicationContext() {
-		return ApplicationContext.getInstance();
+		return ApplicationContext.get();
 	}
 
 	public T getController() {

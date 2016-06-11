@@ -6,6 +6,8 @@ import java.util.Map;
 
 public class AbstractContext implements Serializable {
 
+
+
 	/**
 	 * Abstraction of a property in order to achieve type type safety.
 	 * @param <T> the type of the property value
@@ -31,7 +33,7 @@ public class AbstractContext implements Serializable {
 	/**
 	 * The Set of properties nothing special here.
 	 */
-	private final Map<String, PropertyValue> properties = new HashMap<>();
+	protected final Map<String, PropertyValue> properties = new HashMap<>();
 
 	/**
 	 * Creates an empty ImporterContext.
@@ -205,5 +207,4 @@ public class AbstractContext implements Serializable {
 	public boolean hasProperty(String id, Class type) {
 		return getProperty(id, type) != null;
 	}
-
 }

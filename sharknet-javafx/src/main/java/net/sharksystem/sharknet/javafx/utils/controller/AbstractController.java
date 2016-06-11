@@ -89,10 +89,11 @@ public abstract class AbstractController {
 	 * Initiate the controller and load the corresponding fxml file which contains the
 	 * view of this controller.
 	 */
+	@SuppressWarnings("unchecked")
 	protected void initiateController() {
 		try {
 			viewContext = ControllerBuilder.getInstance().createBy(this, (Class<AbstractController>) getClass());
-		} catch (ControllerLoaderException e) {
+		} catch (ControllerLoaderException | ClassCastException e) {
 			throw new RuntimeException("Failed to initiate controller" + this.getClass(), e);
 		}
 	}

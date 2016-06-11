@@ -6,6 +6,9 @@ import com.google.inject.Singleton;
 import net.sharksystem.sharknet.api.ImplSharkNet;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.services.ImageManager;
+import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
+
+import java.util.ServiceLoader;
 
 /***
  * This module contains all bindings for the SharkNet Api.
@@ -28,5 +31,4 @@ public class SharkNetModule extends AbstractModule {
 		sharkNet.setProfile(sharkNet.getProfiles().get(1), "");
 		return sharkNet;
 	}
-
 }

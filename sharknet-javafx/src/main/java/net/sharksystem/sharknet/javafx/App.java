@@ -1,23 +1,32 @@
 package net.sharksystem.sharknet.javafx;
 
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import com.google.inject.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.context.ApplicationContext;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
-import net.sharksystem.sharknet.javafx.modules.SharkNetModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.logging.LogManager;
-
 public class App extends Application {
 
+	/**
+	 * Class Logger instance
+	 */
 	private static final Logger Log = LoggerFactory.getLogger(App.class);
+
+	/**
+	 * Front controller of the application
+	 */
 	private FrontController frontController;
+
+	@Override
+	public void init() throws Exception {
+		ApplicationContext.get().init(this);
+		enableLCDTextAntiAliasing();
+	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -25,31 +34,27 @@ public class App extends Application {
 		frontController.show();
 	}
 
-
-	public static void main(String[] args) {
-		Injector injector = Guice.createInjector(new SharkNetModule());
-		ApplicationContext.getInstance().registerInjector(injector);
-
-		enableLCDTextAntiAliasing();
-		enableLogging();
-		launch(args);
+	@Override
+	public void stop() throws Exception {
+		ApplicationContext.get().destroy();
 	}
 
+	/**
+	 * Improves the poor rendering results of javafx.
+	 *
+	 * @see <a href="http://comments.gmane.org/gmane.comp.java.openjdk.openjfx.devel/5072">Open JavaFX development Mailing list</a>
+	 */
 	private static void enableLCDTextAntiAliasing() {
-		// Improves javafx font rendering results
 		System.setProperty("prism.lcdtext", "false");
 		System.setProperty("prism.text", "t2k");
 	}
 
-
-
-	private static void enableLogging() {
-		try {
-			LogManager.getLogManager().readConfiguration(
-				App.class.getResource("logging.properties").openStream()
-			);
-		} catch (IOException ex) {
-			// When no logging.properties is provided, no logging is required.
-		}
+	/**
+	 * Launch the this fx application.
+	 *
+	 * @param args
+     */
+	public static void main(String[] args) {
+		launch(args);
 	}
 }
