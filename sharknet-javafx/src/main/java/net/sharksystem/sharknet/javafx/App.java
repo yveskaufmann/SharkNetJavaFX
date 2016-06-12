@@ -1,6 +1,7 @@
 package net.sharksystem.sharknet.javafx;
 
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.javafx.context.ApplicationContext;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
@@ -30,6 +31,8 @@ public class App extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		Image image = new Image(App.class.getResource("images/shark-icon256x256.png").toExternalForm(), 256, 256, true, true);
+		primaryStage.getIcons().addAll(image);
 		frontController = new FrontController(primaryStage);
 		frontController.show();
 	}
