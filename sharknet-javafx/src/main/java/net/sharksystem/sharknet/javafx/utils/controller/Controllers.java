@@ -63,7 +63,6 @@ public class Controllers {
 		if (controllerMap.containsKey(controllerType)) {
 			ViewContext ctx = controllerMap.remove(controllerType);
 			Log.debug("Shutdown controller {}", controllerType.getName());
-			ctx.getController().onShutdown();
 		}
 	};
 

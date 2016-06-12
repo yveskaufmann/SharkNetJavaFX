@@ -2,7 +2,6 @@ package net.sharksystem.sharknet.javafx.utils.controller;
 
 import javafx.scene.Parent;
 import net.sharksystem.sharknet.javafx.context.ViewContext;
-import net.sharksystem.sharknet.javafx.controls.ActionBar;
 import net.sharksystem.sharknet.javafx.i18n.I18N;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -116,10 +115,7 @@ public abstract class AbstractController {
 	 * equivalent to {@link javafx.fxml.Initializable#initialize(URL, ResourceBundle)}.
 	 * <p>
 	 *
-	 *  NOTE: this method is deprecated please annotate your init method
-	 *  with: @PostConstruct
 	 */
-	@Deprecated
 	abstract protected void onFxmlLoaded();
 
 	/**
@@ -142,17 +138,6 @@ public abstract class AbstractController {
 
 	}
 
-	/**
-	 * Will be called if the controller is terminated.
-	 * This can happen if the application exists or the
-	 * controller is unregistered from the FrontController.
-	 *
-	 * Annotate your destroy method with javax.annotation.PreDestroy
-	 *
-	 * @deprecated
-	 */
-	public void onShutdown() {
-	};
 
 	/**
 	 * Will be called before if controller
@@ -169,6 +154,4 @@ public abstract class AbstractController {
 	public void onPause() {
 
 	}
-
-
 }
