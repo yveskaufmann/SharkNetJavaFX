@@ -141,11 +141,11 @@ public class Dummy {
 
 
 		List<Feed> feedlist = s.getFeeds(0, 15);
-		System.out.println(f1.getContent());
-		System.out.println(feedlist.get(0).getContent());
+		// System.out.println(f1.getContent());
+		// System.out.println(feedlist.get(0).getContent());
 		f1.getComments().get(0).dislike();
 
-		System.out.println(feedlist.get(0).getComments());
+		// System.out.println(feedlist.get(0).getComments());
 
 
 //Bobs stuff
