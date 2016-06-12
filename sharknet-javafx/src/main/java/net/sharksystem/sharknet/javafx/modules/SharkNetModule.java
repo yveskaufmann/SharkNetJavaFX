@@ -8,6 +8,7 @@ import com.google.inject.spi.TypeEncounter;
 import com.google.inject.spi.TypeListener;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.services.ImageManager;
+import net.sharksystem.sharknet.javafx.services.ReleaseManager;
 import net.sharksystem.sharknet.javafx.services.SharkNetProvider;
 import net.sharksystem.sharknet.javafx.utils.ReflectionUtils;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
@@ -31,6 +32,7 @@ public class SharkNetModule extends AbstractModule {
 	protected void configure() {
 		bind(ImageManager.class).asEagerSingleton();
 		bind(SharkNet.class).toProvider(SharkNetProvider.class).asEagerSingleton();
+		bind(ReleaseManager.class).asEagerSingleton();
 
 		ensurePostConstructIsInvoked();
 	}
