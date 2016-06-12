@@ -2,10 +2,7 @@ package net.sharksystem.sharknet.api;
 
 import net.sharksystem.sharknet.api.utils.ResetOnCloseInputStream;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * Created by timol on 01.06.2016.
@@ -14,6 +11,7 @@ public class ImplContent implements Content {
 
 	String fileExtension, message, filename;
 	InputStream file;
+	private byte[] bytesOfFile;
 
 	public ImplContent (String message){
 		this.message = message;
@@ -43,6 +41,13 @@ public class ImplContent implements Content {
 
 	@Override
 	public InputStream getFile() {
+		/*
+		   JarInputStream are don't supports marks in this
+		   case we need another solution.
+		 */
+		if (! file.markSupported()) {
+			return new ResetOnCloseInputStream(new BufferedInputStream(file));
+		}
 		return new ResetOnCloseInputStream(file);
 	}
 
@@ -85,19 +90,29 @@ public class ImplContent implements Content {
 		 * und den exemplarisch in {@link #getFile()} eingebaut.
 		 */
 
-		int read = 0;
-		byte[] bytes = new byte[8192];
-
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		try {
-			while ((read = file.read(bytes)) != -1)
-                bos.write(bytes,0,read);
-		} catch (IOException e) {
-			e.printStackTrace();
+		byte[] readBuffer = new byte[8192];
+		if (bytesOfFile == null) {
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			try {
+				int read = 0;
+				while ((read = file.read(readBuffer)) != -1) {
+					bos.write(readBuffer, 0, read);
+				}
+				bytesOfFile = bos.toByteArray();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (file != null) {
+					try {
+						file.close();
+					} catch (IOException e) {
+					}
+				}
+			}
 		}
-		byte[] ba = bos.toByteArray();
-		return new ByteArrayInputStream(ba);
+		return new ByteArrayInputStream(bytesOfFile);
 	}
+
 
 	//ToDo: Shark - How to save file in Shark
 }

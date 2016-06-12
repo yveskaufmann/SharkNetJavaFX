@@ -8,6 +8,11 @@ import java.io.InputStream;
  * A Proxy stream which passes the method calls on to the proxied stream and
  * ensures that the stream is reset to its initial state when
  * the proxy stream is closed.
+ *
+ * A creator of ResetOnCloseInputStream is responsible
+ * to close the proxied input stream by them self,
+ * then close don't close the proxied stream in order
+ * to support input stream reusing.
  */
 public class ResetOnCloseInputStream extends InputStream {
 
@@ -22,7 +27,7 @@ public class ResetOnCloseInputStream extends InputStream {
      */
 	public ResetOnCloseInputStream(InputStream in) {
 		if (! in.markSupported()) {
-			throw new IllegalArgumentException("The specified passed input stream must supports marks");
+			throw new IllegalArgumentException("The specified passed input stream must supports marks" + in.getClass());
 		}
 		proxiedInputStream = in;
 		proxiedInputStream.mark(Integer.MAX_VALUE);

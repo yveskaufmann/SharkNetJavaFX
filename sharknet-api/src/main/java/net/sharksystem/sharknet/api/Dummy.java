@@ -35,11 +35,12 @@ public class Dummy {
 
 		//Set Profilepictures
 		InputStream in = null;
-		in = ClassLoader.getSystemClassLoader().getResourceAsStream("Alice.jpg");
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
+		in = cl.getResourceAsStream("Alice.jpg");
 		Content alicepic = new ImplContent(in, "jpg", "Alice profile picture");
 		alice.setPicture(alicepic);
 
-		in = ClassLoader.getSystemClassLoader().getResourceAsStream("Bob.jpg");
+		in = cl.getResourceAsStream("Bob.jpg");
 		Content bobpic = new ImplContent(in, "jpg", "Bob profile picture");
 		bob.setPicture(bobpic);
 
