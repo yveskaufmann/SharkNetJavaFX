@@ -11,12 +11,13 @@ import net.sharksystem.sharknet.javafx.context.ViewContext;
 import net.sharksystem.sharknet.javafx.controls.FontIcon;
 import net.sharksystem.sharknet.javafx.i18n.I18N;
 import net.sharksystem.sharknet.javafx.utils.ReflectionUtils;
+import net.sharksystem.sharknet.javafx.utils.ExceptionUtils;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.FXMLViewContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.nio.charset.Charset;
@@ -76,43 +77,55 @@ public class ControllerBuilder {
 
 	public <T extends AbstractController> ViewContext<T> createBy(T controller, Class<T> controllerClass) throws ControllerLoaderException {
 
-		try {
-			// Load meta data
-			ControllerMeta meta = new ControllerMeta();
-			Controller controllerAnnotation = controllerClass.getAnnotation(Controller.class);
 
-			if (controllerAnnotation != null) {
-				if (! controllerAnnotation.title().isEmpty()) {
-					String title = I18N.getString(controllerAnnotation.title());
-					meta.setTitle(title);
-				}
+		// Load meta data
+		ControllerMeta meta = new ControllerMeta();
+		Controller controllerAnnotation = controllerClass.getAnnotation(Controller.class);
 
-				if (! controllerAnnotation.icon().isEmpty()) {
-					meta.setGraphicNode(new FontIcon(controllerAnnotation.icon()));
-				}
+		if (controllerAnnotation != null) {
+			if (! controllerAnnotation.title().isEmpty()) {
+				String title = I18N.getString(controllerAnnotation.title());
+				meta.setTitle(title);
 			}
-			// Load all actions
-			loadMethodMetaData(controllerClass, controller, meta);
 
-			// Create loader and controller instance
-
-			FXMLLoader loader = createLoader(controller);
-			final Parent rootView =  loader.load();
-
-			ViewContext<T> ctx = new ViewContext<>(controller, rootView, meta);
-			ctx.setProperty(ViewContext.PROPERTY_CONTROLLER, controller);
-
-			injectDependencies(controllerClass, ctx);
-
-			controller.onFxmlLoaded();
-
-			return ctx;
-		} catch (Exception ex) {
-			throw new ControllerLoaderException(ex);
+			if (! controllerAnnotation.icon().isEmpty()) {
+				meta.setGraphicNode(new FontIcon(controllerAnnotation.icon()));
+			}
 		}
+		// Load all actions
+		loadMethodMetaData(controllerClass, controller, meta);
+
+		// Create loader and controller instance
+		Parent rootView = null;
+		try {
+			FXMLLoader loader = createLoader(controller);
+			rootView = loader.load();
+		} catch(IOException ex) {
+			throw new ControllerLoaderException("Failed to load fxml:" + controller.getLocation().toString(), ex);
+		} catch(IllegalStateException ex) {
+			throw new ControllerLoaderException(
+				controller.getClass().getSimpleName() + " don't provide a valid FXML location",
+				ex
+			);
+		}
+
+		ViewContext<T> ctx = new ViewContext<>(controller, rootView, meta);
+		ctx.setProperty(ViewContext.PROPERTY_CONTROLLER, controller);
+
+		try {
+			injectDependencies(controllerClass, ctx);
+		} catch (Exception ex) {
+			throw new ControllerLoaderException("Failed to inject dependencies for " + controller.getClass().getSimpleName());
+		}
+		try {
+			controller.onFxmlLoaded();
+		} catch (Exception ex) {
+			String errorLocation = ExceptionUtils.getFileLocationOfTraceElement(ex, 0);
+			throw new ControllerLoaderException("Error in invoked onFxmlLoaded of " + controller.getClass().getSimpleName() + errorLocation, ex);
+		}
+
+		return ctx;
 	}
-
-
 
 	private <T extends AbstractController> void injectFieldValue(Field field, ViewContext<T> ctx) {
 		Class<?> requiredFieldClass = ctx.getClass();

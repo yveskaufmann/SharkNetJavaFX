@@ -69,7 +69,11 @@ public abstract class AbstractController {
 	 * @return the root element
      */
 	public Parent getRoot() {
-		return getContext().getRootNode();
+		try {
+			return getContext().getRootNode();
+		} catch (ControllerLoaderException ex) {
+			throw new IllegalStateException("Could not obtain root node of " + getClass().getSimpleName());
+		}
 	}
 
 	/**
@@ -77,9 +81,10 @@ public abstract class AbstractController {
 	 *
 	 * @return context about this view object.
      */
-	public ViewContext<AbstractController> getContext() {
+	public ViewContext<AbstractController> getContext() throws ControllerLoaderException {
 		if (viewContext == null) {
 			initiateController();
+
 		}
 		return viewContext;
 	}
@@ -89,11 +94,11 @@ public abstract class AbstractController {
 	 * view of this controller.
 	 */
 	@SuppressWarnings("unchecked")
-	protected void initiateController() {
+	protected void initiateController() throws ControllerLoaderException {
 		try {
 			viewContext = ControllerBuilder.getInstance().createBy(this, (Class<AbstractController>) getClass());
-		} catch (ControllerLoaderException | ClassCastException e) {
-			throw new RuntimeException("Failed to initiate controller" + this.getClass(), e);
+		} catch (Exception e) {
+			throw new ControllerLoaderException("Failed to initiate " + this.getClass().getSimpleName(), e);
 		}
 	}
 

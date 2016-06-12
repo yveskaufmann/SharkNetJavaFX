@@ -51,9 +51,10 @@ public class Controllers {
 		if (! controllerMap.containsKey(controllerType)) {
 			String controllerName = controllerType.getSimpleName();
 			try {
+				Log.info("Register " +  controllerType.getSimpleName());
 				AbstractController controllerInstance = (AbstractController) controllerType.newInstance();
 				controllerMap.put(controllerType, controllerInstance.getContext());
-			} catch (InstantiationException | IllegalAccessException e) {
+			} catch (InstantiationException | ControllerLoaderException | IllegalAccessException e ) {
 				Log.warn("Failed to register {}: Could not instantiate a instance ", controllerName, e);
 			}
 		}
