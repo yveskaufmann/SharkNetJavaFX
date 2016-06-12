@@ -2,17 +2,10 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 <?import net.sharksystem.sharknet.javafx.controls.RoundImageView?>
-
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.media.MediaView?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
 <VBox styleClass="theme-presets inbox-entry" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1">
     <GridPane fx:id="container">
         <columnConstraints>
@@ -41,6 +34,11 @@
                 <Insets bottom="5.0" left="10.0" top="10.0" />
              </GridPane.margin></Text>
             <Button fx:id="verificationButton" mnemonicParsing="false" styleClass="icon-label" text="T" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowSpan="2" GridPane.valignment="TOP" />
+            <HBox spacing="5" GridPane.rowIndex="3" GridPane.columnSpan="2">
+                <Label>Kommnetare</Label>
+                <Button>Like</Button>
+                <Button>Dislike</Button>
+            </HBox>
         </children>
     </GridPane>
     <!--
