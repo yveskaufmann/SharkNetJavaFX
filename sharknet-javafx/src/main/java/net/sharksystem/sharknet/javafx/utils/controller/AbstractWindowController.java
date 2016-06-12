@@ -110,10 +110,15 @@ public abstract class AbstractWindowController extends AbstractController {
      */
 	public Stage getStage() {
 		if (stage == null) {
-			stage = new Stage();
-			if (owner != null) {
-				stage.initOwner(owner);
+			if (owner instanceof Stage) {
+				stage = (Stage) owner;
+			} else {
+				stage = new Stage();
+				if (owner != null) {
+					stage.initOwner(owner);
+				}
 			}
+
 			stage.titleProperty().bind(titleProperty());
 			stage.setOnCloseRequest(this::onCloseRequest);
 			stage.setScene(getScene());
@@ -127,7 +132,7 @@ public abstract class AbstractWindowController extends AbstractController {
 	 * Show this window in front all other windows.
 	 */
 	public void show() {
-		getStage().showAndWait();
+		getStage().show();
 		getStage().toFront();
 	}
 
