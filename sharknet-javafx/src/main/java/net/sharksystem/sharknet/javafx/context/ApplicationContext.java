@@ -4,6 +4,8 @@ package net.sharksystem.sharknet.javafx.context;
 import com.google.inject.Injector;
 import javafx.application.Application;
 import net.sharksystem.sharknet.javafx.modules.SharkNetModule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 
@@ -14,6 +16,9 @@ public class ApplicationContext extends AbstractContext {
 	 * Static Stuff
 	 *
 	 ******************************************************************************/
+
+	private static final Logger Log = LoggerFactory.getLogger(ApplicationContext.class);
+
 	/***
 	 * Field of the injector
 	 */
@@ -47,6 +52,7 @@ public class ApplicationContext extends AbstractContext {
 
 	private Application application;
 	private DIContext diContext = null;
+	private boolean isDisposed = true;
 
 	/******************************************************************************
 	 *
@@ -64,16 +70,31 @@ public class ApplicationContext extends AbstractContext {
 	 *
 	 ******************************************************************************/
 
+	synchronized
 	public void init(Application application) {
-		this.application = application;
-		this.diContext = new GuiceInjectorContext(application, () -> Collections.singletonList(new SharkNetModule()));
-		this.diContext.init();
+		if (isDisposed) {
+			Log.info("Initializing " + getClass().getSimpleName());
+			this.application = application;
+			this.diContext = new GuiceInjectorContext(application, () -> Collections.singletonList(new SharkNetModule()));
+			this.diContext.init();
+			isDisposed = false;
+			Log.info("Initialized " + getClass().getSimpleName());
+		} else {
+			Log.warn(getClass().getSimpleName() + " is already initialized");
+		}
 	}
 
+	synchronized
 	public void destroy() {
-		ensureContextCreated();
-		diContext.destroy();
-		properties.clear();
+		if (! isDisposed) {
+			Log.info("Destroying " + getClass().getSimpleName());
+			diContext.destroy();
+			properties.clear();
+			isDisposed = true;
+			Log.info("Destroyed " + getClass().getSimpleName());
+		} else {
+			Log.warn(getClass().getSimpleName() + " was already destroyed");
+		}
 	}
 
 	/**
@@ -98,8 +119,9 @@ public class ApplicationContext extends AbstractContext {
 		return application;
 	}
 
+	synchronized
 	private void ensureContextCreated() {
-		if (diContext == null) {
+		if (isDisposed) {
 			throw new IllegalStateException("Application context wasn't initialized by calling init");
 		}
 	}

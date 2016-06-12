@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.PreDestroy;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -47,13 +48,20 @@ public class GuiceInjectorContext implements DIContext {
 
 	@Override
 	public void destroy() {
-		Log.info("Destroy DI context");
+		Log.info("Destroying DI context");
 		injector.getAllBindings().values().stream()
 			.map((binding -> binding.getProvider().get()))
 			.forEach((obj) -> {
-				Log.info("Destroying " + obj.getClass().getSimpleName());
+				boolean preDestroyInvoked = false;
 				try {
-					ReflectionUtils.invokeMethodsWithAnnotation(obj.getClass(), obj, PreDestroy.class);
+					for (Method method : ReflectionUtils.getMethodsWithAnnotation(obj.getClass(), PreDestroy.class)) {
+						ReflectionUtils.invokeMethod(obj, method);
+						preDestroyInvoked = true;
+					}
+
+					if (preDestroyInvoked) {
+						Log.info("Destroyed " + obj.getClass().getSimpleName());
+					}
 				} catch (Exception ex) {
 					Log.warn("Failed to destroy instance of " + obj.getClass().getSimpleName());
 				}
