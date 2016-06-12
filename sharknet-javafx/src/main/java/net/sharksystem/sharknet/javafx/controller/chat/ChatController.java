@@ -214,7 +214,6 @@ public class ChatController extends AbstractController implements ChatListener {
 	private void loadChatHistory() {
 		// TODO: seperate chats in today, yesterday, earlier...
 		chatHistoryListView.getItems().clear();
-		System.out.println(sharkNetModel);
 		List<Chat> chatList = sharkNetModel.getChats();
 
 		for (int i = 0; i < chatList.size(); i++) {
