@@ -1,10 +1,7 @@
 package net.sharksystem.sharknet.javafx;
 
-
-import com.google.inject.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.context.ApplicationContext;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
 import org.slf4j.Logger;
@@ -25,7 +22,10 @@ public class App extends Application {
 	@Override
 	public void init() throws Exception {
 		ApplicationContext.get().init(this);
-		enableLCDTextAntiAliasing();
+		Runtime.getRuntime().addShutdownHook(new Thread(ApplicationContext.get()::destroy));
+		Thread.setDefaultUncaughtExceptionHandler((t, e) ->
+			Log.error("Detect uncaught exception in [" + t.getName() + " Thread]", e));
+
 	}
 
 	@Override
@@ -40,21 +40,22 @@ public class App extends Application {
 	}
 
 	/**
-	 * Improves the poor rendering results of javafx.
-	 *
-	 * @see <a href="http://comments.gmane.org/gmane.comp.java.openjdk.openjfx.devel/5072">Open JavaFX development Mailing list</a>
-	 */
-	private static void enableLCDTextAntiAliasing() {
-		System.setProperty("prism.lcdtext", "false");
-		System.setProperty("prism.text", "t2k");
-	}
-
-	/**
 	 * Launch the this fx application.
 	 *
 	 * @param args
      */
 	public static void main(String[] args) {
-		launch(args);
+		Log.info("Launching SharkNet");
+		/**
+		 * Improves the poor rendering results of javafx.
+		 *
+		 * @see <a href="http://comments.gmane.org/gmane.comp.java.openjdk.openjfx.devel/5072">Open JavaFX development Mailing list</a>
+		 */
+		System.setProperty("prism.lcdtext", "false");
+		System.setProperty("prism.text", "t2k");
+
+		// A pre-loader could be used for the login
+		// System.setProperty("javafx.preloader", AppPreloader.class.getName());
+		launch(App.class, args);
 	}
 }
