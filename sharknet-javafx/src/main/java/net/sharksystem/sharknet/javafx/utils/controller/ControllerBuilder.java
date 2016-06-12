@@ -104,7 +104,7 @@ public class ControllerBuilder {
 
 			injectDependencies(controllerClass, ctx);
 
-			ReflectionUtils.invokeMethodsWithAnnotation(controllerClass, controller, PostConstruct.class);
+			controller.onFxmlLoaded();
 
 			return ctx;
 		} catch (Exception ex) {
