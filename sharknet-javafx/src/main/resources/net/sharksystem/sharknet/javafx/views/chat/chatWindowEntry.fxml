@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<HBox fx:id="hboxMessage" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="580.0" styleClass="theme-presets inbox-entry" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
+<HBox fx:id="hboxGridContainer" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="580.0" styleClass="theme-presets inbox-entry" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <GridPane prefWidth="350.0">
+        <GridPane fx:id="gridPaneMessages" prefWidth="350.0">
             <columnConstraints>
                 <ColumnConstraints fillWidth="true" hgrow="ALWAYS" />
                 <ColumnConstraints hgrow="SOMETIMES" />
@@ -21,7 +21,11 @@
 
             </rowConstraints>
             <children>
-                <Label fx:id="labelMessage" alignment="TOP_LEFT" maxHeight="Infinity" minWidth="191.0" text="blablubkeks" wrapText="true" />
+            <HBox fx:id="hboxMessage" alignment="TOP_LEFT" maxHeight="Infinity" minWidth="191.0">
+               <children>
+                      <Label fx:id="labelMessage" alignment="TOP_LEFT" maxHeight="Infinity" minWidth="191.0" text="blablubkeks" wrapText="true" />
+               </children>
+            </HBox>
                 <AnchorPane GridPane.columnIndex="1">
                     <children>
                         <ImageView fx:id="imageViewEncrypted" fitHeight="33.0" fitWidth="33.0" layoutX="43.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">

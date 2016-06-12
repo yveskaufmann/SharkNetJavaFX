@@ -270,7 +270,7 @@ public class ChatController extends AbstractController implements ChatListener {
 
 	@Override
 	public void onEmojiChoose(String emojiClass) {
-		textFieldMessage.appendText(":" + emojiClass + ":");
+		textFieldMessage.appendText(" :" + emojiClass + ": ");
 	}
 
 	private void onEmojiClick() {
