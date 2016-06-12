@@ -1,6 +1,7 @@
 package net.sharksystem.sharknet.javafx;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.javafx.context.ApplicationContext;
@@ -33,8 +34,15 @@ public class App extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		Image image = new Image(App.class.getResource("images/shark-icon256x256.png").toExternalForm(), 256, 256, true, true);
 		primaryStage.getIcons().addAll(image);
-		frontController = new FrontController(primaryStage);
-		frontController.show();
+
+		try {
+			frontController = new FrontController(primaryStage);
+			frontController.show();
+		} catch (Exception ex) {
+			System.out.println("error");
+			Log.error("Exception in a controller detected." ,ex);
+			Platform.exit();
+		}
 	}
 
 	@Override

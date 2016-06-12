@@ -9,6 +9,9 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import net.sharksystem.sharknet.javafx.i18n.I18N;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sun.rmi.runtime.Log;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,6 +21,8 @@ import java.util.ResourceBundle;
  * by specifying a view/fxml file.
  */
 public abstract class AbstractWindowController extends AbstractController {
+
+	private static final Logger Log = LoggerFactory.getLogger(AbstractWindowController.class);
 
 	/**
 	 * The owner of the window which this controller
@@ -96,13 +101,8 @@ public abstract class AbstractWindowController extends AbstractController {
      */
 	public Scene getScene() {
 		if (scene == null) {
-			Parent root = null;
-			try {
-				root = getContext().getRootNode();
-			} catch (ControllerLoaderException e) {
-				throw new IllegalStateException("Could not obtain root node of " + getClass().getSimpleName());
-			}
-			scene = new Scene(root, 1024, 768, true, SceneAntialiasing.BALANCED	);
+			Parent root = getRoot();
+			scene = new Scene(root, 1024, 768, true, SceneAntialiasing.BALANCED);
 			onSceneCreated();
 		}
 		return scene;

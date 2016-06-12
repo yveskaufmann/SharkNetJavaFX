@@ -55,7 +55,7 @@ public class Controllers {
 				AbstractController controllerInstance = (AbstractController) controllerType.newInstance();
 				controllerMap.put(controllerType, controllerInstance.getContext());
 			} catch (InstantiationException | ControllerLoaderException | IllegalAccessException e ) {
-				Log.warn("Failed to register {}: Could not instantiate a instance ", controllerName, e);
+				throw new IllegalStateException("Failed to register " + controllerType.getSimpleName(), e);
 			}
 		}
 	};

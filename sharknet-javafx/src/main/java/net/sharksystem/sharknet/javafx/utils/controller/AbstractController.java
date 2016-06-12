@@ -72,7 +72,7 @@ public abstract class AbstractController {
 		try {
 			return getContext().getRootNode();
 		} catch (ControllerLoaderException ex) {
-			throw new IllegalStateException("Could not obtain root node of " + getClass().getSimpleName());
+			throw new IllegalStateException("Could not obtain root node of " + getClass().getSimpleName(), ex);
 		}
 	}
 
