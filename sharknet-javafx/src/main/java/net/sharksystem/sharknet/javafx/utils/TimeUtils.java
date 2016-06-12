@@ -124,7 +124,7 @@ public class TimeUtils {
 	 * @param timestamp
 	 * @return human-friendly format duration format
      */
-	public static String formatDuration(Date timestamp) {
+	public static String formatTimeAgo(Date timestamp) {
 		Duration duration = durationSince(timestamp);
 		boolean isNegative = duration.isNegative();
 
