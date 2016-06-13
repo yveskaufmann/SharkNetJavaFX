@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+
+<?import javafx.geometry.Insets?>
+<GridPane fx:id="profileView" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.92"
+            xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER">
+
+    <padding>
+        <Insets top="10" left="16" right="16" bottom="10"/>
+    </padding>
+
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES"></ColumnConstraints>
+        <ColumnConstraints hgrow="ALWAYS" minWidth="60" maxWidth="300" fillWidth="true"></ColumnConstraints>
+    </columnConstraints>
+
+    <rowConstraints>
+        <RowConstraints vgrow="NEVER" maxHeight="20"></RowConstraints>
+        <RowConstraints vgrow="NEVER" maxHeight="20"></RowConstraints>
+        <RowConstraints vgrow="ALWAYS"></RowConstraints>
+    </rowConstraints>
+
+    <StackPane alignment="TOP_CENTER"  GridPane.rowSpan="3" GridPane.rowIndex="0" GridPane.columnIndex="0">
+        <ImageView fx:id="profile">
+            <Image url="@../../images/profile-placeholder.jpg"></Image>
+        </ImageView>
+    </StackPane>
+    <TextField fx:id="username" promptText="%profile.username" prefColumnCount="32" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+    <TextField fx:id="email" promptText="%profile.email"
+            prefColumnCount="32" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+</GridPane>

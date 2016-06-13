@@ -1,9 +1,11 @@
 package net.sharksystem.sharknet.javafx.controller;
 
 import com.google.inject.Inject;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import net.sharksystem.sharknet.api.Profile;
 import net.sharksystem.sharknet.api.SharkNet;
@@ -73,12 +75,14 @@ public class SidebarController extends AbstractController {
 			}
 		}));
 
-		profileImage.setOnMouseClicked(e -> {
-			ImageChooserDialog dialog = new ImageChooserDialog(null);
-			dialog.showAndWait().ifPresent(this::changeProfileImage);
-		});
-
+		profileImage.setOnMouseClicked(this::goToProfileHandler);
+		profileUsername.setOnMouseClicked(this::goToProfileHandler);
+		profileEmail.setOnMouseClicked(this::goToProfileHandler);
 		readProfileInformation();
+	}
+
+	private void goToProfileHandler(MouseEvent e) {
+		frontController.goToView(ProfileController.class);
 	}
 
 	private void changeProfileImage(Image image) {

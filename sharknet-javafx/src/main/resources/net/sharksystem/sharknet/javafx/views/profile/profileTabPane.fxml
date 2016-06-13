@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+
+<StackPane fx:id="profileView" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1">
+
+    <TabPane fx:id="profileTabs" tabClosingPolicy="UNAVAILABLE">
+
+      <Tab fx:id="profileTab" text="%profile.text">
+          <fx:include source="profileView.fxml"/>
+      </Tab>
+
+      <Tab fx:id="interestsTab" text="%profile.interessts">
+          <fx:include source="Interests.fxml"/>
+      </Tab>
+
+      <Tab fx:id="keyTab" text="%profile.keyManagment">
+        <fx:include source="keyManagment.fxml"/>
+      </Tab>
+
+  </TabPane>
+</StackPane>

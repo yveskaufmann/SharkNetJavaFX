@@ -2,7 +2,9 @@ package net.sharksystem.sharknet.javafx.utils.controller;
 
 
 import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import net.sharksystem.sharknet.javafx.actions.ActionEntry;
 import net.sharksystem.sharknet.javafx.actions.annotations.Action;
@@ -147,6 +149,9 @@ public class ControllerBuilder {
 	}
 
 	private <T extends AbstractController> void injectDependencies(Class<T> controllerClass, ViewContext<T> ctx) {
+
+
+
 		for(Field field : ReflectionUtils.getAllFields(controllerClass)) {
 			FXMLViewContext contextAnnotation = field.getAnnotation(FXMLViewContext.class);
 			if (contextAnnotation != null) {
@@ -154,6 +159,29 @@ public class ControllerBuilder {
 			}
 		}
 		ApplicationContext.get().getInjector().injectMembers(ctx.getController());
+
+		injectFXMLFields(controllerClass, ctx);
+	}
+
+	/**
+	 * Because of some restrictions in the FXMLLoader not all fields that are annotated with @FXML will be injected
+	 * such as fields that are included by fx:include.
+	 */
+	private <T extends AbstractController> void injectFXMLFields(Class<T> controllerClass, ViewContext<T> ctx) {
+		T controller = ctx.getController();
+		Node root = ctx.getRootNode();
+		for (Field field : ReflectionUtils.getAllFields(controllerClass)) {
+			if (! field.isAnnotationPresent(FXML.class)) continue;
+			Object fieldValue = ReflectionUtils.getFieldValue(field, controller);
+			// inject only fields that are not already set by the fxml loader
+			if (fieldValue == null) {
+				String fieldName = field.getName();
+				Node nodeToInject = root.lookup("#" + fieldName);
+				if ( nodeToInject != null && field.getType().isAssignableFrom(nodeToInject.getClass())) {
+					ReflectionUtils.setFieldValue(field, controller, nodeToInject);
+				}
+			}
+		}
 	}
 
 	private <T extends AbstractController> void loadMethodMetaData(Class<T> controllerClass, T controller, ControllerMeta meta) {

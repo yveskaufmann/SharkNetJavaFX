@@ -34,7 +34,7 @@ public class ReflectionUtils {
 	}
 
 	/**
-	 * Retrieves a field instance by its name from a given class instance.
+	 * Retrieves a field value by its name from a given class instance.
 	 *
 	 * @param fieldName the name of the desired field.
 	 * @param cls  the class which owns the desired field.
@@ -51,6 +51,27 @@ public class ReflectionUtils {
 			Log.warn(MessageFormat.format("\"{0}\" is not a accessible field of {1}.", fieldName, cls.getName()),e);
 		}
 		return null;
+	}
+
+	/**
+	 * Retrieves a field value by
+	 *
+	 * @param field the field to obtain the value from
+	 * @param instance the instance which has the desired field.
+	 * @return the value of the desired field
+	 **/
+	public static Object getFieldValue(Field field, Object instance) {
+		return AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+			boolean naturalAccessStatus = field.isAccessible();
+			try {
+				field.setAccessible(true);
+				return field.get(instance);
+			} catch (IllegalAccessException e) {
+				throw new IllegalStateException("Could read value from field " + field, e);
+			} finally {
+				field.setAccessible(naturalAccessStatus);
+			}
+		});
 	}
 
 	public static void setFieldValue(Field field, Object instance, Object value) {
