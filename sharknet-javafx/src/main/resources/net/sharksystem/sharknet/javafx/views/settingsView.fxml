@@ -51,12 +51,12 @@
                                     <Label layoutX="163.0" layoutY="360.0" text="WiFi Direct automatisch ausschalten nach:" />
                                     <Label layoutX="503.0" layoutY="360.0" text="Min Inaktivität" />
                                     <TextField fx:id="settingsWiFiDirectOffMinutes" layoutX="453.0" layoutY="354.0" prefHeight="25.0" prefWidth="38.0" />
-                                    <RadioButton layoutX="233.0" layoutY="318.0" mnemonicParsing="false" onAction="#settingsRadarOnRadioButton" text="ON">
+                                    <RadioButton fx:id="radarOnRadioButton" layoutX="233.0" layoutY="318.0" mnemonicParsing="false" text="ON">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="radarSwitch" />
                                        </toggleGroup>
                                     </RadioButton>
-                                    <RadioButton layoutX="298.0" layoutY="318.0" mnemonicParsing="false" onAction="#settingsRadarOffRadioButton" text="OFF" toggleGroup="$radarSwitch" />
+                                    <RadioButton fx:id="radarOffRadioButton" layoutX="298.0" layoutY="318.0" mnemonicParsing="false" text="OFF" toggleGroup="$radarSwitch" />
                                     <Separator layoutX="1.0" layoutY="428.0" minWidth="800.0" prefHeight="3.0" prefWidth="796.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="428.0" />
                                  </children>
                               </AnchorPane>
@@ -70,9 +70,10 @@
                       <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                               <children>
-                                  <CheckBox fx:id="contactsSyncCheckbox" layoutX="145.0" layoutY="197.0" mnemonicParsing="false" text="Kontakte" />
-                                  <CheckBox fx:id="messagesSyncCheckbox" layoutX="145.0" layoutY="236.0" mnemonicParsing="false" text="Nachrichten" />
-                                  <CheckBox fx:id="timelineSyncCheckbox" layoutX="145.0" layoutY="277.0" mnemonicParsing="false" text="Timeline" />
+                                  <CheckBox fx:id="contactsSyncCheckbox" layoutX="145.0" layoutY="239.0" mnemonicParsing="false" text="Kontakte" />
+                                  <CheckBox fx:id="messagesSyncCheckbox" layoutX="145.0" layoutY="278.0" mnemonicParsing="false" text="Chats" />
+                        <CheckBox fx:id="homeworkSyncCheckbox" layoutX="145.0" layoutY="359.0" mnemonicParsing="false" text="Hausaufgaben" />
+                                  <CheckBox fx:id="timelineSyncCheckbox" layoutX="145.0" layoutY="319.0" mnemonicParsing="false" text="Timeline" />
                                   <RadioButton fx:id="syncMediumSelectWifi" layoutX="561.0" layoutY="194.0" mnemonicParsing="false" text="WiFi">
                                       <toggleGroup>
                                           <ToggleGroup fx:id="syncMedium" />
@@ -83,8 +84,9 @@
                                   <RadioButton fx:id="syncMediumSelectUSB" layoutX="561.0" layoutY="314.0" mnemonicParsing="false" text="USB" toggleGroup="$syncMedium" />
                                   <Label layoutX="70.0" layoutY="154.0" text="Was möchten Sie synchronisieren?" />
                                   <Label layoutX="487.0" layoutY="154.0" text="WIe soll synchronisiert werden?" />
-                                  <Button fx:id="syncStartButton" layoutX="638.0" layoutY="512.0" mnemonicParsing="false" text="Synchronisieren" />
+                                  <Button fx:id="syncStartButton" layoutX="638.0" layoutY="512.0" mnemonicParsing="false" onAction="#onStartSyncButtonClick" text="Synchronisieren" />
                         <Separator layoutX="399.0" maxHeight="1.7976931348623157E308" orientation="VERTICAL" prefHeight="567.0" prefWidth="6.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="397.0" AnchorPane.topAnchor="0.0" />
+                        <CheckBox fx:id="profileSyncCheckbox" layoutX="145.0" layoutY="201.0" mnemonicParsing="false" text="Mein Profil" />
                               </children>
                           </AnchorPane>
                       </content>
