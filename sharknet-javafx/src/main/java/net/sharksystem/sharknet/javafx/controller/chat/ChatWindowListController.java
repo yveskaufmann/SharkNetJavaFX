@@ -54,7 +54,7 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 		}
 
 		TextFlow textFlow = new TextFlow();
-		textFlow.setPadding(new Insets(30, 5, 0, 5));
+		textFlow.setPadding(new Insets(0));
 		textFlow.setLineSpacing(0);
 
 
@@ -65,9 +65,10 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 
 				if (splitted[i].matches("[emojione-].*")) {
 					Pane smileyPane = new Pane();
-					//smileyPane.setPrefHeight(128);
-					//smileyPane.setPrefWidth(128);
-					smileyPane.getStyleClass().addAll("emojione", splitted[i].trim());
+
+					smileyPane.setTranslateY(28.0);
+					smileyPane.getStyleClass().addAll("emojionetest", splitted[i].trim());
+
 					//smileyPane.setPadding(new Insets(50, 5, 0, 5));
 					textFlow.getChildren().add(smileyPane);
 				} else {

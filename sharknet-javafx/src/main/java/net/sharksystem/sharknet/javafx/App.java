@@ -6,10 +6,12 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.javafx.context.ApplicationContext;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
+import net.sharksystem.sharknet.javafx.controller.LoginController;
+import net.sharksystem.sharknet.javafx.controller.LoginListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class App extends Application {
+public class App extends Application implements LoginListener{
 
 	/**
 	 * Class Logger instance
@@ -20,6 +22,7 @@ public class App extends Application {
 	 * Front controller of the application
 	 */
 	private FrontController frontController;
+	private Stage stage;
 
 	@Override
 	public void init() throws Exception {
@@ -34,15 +37,11 @@ public class App extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		Image image = new Image(App.class.getResource("images/shark-icon256x256.png").toExternalForm(), 256, 256, true, true);
 		primaryStage.getIcons().addAll(image);
+		stage = primaryStage;
 
-		try {
-			frontController = new FrontController(primaryStage);
-			frontController.show();
-		} catch (Exception ex) {
-			System.out.println("error");
-			Log.error("Exception in a controller detected." ,ex);
-			Platform.exit();
-		}
+		LoginController login = new LoginController();
+		login.setLoginListener(this);
+
 	}
 
 	@Override
@@ -68,5 +67,17 @@ public class App extends Application {
 		// A pre-loader could be used for the login
 		// System.setProperty("javafx.preloader", AppPreloader.class.getName());
 		launch(App.class, args);
+	}
+
+	@Override
+	public void onLoginSuccessful() {
+		try {
+			frontController = new FrontController(stage);
+			frontController.show();
+		} catch (Exception ex) {
+			System.out.println("error");
+			Log.error("Exception in a controller detected." ,ex);
+			Platform.exit();
+		}
 	}
 }
