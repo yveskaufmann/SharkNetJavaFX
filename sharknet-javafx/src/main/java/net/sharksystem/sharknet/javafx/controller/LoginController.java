@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -116,6 +117,12 @@ public class LoginController extends AbstractController {
 				listener.onLoginSuccessful();
 				stage.close();
 			}
+		} else {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Login Error");
+			alert.setContentText("Wrong Password");
+			alert.setHeaderText("");
+			alert.showAndWait();
 		}
 	}
 
