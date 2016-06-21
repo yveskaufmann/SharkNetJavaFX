@@ -4,10 +4,7 @@ package net.sharksystem.sharknet.javafx.controller.chat;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -66,7 +63,11 @@ public class ChatController extends AbstractController implements ChatListener {
 	@FXML
 	private Button buttonSend;
 	@FXML
+	private Button buttonNewChat;
+	@FXML
 	private ChatWindowList chatWindowListView;
+	@FXML
+	private Label labelChatRecipients;
 
 	public ChatController() {
 		super(App.class.getResource("views/chat/chatView.fxml"));
@@ -123,6 +124,10 @@ public class ChatController extends AbstractController implements ChatListener {
 			event.consume();
 		});
 
+		buttonNewChat.setOnMouseClicked(event -> {
+			onNewChatClick();
+			event.consume();
+		});
 
 		chatHistoryListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		chatHistoryListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -151,7 +156,7 @@ public class ChatController extends AbstractController implements ChatListener {
 					if (i > 0) {
 						extension = file.getPath().substring(i + 1);
 					}
-					attachment = new ImplContent(fileAttachment, extension, "");
+					attachment = new ImplContent(fileAttachment, extension, file.getName());
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -179,6 +184,8 @@ public class ChatController extends AbstractController implements ChatListener {
 	private void onVoteClick() {
 		// TODO: vote window
 		System.out.println("onVoteClick");
+		VoteController voteController = new VoteController();
+
 	}
 
 
@@ -186,7 +193,7 @@ public class ChatController extends AbstractController implements ChatListener {
 
 		if (activeChat != null) {
 			if (sendAttachment && attachment != null) {
-				attachment.setMessage(textFieldMessage.getText());
+				attachment.setMessage(textFieldMessage.getText() + "<" + attachment.getFileName() + ">");
 				activeChat.sendMessage(attachment);
 			} else {
 				activeChat.sendMessage(new ImplContent(null, "", "", textFieldMessage.getText()));
@@ -202,7 +209,7 @@ public class ChatController extends AbstractController implements ChatListener {
 	}
 
 	@FXML
-	private void onNewChatClick(ActionEvent event) {
+	private void onNewChatClick() {
 		// TODO: new window with contacts?
 		System.out.println("onNewChatClick");
 
@@ -228,6 +235,19 @@ public class ChatController extends AbstractController implements ChatListener {
 		if (activeChat.getPicture() != null) {
 			imageManager.readImageFrom(activeChat.getPicture()).ifPresent(imageViewContactProfile::setImage);
 		}
+
+		String contactNames = "";
+
+		for (int i = 0; i < activeChat.getContacts().size(); i++) {
+			if (!activeChat.getContacts().get(i).isEqual(sharkNetModel.getMyProfile().getContact())) {
+				contactNames += activeChat.getContacts().get(i).getNickname();
+				if (i < activeChat.getContacts().size()-1 && !activeChat.getContacts().get(i+1).isEqual(sharkNetModel.getMyProfile().getContact())) {
+					contactNames += " , ";
+				}
+			}
+		}
+
+		labelChatRecipients.setText(contactNames);
 	}
 
 	private void fillChatArea(Chat c) {
