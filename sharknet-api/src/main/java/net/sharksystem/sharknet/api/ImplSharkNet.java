@@ -36,50 +36,50 @@ public class ImplSharkNet implements SharkNet {
 	}
 
 	@Override
-	public List<Feed> getFeeds() {
+	public List<Feed> getFeeds(boolean descending) {
 		//ToDo: Shark - Search in KB for Feeds and return a list of them - sorted by Time
 
 		if(myProfile == null) return null;
 
 		//Implementation of DummyDB
-		List<Feed> feed_list = DummyDB.getInstance().getFeed_list(myProfile);
+		List<Feed> feed_list = DummyDB.getInstance().getFeed_list(myProfile, descending);
 		return feed_list;
 	}
 
 	@Override
-	public List<Feed> getFeeds(int start_index, int stop_index) {
+	public List<Feed> getFeeds(int start_index, int stop_index, boolean descending) {
 		//ToDo: Shark - Search in KB for Feeds and return a list of them within the given intervall - sorted by time
 
 		//Implementation of DummyDB
 		if(myProfile == null) return null;
-		List<Feed> feed_list = DummyDB.getInstance().getFeed_list(myProfile, start_index, stop_index);
+		List<Feed> feed_list = DummyDB.getInstance().getFeed_list(myProfile, start_index, stop_index, descending);
 		return feed_list;
 	}
 
 	@Override
-	public List<Feed> getFeeds(Interest i, int start_index, int stop_index) {
+	public List<Feed> getFeeds(Interest i, int start_index, int stop_index, boolean descending) {
 		//ToDo: Implement - return feeds with interest i from start to stop, sorted by time
 		return null;
 	}
 
 	@Override
-	public List<Feed> getFeeds(String search, int start_index, int stop_index) {
+	public List<Feed> getFeeds(String search, int start_index, int stop_index, boolean descending) {
 		//ToDo: Shark - Search in KB for Feeds and return a list of them within the given intervall and containing the search string - sorted by time
 		//Implementation of DummyDB
 		if(myProfile == null) return null;
-		List<Feed> feed_list = DummyDB.getInstance().getFeed_list(myProfile,search, start_index, stop_index);
+		List<Feed> feed_list = DummyDB.getInstance().getFeed_list(myProfile,search, start_index, stop_index, descending);
 		return feed_list;
 
 	}
 
 	@Override
-	public List<Feed> getFeeds(Timestamp start, Timestamp end, int start_index, int stop_index) {
+	public List<Feed> getFeeds(Timestamp start, Timestamp end, int start_index, int stop_index, boolean descending) {
 
 		//ToDo: Shark - Search in KB for Feeds and return a list of them within the given intervall and timerange - sorted by time
 
 		//Implementation of DummyDB
 		if(myProfile == null) return null;
-		List<Feed> feed_list = DummyDB.getInstance().getFeed_list(myProfile, start_index, stop_index, start, end);
+		List<Feed> feed_list = DummyDB.getInstance().getFeed_list(myProfile, start_index, stop_index, start, end, descending);
 		return feed_list;
 	}
 
@@ -154,6 +154,11 @@ public class ImplSharkNet implements SharkNet {
 	@Override
 	public Profile getMyProfile() {
 		return myProfile;
+	}
+
+	@Override
+	public void exchangeContactNFC() {
+		//ToDo: Shark - Implement Contact Exchange via NFC
 	}
 
 	@Override

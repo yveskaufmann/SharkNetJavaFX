@@ -65,40 +65,40 @@ public class ImplChat implements Chat {
 	}
 
 	@Override
-	public List<Message> getMessages() {
+	public List<Message> getMessages(boolean descending) {
 		//ToDo: Shark - find Messages blonging to the chat AND ALSO THE OWNER OF THE CHAT (which is the currently aktive profile and fill List of Messages
 		//DummyDB Implememntation
-		List <Message> message_list = DummyDB.getInstance().getMessageList(this);
+		List <Message> message_list = DummyDB.getInstance().getMessageList(this, descending);
 		return message_list;
 	}
 
 	@Override
-	public List<Message> getMessages(int startIndex, int stopIndex) {
+	public List<Message> getMessages(int startIndex, int stopIndex, boolean descending) {
 		//ToDo: Shark - fill List with Messages from the chat within the given intervall - sorted by time
-		List <Message> message_list = DummyDB.getInstance().getMessageList(this, startIndex, stopIndex);
+		List <Message> message_list = DummyDB.getInstance().getMessageList(this, startIndex, stopIndex, descending);
 		return message_list;
 
 	}
 
 	@Override
-	public List<Message> getMessages(Timestamp start, Timestamp stop) {
+	public List<Message> getMessages(Timestamp start, Timestamp stop, boolean descending) {
 		//ToDo: Shark - fill List with Messages from the chat within the given timerange - sorted by time
-		List <Message> message_list = DummyDB.getInstance().getMessageList(this, start, stop);
+		List <Message> message_list = DummyDB.getInstance().getMessageList(this, start, stop, descending);
 		return message_list;
 	}
 
 	@Override
-	public List<Message> getMessages(Timestamp start, Timestamp stop, int startIndex, int stopIndex) {
+	public List<Message> getMessages(Timestamp start, Timestamp stop, int startIndex, int stopIndex, boolean descending) {
 		//ToDo: Shark - fill List with Messages from the chat within the given intervall and timerange - sorted by time
-		List <Message> message_list = DummyDB.getInstance().getMessageList(this, startIndex, stopIndex, start, stop);
+		List <Message> message_list = DummyDB.getInstance().getMessageList(this, startIndex, stopIndex, start, stop, descending);
 		return message_list;
 
 	}
 
 	@Override
-	public List<Message> getMessages(String search, int startIndex, int stopIndex) {
+	public List<Message> getMessages(String search, int startIndex, int stopIndex, boolean descending) {
 		//ToDo: Shark - fill List with Messages from the chat within the given intervall and containing search string - sorted by time
-		List <Message> message_list = DummyDB.getInstance().getMessageList(this, search, startIndex, stopIndex);
+		List <Message> message_list = DummyDB.getInstance().getMessageList(this, search, startIndex, stopIndex, descending);
 		return message_list;
 	}
 
@@ -155,8 +155,8 @@ public class ImplChat implements Chat {
 	public Timestamp getTimestamp() {
 		//ToDo: Shark - get Timestamp from the most recent Message
 		Timestamp recentMessage = null;
-		if(!DummyDB.getInstance().getMessageList(this).isEmpty()){
-			DummyDB.getInstance().getMessageList(this).get(0).getTimestamp();
+		if(!DummyDB.getInstance().getMessageList(this, true).isEmpty()){
+			DummyDB.getInstance().getMessageList(this, true).get(0).getTimestamp();
 		}
 
 		return recentMessage;
