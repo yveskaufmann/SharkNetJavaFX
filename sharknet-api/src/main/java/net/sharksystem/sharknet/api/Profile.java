@@ -21,8 +21,6 @@ public interface Profile {
 	 * @return
      */
     public Setting getSettings();
-	public void setSettings();
-
 
 	/**
 	 * deletes a Profile

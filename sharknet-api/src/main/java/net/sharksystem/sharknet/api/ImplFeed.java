@@ -69,37 +69,37 @@ public class ImplFeed implements Feed {
 	}
 
 	@Override
-	public List<Comment> getComments() {
+	public List<Comment> getComments(boolean descending) {
 		//ToDo: Shark - search for comments construct the objects and fill the list - sorted by time
-		List<Comment> commentlist = DummyDB.getInstance().getComments(this);
+		List<Comment> commentlist = DummyDB.getInstance().getComments(this, descending);
 		return commentlist;
 	}
 
 	@Override
-	public List<Comment> getComments(int startIndex, int stopIndex) {
+	public List<Comment> getComments(int startIndex, int stopIndex, boolean descending) {
 		//ToDo: Shark - search for comments within the intervall - sorted by time
-		List<Comment> commentlist = DummyDB.getInstance().getComments(this, startIndex, stopIndex);
+		List<Comment> commentlist = DummyDB.getInstance().getComments(this, startIndex, stopIndex, descending);
 		return commentlist;
 	}
 
 	@Override
-	public List<Comment> getComments(Timestamp start, Timestamp stop) {
+	public List<Comment> getComments(Timestamp start, Timestamp stop, boolean descending) {
 		//ToDo: Shark - search for comments within the timerange  - sorted by time
-		List<Comment> commentlist = DummyDB.getInstance().getComments(this, start, stop);
+		List<Comment> commentlist = DummyDB.getInstance().getComments(this, start, stop, descending);
 		return commentlist;
 	}
 
 	@Override
-	public List<Comment> getComments(Timestamp start, Timestamp stop, int startIndex, int stopIndex) {
+	public List<Comment> getComments(Timestamp start, Timestamp stop, int startIndex, int stopIndex, boolean descending) {
 		//ToDo: Shark - search for comments within the timerange and intervall - sorted by time
-		List<Comment> commentlist = DummyDB.getInstance().getComments(this, startIndex, stopIndex, start, stop);
+		List<Comment> commentlist = DummyDB.getInstance().getComments(this, startIndex, stopIndex, start, stop, descending);
 		return commentlist;
 	}
 
 	@Override
-	public List<Comment> getComments(String search, int startIndex, int stopIndex) {
+	public List<Comment> getComments(String search, int startIndex, int stopIndex, boolean descending) {
 		//ToDo: Shark - search for comments within the intervall containing the searchstring - sorted by time
-		List<Comment> commentlist = DummyDB.getInstance().getComments(this, search,  startIndex, stopIndex);
+		List<Comment> commentlist = DummyDB.getInstance().getComments(this, search,  startIndex, stopIndex, descending);
 		return commentlist;
 	}
 

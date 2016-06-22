@@ -30,11 +30,13 @@ public class ContactNewController extends AbstractController {
 	@Inject
 	private SharkNet sharkNetModel;
 
+	//@Inject
+	//private ContactController contactController;
+
 	private List<Contact> allContacts;
 	private Stage stage;
 	private String uid;
 	private String publickey;
-
 
 	public ContactNewController(){
 		super(App.class.getResource("views/newContactView.fxml"));
@@ -57,11 +59,14 @@ public class ContactNewController extends AbstractController {
 	protected void onFxmlLoaded() {
 
 		saveButton.setOnMouseClicked(event -> {
-			System.out.println("Neuen Kontakt erstellen: " + nameInputTextField.getText());
-			ImplContact newContact = new ImplContact(nameInputTextField.getText(), uid, publickey, sharkNetModel.getMyProfile());
-			sharkNetModel.getContacts().add(newContact);
-			stage.close();
-			event.consume();
+			if(nameInputTextField.getText().length() > 0){
+				System.out.println("Neuen Kontakt erstellen: " + nameInputTextField.getText());
+				ImplContact newContact = new ImplContact(nameInputTextField.getText(), uid, publickey, sharkNetModel.getMyProfile());
+				sharkNetModel.getContacts().add(newContact);
+				stage.close();
+				event.consume();
+				//contactController.loadEntries();
+			}
 		});
 
 		backButton.setOnMouseClicked(event -> {
@@ -73,5 +78,4 @@ public class ContactNewController extends AbstractController {
 			scanQRCode();
 		});
 	}
-
 }

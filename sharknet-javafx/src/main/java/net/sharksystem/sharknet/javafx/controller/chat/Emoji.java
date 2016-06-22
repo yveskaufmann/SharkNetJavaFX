@@ -18,15 +18,16 @@ public class Emoji {
 
 
 	private List<String> emojis;
-	public static final int cols = 43;
-	public static final int rows = 43;
 	private static Emoji emojiInstance = null;
+	public static int cols = 43;
+	public static int rows = 43;
 
 	private Emoji() {
 		emojis = new ArrayList<>();
 		loadEmojis();
 	}
 
+	// singleton
 	public static Emoji getInstance() {
 		if (emojiInstance == null) {
 			emojiInstance = new Emoji();
@@ -34,6 +35,9 @@ public class Emoji {
 		return emojiInstance;
 	}
 
+	/**
+	 * loading emoji classes into array from css file
+	 */
 	private void loadEmojis() {
 		URI cssPath = null;
 		try {

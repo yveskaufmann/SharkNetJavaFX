@@ -15,12 +15,14 @@ public class ImplProfile implements Profile {
 	Setting setting;
 	Blacklist blacklist;
 
+
 	/**
 	 * Constructor for new Profiles which are going to be saved
 	 * @param c
      */
 	public ImplProfile(Contact c){
 		this.c = c;
+		setting = new ImplSetting(this);
 	}
 
 	public ImplProfile(Contact c, String password, Setting setting){
@@ -42,12 +44,7 @@ public class ImplProfile implements Profile {
 
 	@Override
 	public Setting getSettings() {
-		return null;
-	}
-
-	@Override
-	public void setSettings() {
-
+		return setting;
 	}
 
 	@Override

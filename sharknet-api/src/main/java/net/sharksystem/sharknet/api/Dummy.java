@@ -140,10 +140,10 @@ public class Dummy {
 
 
 
-		List<Feed> feedlist = s.getFeeds(0, 15);
+		List<Feed> feedlist = s.getFeeds(0, 15, true);
 		// System.out.println(f1.getContent());
 		// System.out.println(feedlist.get(0).getContent());
-		f1.getComments().get(0).dislike();
+		f1.getComments(true).get(0).dislike();
 
 		// System.out.println(feedlist.get(0).getComments());
 
@@ -162,7 +162,7 @@ public class Dummy {
 		Feed bob_feed1 = s.newFeed(new ImplContent("bob thinks shark net is amazing"), i2, bob);
 
 		bob_feed1.newComment(new ImplContent("Peter thinks so too"), peter);
-		s.getFeeds(5, 10);
+		s.getFeeds(5, 10, true);
 
 		bob_p.getBlacklist().add(new ImplContact("bad hacker", "bad@hacker.com", "", bob_p));
 
@@ -172,11 +172,11 @@ public class Dummy {
 		time7after = java.sql.Timestamp.valueOf("2017-04-06 09:01:10");
 
 		s.setProfile(alice_p, "");
-		List <Feed> foo = s.getFeeds("about", 0, 5);
-		List <Feed> foo1 = s.getFeeds(timenow, time7after, 0, 10);
+		List <Feed> foo = s.getFeeds("about", 0, 5, true);
+		List <Feed> foo1 = s.getFeeds(timenow, time7after, 0, 10, true);
 
-		List <Feed> foo2 = s.getFeeds(time7ago, timenow, 0, 10);
-		List <Feed> foo3 = s.getFeeds(time7ago, time7after, 0, 10);
+		List <Feed> foo2 = s.getFeeds(time7ago, timenow, 0, 10, true);
+		List <Feed> foo3 = s.getFeeds(time7ago, time7after, 0, 10, true);
 	}
 
 

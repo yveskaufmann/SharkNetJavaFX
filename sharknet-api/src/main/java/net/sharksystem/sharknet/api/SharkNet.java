@@ -20,11 +20,11 @@ public interface SharkNet {
 	 * Returns a list of all Feeds which should be displayed in the Timeline
 	 * @return
      */
-	public List<Feed> getFeeds();
-    public List<Feed> getFeeds(int start_index, int stop_index);
-	public List<Feed> getFeeds(Interest i, int start_index, int stop_index);
-	public List<Feed> getFeeds(String search, int start_index, int stop_index);
-	public List<Feed> getFeeds(Timestamp start, Timestamp end, int start_index, int stop_index);
+	public List<Feed> getFeeds(boolean descending);
+    public List<Feed> getFeeds(int start_index, int stop_index, boolean descending);
+	public List<Feed> getFeeds(Interest i, int start_index, int stop_index, boolean descending);
+	public List<Feed> getFeeds(String search, int start_index, int stop_index, boolean descending);
+	public List<Feed> getFeeds(Timestamp start, Timestamp end, int start_index, int stop_index, boolean descending);
 
 	/**
 	 * returns a list of all safed contacts
@@ -78,6 +78,11 @@ public interface SharkNet {
 	 * @return
      */
 	public Profile getMyProfile();
+
+	/**
+	 * Exchange Contact via NFC (just Method, not implemented)
+     */
+	public void exchangeContactNFC();
 
 
 	public void addChatListener(Profile p, Dummy listener);

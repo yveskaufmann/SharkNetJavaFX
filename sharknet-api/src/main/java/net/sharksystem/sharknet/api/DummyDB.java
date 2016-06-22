@@ -19,6 +19,7 @@ public class DummyDB {
 	HashMap<Feed, List<Comment>> feedcomment = new HashMap<>();
 
 
+
 	/**
 	 * DummyDB is a Singleton which is used to Emulate a Database which is later replaced with shark
 	 * The Database saves the Lists only during runtime of the Programm
@@ -42,7 +43,7 @@ public class DummyDB {
 	 * @param owner
 	 * @return
 	 */
-	public List<Feed> getFeed_list(Profile owner) {
+	public List<Feed> getFeed_list(Profile owner, boolean descending) {
 
 		List<Feed> swap_f_list = new LinkedList<>();
 		swap_f_list.addAll(feed_list);
@@ -52,33 +53,33 @@ public class DummyDB {
 			if (!f.getOwner().isEqual(owner)) swap_f_list.remove(f);
 		}
 
-		return (List<Feed>) sortList(swap_f_list);
+		return (List<Feed>) sortList(swap_f_list, descending);
 	}
-	public List<Feed> getFeed_list(Profile owner, int startIndex, int stopIndex) {
-		List <Feed> swaplist = (List<Feed>) sortList(getFeed_list(owner));
+	public List<Feed> getFeed_list(Profile owner, int startIndex, int stopIndex, boolean descending) {
+		List <Feed> swaplist = (List<Feed>) sortList(getFeed_list(owner, descending), descending);
 		swaplist = (List<Feed>) cutList(swaplist, startIndex, stopIndex);
 		return swaplist;
 	}
 
 
-	public List<Feed> getFeed_list(Profile owner, String search, int startIndex, int stopIndex) {
-		List <Feed> swaplist = (List<Feed>) sortList(getFeed_list(owner));
+	public List<Feed> getFeed_list(Profile owner, String search, int startIndex, int stopIndex, boolean descending) {
+		List <Feed> swaplist = (List<Feed>) sortList(getFeed_list(owner, descending), descending);
 		swaplist = (List<Feed>) search(search, swaplist);
 		swaplist = (List<Feed>) cutList(swaplist, startIndex, stopIndex);
 		return swaplist;
 	}
 
 
-	public List<Feed> getFeed_list(Profile owner, int startIndex, int stopIndex, Timestamp start, Timestamp stop) {
-		List <Feed> swaplist = (List<Feed>) sortList(getFeed_list(owner));
+	public List<Feed> getFeed_list(Profile owner, int startIndex, int stopIndex, Timestamp start, Timestamp stop, boolean descending) {
+		List <Feed> swaplist = (List<Feed>) sortList(getFeed_list(owner, descending), descending);
 		swaplist = (List<Feed>) cutList(swaplist, start, stop);
 		swaplist = (List<Feed>) cutList(swaplist, startIndex, stopIndex);
 		return swaplist;
 	}
 
 
-	public List<Feed> getFeed_list(Profile owner, Timestamp start, Timestamp stop) {
-		List <Feed> swaplist = (List<Feed>) sortList(getFeed_list(owner));
+	public List<Feed> getFeed_list(Profile owner, Timestamp start, Timestamp stop, boolean descending) {
+		List <Feed> swaplist = (List<Feed>) sortList(getFeed_list(owner, descending), descending);
 		swaplist = (List<Feed>) cutList(swaplist, start, stop);
 		return swaplist;
 	}
@@ -137,8 +138,8 @@ public class DummyDB {
 	 * @param f
 	 * @return
      */
-	public List<Comment> getComments(Feed f){
-		return (List<Comment>) sortList(feedcomment.get(f));
+	public List<Comment> getComments(Feed f, boolean descending){
+		return (List<Comment>) sortList(feedcomment.get(f), descending);
 	}
 
 	/**
@@ -146,8 +147,8 @@ public class DummyDB {
 	 * @param f
 	 * @return
 	 */
-	public List<Comment> getComments(Feed f, int startIndex, int stopIndex, Timestamp start, Timestamp stop){
-		List <Comment> swaplist = (List<Comment>) sortList(feedcomment.get(f));
+	public List<Comment> getComments(Feed f, int startIndex, int stopIndex, Timestamp start, Timestamp stop, boolean descending){
+		List <Comment> swaplist = (List<Comment>) sortList(feedcomment.get(f), descending);
 		swaplist = (List<Comment>) cutList(swaplist, start, stop);
 		swaplist = (List<Comment>) cutList(swaplist, startIndex, stopIndex);
 		return swaplist;
@@ -158,8 +159,8 @@ public class DummyDB {
 	 * @param f
 	 * @return
 	 */
-	public List<Comment> getComments(Feed f, int startIndex, int stopIndex){
-		List <Comment> swaplist = (List<Comment>) sortList(feedcomment.get(f));
+	public List<Comment> getComments(Feed f, int startIndex, int stopIndex, boolean descending){
+		List <Comment> swaplist = (List<Comment>) sortList(feedcomment.get(f), descending);
 		swaplist = (List<Comment>) cutList(swaplist, startIndex, stopIndex);
 		return swaplist;
 	}
@@ -169,8 +170,8 @@ public class DummyDB {
 	 * @param f
 	 * @return
 	 */
-	public List<Comment> getComments(Feed f, Timestamp start, Timestamp stop){
-		List <Comment> swaplist = (List<Comment>) sortList(feedcomment.get(f));
+	public List<Comment> getComments(Feed f, Timestamp start, Timestamp stop, boolean descending){
+		List <Comment> swaplist = (List<Comment>) sortList(feedcomment.get(f), descending);
 		swaplist = (List<Comment>) cutList(swaplist, start, stop);
 		return swaplist;
 	}
@@ -180,8 +181,8 @@ public class DummyDB {
 	 * @param f
 	 * @return
 	 */
-	public List<Comment> getComments(Feed f, String search, int startIndex, int stopIndex){
-		List <Comment> swaplist = (List<Comment>) sortList(feedcomment.get(f));
+	public List<Comment> getComments(Feed f, String search, int startIndex, int stopIndex, boolean descending){
+		List <Comment> swaplist = (List<Comment>) sortList(feedcomment.get(f), descending);
 		swaplist = (List<Comment>) search(search, swaplist);
 		swaplist = (List<Comment>) cutList(swaplist, startIndex, stopIndex);
 		return swaplist;
@@ -258,6 +259,16 @@ public class DummyDB {
 
 	//Manage the Chat Lists
 
+	public Chat existChat(List<Contact> recipients){
+
+		for(Chat c : chat_list){
+			List<Contact> cs = c.getContacts();
+			if(cs.equals(recipients)){
+				return c;
+			}
+		}
+		return null;
+	}
 	/**
 	 * Adds a chat to the Database
 	 * @param c
@@ -331,7 +342,7 @@ public class DummyDB {
 			Chat c = swap_c_list.get(i);
 			if (!c.getOwner().isEqual(owner)) swap_c_list.remove(c);
 		}
-		return (List<Chat>) sortList(swap_c_list);
+		return (List<Chat>) sortList(swap_c_list, true);
 
 	}
 
@@ -366,8 +377,8 @@ public class DummyDB {
 	 * @param c
 	 * @return
      */
-	public List<Message> getMessageList(Chat c) {
-		return (List<Message>)sortList(chatmessage.get(c));
+	public List<Message> getMessageList(Chat c, boolean descending) {
+		return (List<Message>)sortList(chatmessage.get(c), descending);
 	}
 
 	/**
@@ -375,8 +386,8 @@ public class DummyDB {
 	 * @param c
 	 * @return
 	 */
-	public List<Message> getMessageList(Chat c, int startIndex, int stopIndex) {
-		List <Message> swapmessages = (List<Message>) sortList(chatmessage.get(c));
+	public List<Message> getMessageList(Chat c, int startIndex, int stopIndex, boolean descending) {
+		List <Message> swapmessages = (List<Message>) sortList(chatmessage.get(c), descending);
 		swapmessages = (List<Message>) cutList(swapmessages, startIndex, stopIndex);
 		return swapmessages;
 	}
@@ -386,8 +397,8 @@ public class DummyDB {
 	 * @param c
 	 * @return
 	 */
-	public List<Message> getMessageList(Chat c, Timestamp start, Timestamp stop) {
-		List <Message> swapmessages = (List<Message>) sortList(chatmessage.get(c));
+	public List<Message> getMessageList(Chat c, Timestamp start, Timestamp stop, boolean descending) {
+		List <Message> swapmessages = (List<Message>) sortList(chatmessage.get(c), descending);
 		swapmessages = (List<Message>) cutList(swapmessages, start, stop);
 		return swapmessages;
 	}
@@ -397,9 +408,9 @@ public class DummyDB {
 	 * @param c
 	 * @return
 	 */
-	public List<Message> getMessageList(Chat c, int startIndex, int stopIndex, Timestamp start, Timestamp stop) {
+	public List<Message> getMessageList(Chat c, int startIndex, int stopIndex, Timestamp start, Timestamp stop, boolean descending) {
 
-		List <Message> swapmessages = (List<Message>) sortList(chatmessage.get(c));
+		List <Message> swapmessages = (List<Message>) sortList(chatmessage.get(c), descending);
 		swapmessages = (List<Message>) cutList(swapmessages, start, stop);
 		swapmessages = (List<Message>) cutList(swapmessages, startIndex, stopIndex);
 		return swapmessages;
@@ -410,8 +421,8 @@ public class DummyDB {
 	 * @param c
 	 * @return
 	 */
-	public List<Message> getMessageList(Chat c, String search, int startIndex, int stopIndex) {
-		List <Message> swapmessages = (List<Message>) sortList(chatmessage.get(c));
+	public List<Message> getMessageList(Chat c, String search, int startIndex, int stopIndex, boolean descending) {
+		List <Message> swapmessages = (List<Message>) sortList(chatmessage.get(c), descending);
 		swapmessages = (List<Message>) search(search, swapmessages);
 		swapmessages = (List<Message>) cutList(swapmessages, startIndex, stopIndex);
 		return swapmessages;
@@ -480,14 +491,23 @@ public class DummyDB {
 	 * @param sortlist
 	 * @return
 	 */
-	private List<? extends Timeable> sortList(List<? extends Timeable> sortlist) {
+	private List<? extends Timeable> sortList(List<? extends Timeable> sortlist, boolean ascending) {
 		List<Timeable> m_list = new LinkedList<>();
+		boolean change = false;
 		m_list.addAll(sortlist);
 		Timeable temp, temp2;
 		for (int i = 1; i < m_list.size(); i++) {
 			for (int j = 0; j < m_list.size() - 1; j++) {
+				change = false;
 				if(m_list.get(j).getTimestamp() != null && m_list.get(j+1).getTimestamp()!=null){
-					if (m_list.get(j).getTimestamp().before(m_list.get(j + 1).getTimestamp())) {
+					if (m_list.get(j).getTimestamp().before(m_list.get(j + 1).getTimestamp()) && ascending) {
+						change = true;
+					}
+					if(m_list.get(j).getTimestamp().after(m_list.get(j + 1).getTimestamp()) && !ascending){
+						change = true;
+					}
+
+					if(change == true){
 						temp = m_list.get(j);
 						temp2 = m_list.get(j + 1);
 						m_list.remove(j + 1);

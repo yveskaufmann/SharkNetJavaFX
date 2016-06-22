@@ -74,6 +74,6 @@
 
       <ChatHistoryList fx:id = "chatHistoryListView" layoutX="14.0" layoutY="14.0" prefHeight="595.0" prefWidth="380.0"></ChatHistoryList>
 
-      <Button fx:id="buttonNewChat" layoutX="150.0" layoutY="635.0" mnemonicParsing="false" onAction="#onNewChatClick" text="New Chat" />
+      <Button fx:id="buttonNewChat" layoutX="150.0" layoutY="635.0" mnemonicParsing="false" text="New Chat" />
    </children>
 </AnchorPane>

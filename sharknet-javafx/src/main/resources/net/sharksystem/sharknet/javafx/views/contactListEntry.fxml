@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import net.sharksystem.sharknet.javafx.controls.RoundImageView?>
+<VBox styleClass="theme-presets inbox-entry" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1">
+    <GridPane fx:id="container">
+        <columnConstraints>
+            <ColumnConstraints halignment="LEFT" hgrow="NEVER" />
+            <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" />
+            <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints vgrow="NEVER" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="ALWAYS" />
+        </rowConstraints>
+        <children>
+            <RoundImageView fx:id="contactImage" fitHeight="40" fitWidth="40" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.hgrow="SOMETIMES" GridPane.rowSpan="3" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+            </RoundImageView>
+            <Text fx:id="contactName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-header" text="Crazy Sloth" GridPane.columnIndex="1" GridPane.valignment="TOP">
+                 <GridPane.margin>
+                    <Insets left="10.0" />
+                 </GridPane.margin>
+            </Text>
+        </children>
+    </GridPane>
+</VBox>

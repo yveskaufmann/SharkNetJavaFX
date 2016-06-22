@@ -4,10 +4,7 @@ package net.sharksystem.sharknet.javafx.controller.chat;
 import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -34,9 +31,10 @@ public class ChatController extends AbstractController implements ChatListener {
 
 	private FrontController frontController;
 
-
 	public static ChatController chatControllerInstance;
+	// the currently active chat object
 	private Chat activeChat;
+	// attachment object
 	private Content attachment;
 
 	// used so we can use the same window / class for adding contacts and new chats
@@ -45,7 +43,6 @@ public class ChatController extends AbstractController implements ChatListener {
 
 	// if true, the next message will contain the fileAttachment
 	private boolean sendAttachment;
-
 
 	@FXML
 	private TextField textFieldMessage;
@@ -66,7 +63,11 @@ public class ChatController extends AbstractController implements ChatListener {
 	@FXML
 	private Button buttonSend;
 	@FXML
+	private Button buttonNewChat;
+	@FXML
 	private ChatWindowList chatWindowListView;
+	@FXML
+	private Label labelChatRecipients;
 
 	public ChatController() {
 		super(App.class.getResource("views/chat/chatView.fxml"));
@@ -90,8 +91,6 @@ public class ChatController extends AbstractController implements ChatListener {
 
 	@Override
 	protected void onFxmlLoaded() {
-		//TODO: Implement chat controller
-
 		// set onMouseClick for Attachment ImageView
 		imageViewAttachment.setOnMouseClicked(event -> {
 			onAttachmentClick();
@@ -112,46 +111,58 @@ public class ChatController extends AbstractController implements ChatListener {
 			onVoteClick();
 			event.consume();
 		});
-
+		// set onMouseClick for emoji ImageView
 		imageViewEmoji.setOnMouseClicked(event -> {
 			onEmojiClick();
 			event.consume();
 		});
-
+		// set onMouseClick for send Button
 		buttonSend.setOnMouseClicked(event -> {
 			onSendClick();
 			event.consume();
 		});
-
-
+		// set onMouseCLick for newchat Button
+		buttonNewChat.setOnMouseClicked(event -> {
+			onNewChatClick();
+			event.consume();
+		});
+		// set listener for chathistorylistview items
 		chatHistoryListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		chatHistoryListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			onChatSelected(chatHistoryListView.getSelectionModel().getSelectedItem());
 		});
+		// load all chats into chathistorylistview
 		loadChatHistory();
-
-
 	}
 
+	/**
+	 * sending attachment... open filedialog
+	 */
 	private void onAttachmentClick() {
 		// TODO: display attachment in chat somehow..
 		System.out.println("onAttachmentClick");
 		if (activeChat != null) {
+			// setup and open filechooser
 			FileChooser fileChooser = new FileChooser();
 			Stage stage = new Stage();
 			fileChooser.setTitle("Select Attachment");
 			File file = fileChooser.showOpenDialog(stage);
+			// if a file is selected
 			if (file != null) {
 				try {
+					// load file into stream
 					InputStream fileAttachment = new FileInputStream(file.getPath());
 					fileAttachment.close();
+					// set flag for attachment
 					sendAttachment = true;
+					// extract extension
 					String extension = "";
 					int i = file.getPath().lastIndexOf('.');
 					if (i > 0) {
 						extension = file.getPath().substring(i + 1);
 					}
-					attachment = new ImplContent(fileAttachment, extension, "");
+					// create attachment object
+					attachment = new ImplContent(fileAttachment, extension, file.getName());
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -162,11 +173,14 @@ public class ChatController extends AbstractController implements ChatListener {
 
 	}
 
+	/**
+	 * add contacts to active chat conversation
+	 */
 	private void onAddClick() {
 		System.out.println("onAddClick");
-
 		if (activeChat != null) {
 			addChatContacts = true;
+			// open add contacts window
 			ChatContactsController c = new ChatContactsController();
 			c.setContactListListener(this);
 		}
@@ -174,107 +188,161 @@ public class ChatController extends AbstractController implements ChatListener {
 
 	private void onContactProfileClick() {
 		System.out.println("onContactProfileClick");
+		//ToDo: profile view
 	}
 
 	private void onVoteClick() {
-		// TODO: vote window
 		System.out.println("onVoteClick");
+		if (activeChat != null) {
+			// open vote window
+			VoteController voteController = new VoteController();
+		}
 	}
 
-
+	/**
+	 * sending chat message
+	 */
 	private void onSendClick() {
 
 		if (activeChat != null) {
+			// if user wants to send attachment
 			if (sendAttachment && attachment != null) {
-				attachment.setMessage(textFieldMessage.getText());
+				// append filename to chat message
+				attachment.setMessage(textFieldMessage.getText() + "<" + attachment.getFileName() + ">");
+				// send message and attachment
 				activeChat.sendMessage(attachment);
 			} else {
+				// just send chat message
 				activeChat.sendMessage(new ImplContent(null, "", "", textFieldMessage.getText()));
 			}
-
-				//TODO: saving... seems not to work
-			//activeChat.save();
+			// reload chat area, so new message is shown
 			fillChatArea(activeChat);
+			// reset flags
 			sendAttachment = false;
 			attachment = null;
 		}
-
 	}
 
-	@FXML
-	private void onNewChatClick(ActionEvent event) {
-		// TODO: new window with contacts?
+	/**
+	 * starting a new chat
+	 */
+	private void onNewChatClick() {
 		System.out.println("onNewChatClick");
-
+		// set flag
 		newChat = true;
+		// open new chat window
 		ChatContactsController c = new ChatContactsController();
 		c.setContactListListener(this);
 	}
 
+	/**
+	 * loading all chats into listview
+	 */
 	private void loadChatHistory() {
 		// TODO: seperate chats in today, yesterday, earlier...
+		// clear old chats
 		chatHistoryListView.getItems().clear();
+		// load chats
 		List<Chat> chatList = sharkNetModel.getChats();
-
+		// add chats to listview
 		for (int i = 0; i < chatList.size(); i++) {
 			chatHistoryListView.getItems().add(chatList.get(i));
 		}
 	}
 
+	/**
+	 * triggered when a chat is selected in the chathistorylistview
+	 * @param c
+	 */
 	private void onChatSelected(Chat c) {
 		fillChatArea(c);
 		activeChat = c;
-
+		// try to set chat picture
 		if (activeChat.getPicture() != null) {
 			imageManager.readImageFrom(activeChat.getPicture()).ifPresent(imageViewContactProfile::setImage);
 		}
+		fillContactLabel();
 	}
 
-	private void fillChatArea(Chat c) {
-		chatWindowListView.getItems().clear();
+	/**
+	 * fill contact label with all chat contacts, except yourself...
+	 */
+	private void fillContactLabel() {
+		String contactNames = "";
+		// loop through chat contacts
+		for (int i = 0; i < activeChat.getContacts().size(); i++) {
+			// if contact != you
+			if (!activeChat.getContacts().get(i).isEqual(sharkNetModel.getMyProfile().getContact())) {
+				contactNames += activeChat.getContacts().get(i).getNickname();
+				if (i < activeChat.getContacts().size()-1 && !activeChat.getContacts().get(i+1).isEqual(sharkNetModel.getMyProfile().getContact())) {
+					contactNames += " , ";
+				}
+			}
+		}
+		// set label text
+		labelChatRecipients.setText(contactNames);
+	}
 
-		if (c.getMessages() != null) {
-			for (int i = 0; i < c.getMessages().size(); i++) {
-				chatWindowListView.getItems().add(c.getMessages().get(i));
+	/**
+	 * fill chat listview
+	 * @param c chat
+	 */
+	private void fillChatArea(Chat c) {
+		// clear old chat messages
+		chatWindowListView.getItems().clear();
+		// if chat contains messages
+		if (c.getMessages(false) != null) {
+			for (int i = 0; i < c.getMessages(false).size(); i++) {
+				// add message to listview
+				chatWindowListView.getItems().add(c.getMessages(false).get(i));
 			}
 		}
 	}
 
-	// triggered when the add contacts window is closed
+	/**
+	 * triggered when the add contacts window / new chat window is closed
+	 */
 	@Override
 	public void onContactListChanged(List<Contact> c) {
 		System.out.println("oncontactslistchanged");
-
+		// if contacts get added...
 		if (addChatContacts) {
 			if (c.size() > 0) {
 				activeChat.getContacts().addAll(c);
 			}
+		// start new chat
 		} else if (newChat) {
-
-			//Chat chat = new ImplChat(c, sharkNetModel.getMyProfile().getContact(), sharkNetModel.getMyProfile());
+			// create new chat
 			Chat chat = sharkNetModel.newChat(c);
-			chatHistoryListView.getItems().add(chat);
-
-			// TODO: check why sharknet suddenly returns a triple size chatlist when the following lines are enables...
-			//sharkNetModel.getChats().add(chat);
-			//chat.save();
-			activeChat = chat;
-			fillChatArea(activeChat);
+			// add chat to history listview
 			loadChatHistory();
-
+			// set active chat
+			activeChat = chat;
+			// reload chat area
+			fillChatArea(activeChat);
+			fillContactLabel();
 		}
-
+		// reset flags
 		addChatContacts = false;
 		newChat = false;
 	}
 
+	/**
+	 * triggered by emoji window click
+	 * @param emojiClass chosen emoji
+	 */
 	@Override
 	public void onEmojiChoose(String emojiClass) {
+		// insert emoji placiholder in chat input
 		textFieldMessage.appendText(" :" + emojiClass + ": ");
 	}
 
+	/**
+	 * triggered by emoji imageview click
+	 */
 	private void onEmojiClick() {
 		System.out.println("onEmojiClick");
+		// open emoji window
 		EmojiController e = new EmojiController();
 		e.setListener(this);
 	}

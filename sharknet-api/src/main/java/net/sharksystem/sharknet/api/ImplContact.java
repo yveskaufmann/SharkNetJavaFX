@@ -1,5 +1,6 @@
 package net.sharksystem.sharknet.api;
 
+import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,9 +15,13 @@ public class ImplContact implements Contact {
 
 
 	String nickname;
+	String name;
+	String email;
+	String notes;
 	String uid;
 	String publickey;
 	List<Interest> interest_list = new LinkedList<>();
+	List<String> telephonnumber_list = new LinkedList<>();
 	Profile owner;
 	Content picture;
 
@@ -82,6 +87,47 @@ public class ImplContact implements Contact {
 		return owner;
 	}
 
+	@Override
+	public void addName(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void addTelephonnumber(String telephonnumber) {
+		telephonnumber_list.add(telephonnumber);
+
+	}
+
+	@Override
+	public List<String> getTelephonnumber() {
+		return telephonnumber_list;
+	}
+
+	@Override
+	public void addNote(String note) {
+		this.notes = note;
+	}
+
+	@Override
+	public String getNote() {
+		return notes;
+	}
+
+	@Override
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	@Override
+	public String getEmail() {
+		return email;
+	}
+
 
 	@Override
 	public String getUID() {
@@ -107,7 +153,6 @@ public class ImplContact implements Contact {
 	@Override
 	public String getPublicKey() {
 		//ToDo: Public key getter nur fingerprint bzw readable
-
 		return publickey;
 	}
 
@@ -115,9 +160,20 @@ public class ImplContact implements Contact {
 	public void setPublicKey(String publicKey) {
 		this.publickey = publicKey;
 
-		//ToDo: Implement Method: PublicKeyExchange for NFC exchange
-
 	}
+
+	@Override
+	public Timestamp getPublicKeyExpiration() {
+		//ToDo: Shark - get Expiration of Key
+		return null;
+	}
+
+	@Override
+	public void deleteKey() {
+		this.publickey = null;
+		//ToDo: Shark - delete Key
+	}
+
 
 	@Override
 	public void delete() {

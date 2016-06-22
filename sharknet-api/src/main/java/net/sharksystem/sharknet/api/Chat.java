@@ -25,11 +25,11 @@ public interface Chat extends Timeable {
 	 * returns a List of all Messages within the Chat
 	 * @return
      */
-    public List<Message> getMessages();
-	public List<Message> getMessages(int startIndex, int stopIndex);
-	public List<Message> getMessages(Timestamp start, Timestamp stop);
-	public List<Message> getMessages(Timestamp start, Timestamp stop, int startIndex, int stopIndex);
-	public List<Message> getMessages(String search, int startIndex, int stopIndex);
+    public List<Message> getMessages(boolean descending);
+	public List<Message> getMessages(int startIndex, int stopIndex, boolean descending);
+	public List<Message> getMessages(Timestamp start, Timestamp stop, boolean descending);
+	public List<Message> getMessages(Timestamp start, Timestamp stop, int startIndex, int stopIndex, boolean descending);
+	public List<Message> getMessages(String search, int startIndex, int stopIndex, boolean descending);
 
 
 	/**

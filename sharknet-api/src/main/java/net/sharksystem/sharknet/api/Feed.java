@@ -36,11 +36,11 @@ public interface Feed extends Timeable, ContainsContent{
 	 * Returns a List of comments referencing the feed
 	 * @return
      */
-    public List<Comment> getComments();
-	public List<Comment> getComments(int startIndex, int stopIndex);
-	public List<Comment> getComments(Timestamp start, Timestamp stop);
-	public List<Comment> getComments(Timestamp start, Timestamp stop, int startIndex, int stopIndex);
-	public List<Comment> getComments(String search, int startIndex, int stopIndex);
+    public List<Comment> getComments(boolean descending);
+	public List<Comment> getComments(int startIndex, int stopIndex, boolean descending);
+	public List<Comment> getComments(Timestamp start, Timestamp stop, boolean descending);
+	public List<Comment> getComments(Timestamp start, Timestamp stop, int startIndex, int stopIndex, boolean descending);
+	public List<Comment> getComments(String search, int startIndex, int stopIndex, boolean descending);
 
 
 	/**

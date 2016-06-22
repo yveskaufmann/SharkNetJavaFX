@@ -19,9 +19,13 @@ public class ImplSharkNet implements SharkNet {
 
 	//ToDo: Implement - Initialisierung bauen (inkl übergabe KB etc)
 
-	List<Profile> profile_list = new LinkedList<>();
+	//ToDo: Clearify - setter müssen Datan in shark speichern
+
+
+/*	List<Profile> profile_list = new LinkedList<>();
 	List<Contact> contact_list = new LinkedList<>();
 	List<Chat> chat_list = new LinkedList<>();
+*/
 	Profile myProfile;
 	ArrayList<Dummy> chatListenerList = new ArrayList<Dummy>();
 
@@ -30,55 +34,55 @@ public class ImplSharkNet implements SharkNet {
 
 		//ToDo: Shark - search in KB for Profiles an return a List of them
 		//Implementation of DummyDB
-		profile_list = DummyDB.getInstance().getProfile_list();
+		List<Profile> profile_list = DummyDB.getInstance().getProfile_list();
 		return profile_list;
 	}
 
 	@Override
-	public List<Feed> getFeeds() {
+	public List<Feed> getFeeds(boolean descending) {
 		//ToDo: Shark - Search in KB for Feeds and return a list of them - sorted by Time
 
 		if(myProfile == null) return null;
 
 		//Implementation of DummyDB
-		List<Feed> feed_list = DummyDB.getInstance().getFeed_list(myProfile);
+		List<Feed> feed_list = DummyDB.getInstance().getFeed_list(myProfile, descending);
 		return feed_list;
 	}
 
 	@Override
-	public List<Feed> getFeeds(int start_index, int stop_index) {
+	public List<Feed> getFeeds(int start_index, int stop_index, boolean descending) {
 		//ToDo: Shark - Search in KB for Feeds and return a list of them within the given intervall - sorted by time
 
 		//Implementation of DummyDB
 		if(myProfile == null) return null;
-		List<Feed> feed_list = DummyDB.getInstance().getFeed_list(myProfile, start_index, stop_index);
+		List<Feed> feed_list = DummyDB.getInstance().getFeed_list(myProfile, start_index, stop_index, descending);
 		return feed_list;
 	}
 
 	@Override
-	public List<Feed> getFeeds(Interest i, int start_index, int stop_index) {
+	public List<Feed> getFeeds(Interest i, int start_index, int stop_index, boolean descending) {
 		//ToDo: Implement - return feeds with interest i from start to stop, sorted by time
 		return null;
 	}
 
 	@Override
-	public List<Feed> getFeeds(String search, int start_index, int stop_index) {
+	public List<Feed> getFeeds(String search, int start_index, int stop_index, boolean descending) {
 		//ToDo: Shark - Search in KB for Feeds and return a list of them within the given intervall and containing the search string - sorted by time
 		//Implementation of DummyDB
 		if(myProfile == null) return null;
-		List<Feed> feed_list = DummyDB.getInstance().getFeed_list(myProfile,search, start_index, stop_index);
+		List<Feed> feed_list = DummyDB.getInstance().getFeed_list(myProfile,search, start_index, stop_index, descending);
 		return feed_list;
 
 	}
 
 	@Override
-	public List<Feed> getFeeds(Timestamp start, Timestamp end, int start_index, int stop_index) {
+	public List<Feed> getFeeds(Timestamp start, Timestamp end, int start_index, int stop_index, boolean descending) {
 
 		//ToDo: Shark - Search in KB for Feeds and return a list of them within the given intervall and timerange - sorted by time
 
 		//Implementation of DummyDB
 		if(myProfile == null) return null;
-		List<Feed> feed_list = DummyDB.getInstance().getFeed_list(myProfile, start_index, stop_index, start, end);
+		List<Feed> feed_list = DummyDB.getInstance().getFeed_list(myProfile, start_index, stop_index, start, end, descending);
 		return feed_list;
 	}
 
@@ -88,7 +92,7 @@ public class ImplSharkNet implements SharkNet {
 		if(myProfile == null) return null;
 		//ToDo: Shark - Search in KB for Contacts and return a list of them
 		//Implementation of DummyDB
-		contact_list = DummyDB.getInstance().getContact_list(myProfile);
+		List<Contact> contact_list = DummyDB.getInstance().getContact_list(myProfile);
 		return contact_list;
 	}
 
@@ -98,7 +102,7 @@ public class ImplSharkNet implements SharkNet {
 		if(myProfile == null) return null;
 		//ToDo: Shark - Search in KB vor Chats and return a list of them
 		//Implementation of DummyDB
-		chat_list = DummyDB.getInstance().getChat_list(myProfile);
+		List<Chat> chat_list = DummyDB.getInstance().getChat_list(myProfile);
 		return chat_list;
 	}
 
@@ -114,15 +118,20 @@ public class ImplSharkNet implements SharkNet {
 		Profile p = new ImplProfile(new ImplContact(nickname, uid, publickey, null));
 		ImplContact c = (ImplContact)p.getContact();
 		c.setOwner(p);
-		profile_list.add(p);
+		//List<Profile> profile_list.add(p);
 		return p;
 	}
 
 	@Override
 	public Chat newChat(List<Contact> recipients) {
 		if(myProfile == null) return null;
-		Chat chat = new ImplChat(recipients, myProfile);
-		chat_list.add(chat);
+
+		//ToDo: Shark - Lookup if a chat for the contacts already exists if yes return the chatobject of the existing chat, if no make a new chat
+		Chat chat = DummyDB.getInstance().existChat(recipients);
+		if(chat == null) {
+			chat = new ImplChat(recipients, myProfile);
+		}
+		//chat_list.add(chat);
 		return chat;
 	}
 
@@ -130,7 +139,7 @@ public class ImplSharkNet implements SharkNet {
 	public Contact newContact(String nickname, String uid, String publickey) {
 		if(myProfile == null) return null;
 		Contact c = new ImplContact(nickname, uid, publickey, myProfile);
-		contact_list.add(c);
+		//contact_list.add(c);
 		return c;
 
 		//ToDo: Clearify - how to share contacts
@@ -148,6 +157,11 @@ public class ImplSharkNet implements SharkNet {
 	@Override
 	public Profile getMyProfile() {
 		return myProfile;
+	}
+
+	@Override
+	public void exchangeContactNFC() {
+		//ToDo: Shark - Implement Contact Exchange via NFC
 	}
 
 	@Override
