@@ -19,9 +19,10 @@ public class ImplSharkNet implements SharkNet {
 
 	//ToDo: Implement - Initialisierung bauen (inkl übergabe KB etc)
 
-	List<Profile> profile_list = new LinkedList<>();
+/*	List<Profile> profile_list = new LinkedList<>();
 	List<Contact> contact_list = new LinkedList<>();
 	List<Chat> chat_list = new LinkedList<>();
+*/
 	Profile myProfile;
 	ArrayList<Dummy> chatListenerList = new ArrayList<Dummy>();
 
@@ -30,7 +31,7 @@ public class ImplSharkNet implements SharkNet {
 
 		//ToDo: Shark - search in KB for Profiles an return a List of them
 		//Implementation of DummyDB
-		profile_list = DummyDB.getInstance().getProfile_list();
+		List<Profile> profile_list = DummyDB.getInstance().getProfile_list();
 		return profile_list;
 	}
 
@@ -88,7 +89,7 @@ public class ImplSharkNet implements SharkNet {
 		if(myProfile == null) return null;
 		//ToDo: Shark - Search in KB for Contacts and return a list of them
 		//Implementation of DummyDB
-		contact_list = DummyDB.getInstance().getContact_list(myProfile);
+		List<Contact> contact_list = DummyDB.getInstance().getContact_list(myProfile);
 		return contact_list;
 	}
 
@@ -98,7 +99,7 @@ public class ImplSharkNet implements SharkNet {
 		if(myProfile == null) return null;
 		//ToDo: Shark - Search in KB vor Chats and return a list of them
 		//Implementation of DummyDB
-		chat_list = DummyDB.getInstance().getChat_list(myProfile);
+		List<Chat> chat_list = DummyDB.getInstance().getChat_list(myProfile);
 		return chat_list;
 	}
 
@@ -114,7 +115,7 @@ public class ImplSharkNet implements SharkNet {
 		Profile p = new ImplProfile(new ImplContact(nickname, uid, publickey, null));
 		ImplContact c = (ImplContact)p.getContact();
 		c.setOwner(p);
-		profile_list.add(p);
+		//List<Profile> profile_list.add(p);
 		return p;
 	}
 
@@ -122,7 +123,7 @@ public class ImplSharkNet implements SharkNet {
 	public Chat newChat(List<Contact> recipients) {
 		if(myProfile == null) return null;
 		Chat chat = new ImplChat(recipients, myProfile);
-		chat_list.add(chat);
+		//chat_list.add(chat);
 		return chat;
 	}
 
@@ -130,7 +131,7 @@ public class ImplSharkNet implements SharkNet {
 	public Contact newContact(String nickname, String uid, String publickey) {
 		if(myProfile == null) return null;
 		Contact c = new ImplContact(nickname, uid, publickey, myProfile);
-		contact_list.add(c);
+		//contact_list.add(c);
 		return c;
 
 		//ToDo: Clearify - how to share contacts
