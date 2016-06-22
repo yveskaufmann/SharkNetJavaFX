@@ -258,6 +258,16 @@ public class DummyDB {
 
 	//Manage the Chat Lists
 
+	public Chat existChat(List<Contact> recipients){
+
+		for(Chat c : chat_list){
+			List<Contact> cs = c.getContacts();
+			if(cs.equals(recipients)){
+				return c;
+			}
+		}
+		return null;
+	}
 	/**
 	 * Adds a chat to the Database
 	 * @param c

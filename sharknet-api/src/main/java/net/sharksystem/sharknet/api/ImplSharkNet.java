@@ -122,7 +122,12 @@ public class ImplSharkNet implements SharkNet {
 	@Override
 	public Chat newChat(List<Contact> recipients) {
 		if(myProfile == null) return null;
-		Chat chat = new ImplChat(recipients, myProfile);
+
+		//ToDo: Shark - Lookup if a chat for the contacts already exists if yes return the chatobject of the existing chat, if no make a new chat
+		Chat chat = DummyDB.getInstance().existChat(recipients);
+		if(chat == null) {
+			chat = new ImplChat(recipients, myProfile);
+		}
 		//chat_list.add(chat);
 		return chat;
 	}
