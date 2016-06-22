@@ -47,18 +47,20 @@ public class EmojiController extends AbstractController {
 		emojis = emoji.getEmojis();
 
 		int counter = 0;
+		// loading emojis from .png using css
 		for (int i = 0; i < Emoji.cols; i++) {
 			for (int j = 0; j < Emoji.rows; j++) {
 				if (counter < emojis.size()) {
 					Pane pane = new Pane();
 					pane.getStyleClass().addAll("emojione", emojis.get(counter));
-					//System.out.println(emojis.get(counter));
 					pane.setPrefHeight(64);
 					pane.setPrefWidth(64);
+					// set onmouseclick event for each emoji
 					pane.setOnMouseClicked(event -> {
 						onEmojiClicked(pane);
 						event.consume();
 					});
+					// add emoji to grid
 					gridPaneEmojis.add(pane, i, j);
 					counter += 1;
 				}
@@ -73,6 +75,7 @@ public class EmojiController extends AbstractController {
 
 	private void onEmojiClicked(Pane p) {
 		if (listener != null) {
+			// notify listener about chosen emoji
 			listener.onEmojiChoose(p.getStyleClass().get(1));
 		}
 	}

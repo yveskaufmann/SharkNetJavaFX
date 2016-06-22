@@ -16,6 +16,8 @@ import java.text.SimpleDateFormat;
 
 /**
  * Created by Benni on 31.05.2016.
+ *
+ * responsible for custom listview entry @chathistorylistview
  */
 public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 
@@ -54,20 +56,24 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 			return;
 		}
 
+		// extracting senders
 		if (chat.getContacts().size() > 1) {
 			for (int i = 1; i < chat.getContacts().size(); i++) {
 				senders += " , " + chat.getContacts().get(i).getNickname();
 			}
 		}
-
+		// set sender label
 		chatContacts.setText(senders);
-		if (chat.getMessages() != null && chat.getMessages().size() > 0) {
-			java.sql.Timestamp timestamp = chat.getMessages().get(chat.getMessages().size()-1).getTimestamp();
+		if (chat.getMessages(false) != null && chat.getMessages(false).size() > 0) {
+			java.sql.Timestamp timestamp = chat.getMessages(false).get(chat.getMessages(false).size()-1).getTimestamp();
+			// timestamp of last message
 			chatLastMessage.setText(dateFormat.format(timestamp));
-			chatContent.setText(chat.getMessages().get(chat.getMessages().size()-1).getContent().getMessage());
+			// chat preview (last message)
+			chatContent.setText(chat.getMessages(false).get(chat.getMessages(false).size()-1).getContent().getMessage());
 		}
-
+		// set chat title
 		chatTitle.setText(chat.getTitle());
+		// set chat picture
 		imageManager.readImageFrom(chat.getPicture()).ifPresent(imageViewContactProfile::setImage);
 
 	}

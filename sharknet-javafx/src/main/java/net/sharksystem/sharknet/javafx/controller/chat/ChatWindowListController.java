@@ -52,28 +52,27 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 		if (message == null) {
 			return;
 		}
-
+		// using textflow for emoji support
 		TextFlow textFlow = new TextFlow();
-		textFlow.setPadding(new Insets(0));
-		textFlow.setLineSpacing(0);
+		//textFlow.setPadding(new Insets(0));
+		//textFlow.setLineSpacing(0);
 
-
+		// if emoji was found
 		if (message.getContent().getMessage().matches(".*[:emojione-].*[:].*")) {
+			// split the whole message
 			String[] splitted = message.getContent().getMessage().split(":");
 			for (int i = 0; i < splitted.length; i++) {
-				System.out.println(splitted[i]);
-
+				// if emoji in substring is found
 				if (splitted[i].matches("[emojione-].*")) {
+					// create emoji pane
 					Pane smileyPane = new Pane();
-
+					// translate emoji... just a workaround.. fx still thinks emoji is 64x64 px...
 					smileyPane.setTranslateY(28.0);
+					// add css class
 					smileyPane.getStyleClass().addAll("emojionetest", splitted[i].trim());
-
-					//smileyPane.setPadding(new Insets(50, 5, 0, 5));
+					// add emoji to textflow
 					textFlow.getChildren().add(smileyPane);
 				} else {
-					//Text text = new Text();
-					//text.setText(splitted[i].trim());
 					Label label = new Label();
 					label.setText(splitted[i].trim());
 					label.setWrapText(true);
@@ -81,11 +80,9 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 				}
 			}
 			hboxMessage.getChildren().add(textFlow);
+			// remove default message
 			hboxMessage.getChildren().remove(labelMessage);
-			//gridPaneMessages.getChildren().add(textFlow);
 			labelMessage.setVisible(false);
-
-			System.out.println("found emoji");
 		}
 		// if message doesn't contain any emoji...
 		else {
@@ -102,17 +99,12 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 		if (!message.isSigned()) {
 			imageViewSigned.setOpacity(0.25);
 		}
+		// position message
 		if (!message.isMine()) {
 			hboxGridContainer.setAlignment(Pos.TOP_RIGHT);
-			//labelMessage.setAlignment(Pos.TOP_RIGHT);
-			//labelMessage.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 		} else {
 			hboxGridContainer.setAlignment(Pos.TOP_LEFT);
-			//labelMessage.setAlignment(Pos.TOP_LEFT);
-			//labelMessage.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
 		}
-
-
 	}
 
 	@Override

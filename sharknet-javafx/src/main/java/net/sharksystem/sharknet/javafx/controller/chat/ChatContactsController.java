@@ -34,7 +34,10 @@ public class ChatContactsController extends AbstractController {
 
 	@Inject
 	private SharkNet sharkNet;
+
+	// list containing all contacts
 	private List<Contact> allContacts;
+	// list containing only the contacts you want to add
 	private List<Contact> addedContacts;
 	private ChatListener listener;
 
@@ -55,6 +58,7 @@ public class ChatContactsController extends AbstractController {
 
 	@Override
 	protected void onFxmlLoaded() {
+		// mouseclick events for all buttons
 		buttonAdd.setOnMouseClicked(event -> {
 			onAddContact(listViewAllContacts.getSelectionModel().getSelectedIndex());
 			event.consume();
@@ -70,31 +74,49 @@ public class ChatContactsController extends AbstractController {
 			event.consume();
 		});
 
+		// initial load of contacts
 		loadContacts();
 	}
 
+	/**
+	 * Add contact to list
+	 * triggered by ">>" Button
+	 * @param selectedIndex listindex
+	 */
 	private void onAddContact(int selectedIndex) {
 		System.out.println("onAddContact");
+		// if an item is selected
 		if (selectedIndex != -1) {
+			// add selected item to addcontact listview
 			listViewAddContacts.getItems().add(allContacts.get(selectedIndex).getNickname());
+			// add selected item to addedcontact list
 			addedContacts.add(allContacts.get(selectedIndex));
-
+			// remove selected item from all contact listview
 			listViewAllContacts.getItems().remove(selectedIndex);
+			// remove selected item from allcontacts list
 			allContacts.remove(selectedIndex);
 		}
 	}
 
+	/**
+	 * remove contact from list
+	 * triggered by "<<" button
+	 * @param selectedIndex listindex
+	 */
 	private void onRemoveContact(int selectedIndex) {
 		System.out.println("onRemoveContact");
+		// analog to onAddContact, just inverted...
 		if (selectedIndex != -1) {
 			listViewAllContacts.getItems().add(addedContacts.get(selectedIndex).getNickname());
 			allContacts.add(addedContacts.get(selectedIndex));
-
 			listViewAddContacts.getItems().remove(selectedIndex);
 			addedContacts.remove(selectedIndex);
 		}
 	}
 
+	/**
+	 * load all contacts from sharknet, no check if contact is equal to own profile
+	 */
 	private void loadContacts() {
 		allContacts = sharkNet.getContacts();
 
@@ -103,6 +125,9 @@ public class ChatContactsController extends AbstractController {
 		}
 	}
 
+	/**
+	 * notify listener about changed contactlist
+	 */
 	private void onOKClick() {
 		if (listener != null) {
 			listener.onContactListChanged(addedContacts);
@@ -110,6 +135,10 @@ public class ChatContactsController extends AbstractController {
 		stage.close();
 	}
 
+	/**
+	 * set listener for contactlist
+	 * @param c listener
+	 */
 	public void setContactListListener(ChatListener c) {
 		listener = c;
 	}
