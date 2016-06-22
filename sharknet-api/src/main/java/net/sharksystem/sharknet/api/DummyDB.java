@@ -19,6 +19,7 @@ public class DummyDB {
 	HashMap<Feed, List<Comment>> feedcomment = new HashMap<>();
 
 
+
 	/**
 	 * DummyDB is a Singleton which is used to Emulate a Database which is later replaced with shark
 	 * The Database saves the Lists only during runtime of the Programm

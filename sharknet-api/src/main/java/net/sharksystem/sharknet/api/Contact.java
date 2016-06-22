@@ -1,5 +1,6 @@
 package net.sharksystem.sharknet.api;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -40,6 +41,8 @@ public interface Contact {
      */
     public String getPublicKey();
 	public void setPublicKey(String publicKey);
+	public Timestamp getPublicKeyExpiration();
+	public void deleteKey();
 
 	/**
 	 * Deletes the Contact from the Database

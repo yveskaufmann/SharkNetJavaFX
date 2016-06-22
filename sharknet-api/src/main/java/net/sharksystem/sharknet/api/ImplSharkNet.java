@@ -19,6 +19,9 @@ public class ImplSharkNet implements SharkNet {
 
 	//ToDo: Implement - Initialisierung bauen (inkl übergabe KB etc)
 
+	//ToDo: Clearify - setter müssen Datan in shark speichern
+
+
 /*	List<Profile> profile_list = new LinkedList<>();
 	List<Contact> contact_list = new LinkedList<>();
 	List<Chat> chat_list = new LinkedList<>();

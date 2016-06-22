@@ -1,5 +1,6 @@
 package net.sharksystem.sharknet.api;
 
+import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -152,7 +153,6 @@ public class ImplContact implements Contact {
 	@Override
 	public String getPublicKey() {
 		//ToDo: Public key getter nur fingerprint bzw readable
-
 		return publickey;
 	}
 
@@ -160,9 +160,20 @@ public class ImplContact implements Contact {
 	public void setPublicKey(String publicKey) {
 		this.publickey = publicKey;
 
-		//ToDo: Implement Method: PublicKeyExchange for NFC exchange
-
 	}
+
+	@Override
+	public Timestamp getPublicKeyExpiration() {
+		//ToDo: Shark - get Expiration of Key
+		return null;
+	}
+
+	@Override
+	public void deleteKey() {
+		this.publickey = null;
+		//ToDo: Shark - delete Key
+	}
+
 
 	@Override
 	public void delete() {
