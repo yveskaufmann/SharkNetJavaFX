@@ -1,8 +1,9 @@
 package net.sharksystem.sharknet.javafx.controller.inbox;
 
+import com.google.inject.Inject;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import net.sharksystem.sharknet.api.Feed;
@@ -10,13 +11,19 @@ import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controls.RoundImageView;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCell;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCellController;
+import net.sharksystem.sharknet.javafx.services.ImageManager;
 import net.sharksystem.sharknet.javafx.utils.FontAwesomeIcon;
+import net.sharksystem.sharknet.javafx.utils.TimeUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 
 public class InboxEntryController extends MediaListCellController<Feed> {
 
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat();
+	@Inject
+	private ImageManager imageManager;
 
 	@FXML
 	private GridPane container;
@@ -51,17 +58,15 @@ public class InboxEntryController extends MediaListCellController<Feed> {
 
 	@Override
 	protected void onItemChanged(Feed feed) {
-		contactImage.setImage(new Image(App.class.getResource("images/profile-placeholder.jpg").toExternalForm()));
+		contactImage.setImage(null);
 		contactName.setText("");
 		receiveDate.setText("");
 		feedContent.setText("");
 
 		if (feed == null) return;
-
+		imageManager.readImageFrom(feed.getSender().getPicture()).ifPresent(contactImage::setImage);
 		contactName.setText(feed.getSender().getNickname());
 		feedContent.setText(feed.getContent().getMessage());
-
-		java.sql.Timestamp timestamp = feed.getTimestamp();
-		receiveDate.setText(dateFormat.format(timestamp));
+		receiveDate.setText(TimeUtils.formatTimeAgo(feed.getTimestamp()));
 	}
 }

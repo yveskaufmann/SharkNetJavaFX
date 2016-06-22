@@ -1,51 +1,58 @@
 package net.sharksystem.sharknet.javafx.controller.chat;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
+import net.sharksystem.sharknet.javafx.App;
+
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Benni on 06.06.2016.
  */
 public class Emoji {
 
-	private BufferedImage bufImage;
-	private BufferedImage[][] emojis;
-	private String fileName;
+
+	private List<String> emojis;
 	public static final int cols = 43;
 	public static final int rows = 43;
-	private final int width = 64;
-	private final int height = 64;
+	private static Emoji emojiInstance = null;
 
-
-	public Emoji(String fileName) {
-		this.fileName = fileName;
-		emojis = new BufferedImage[cols][rows];
+	private Emoji() {
+		emojis = new ArrayList<>();
+		loadEmojis();
 	}
 
-	public void loadEmojis() {
+	public static Emoji getInstance() {
+		if (emojiInstance == null) {
+			emojiInstance = new Emoji();
+		}
+		return emojiInstance;
+	}
+
+	private void loadEmojis() {
+		URI cssPath = null;
 		try {
-			bufImage = ImageIO.read(new File(fileName));
-			for (int i = 0; i < cols; i++)
-			{
-				for (int j = 0; j < rows; j++)
-				{
-					emojis[i][j] = bufImage.getSubimage(
-						j * width,
-						i * height,
-						width,
-						height
-					);
+			cssPath = App.class.getResource("css/emojis.css").toURI();
+			List<String> cssLines = Files.readAllLines(Paths.get(cssPath), Charset.defaultCharset());
+			for (int i = 0; i < cssLines.size(); i++) {
+				if (cssLines.get(i).contains(".emojione-")) {
+					String tmp = cssLines.get(i).replace("{", "").replace(".","").trim();
+					emojis.add(tmp);
 				}
 			}
-
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public BufferedImage[][] getEmojis() {
+	public List<String> getEmojis() {
 		return emojis;
 	}
 }

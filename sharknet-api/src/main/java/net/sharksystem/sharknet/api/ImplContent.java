@@ -1,9 +1,8 @@
 package net.sharksystem.sharknet.api;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
+import net.sharksystem.sharknet.api.utils.ResetOnCloseInputStream;
+
+import java.io.*;
 
 /**
  * Created by timol on 01.06.2016.
@@ -12,6 +11,7 @@ public class ImplContent implements Content {
 
 	String fileExtension, message, filename;
 	InputStream file;
+	private byte[] bytesOfFile;
 
 	public ImplContent (String message){
 		this.message = message;
@@ -41,7 +41,14 @@ public class ImplContent implements Content {
 
 	@Override
 	public InputStream getFile() {
-		return swapFile();
+		/*
+		   JarInputStream are don't supports marks in this
+		   case we need another solution.
+		 */
+		if (! file.markSupported()) {
+			return new ResetOnCloseInputStream(new BufferedInputStream(file));
+		}
+		return new ResetOnCloseInputStream(file);
 	}
 
 	@Override
@@ -64,20 +71,48 @@ public class ImplContent implements Content {
 	 * With shark implementation it could be possible to not just copy the io stream but make a new one
  	 * @return
      */
-    private InputStream swapFile()  {
-		int read = 0;
-		byte[] bytes = new byte[8192];
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		try {
-			while ((read = file.read(bytes)) != -1)
-                bos.write(bytes,0,read);
-		} catch (IOException e) {
-			e.printStackTrace();
+	private InputStream swapFile()  {
+		/***
+		 * Funktioniert leider nicht, da der Stream mehrfach gelesen wird
+		 * nach dem ersten Lesen befindet sich der interne Pointer bereits am Ende
+		 * der Datei oder des Buffers.
+		 *
+		 * Würde dir folgende alternativen Vorschlagen:
+		 *
+		 * 1. Ähnlich deiner SwapFile Implementierung nur,
+		 * dass nur einmal gelesen wird und die bytes in einer Member
+		 * Variable gespeichert werden. Ich denke das war deine Intention
+		 * dahinter :)
+		 *
+		 *
+		 * 2. Du stellst sicher, dass der zurück gegebene Stream beim Aufruf von {@link InputStream#close()}
+		 * zurück gesetzt wird. Ich habe dir einen entsprechenden proxy InputStream gebaut
+		 * und den exemplarisch in {@link #getFile()} eingebaut.
+		 */
+
+		byte[] readBuffer = new byte[8192];
+		if (bytesOfFile == null) {
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			try {
+				int read = 0;
+				while ((read = file.read(readBuffer)) != -1) {
+					bos.write(readBuffer, 0, read);
+				}
+				bytesOfFile = bos.toByteArray();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (file != null) {
+					try {
+						file.close();
+					} catch (IOException e) {
+					}
+				}
+			}
 		}
-		byte[] ba = bos.toByteArray();
-		return new ByteArrayInputStream(ba);
+		return new ByteArrayInputStream(bytesOfFile);
 	}
 
-	//ToDo: Shark - How to save file in Shark
 
+	//ToDo: Shark - How to save file in Shark
 }

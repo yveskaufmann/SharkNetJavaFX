@@ -2,7 +2,6 @@ package net.sharksystem.sharknet.javafx.utils.controller;
 
 import javafx.scene.Parent;
 import net.sharksystem.sharknet.javafx.context.ViewContext;
-import net.sharksystem.sharknet.javafx.controls.ActionBar;
 import net.sharksystem.sharknet.javafx.i18n.I18N;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,7 +69,11 @@ public abstract class AbstractController {
 	 * @return the root element
      */
 	public Parent getRoot() {
-		return getContext().getRootNode();
+		try {
+			return getContext().getRootNode();
+		} catch (ControllerLoaderException ex) {
+			throw new IllegalStateException("Could not obtain root node of " + getClass().getSimpleName(), ex);
+		}
 	}
 
 	/**
@@ -78,9 +81,10 @@ public abstract class AbstractController {
 	 *
 	 * @return context about this view object.
      */
-	public ViewContext<AbstractController> getContext() {
+	public ViewContext<AbstractController> getContext() throws ControllerLoaderException {
 		if (viewContext == null) {
 			initiateController();
+
 		}
 		return viewContext;
 	}
@@ -89,11 +93,12 @@ public abstract class AbstractController {
 	 * Initiate the controller and load the corresponding fxml file which contains the
 	 * view of this controller.
 	 */
-	protected void initiateController() {
+	@SuppressWarnings("unchecked")
+	protected void initiateController() throws ControllerLoaderException {
 		try {
 			viewContext = ControllerBuilder.getInstance().createBy(this, (Class<AbstractController>) getClass());
-		} catch (ControllerLoaderException e) {
-			throw new RuntimeException("Failed to initiate controller" + this.getClass(), e);
+		} catch (Exception e) {
+			throw new ControllerLoaderException("Failed to initiate " + this.getClass().getSimpleName(), e);
 		}
 	}
 
@@ -115,10 +120,7 @@ public abstract class AbstractController {
 	 * equivalent to {@link javafx.fxml.Initializable#initialize(URL, ResourceBundle)}.
 	 * <p>
 	 *
-	 *  NOTE: this method is deprecated please annotate your init method
-	 *  with: @PostConstruct
 	 */
-	@Deprecated
 	abstract protected void onFxmlLoaded();
 
 	/**
@@ -141,17 +143,6 @@ public abstract class AbstractController {
 
 	}
 
-	/**
-	 * Will be called if the controller is terminated.
-	 * This can happen if the application exists or the
-	 * controller is unregistered from the FrontController.
-	 *
-	 * Annotate your destroy method with javax.annotation.PreDestroy
-	 *
-	 * @deprecated
-	 */
-	public void onShutdown() {
-	};
 
 	/**
 	 * Will be called before if controller
@@ -168,6 +159,4 @@ public abstract class AbstractController {
 	public void onPause() {
 
 	}
-
-
 }

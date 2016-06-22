@@ -14,7 +14,6 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.actions.ActionEntry;
 import net.sharksystem.sharknet.javafx.controls.ActionBar;
 import net.sharksystem.sharknet.javafx.controls.behaviour.ActionBarBehaviour;
@@ -40,8 +39,6 @@ public class ActionbarSkin extends BehaviorSkinBase<ActionBar, ActionBarBehaviou
 
 	public ActionbarSkin(ActionBar actionbar) {
 		super(actionbar, new ActionBarBehaviour(actionbar));
-
-		getSkinnable().getStylesheets().add(App.class.getResource("style.css").toExternalForm());
 
 		contextMenu = new ContextMenu();
 		titleText = new Text();
@@ -93,14 +90,14 @@ public class ActionbarSkin extends BehaviorSkinBase<ActionBar, ActionBarBehaviou
 	private void insertActionButtons(List<? extends ActionEntry> actions) {
 		for (ActionEntry action : actions) {
             if (actionbox.getChildren().size() >  MAX_ACTIONS - 1) {
-                MenuItem menuItem = new MenuItem(action.getTitle(), new Text(action.getIcon()));
+                MenuItem menuItem = new MenuItem(action.getText(), new Text(action.getIcon().getText()));
                 action.getCallback().ifPresent((callback) -> {
-                    menuItem.setOnAction((event -> callback.invoke()));
+                    menuItem.setOnAction((event -> callback.invoke(action)));
                 });
                 menuLookUp.put(action, menuItem);
                 contextMenu.getItems().add(menuItem);
                 if (menuButton == null) {
-                    menuButton = ActionBar.createActionButton(new ActionEntry(FontAwesomeIcon.NAVICON, () -> {
+                    menuButton = ActionBar.createActionButton(new ActionEntry(FontAwesomeIcon.NAVICON, (a) -> {
                         contextMenu.show(menuButton, Side.LEFT, 0, 0);
                     }));
                     menuButton.getStyleClass().add("context-menu-button");

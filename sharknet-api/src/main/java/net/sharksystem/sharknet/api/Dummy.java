@@ -35,11 +35,12 @@ public class Dummy {
 
 		//Set Profilepictures
 		InputStream in = null;
-		in = ClassLoader.getSystemClassLoader().getResourceAsStream("Alice.jpg");
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
+		in = cl.getResourceAsStream("Alice.jpg");
 		Content alicepic = new ImplContent(in, "jpg", "Alice profile picture");
 		alice.setPicture(alicepic);
 
-		in = ClassLoader.getSystemClassLoader().getResourceAsStream("Bob.jpg");
+		in = cl.getResourceAsStream("Bob.jpg");
 		Content bobpic = new ImplContent(in, "jpg", "Bob profile picture");
 		bob.setPicture(bobpic);
 
@@ -140,11 +141,11 @@ public class Dummy {
 
 
 		List<Feed> feedlist = s.getFeeds(0, 15);
-		System.out.println(f1.getContent());
-		System.out.println(feedlist.get(0).getContent());
+		// System.out.println(f1.getContent());
+		// System.out.println(feedlist.get(0).getContent());
 		f1.getComments().get(0).dislike();
 
-		System.out.println(feedlist.get(0).getComments());
+		// System.out.println(feedlist.get(0).getComments());
 
 
 //Bobs stuff

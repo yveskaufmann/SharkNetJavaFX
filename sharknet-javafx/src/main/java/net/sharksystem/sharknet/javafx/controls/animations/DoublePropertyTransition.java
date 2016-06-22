@@ -1,4 +1,4 @@
-package net.sharksystem.sharknet.javafx.animations;
+package net.sharksystem.sharknet.javafx.controls.animations;
 
 import javafx.animation.Transition;
 import javafx.beans.property.DoubleProperty;

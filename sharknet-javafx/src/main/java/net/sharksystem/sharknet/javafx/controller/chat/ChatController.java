@@ -1,33 +1,39 @@
 package net.sharksystem.sharknet.javafx.controller.chat;
 
 
+import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import jdk.internal.util.xml.impl.Input;
 import net.sharksystem.sharknet.api.*;
 import net.sharksystem.sharknet.javafx.App;
-import net.sharksystem.sharknet.javafx.model.SharkNetModel;
+import net.sharksystem.sharknet.javafx.controller.FrontController;
+import net.sharksystem.sharknet.javafx.services.ImageManager;
+import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
-import net.sharksystem.sharknet.javafx.controller.FrontController;
-import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
 import java.io.*;
 import java.util.List;
 
 
 @Controller( title = "%sidebar.chat")
-public class ChatController extends AbstractController implements ChatContactsListener{
+public class ChatController extends AbstractController implements ChatListener {
+
+	@Inject
+	private SharkNet sharkNetModel;
+
+	@Inject
+	private ImageManager imageManager;
 
 	private FrontController frontController;
+
+
 	public static ChatController chatControllerInstance;
 	private Chat activeChat;
-	private ImplSharkNet sharkNetModel;
 	private Content attachment;
 
 	// used so we can use the same window / class for adding contacts and new chats
@@ -57,13 +63,15 @@ public class ChatController extends AbstractController implements ChatContactsLi
 	@FXML
 	private Button buttonSend;
 	@FXML
+	private Button buttonNewChat;
+	@FXML
 	private ChatWindowList chatWindowListView;
-
+	@FXML
+	private Label labelChatRecipients;
 
 	public ChatController() {
 		super(App.class.getResource("views/chat/chatView.fxml"));
 		this.frontController = Controllers.getInstance().get(FrontController.class);
-		sharkNetModel = SharkNetModel.getInstance().getSharkNetImpl();
 		activeChat = null;
 		chatControllerInstance = this;
 		newChat = false;
@@ -116,13 +124,18 @@ public class ChatController extends AbstractController implements ChatContactsLi
 			event.consume();
 		});
 
+		buttonNewChat.setOnMouseClicked(event -> {
+			onNewChatClick();
+			event.consume();
+		});
 
 		chatHistoryListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		chatHistoryListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-			     onChatSelected(chatHistoryListView.getSelectionModel().getSelectedItem());
-			 });
-
+			onChatSelected(chatHistoryListView.getSelectionModel().getSelectedItem());
+		});
 		loadChatHistory();
+
+
 	}
 
 	private void onAttachmentClick() {
@@ -143,7 +156,7 @@ public class ChatController extends AbstractController implements ChatContactsLi
 					if (i > 0) {
 						extension = file.getPath().substring(i + 1);
 					}
-					attachment = new ImplContent(fileAttachment, extension, "");
+					attachment = new ImplContent(fileAttachment, extension, file.getName());
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -171,6 +184,8 @@ public class ChatController extends AbstractController implements ChatContactsLi
 	private void onVoteClick() {
 		// TODO: vote window
 		System.out.println("onVoteClick");
+		VoteController voteController = new VoteController();
+
 	}
 
 
@@ -178,7 +193,7 @@ public class ChatController extends AbstractController implements ChatContactsLi
 
 		if (activeChat != null) {
 			if (sendAttachment && attachment != null) {
-				//attachment.setMessage(textFieldMessage.getText());
+				attachment.setMessage(textFieldMessage.getText() + "<" + attachment.getFileName() + ">");
 				activeChat.sendMessage(attachment);
 			} else {
 				activeChat.sendMessage(new ImplContent(null, "", "", textFieldMessage.getText()));
@@ -194,7 +209,7 @@ public class ChatController extends AbstractController implements ChatContactsLi
 	}
 
 	@FXML
-	private void onNewChatClick(ActionEvent event) {
+	private void onNewChatClick() {
 		// TODO: new window with contacts?
 		System.out.println("onNewChatClick");
 
@@ -218,8 +233,21 @@ public class ChatController extends AbstractController implements ChatContactsLi
 		activeChat = c;
 
 		if (activeChat.getPicture() != null) {
-			imageViewContactProfile.setImage(new Image(activeChat.getPicture().getFile()));
+			imageManager.readImageFrom(activeChat.getPicture()).ifPresent(imageViewContactProfile::setImage);
 		}
+
+		String contactNames = "";
+
+		for (int i = 0; i < activeChat.getContacts().size(); i++) {
+			if (!activeChat.getContacts().get(i).isEqual(sharkNetModel.getMyProfile().getContact())) {
+				contactNames += activeChat.getContacts().get(i).getNickname();
+				if (i < activeChat.getContacts().size()-1 && !activeChat.getContacts().get(i+1).isEqual(sharkNetModel.getMyProfile().getContact())) {
+					contactNames += " , ";
+				}
+			}
+		}
+
+		labelChatRecipients.setText(contactNames);
 	}
 
 	private void fillChatArea(Chat c) {
@@ -252,7 +280,7 @@ public class ChatController extends AbstractController implements ChatContactsLi
 			//chat.save();
 			activeChat = chat;
 			fillChatArea(activeChat);
-			//loadChatHistory();
+			loadChatHistory();
 
 		}
 
@@ -260,9 +288,14 @@ public class ChatController extends AbstractController implements ChatContactsLi
 		newChat = false;
 	}
 
+	@Override
+	public void onEmojiChoose(String emojiClass) {
+		textFieldMessage.appendText(" :" + emojiClass + ": ");
+	}
+
 	private void onEmojiClick() {
 		System.out.println("onEmojiClick");
 		EmojiController e = new EmojiController();
-
+		e.setListener(this);
 	}
 }

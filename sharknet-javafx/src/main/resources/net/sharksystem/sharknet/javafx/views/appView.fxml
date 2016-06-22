@@ -7,6 +7,11 @@
 <?import net.sharksystem.sharknet.javafx.controls.Workbench?>
 <?import javafx.scene.layout.VBox?>
 
+<?import net.sharksystem.sharknet.javafx.controls.Navigation?>
+<?import javafx.scene.control.MenuItem?>
+<?import net.sharksystem.sharknet.javafx.controls.FontIcon?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.Label?>
 <BorderPane fx:id="appView" styleClass="theme-presets" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
     <top>
         <ActionBar fx:id="toolbar" title="%app.title"/>

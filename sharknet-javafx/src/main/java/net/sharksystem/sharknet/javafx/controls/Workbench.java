@@ -6,20 +6,14 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.*;
 import javafx.collections.ObservableList;
-import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import net.sharksystem.sharknet.javafx.animations.DoublePropertyTransition;
+import net.sharksystem.sharknet.javafx.controls.animations.DoublePropertyTransition;
 
-import java.util.Stack;
 import java.util.function.Consumer;
 
 public class Workbench extends StackPane {

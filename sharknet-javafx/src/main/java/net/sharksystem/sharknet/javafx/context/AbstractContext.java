@@ -1,15 +1,18 @@
 package net.sharksystem.sharknet.javafx.context;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AbstractContext {
+public class AbstractContext implements Serializable {
+
+
 
 	/**
 	 * Abstraction of a property in order to achieve type type safety.
 	 * @param <T> the type of the property value
 	 */
-	private static class PropertyValue<T> {
+	private static class PropertyValue<T> implements Serializable {
 		@SuppressWarnings("unchecked")
 		static final PropertyValue NULL = new PropertyValue(null);
 		private final T value;
@@ -30,7 +33,7 @@ public class AbstractContext {
 	/**
 	 * The Set of properties nothing special here.
 	 */
-	private final Map<String, PropertyValue> properties = new HashMap<>();
+	protected final Map<String, PropertyValue> properties = new HashMap<>();
 
 	/**
 	 * Creates an empty ImporterContext.
@@ -204,5 +207,4 @@ public class AbstractContext {
 	public boolean hasProperty(String id, Class type) {
 		return getProperty(id, type) != null;
 	}
-
 }

@@ -51,10 +51,11 @@ public class Controllers {
 		if (! controllerMap.containsKey(controllerType)) {
 			String controllerName = controllerType.getSimpleName();
 			try {
+				Log.info("Register " +  controllerType.getSimpleName());
 				AbstractController controllerInstance = (AbstractController) controllerType.newInstance();
 				controllerMap.put(controllerType, controllerInstance.getContext());
-			} catch (InstantiationException | IllegalAccessException e) {
-				Log.warn("Failed to register {}: Could not instantiate a instance ", controllerName, e);
+			} catch (InstantiationException | ControllerLoaderException | IllegalAccessException e ) {
+				throw new IllegalStateException("Failed to register " + controllerType.getSimpleName(), e);
 			}
 		}
 	};
@@ -63,7 +64,6 @@ public class Controllers {
 		if (controllerMap.containsKey(controllerType)) {
 			ViewContext ctx = controllerMap.remove(controllerType);
 			Log.debug("Shutdown controller {}", controllerType.getName());
-			ctx.getController().onShutdown();
 		}
 	};
 
@@ -79,5 +79,4 @@ public class Controllers {
 		return null;
 	}
 
-	// TODO register by context
 }

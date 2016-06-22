@@ -7,35 +7,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.Contact;
-import net.sharksystem.sharknet.api.ImplSharkNet;
+import net.sharksystem.sharknet.api.ImplContact;
+import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
-import net.sharksystem.sharknet.javafx.model.SharkNetModel;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
-import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class ContactNewController extends AbstractController {
-
-	private ImplSharkNet sharkNet;
-	private List<Contact> allContacts;
-
-	private Stage stage;
-
-	public ContactNewController(){
-		super(App.class.getResource("views/newContactView.fxml"));
-
-		sharkNet = SharkNetModel.getInstance().getSharkNetImpl();
-
-		Parent root = super.getRoot();
-		stage = new Stage();
-		stage.setTitle("Neuen Kontakt erstellen");
-		stage.setScene(new Scene(root, 494, 414));
-		//stage.getScene().getStylesheets().add(App.class.getResource("style.css").toExternalForm());
-		stage.show();
-	}
 
 	@FXML
 	private TextField nameInputTextField;
@@ -43,22 +25,57 @@ public class ContactNewController extends AbstractController {
 	private Button saveButton;
 	@FXML
 	private Button backButton;
+	@FXML
+	private Button newContactScanQRButton;
+	@Inject
+	private SharkNet sharkNetModel;
 
+	//@Inject
+	//private ContactController contactController;
 
-	private void onSaveButtonClick(){
-		System.out.println("Neuen Kontakt erstellen: " + nameInputTextField.getText());
+	private List<Contact> allContacts;
+	private Stage stage;
+	private String uid;
+	private String publickey;
+
+	public ContactNewController(){
+		super(App.class.getResource("views/newContactView.fxml"));
+
+		Parent root = super.getRoot();
+		stage = new Stage();
+		stage.setTitle("Neuen Kontakt erstellen");
+		stage.setScene(new Scene(root, 600, 500));
+		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
+		stage.show();
 	}
 
-	private void onBackButtonClick(){}
+	private void scanQRCode(){
+		publickey = "TESTKEY";
+		System.out.println("QR-Code scannen: " + publickey);
+		ImplContact newContact = new ImplContact("", uid, publickey, sharkNetModel.getMyProfile());
+	}
 
 	@Override
 	protected void onFxmlLoaded() {
 
-		/*
 		saveButton.setOnMouseClicked(event -> {
-			System.out.println("Neuen Kontakt erstellen: " + nameInputTextField.getText());
+			if(nameInputTextField.getText().length() > 0){
+				System.out.println("Neuen Kontakt erstellen: " + nameInputTextField.getText());
+				ImplContact newContact = new ImplContact(nameInputTextField.getText(), uid, publickey, sharkNetModel.getMyProfile());
+				sharkNetModel.getContacts().add(newContact);
+				stage.close();
+				event.consume();
+				//contactController.loadEntries();
+			}
+		});
+
+		backButton.setOnMouseClicked(event -> {
+			stage.close();
 			event.consume();
 		});
-	*/}
 
+		newContactScanQRButton.setOnMouseClicked(event -> {
+			scanQRCode();
+		});
+	}
 }

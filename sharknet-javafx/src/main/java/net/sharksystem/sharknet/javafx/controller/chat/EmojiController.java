@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
@@ -16,6 +17,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.util.List;
 
 /**
  * Created by Benni on 06.06.2016.
@@ -26,38 +29,39 @@ public class EmojiController extends AbstractController {
 	GridPane gridPaneEmojis;
 
 	private Emoji emoji;
-	private BufferedImage[][] emojis;
+	private List<String> emojis;
+	private ChatListener listener;
 
 	public EmojiController() {
 		super(App.class.getResource("views/chat/emojiView.fxml"));
 
+		listener = null;
+
 		Parent root = super.getRoot();
 		Stage stage = new Stage();
 		stage.setScene(new Scene(root, 494, 414));
-		stage.getScene().getStylesheets().add(App.class.getResource("style.css").toExternalForm());
+		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
 		stage.show();
 
-		// TODO: relative path
-		emoji = new Emoji("I:\\Win10\\Dropbox\\Studium\\SoSe2016\\Projekt\\SharkNetJavaFX\\sharknet-javafx\\src\\main\\resources\\net\\sharksystem\\sharknet\\javafx\\images\\emojione-sprites.png");
-		emoji.loadEmojis();
+		emoji = Emoji.getInstance();
 		emojis = emoji.getEmojis();
 
+		int counter = 0;
 		for (int i = 0; i < Emoji.cols; i++) {
 			for (int j = 0; j < Emoji.rows; j++) {
-				ImageView smiley = new ImageView();
-				smiley.setFitHeight(64);
-				smiley.setFitWidth(64);
-
-				ByteArrayOutputStream os = new ByteArrayOutputStream();
-				try {
-					ImageIO.write(emojis[i][j], "png", os);
-					InputStream is = new ByteArrayInputStream(os.toByteArray());
-					smiley.setImage(new Image(is));
-					gridPaneEmojis.add(smiley, i, j);
-				} catch (IOException e) {
-					e.printStackTrace();
+				if (counter < emojis.size()) {
+					Pane pane = new Pane();
+					pane.getStyleClass().addAll("emojione", emojis.get(counter));
+					//System.out.println(emojis.get(counter));
+					pane.setPrefHeight(64);
+					pane.setPrefWidth(64);
+					pane.setOnMouseClicked(event -> {
+						onEmojiClicked(pane);
+						event.consume();
+					});
+					gridPaneEmojis.add(pane, i, j);
+					counter += 1;
 				}
-
 			}
 		}
 	}
@@ -65,7 +69,15 @@ public class EmojiController extends AbstractController {
 	@Override
 	protected void onFxmlLoaded() {
 
+	}
 
+	private void onEmojiClicked(Pane p) {
+		if (listener != null) {
+			listener.onEmojiChoose(p.getStyleClass().get(1));
+		}
+	}
 
+	public void setListener(ChatListener listener) {
+		this.listener = listener;
 	}
 }

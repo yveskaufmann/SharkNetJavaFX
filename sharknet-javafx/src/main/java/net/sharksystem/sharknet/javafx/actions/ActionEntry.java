@@ -3,61 +3,63 @@ package net.sharksystem.sharknet.javafx.actions;
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
 import net.sharksystem.sharknet.javafx.i18n.I18N;
-import net.sharksystem.sharknet.javafx.utils.FontBasedIcon;
+import net.sharksystem.sharknet.javafx.utils.FontAwesomeIcon;
 
 import java.util.Optional;
 
 
 public class ActionEntry {
 
-	private ObjectProperty<FontBasedIcon> icon;
+	private ObjectProperty<FontAwesomeIcon> icon;
 	private IntegerProperty priority;
-	private StringProperty title;
+	private StringProperty text;
 	private StringProperty tooltip;
+	private StringProperty id;
 	private ObjectProperty<ActionCallback> callback;
 
+
 	public ActionEntry() {}
-	public ActionEntry(FontBasedIcon icon) {
+	public ActionEntry(FontAwesomeIcon icon) {
 		setIcon(icon);
 	}
 
 	public ActionEntry(String text) {
-		setTitle(text);
+		setText(text);
 	}
 
-	public ActionEntry(FontBasedIcon icon, String text) {
+	public ActionEntry(FontAwesomeIcon icon, String text) {
 		setIcon(icon);
-		setTitle(text);
+		setText(text);
 	}
 
-	public ActionEntry(FontBasedIcon icon, String text, ActionCallback callback) {
+	public ActionEntry(FontAwesomeIcon icon, String text, ActionCallback callback) {
 		setIcon(icon);
-		setTitle(text);
-		setCallback(callback);
+		setText(text);
+		setOnAction(callback);
 	}
 
-	public ActionEntry(FontBasedIcon icon, ActionCallback callback) {
+	public ActionEntry(FontAwesomeIcon icon, ActionCallback callback) {
 		setIcon(icon);
-		setCallback(callback);
+		setOnAction(callback);
 	}
 
-	public final Optional<FontBasedIcon> getIconOptional() {
+	public final Optional<FontAwesomeIcon> getIconOptional() {
 		return icon != null ? Optional.of(icon.get()) : Optional.empty();
 	}
 
-	public final String getIcon() {
-		Optional<FontBasedIcon> icon = getIconOptional();
+	public final FontAwesomeIcon getIcon() {
+		Optional<FontAwesomeIcon> icon = getIconOptional();
 		if (icon.isPresent()) {
-			return icon.get().getText();
+			return icon.get();
 		}
-		return "";
+		return null;
 	}
 
-	public final void setIcon(FontBasedIcon icon) {
+	public final void setIcon(FontAwesomeIcon icon) {
 		iconProperty().set(icon);
 	}
 
-	public final ObjectProperty<FontBasedIcon> iconProperty() {
+	public final ObjectProperty<FontAwesomeIcon> iconProperty() {
 		if (icon == null) {
 			icon = new SimpleObjectProperty<>(this, "icon");
 		}
@@ -68,7 +70,7 @@ public class ActionEntry {
 		return callback != null ? Optional.of(callback.get()) : Optional.empty();
 	}
 
-	public final void setCallback(ActionCallback callback) {
+	public final void setOnAction(ActionCallback callback) {
 		callbackProperty().set(callback);
 	}
 
@@ -80,21 +82,21 @@ public class ActionEntry {
 	}
 
 
-	public final String getTitle() {
-		return title != null ? title.get() : "";
+	public final String getText() {
+		return text != null ? text.get() : "";
 	}
 
-	public final void setTitle(String title) {
-		if (title == null) title = "";
-		titleProperty().set(title);
+	public final void setText(String text) {
+		if (text == null) text = "";
+		textProperty().set(text);
 	}
 
-	public final StringProperty titleProperty() {
-		if (title == null) {
-			title = new SimpleStringProperty(this, "title");
-			title.addListener(this::convertI18NToString);
+	public final StringProperty textProperty() {
+		if (text == null) {
+			text = new SimpleStringProperty(this, "text");
+			text.addListener(this::convertI18NToString);
 		}
-		return title;
+		return text;
 	}
 
 	public final String getTooltip() {
@@ -103,7 +105,7 @@ public class ActionEntry {
 
 	public final void setTooltip(String title) {
 		if (title == null) title = "";
-		titleProperty().set(title);
+		textProperty().set(title);
 	}
 
 	public final StringProperty tooltipProperty() {
@@ -135,5 +137,21 @@ public class ActionEntry {
 
 	public int getPriority() {
 		return priority == null ? 0 : priority.get();
+	}
+
+	public final String getId() {
+		return id != null ? id.get() : "";
+	}
+
+	public final void setId(String id) {
+		if (id == null) id = "";
+		idProperty().set(id);
+	}
+
+	public final StringProperty idProperty() {
+		if (id == null) {
+			id = new SimpleStringProperty(this, "id");
+		}
+		return id;
 	}
 }

@@ -9,22 +9,33 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
+<?import net.sharksystem.sharknet.javafx.controls.RoundImageView?>
 <BorderPane fx:id="loginView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="346.0" prefWidth="552.0" styleClass="theme-presets" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
    <bottom>
       <AnchorPane prefHeight="102.0" prefWidth="552.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="loginView_btLogin" layoutX="301.0" layoutY="45.0" mnemonicParsing="false" onAction="#onLoginClick" prefHeight="25.0" prefWidth="54.0" text="Login" />
-            <PasswordField layoutX="202.0" layoutY="1.0" prefHeight="26.0" prefWidth="149.0" text="sdfsdfsdfhgfhjghghgh" />
-            <Button fx:id="loginView_btCancel" layoutX="206.0" layoutY="45.0" mnemonicParsing="false" onAction="#onCancelClick" text="Cancel" />
+            <Button fx:id="buttonLogin" layoutX="301.0" layoutY="45.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="54.0" text="Login" />
+            <PasswordField fx:id="passwordfield" layoutX="202.0" layoutY="1.0" prefHeight="26.0" prefWidth="149.0" />
+            <Button fx:id="buttonExit" layoutX="166.0" layoutY="45.0" mnemonicParsing="false" text="Exit" />
          </children>
       </AnchorPane>
    </bottom>
    <center>
       <AnchorPane prefHeight="255.0" prefWidth="552.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="201.0" layoutY="47.0" pickOnBounds="true" preserveRatio="true">
+            <RoundImageView fx:id="roundImageViewProfilePic" fitHeight="175.0" fitWidth="175.0" layoutX="190.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/profile-placeholder.jpg" />
+               </image>
+            </RoundImageView>
+            <ImageView fx:id="imageViewScrollLeft" fitHeight="28.0" fitWidth="28.0" layoutX="140.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/arrows_left.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="imageViewScrollRight" fitHeight="28.0" fitWidth="28.0" layoutX="390.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/arrows_right.png" />
                </image>
             </ImageView>
          </children></AnchorPane>

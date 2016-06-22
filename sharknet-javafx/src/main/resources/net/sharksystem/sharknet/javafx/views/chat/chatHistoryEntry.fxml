@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
+<?import net.sharksystem.sharknet.javafx.controls.RoundImageView?>
 <GridPane fx:id="container" prefHeight="80.0" prefWidth="355.0" styleClass="theme-presets inbox-entry" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
     <columnConstraints>
         <ColumnConstraints halignment="LEFT" hgrow="NEVER" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
@@ -24,11 +25,11 @@
     </rowConstraints>
     <children>
 
-        <ImageView fx:id="imageViewContactProfile" fitHeight="50.0" fitWidth="50.0" layoutX="10.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.rowSpan="2">
+        <RoundImageView fx:id="imageViewContactProfile" fitHeight="50.0" fitWidth="50.0" layoutX="10.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.rowSpan="2">
             <image>
                 <Image url="@../../images/profile-placeholder.jpg" />
             </image>
-        </ImageView>
+        </RoundImageView>
 
         <Text fx:id="chatContacts" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-header" text="Chat Contact Name" GridPane.columnIndex="1" GridPane.valignment="TOP">
             <GridPane.margin>

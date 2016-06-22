@@ -3,36 +3,24 @@ package net.sharksystem.sharknet.javafx.controller;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.actions.ActionEntry;
-import net.sharksystem.sharknet.javafx.actions.annotations.Action;
 import net.sharksystem.sharknet.javafx.context.ViewContext;
 import net.sharksystem.sharknet.javafx.controller.chat.ChatController;
 import net.sharksystem.sharknet.javafx.controller.inbox.InboxController;
 import net.sharksystem.sharknet.javafx.controls.ActionBar;
 import net.sharksystem.sharknet.javafx.controls.Workbench;
 import net.sharksystem.sharknet.javafx.i18n.I18N;
-import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
-import net.sharksystem.sharknet.javafx.utils.controller.AbstractWindowController;
+import net.sharksystem.sharknet.javafx.services.ReleaseManager;
 import net.sharksystem.sharknet.javafx.utils.FontAwesomeIcon;
-import net.sharksystem.sharknet.javafx.utils.controller.ControllerMeta;
-import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
-import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
+import net.sharksystem.sharknet.javafx.utils.controller.*;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.FXMLViewContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.*;
-import java.util.stream.Stream;
 
 /**
  * The Root Controller of the application
@@ -48,6 +36,9 @@ public class FrontController extends AbstractWindowController {
 	 * Fields
 	 *                                                                              
 	 ******************************************************************************/
+
+	@javax.inject.Inject
+	private ReleaseManager releaseManager;
 	
 	/**
 	 * Currently active controller
@@ -93,7 +84,7 @@ public class FrontController extends AbstractWindowController {
 	
 	public FrontController(Stage stage) {
 		super(App.class.getResource("views/appView.fxml"), stage);
-		setTitle(I18N.getString("app.title"));
+		Log.info("Initializing " + getClass().getSimpleName());
 		addMainControllers();
 	}
 
@@ -123,7 +114,7 @@ public class FrontController extends AbstractWindowController {
 	 ******************************************************************************/
 	
 	private void addMainControllers() {
-		sidebarController = new SidebarController(this);
+		sidebarController = new SidebarController(this);;
 		Controllers.getInstance().registerController(HomeworkController.class);
 		Controllers.getInstance().registerController(InboxController.class);
 		Controllers.getInstance().registerController(ProfileController.class);
@@ -139,18 +130,23 @@ public class FrontController extends AbstractWindowController {
 	}
 
 	public void goToView(AbstractController controller) {
-		ViewContext<AbstractController> context = controller.getContext();
-		ControllerMeta meta = context.getMeta();
+		try {
+			Log.info("Show " + controller.getClass().getSimpleName());
+			ViewContext<AbstractController> context = controller.getContext();
+			ControllerMeta meta = context.getMeta();
 
-		if (activeControllerProperty().get() != null) {
-			activeController.get().onPause();
+			if (activeControllerProperty().get() != null) {
+				activeController.get().onPause();
+			}
+
+			toolbar.setTitle(meta.getTitle());
+			toolbar.actions().setAll(meta.actionEntriesProperty());
+			mainPane.getChildren().setAll(controller.getRoot());
+			activeController.set(controller);
+			controller.onResume();
+		} catch (ControllerLoaderException ex) {
+			Log.error("Could not goToView " + controller.getClass().getSimpleName(), ex);
 		}
-
-		toolbar.setTitle(meta.getTitle());
-		toolbar.actions().setAll(meta.actionEntriesProperty());
-		mainPane.getChildren().setAll(controller.getRoot());
-		activeController.set(controller);
-		controller.onResume();
 	}
 
 
@@ -176,7 +172,7 @@ public class FrontController extends AbstractWindowController {
 	 */
 	@Override
 	protected void onSceneCreated() {
-		getScene().getStylesheets().add(App.class.getResource("style.css").toExternalForm());
+		getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
 	}
 
 	/**
@@ -194,12 +190,14 @@ public class FrontController extends AbstractWindowController {
 	@Override
 	protected void onFxmlLoaded() {
 
+		setTitle(I18N.getString("app.title") + " v" + releaseManager.getCurrentVersion());
 		sidebarPane.getChildren().add(sidebarController.getRoot());
 		toolbar.setNavigationNode(ActionBar.createActionButton(new ActionEntry(
-			FontAwesomeIcon.NAVICON, () -> {
+			FontAwesomeIcon.NAVICON, (action) -> {
 				workbench.toggleSidebar();
 			}
 		)));
+		Log.info("Initialized " + getClass().getSimpleName());
 		goToView(InboxController.class);
 	}
 

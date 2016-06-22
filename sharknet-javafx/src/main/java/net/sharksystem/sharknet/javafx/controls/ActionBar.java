@@ -166,7 +166,7 @@ public class ActionBar extends Control {
 		});
 
 		button.setOnAction((event -> {
-			action.getCallback().ifPresent(ActionCallback::invoke);
+			action.getCallback().ifPresent(actionCallback -> actionCallback.invoke(action));
 		}));
 
 		return button;
