@@ -14,9 +14,13 @@ public class ImplContact implements Contact {
 
 
 	String nickname;
+	String name;
+	String email;
+	String notes;
 	String uid;
 	String publickey;
 	List<Interest> interest_list = new LinkedList<>();
+	List<String> telephonnumber_list = new LinkedList<>();
 	Profile owner;
 	Content picture;
 
@@ -80,6 +84,47 @@ public class ImplContact implements Contact {
 	@Override
 	public Profile getOwner() {
 		return owner;
+	}
+
+	@Override
+	public void addName(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public void addTelephonnumber(String telephonnumber) {
+		telephonnumber_list.add(telephonnumber);
+
+	}
+
+	@Override
+	public List<String> getTelephonnumber() {
+		return telephonnumber_list;
+	}
+
+	@Override
+	public void addNote(String note) {
+		this.notes = note;
+	}
+
+	@Override
+	public String getNote() {
+		return notes;
+	}
+
+	@Override
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	@Override
+	public String getEmail() {
+		return email;
 	}
 
 

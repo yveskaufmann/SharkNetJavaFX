@@ -69,4 +69,53 @@ public interface Contact {
 	 */
 	public Profile getOwner();
 
+	/**
+	 * add a real name to the contact
+	 * @param name
+     */
+	public void  addName(String name);
+
+	/**
+	 * Returns the real name of the contact
+	 * @return
+     */
+	public String getName();
+
+	/**
+	 * add a Telephonnumber to the Contact. The Contact has a List which can include more phone numbers (no validation included)
+	 * @param telephonnumber
+     */
+	public void addTelephonnumber(String telephonnumber);
+
+	/**
+	 * Returns the List of Phone Numbers
+	 * @return
+     */
+	public List<String> getTelephonnumber();
+
+	/**
+	 * Adds/Or overwrites the Note to a contact
+	 * @param note
+     */
+	public void addNote(String note);
+
+	/**
+	 * Returns Notes to a contact
+	 * @return
+     */
+	public String getNote();
+
+	/**
+	 * sets the e-mail of a contact (no validation included)
+	 * @param email
+     */
+	public void setEmail(String email);
+
+	/**
+	 * returns e-mail of the contact
+	 * @return
+     */
+	public String getEmail();
+
+
 }
