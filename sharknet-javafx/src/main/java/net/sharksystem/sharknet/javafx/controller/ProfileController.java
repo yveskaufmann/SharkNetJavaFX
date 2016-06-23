@@ -87,10 +87,10 @@ public class ProfileController extends AbstractController {
 		validationSupport.registerValidator(nicknameTextfield, Validator.createEmptyValidator("Ein Nickname ist erforderlich"));
 		validationSupport.registerValidator(emailTextfield, Validator.createRegexValidator("", Pattern.compile(EMAIL_PATTERN), Severity.ERROR));
 
-
 		validationSupport.validationResultProperty().addListener((observable, oldValue, newValue) -> {
 			saveButton.setDisable(validationSupport.isInvalid());
 		});
+
 
 		nameLabel.textProperty().bind(realnameTextfield.textProperty());
 		nicknameLabel.textProperty().bind(nicknameTextfield.textProperty());

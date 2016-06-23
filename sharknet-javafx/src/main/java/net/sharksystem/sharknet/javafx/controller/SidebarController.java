@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import net.sharksystem.sharknet.api.Contact;
 import net.sharksystem.sharknet.api.Profile;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
@@ -92,9 +93,9 @@ public class SidebarController extends AbstractController {
 
 	private void readProfileInformation() {
 		Profile profile = sharkNet.getMyProfile();
-		profileUsername.setText(profile.getContact().getNickname());
-		// TODO: order email
-		// profileEmail.setText(profile,getContext().getEmail());
+		Contact contact = profile.getContact();
+		profileUsername.setText(contact.getNickname());
+		profileEmail.setText(contact.getEmail());
 		imageManager.readImageFrom(profile.getContact().getPicture()).ifPresent((image -> profileImage.setImage(image)));
 	}
 }
