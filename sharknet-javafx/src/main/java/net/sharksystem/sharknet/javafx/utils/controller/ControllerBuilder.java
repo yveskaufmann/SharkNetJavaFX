@@ -119,12 +119,6 @@ public class ControllerBuilder {
 		} catch (Exception ex) {
 			throw new ControllerLoaderException("Failed to inject dependencies for " + controller.getClass().getSimpleName());
 		}
-		try {
-			controller.onFxmlLoaded();
-		} catch (Exception ex) {
-			String errorLocation = ExceptionUtils.getFileLocationOfTraceElement(ex, 0);
-			throw new ControllerLoaderException("Error in invoked onFxmlLoaded of " + controller.getClass().getSimpleName() + errorLocation, ex);
-		}
 
 		return ctx;
 	}

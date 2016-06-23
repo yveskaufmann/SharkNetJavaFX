@@ -3,8 +3,13 @@ package net.sharksystem.sharknet.javafx.controller;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import net.sharksystem.sharknet.javafx.App;
@@ -21,6 +26,12 @@ import net.sharksystem.sharknet.javafx.utils.controller.*;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.FXMLViewContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
+import java.awt.*;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.Objects;
 
 /**
  * The Root Controller of the application
@@ -75,6 +86,7 @@ public class FrontController extends AbstractWindowController {
 
 	@FXMLViewContext
 	private ViewContext<FrontController> context;
+	private Class<? extends AbstractController> startController;
 
 	/******************************************************************************
 	 *                                                                             
@@ -85,6 +97,7 @@ public class FrontController extends AbstractWindowController {
 	public FrontController(Stage stage) {
 		super(App.class.getResource("views/appView.fxml"), stage);
 		Log.info("Initializing " + getClass().getSimpleName());
+		this.startController = InboxController.class;
 		addMainControllers();
 	}
 
@@ -141,6 +154,9 @@ public class FrontController extends AbstractWindowController {
 
 			toolbar.setTitle(meta.getTitle());
 			toolbar.actions().setAll(meta.actionEntriesProperty());
+			mainPane.setMaxWidth(-1);
+			mainPane.setMinWidth(-1);
+			mainPane.setPrefWidth(-1);
 			mainPane.getChildren().setAll(controller.getRoot());
 			activeController.set(controller);
 			controller.onResume();
@@ -198,7 +214,15 @@ public class FrontController extends AbstractWindowController {
 			}
 		)));
 		Log.info("Initialized " + getClass().getSimpleName());
-		goToView(InboxController.class);
+		goToView(startController);
 	}
 
+	/**
+	 * Controller which controller should loaded initially.
+	 *
+	 * @param startController
+     */
+	public void setDefaultController(Class<? extends AbstractController> startController) {
+		this.startController = Objects.requireNonNull(startController);
+	}
 }

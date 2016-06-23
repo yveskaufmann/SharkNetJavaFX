@@ -106,6 +106,20 @@
 	-fx-fill: gray;
 }
 
+/*------------------------------------------------------------------------------
+ * Common style sections
+ *------------------------------------------------------------------------------*/
+.header-pane {
+	-fx-background-color: derive(-sn-primary-color, 20%);
+}
+
+.header-pane .label {
+	-fx-text-fill: rgba(255, 255, 255, 0.87);
+}
+
+
+
+
 .icon-label,
 .icon-label .text {
 	-fx-font-size: 22px;
@@ -441,5 +455,6 @@
 .button .text {
 	-fx-text-color: white;
 }
+
 
 

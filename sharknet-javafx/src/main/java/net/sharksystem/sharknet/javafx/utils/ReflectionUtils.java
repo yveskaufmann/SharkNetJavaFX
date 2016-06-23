@@ -16,6 +16,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class ReflectionUtils {
@@ -180,5 +182,19 @@ public class ReflectionUtils {
                 method.setAccessible(naturalAccessState);
             }
         });
+	}
+
+	/**
+	 * Invoke a method in the context of a bean object.
+	 *
+	 * @param bean the context bean
+	 * @param methodName the name of the method to invoke
+	 * @param params optional list of
+	 */
+	public static Object invokeMethod(Object bean, String methodName, Object...params) throws NoSuchMethodException {
+		Class<?> type =	bean.getClass();
+		Class<?>[] paramTypes = Stream.of(params).map(Object::getClass).collect(Collectors.toList()).toArray(new Class[0]);
+		Method method = type.getMethod(methodName);
+		return invokeMethod(bean, method, params);
 	}
 }

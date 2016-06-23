@@ -15,7 +15,7 @@
    <children>
 
        <!-- Header -->
-       <GridPane fx:id="sidebarHeader"  style="-fx-background-color: derive(-sn-primary-color, 20%);">
+       <GridPane fx:id="sidebarHeader" styleClass="header-pane">
            <columnConstraints>
            </columnConstraints>
            <rowConstraints>

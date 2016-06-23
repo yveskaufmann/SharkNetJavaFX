@@ -1,0 +1,17 @@
+@import "../../css/style.css";
+
+/* Profile image chooser button */
+#profileImageView {
+    -fx-cursor: hand;
+}
+
+#profileImageLayer .icon-label{
+    -fx-focus-traversable: false;
+    -fx-text-fill: black;
+    -fx-font-size: 32;
+    visibility: hidden;
+}
+
+#profileImageLayer:hover .icon-label {
+    visibility: visible;
+}

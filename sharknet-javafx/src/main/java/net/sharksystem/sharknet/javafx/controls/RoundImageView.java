@@ -1,5 +1,9 @@
 package net.sharksystem.sharknet.javafx.controls;
 
+import com.sun.javafx.css.PseudoClassState;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.css.PseudoClass;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
@@ -8,6 +12,8 @@ import javafx.scene.shape.Circle;
  * A rounded image view which is clipped by a circle.
  */
 public class RoundImageView extends ImageView {
+
+	private static final PseudoClass HOVER_PSEUDOCLASS_STATE = PseudoClass.getPseudoClass("hover");
 
 	private Circle clip;
 

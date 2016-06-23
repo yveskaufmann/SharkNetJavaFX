@@ -39,7 +39,7 @@ public class InboxController extends AbstractController {
 
 	private void loadEntries() {
 
-		for(Feed feed : sharkNet.getFeeds(0, 200)) {
+		for(Feed feed : sharkNet.getFeeds(0, 200, false)) {
 			inboxListView.getItems().add(feed);
 		}
 	}

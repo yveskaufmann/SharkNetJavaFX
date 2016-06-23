@@ -5,16 +5,23 @@ import javafx.animation.*;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import net.sharksystem.sharknet.javafx.controls.animations.DoublePropertyTransition;
+import net.sharksystem.sharknet.javafx.utils.NodeUtils;
 
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class Workbench extends StackPane {
 
@@ -29,7 +36,7 @@ public class Workbench extends StackPane {
 
 		private double direction;
 
-		 SidebarPosition(double outDirection) {
+		SidebarPosition(double outDirection) {
 			this.direction = outDirection;
 		}
 
@@ -90,16 +97,20 @@ public class Workbench extends StackPane {
 		sidebar.setPickOnBounds(false);
 
 		StackPane.setAlignment(content, Pos.CENTER);
-		content.minWidthProperty().bind(prefWidthProperty());
-		content.maxWidthProperty().bind(prefWidthProperty());
 
 		getChildren().add(content);
 		getChildren().add(overlay);
 		getChildren().add(sidebar);
 
 		initialize();
+	}
 
-
+	private ChangeListener<Number> LogWidth() {
+		return (observable, oldValue, newValue) -> {
+			NodeUtils.printSizeInfo((Region) getParent(), "parent");
+			NodeUtils.printSizeInfo(content, "content");
+			NodeUtils.printSizeInfo(Workbench.this);
+        };
 	}
 
 	/******************************************************************************
@@ -204,49 +215,20 @@ public class Workbench extends StackPane {
 
 	private void showSidebar() {
 		if (inAnimation == null || Animation.Status.RUNNING.equals(inAnimation.getStatus())) return;
-		/*
-		Bounds bound = getLayoutBounds();
-
-		Timeline timeline = new Timeline(
-			new KeyFrame(Duration.ZERO,
-				new KeyValue(content.prefWidthProperty(), content.getWidth(), Interpolator.EASE_BOTH),
-				new KeyValue(content.translateXProperty(), content.getTranslateX(), Interpolator.EASE_BOTH)),
-			new KeyFrame(Duration.millis(200),
-				new KeyValue(content.prefWidthProperty(), bound.getWidth() - getSidebarWidth(), Interpolator.EASE_BOTH),
-				new KeyValue(content.translateXProperty(), getSidebarWidth(), Interpolator.EASE_BOTH))
-		);
-		ParallelTransition transition = new ParallelTransition(inAnimation, timeline);
-		*/
-
 		inAnimation.setOnFinished((e) -> {
 			setSidebarPinned(true);
 		});
 		inAnimation.play();
-
 	}
 
 	private void hideSidebar() {
 		if (outAnimation == null || Animation.Status.RUNNING.equals(outAnimation.getStatus())) return;
-		/*
-		Bounds bound = getLayoutBounds();
-		Timeline timeline = new Timeline(
-			new KeyFrame(Duration.ZERO,
-				new KeyValue(content.prefWidthProperty(), content.getWidth(), Interpolator.EASE_BOTH),
-				new KeyValue(content.translateXProperty(), content.getTranslateX(), Interpolator.EASE_BOTH)),
-			new KeyFrame(Duration.millis(200),
-				new KeyValue(content.prefWidthProperty(), bound.getWidth(), Interpolator.EASE_BOTH),
-				new KeyValue(content.translateXProperty(), 0, Interpolator.EASE_BOTH))
-		);
-			ParallelTransition transition = new ParallelTransition(timeline);
-		*/
-
 		outAnimation.setOnFinished((e) -> {
 			setSidebarPinned(false);
 		});
 		outAnimation.play();
 
 	}
-
 	/**
 	 * Open and close the sidebar.
 	 */

@@ -3,6 +3,7 @@ package net.sharksystem.sharknet.javafx.utils.controller;
 import javafx.scene.Parent;
 import net.sharksystem.sharknet.javafx.context.ViewContext;
 import net.sharksystem.sharknet.javafx.i18n.I18N;
+import net.sharksystem.sharknet.javafx.utils.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,7 +85,6 @@ public abstract class AbstractController {
 	public ViewContext<AbstractController> getContext() throws ControllerLoaderException {
 		if (viewContext == null) {
 			initiateController();
-
 		}
 		return viewContext;
 	}
@@ -99,6 +99,12 @@ public abstract class AbstractController {
 			viewContext = ControllerBuilder.getInstance().createBy(this, (Class<AbstractController>) getClass());
 		} catch (Exception e) {
 			throw new ControllerLoaderException("Failed to initiate " + this.getClass().getSimpleName(), e);
+		}
+		try {
+			onFxmlLoaded();
+		} catch (Exception ex) {
+			String errorLocation = ExceptionUtils.getFileLocationOfTraceElement(ex, 0);
+			throw new ControllerLoaderException("Error in invoked onFxmlLoaded of " + getClass().getSimpleName() + errorLocation, ex);
 		}
 	}
 

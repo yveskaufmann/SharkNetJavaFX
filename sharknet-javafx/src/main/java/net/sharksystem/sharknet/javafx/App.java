@@ -8,8 +8,12 @@ import net.sharksystem.sharknet.javafx.context.ApplicationContext;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
 import net.sharksystem.sharknet.javafx.controller.LoginController;
 import net.sharksystem.sharknet.javafx.controller.LoginListener;
+import net.sharksystem.sharknet.javafx.controller.ProfileController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class App extends Application implements LoginListener{
 
@@ -39,9 +43,13 @@ public class App extends Application implements LoginListener{
 		primaryStage.getIcons().addAll(image);
 		stage = primaryStage;
 
-		LoginController login = new LoginController();
-		login.setLoginListener(this);
-
+		// Only for convening testing other controllers
+		if (! getParameters().getUnnamed().contains("--suppressLogin")) {
+			LoginController login = new LoginController();
+			login.setLoginListener(this);
+		} else {
+			onLoginSuccessful();
+		}
 	}
 
 	@Override
@@ -69,11 +77,24 @@ public class App extends Application implements LoginListener{
 		launch(App.class, args);
 	}
 
+
+
 	@Override
 	public void onLoginSuccessful() {
 		try {
 			frontController = new FrontController(stage);
+
+			String indexController = getParameters().getNamed().get("indexController");
+			if (indexController != null) {
+				try {
+					Class.forName(indexController);
+					frontController.setDefaultController(ProfileController.class);
+				} catch (Exception ex) {
+					Log.error("Invalid value for 'indexController' passed, must be a full class name");
+				}
+			}
 			frontController.show();
+
 		} catch (Exception ex) {
 			System.out.println("error");
 			Log.error("Exception in a controller detected." ,ex);
