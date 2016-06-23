@@ -13,17 +13,16 @@
     <VBox spacing="0" stylesheets="@profile.css" fx:id="profileView" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1">
         <fx:include source="profileHeader.fxml"/>
         <TabPane fx:id="profileTabs" tabClosingPolicy="UNAVAILABLE">
-
             <Tab fx:id="profileTab" text="%profile.text">
                 <fx:include source="personalData.fxml"/>
             </Tab>
 
-            <Tab fx:id="interestsTab" text="%profile.interessts">
-                <fx:include source="Interests.fxml"/>
-            </Tab>
-
             <Tab fx:id="keyTab" text="%profile.keyManagment">
                 <fx:include source="keyManagment.fxml"/>
+            </Tab>
+
+            <Tab fx:id="interestsTab" text="%profile.interessts">
+                <fx:include source="Interests.fxml"/>
             </Tab>
         </TabPane>
     </VBox>

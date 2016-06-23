@@ -1,15 +1,13 @@
 package net.sharksystem.sharknet.javafx.controller;
 
+import com.jfoenix.controls.JFXDrawer;
+import com.jfoenix.controls.JFXHamburger;
+import com.jfoenix.controls.JFXToolbar;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
-import javafx.scene.control.*;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import net.sharksystem.sharknet.javafx.App;
@@ -18,7 +16,6 @@ import net.sharksystem.sharknet.javafx.context.ViewContext;
 import net.sharksystem.sharknet.javafx.controller.chat.ChatController;
 import net.sharksystem.sharknet.javafx.controller.inbox.InboxController;
 import net.sharksystem.sharknet.javafx.controls.ActionBar;
-import net.sharksystem.sharknet.javafx.controls.Workbench;
 import net.sharksystem.sharknet.javafx.i18n.I18N;
 import net.sharksystem.sharknet.javafx.services.ReleaseManager;
 import net.sharksystem.sharknet.javafx.utils.FontAwesomeIcon;
@@ -27,10 +24,6 @@ import net.sharksystem.sharknet.javafx.utils.controller.annotations.FXMLViewCont
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.Objects;
 
 /**
@@ -67,7 +60,7 @@ public class FrontController extends AbstractWindowController {
 	 * Interface.
 	 */
 	@FXML
-	private ActionBar toolbar;
+	private JFXToolbar toolbar;
 
 	/**
 	 * Container for the sidebar menu view
@@ -82,7 +75,13 @@ public class FrontController extends AbstractWindowController {
 	private StackPane mainPane;
 
 	@FXML
-	private Workbench workbench;
+	private JFXDrawer workbench;
+
+	@FXML
+	private StackPane titleBurgerContainer;
+
+	@FXML
+	private JFXHamburger titleBurger;
 
 	@FXMLViewContext
 	private ViewContext<FrontController> context;
@@ -152,8 +151,8 @@ public class FrontController extends AbstractWindowController {
 				activeController.get().onPause();
 			}
 
-			toolbar.setTitle(meta.getTitle());
-			toolbar.actions().setAll(meta.actionEntriesProperty());
+			// toolbar.setTitle(meta.getTitle());
+			// toolbar.actions().setAll(meta.actionEntriesProperty());
 			mainPane.setMaxWidth(-1);
 			mainPane.setMinWidth(-1);
 			mainPane.setPrefWidth(-1);
@@ -208,11 +207,23 @@ public class FrontController extends AbstractWindowController {
 
 		setTitle(I18N.getString("app.title") + " v" + releaseManager.getCurrentVersion());
 		sidebarPane.getChildren().add(sidebarController.getRoot());
-		toolbar.setNavigationNode(ActionBar.createActionButton(new ActionEntry(
-			FontAwesomeIcon.NAVICON, (action) -> {
-				workbench.toggleSidebar();
-			}
-		)));
+
+		// init the title hamburger icon
+		workbench.setOnDrawerOpened((e) -> {
+			titleBurger.getAnimation().setRate(1);
+			titleBurger.getAnimation().play();
+		});
+		workbench.setOnDrawerClosed((e) -> {
+			titleBurger.getAnimation().setRate(-1);
+			titleBurger.getAnimation().play();
+		});
+
+		titleBurgerContainer.setOnMouseClicked((e)->{
+			if (!workbench.isShown()) workbench.draw();
+			else workbench.hide();
+		});
+
+
 		Log.info("Initialized " + getClass().getSimpleName());
 		goToView(startController);
 	}

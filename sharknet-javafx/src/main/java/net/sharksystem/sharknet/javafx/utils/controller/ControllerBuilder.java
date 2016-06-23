@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 /**
- * Builder class for creating Controller instances.
+ * Builder class for creating Controller instances.a
  */
 public class ControllerBuilder {
 
