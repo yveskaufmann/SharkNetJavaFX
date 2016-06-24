@@ -43,7 +43,7 @@ public class App extends Application implements LoginListener{
 		primaryStage.getIcons().addAll(image);
 		stage = primaryStage;
 
-		// Only for convening testing other controllers
+		// Only for convenient testing other controllers
 		if (! getParameters().getUnnamed().contains("--suppressLogin")) {
 			LoginController login = new LoginController();
 			login.setLoginListener(this);
