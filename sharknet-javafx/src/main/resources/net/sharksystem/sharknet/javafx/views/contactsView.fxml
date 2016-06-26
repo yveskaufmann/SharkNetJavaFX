@@ -43,11 +43,11 @@
                                                         </Label>
                                                      </children>
                                                   </AnchorPane>
-                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                <StackPane minHeight="0.0" minWidth="0.0">
                                                      <children>
                                                          <ContactList fx:id = "contactListView"></ContactList>
                                                      </children>
-                                                  </AnchorPane>
+                                                  </StackPane>
                                               </items>
                                             </SplitPane>
                                          </children>
@@ -83,11 +83,11 @@
                                                 <TextField fx:id="blacklistSearchTextfield" layoutX="220.0" layoutY="17.0" />
                                              </children>
                                           </AnchorPane>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                        <StackPane minHeight="0.0" minWidth="0.0">
                                              <children>
-                                                 <ContactList fx:id = "blackListView"></ContactList>
+                                                 <ContactList fx:id="blackListView"></ContactList>
                                              </children>
-                                          </AnchorPane>
+                                          </StackPane>
                                       </items>
                                     </SplitPane>
                                  </children>

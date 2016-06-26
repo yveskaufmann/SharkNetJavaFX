@@ -13,7 +13,6 @@ import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -22,11 +21,16 @@ public class ContactNewController extends AbstractController {
 	@FXML
 	private TextField nameInputTextField;
 	@FXML
+	private TextField mailInputTextField;
+	@FXML
 	private Button saveButton;
 	@FXML
 	private Button backButton;
 	@FXML
 	private Button newContactScanQRButton;
+	@FXML
+	private Button newContactNFCButton;
+
 	@Inject
 	private SharkNet sharkNetModel;
 
@@ -37,10 +41,10 @@ public class ContactNewController extends AbstractController {
 	private Stage stage;
 	private String uid;
 	private String publickey;
+	//private String email;
 
 	public ContactNewController(){
 		super(App.class.getResource("views/newContactView.fxml"));
-
 		Parent root = super.getRoot();
 		stage = new Stage();
 		stage.setTitle("Neuen Kontakt erstellen");
@@ -49,11 +53,15 @@ public class ContactNewController extends AbstractController {
 		stage.show();
 	}
 
+
 	private void scanQRCode(){
+		//TODO
 		publickey = "TESTKEY";
 		System.out.println("QR-Code scannen: " + publickey);
 		ImplContact newContact = new ImplContact("", uid, publickey, sharkNetModel.getMyProfile());
 	}
+
+	private void contactExchangeNFC(){}
 
 	@Override
 	protected void onFxmlLoaded() {
@@ -62,6 +70,9 @@ public class ContactNewController extends AbstractController {
 			if(nameInputTextField.getText().length() > 0){
 				System.out.println("Neuen Kontakt erstellen: " + nameInputTextField.getText());
 				ImplContact newContact = new ImplContact(nameInputTextField.getText(), uid, publickey, sharkNetModel.getMyProfile());
+				if(mailInputTextField.getText() != "") {
+					newContact.setEmail(mailInputTextField.getText());
+				}
 				sharkNetModel.getContacts().add(newContact);
 				stage.close();
 				event.consume();
@@ -76,6 +87,10 @@ public class ContactNewController extends AbstractController {
 
 		newContactScanQRButton.setOnMouseClicked(event -> {
 			scanQRCode();
+		});
+
+		newContactNFCButton.setOnMouseClicked(event -> {
+			contactExchangeNFC();
 		});
 	}
 }

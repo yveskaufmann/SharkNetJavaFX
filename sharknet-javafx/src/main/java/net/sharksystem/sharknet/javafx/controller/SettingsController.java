@@ -1,5 +1,6 @@
 package net.sharksystem.sharknet.javafx.controller;
 
+import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
@@ -16,30 +17,18 @@ import java.util.List;
 public class SettingsController extends AbstractController {
 
 	private FrontController frontController;
+
+	@Inject
 	private SharkNet sharkNetModel;
 
-	//private List<String> selectedSyncItems;
-
-	/*
+	private Setting settings;
 	private int maxRoutedMB;
 	private int switchOffWifiDirectAfterMin;
-	private String mailAddress = "";
-	private String mailPassword = "";
-	private String smtpServer = "";
-	private String imapServer = "";
+	private String mailAddress;
+	private String mailPassword;
+	private String smtpServer;
+	private String imapServer;
 	private boolean radar;
-	*/
-
-	//DUMMYS
-	private int maxRoutedMB = 10;
-	private int switchOffWifiDirectAfterMin = 30;
-	private String mailAddress = "max@mustermann.de";
-	private String mailPassword = "samplePW";
-	private String smtpServer = "smtp.mustermann.de";
-	private String imapServer = "imap.mustermann.de";
-	private boolean radar = true;
-	//
-
 
 	@FXML
 	private Button settingsSaveButton;
@@ -62,6 +51,8 @@ public class SettingsController extends AbstractController {
 	@FXML
 	private TextField settingsIMAPServer;
 	@FXML
+	private TextField mailPasswordTextField;
+	@FXML
 	private TextField maximumRouteSize;
 	@FXML
 	private TextField settingsWiFiDirectOffMinutes;
@@ -80,72 +71,71 @@ public class SettingsController extends AbstractController {
 	@FXML
 	private RadioButton syncMediumSelectMail;
 	@FXML
-	private RadioButton syncMediumSelectUSB;
+	private RadioButton syncMediumSelectNFC;
 
 
 	public SettingsController() {
 		super(App.class.getResource("views/settingsView.fxml"));
 		this.frontController = Controllers.getInstance().get(FrontController.class);
 
-		//Setting settings = sharkNetModel.getMyProfile().getSettings();
-		//ImplSetting implSetting = sharkNetModel.getMyProfile().getSettings()
-
 	}
 
 
 	@FXML
 	private void onSettingsSaveButtonClick() {
-
 		mailAddress = settingsMailAddress.getText();
-		smtpServer = settingsSMTPServer.getText();
-		imapServer = settingsIMAPServer.getText();
+		settings.setSmtpServer(settingsSMTPServer.getText());
+		settings.setImapServer(settingsIMAPServer.getText());
+
+		//TODO sharkNetModel.getMyProfile().setMail(mailAddress);
+		//TODO settings.setMailPW = mailPasswordTextField.getText();
+
 		try {
-			maxRoutedMB = Integer.parseInt(maximumRouteSize.getText());
+			settings.setMaxFileSize(Integer.parseInt(maximumRouteSize.getText()));
 		}catch (Exception e){
 			e.printStackTrace();}
 		try{
+			// TODO
 			switchOffWifiDirectAfterMin = Integer.parseInt(settingsWiFiDirectOffMinutes.getText());
 		}catch (Exception e){
 			e.printStackTrace();
 		}
-		//mailPassword =
 
 		System.out.println("Mail address= "+ mailAddress);
-		System.out.println("SMTP= "+ smtpServer);
-		System.out.println("IMAP= " + imapServer);
-		System.out.println("MaxMB= " + maxRoutedMB);
+		System.out.println("SMTP= "+ settingsSMTPServer.getText());
+		System.out.println("IMAP= " + settingsIMAPServer.getText());
+		System.out.println("MaxMB= " + Integer.parseInt(maximumRouteSize.getText()));
 		System.out.println("Wifi Direct off after: " + switchOffWifiDirectAfterMin + " min");
 
-		if(radarOnRadioButton.isSelected()){
-			System.out.println("Radar ON");
-		}
-		if(radarOffRadioButton.isSelected()){
-			System.out.println("Radar Off");
-		}
 
-		//TODO Daten ins Model übernehmen
+		if(radarOnRadioButton.isSelected()){
+			settings.setRadarON(true);
+		}else if(radarOffRadioButton.isSelected()){
+			settings.setRadarON(false);
+		}
 	}
 
 
 	@FXML
 	private void onStartSyncButtonClick() {
-		if(syncMediumSelectBluetooth.isSelected()){
+		if(settings.getBluetooth()){
 			System.out.println("Medium= Bluetooth");
 			syncViaBluetooth();
 		}
-		if(syncMediumSelectMail.isSelected()){
+		if(settings.getMail()){
 			System.out.println("Medium= Mail");
 			syncViaMail();
 		}
-		if(syncMediumSelectUSB.isSelected()){
-			System.out.println("Medium= USB");
-			syncViaUSB();
+		if(syncMediumSelectNFC.isSelected()){
+			System.out.println("Medium= NFC");
+			syncViaNFC();
 		}
-		if(syncMediumSelectWifi.isSelected()){
+		if(settings.getWifi()){
 			System.out.println("Medium= Wifi");
 			syncViaWifi();
 		}
 
+		// TODO aus Model holen:
 		if(profileSyncCheckbox.isSelected()){
 			System.out.println("Profil synchronisieren");
 		}
@@ -171,7 +161,7 @@ public class SettingsController extends AbstractController {
 	private void syncViaWifi(){
 
 	}
-	private void syncViaUSB(){
+	private void syncViaNFC(){
 
 	}
 	private void syncViaMail(){
@@ -184,26 +174,50 @@ public class SettingsController extends AbstractController {
 
 	@Override
 	protected void onFxmlLoaded() {
+		settings = sharkNetModel.getMyProfile().getSettings();
+
+
+
+		// Settings aus Model auslesen
+		maxRoutedMB = settings.getMaxFileSize();
+		imapServer = settings.getImapServer();
+		smtpServer = settings.getSmtpServer();
+		//TODO mailPassword = settings.getMailPassword();
+		//TODO switchOffWifiDirectAfterMin = settings.getWiFiOffMin();
+
+		if(settings.getRadarON()){
+			radarOnRadioButton.setSelected(true);
+		}else radarOffRadioButton.setSelected(true);
+
+
+
+
+		// Sync
+		if(settings.getMail()){
+			syncMediumSelectMail.setSelected(true);
+		}
+		else if(settings.getBluetooth()){
+			syncMediumSelectBluetooth.setSelected(true);
+		}
+		else if(settings.getWifi()){
+			syncMediumSelectWifi.setSelected(true);
+		}
+
+
+		// Textfelder füllen
+		mailPasswordTextField.setText(mailPassword);
+		maximumRouteSize.setText("" + maxRoutedMB);
 		settingsMailAddress.setText(mailAddress);
 		settingsIMAPServer.setText(imapServer);
 		settingsSMTPServer.setText(smtpServer);
 		maximumRouteSize.setText(""+maxRoutedMB);
 		settingsWiFiDirectOffMinutes.setText(""+switchOffWifiDirectAfterMin);
 
-		//Dummy
-		radarOffRadioButton.setSelected(true);
-		syncMediumSelectWifi.setSelected(true);
-
 		profileSyncCheckbox.setSelected(true);
 		contactsSyncCheckbox.setSelected(true);
 		timelineSyncCheckbox.setSelected(true);
 		messagesSyncCheckbox.setSelected(true);
 		homeworkSyncCheckbox.setSelected(true);
-
-
-		//radar = implSetting.getRadar();
-
-		System.out.println("Settings aus Profil: ");
 
 	}
 }

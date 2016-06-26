@@ -1,5 +1,6 @@
 package net.sharksystem.sharknet.javafx.controller;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
@@ -27,32 +28,26 @@ public class ContactController extends AbstractController{
 	private FrontController appController;
 	@Inject
 	private SharkNet sharkNetModel;
-
 	private ImageManager imageManager;
-
 	@FXML
 	private ContactList contactListView;
 	@FXML
 	private ContactList blackListView;
-
 	@FXML
 	private TextField contactsSearchTextfield;
 	@FXML
 	private TextField blacklistSearchTextfield;
 
-	//List<Contact> allContacts;
-	//List<Contact> allBlockedContacts;
-	//ObservableList<String> contactsData;
-	//ObservableList<String> blackListData;
-	//FilteredList<String> filteredContacts;
-	//FilteredList<String> filteredBlocked;
+	private ObservableList<Contact> contacts = FXCollections.observableArrayList();
+	private ObservableList<Contact> blockedContacts = FXCollections.observableArrayList();
+	private FilteredList<Contact> filteredContactsData;
+	private FilteredList<Contact> filteredBlacklistData;
 
 	@FXML
 	private void onNewContactButtonClick() {
-		System.out.println("Neuen Kontakt erstellen");
 		ContactNewController c = new ContactNewController();
-	}
 
+	}
 
 	@FXML
 	private void onContactDeleteButtonClick() {
@@ -77,8 +72,6 @@ public class ContactController extends AbstractController{
 			}
 		}
 	}
-
-
 
 	@FXML
 	private void onContactBlockButtonClick() {
@@ -123,9 +116,7 @@ public class ContactController extends AbstractController{
 				System.out.println("Kontakt entblocken:");
 				System.out.println(blackListView.getSelectionModel().getSelectedItem().getNickname());
 				System.out.println("Index: " + selectedIndex);
-
-				Contact tempContact = sharkNetModel.getMyProfile().getBlacklist().getList().get(selectedIndex);
-				sharkNetModel.getContacts().add(tempContact);
+				sharkNetModel.getContacts().add(sharkNetModel.getMyProfile().getBlacklist().getList().get(selectedIndex));
 
 				//System.out.println("tempcontact =  " + tempContact.getNickname());
 
@@ -142,21 +133,52 @@ public class ContactController extends AbstractController{
 
 
 	public void loadEntries() {
-		contactListView.getItems().clear();
-		blackListView.getItems().clear();
 
-		for(Contact contact : sharkNetModel.getContacts()) {
-			if(!sharkNetModel.getMyProfile().getBlacklist().getList().contains(contact)){
-				contactListView.getItems().add(contact);
-				System.out.println(contact.getNickname());
+		contacts.clear();
+		blockedContacts.clear();
+
+		for(Contact c : sharkNetModel.getContacts()){
+			if(!sharkNetModel.getMyProfile().getBlacklist().getList().contains(c)){
+				contacts.add(c);
 			}
 		}
-		for(Contact contact : sharkNetModel.getMyProfile().getBlacklist().getList()) {
-			blackListView.getItems().add(contact);
+		for(Contact c : sharkNetModel.getMyProfile().getBlacklist().getList()){
+			blockedContacts.add(c);
 		}
 
-	}
 
+		filteredContactsData = new FilteredList<>(contacts, s -> true);
+		filteredBlacklistData = new FilteredList<>(blockedContacts, s -> true);
+
+
+
+ 		contactsSearchTextfield.textProperty().addListener(observable->{
+			String filter = contactsSearchTextfield.getText();
+			if(filter == null || filter.length() == 0) {
+				filteredContactsData.setPredicate(s -> true);
+			}
+			else {
+				filteredContactsData.setPredicate(s -> s.getNickname().contains(filter));
+			}
+		});
+		blacklistSearchTextfield.textProperty().addListener(observable->{
+			String filter = blacklistSearchTextfield.getText();
+			if(filter == null || filter.length() == 0) {
+				filteredBlacklistData.setPredicate(s -> true);
+			}
+			else {
+				filteredBlacklistData.setPredicate(s -> s.getNickname().contains(filter));
+			}
+		});
+
+
+		contactListView.getItems().setAll(filteredContactsData);
+		blackListView.getItems().setAll(filteredBlacklistData);
+
+		//contactListView.getItems().addAll(filteredContactsData);
+		//contactListView.setItems(filteredContactsData);
+		//blackListView.setItems(filteredBlacklistData);
+	}
 
 
 
@@ -174,9 +196,9 @@ public class ContactController extends AbstractController{
 		blackListView.setItems(filteredBlocked);
 
 
-		// Blacklist filtern
+		// Kontaktliste filtern
 
-		blacklistSearchTextfield.textProperty().addListener((observable, oldValue, newValue) -> {
+		contactListSearchTextfield.textProperty().addListener((observable, oldValue, newValue) -> {
 			filteredBlocked.setPredicate(nickname -> {
 				// If filter text is empty, display all entries.
 				if (newValue == null || newValue.isEmpty()) {
@@ -194,11 +216,15 @@ public class ContactController extends AbstractController{
 
 	}*/
 
+
 	@Override
 	protected void onFxmlLoaded() {
 		loadEntries();
 
 
+		contactListView.setOnMouseClicked(event -> {
+			ShowContactController s = new ShowContactController(sharkNetModel.getContacts().get(0));
+		});
 
 	}
 }

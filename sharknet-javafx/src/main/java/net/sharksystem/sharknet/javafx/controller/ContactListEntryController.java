@@ -10,9 +10,13 @@ import net.sharksystem.sharknet.javafx.controls.RoundImageView;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCell;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCellController;
 import net.sharksystem.sharknet.javafx.services.ImageManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class ContactListEntryController extends MediaListCellController<Contact> {
+
+	private static final Logger Log = LoggerFactory.getLogger(ContactListEntryController.class);
 
 	@Inject
 	private ImageManager imageManager;
@@ -25,6 +29,8 @@ public class ContactListEntryController extends MediaListCellController<Contact>
 
 	@FXML
 	private Text contactName;
+
+
 
 	public ContactListEntryController(MediaListCell<Contact> contactListCell) {
 		super(App.class.getResource("views/contactListEntry.fxml"), contactListCell);
@@ -40,11 +46,15 @@ public class ContactListEntryController extends MediaListCellController<Contact>
 	@Override
 	protected void onItemChanged(Contact contact) {
 		contactImage.setImage(null);
+
 		contactName.setText("");
 
 		if (contact == null) return;
 
+
+		//Log.info("BILD:" + contact.getPicture());
 		imageManager.readImageFrom(contact.getPicture()).ifPresent(contactImage::setImage);
+
 		contactName.setText(contact.getNickname());
 	}
 }

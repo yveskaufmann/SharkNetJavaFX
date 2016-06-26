@@ -11,6 +11,7 @@ public class ContactList extends MediaListView<Contact> {
 
 	public ContactList() {
 		super();
+		//setStyle("-fx-background-color:red");
 		setCellFactory(param -> new MediaListCell<Contact>(ContactListEntryController.class));
 	}
 }
