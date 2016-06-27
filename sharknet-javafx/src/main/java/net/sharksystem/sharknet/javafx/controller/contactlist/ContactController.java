@@ -136,18 +136,22 @@ public class ContactController extends AbstractController{
 		contacts.clear();
 		blockedContacts.clear();
 
-		for(Contact c : sharkNetModel.getContacts()){
-			if(sharkNetModel.getMyProfile().getBlacklist().getList().isEmpty()){
-				contacts.add(c);
-			}
-			else if(!sharkNetModel.getMyProfile().getBlacklist().getList().contains(c)){
-				contacts.add(c);
+		// Kontaktliste laden
+		if(sharkNetModel.getContacts() != null) {
+			for (Contact c : sharkNetModel.getContacts()) {
+				if (sharkNetModel.getMyProfile().getBlacklist().getList() == null) {
+					contacts.add(c);
+				} else if (!sharkNetModel.getMyProfile().getBlacklist().getList().contains(c)) {
+					contacts.add(c);
+				}
 			}
 		}
-		for(Contact c : sharkNetModel.getMyProfile().getBlacklist().getList()){
-			blockedContacts.add(c);
+		// Blacklist laden
+		if(sharkNetModel.getMyProfile().getBlacklist().getList() != null){
+			for (Contact c : sharkNetModel.getMyProfile().getBlacklist().getList()) {
+				blockedContacts.add(c);
+			}
 		}
-
 
 		filteredContactsData = new FilteredList<>(contacts, s -> true);
 		filteredBlacklistData = new FilteredList<>(blockedContacts, s -> true);
