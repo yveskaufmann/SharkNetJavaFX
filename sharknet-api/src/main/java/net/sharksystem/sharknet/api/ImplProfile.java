@@ -1,7 +1,8 @@
 package net.sharksystem.sharknet.api;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+
 
 
 
@@ -18,17 +19,27 @@ public class ImplProfile implements Profile {
 
 	/**
 	 * Constructor for new Profiles which are going to be saved
-	 * @param c
+	 * @param nickname
      */
-	public ImplProfile(Contact c){
-		this.c = c;
+	public ImplProfile(String nickname, String deviceID){
+		c = new ImplContact(nickname, gernateUID(nickname, deviceID), "", this);
 		setting = new ImplSetting(this);
+		save();
+
 	}
 
-	public ImplProfile(Contact c, String password, Setting setting){
+	/**
+	 * Constructor for the Database
+	 * @param c
+	 * @param password
+	 * @param setting
+	 * @param blacklist
+     */
+	public ImplProfile(Contact c, String password, Setting setting, Blacklist blacklist){
 		this.c = c;
 		this.password = password;
 		this.setting = setting;
+		this.blacklist = blacklist;
 	}
 
 
@@ -95,6 +106,16 @@ public class ImplProfile implements Profile {
 			blacklist = new ImplBlacklist(this);
 		}
 		return blacklist;
+	}
+
+	private String gernateUID(String nickname, String deviceID){
+		String newUID = "foo";
+		SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss:SS");
+		Date now = new Date(System.currentTimeMillis());
+		String strDate = sdfDate.format(now);
+
+		newUID = nickname + "/" + deviceID + "/" + strDate;
+		return newUID;
 	}
 
 }

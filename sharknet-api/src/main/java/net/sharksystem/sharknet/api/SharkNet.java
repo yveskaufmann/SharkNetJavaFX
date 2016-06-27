@@ -48,7 +48,7 @@ public interface SharkNet {
 	 * Initilizes a Profile an Safes it in the Knowledgebase
 	 * @return
      */
-	public Profile newProfile(String nickname, String uid, String publickey);
+	public Profile newProfile(String nickname, String deviceID);
 
 	/**
 	 * Initializes a Chat and safes it in the KnowledgeBase

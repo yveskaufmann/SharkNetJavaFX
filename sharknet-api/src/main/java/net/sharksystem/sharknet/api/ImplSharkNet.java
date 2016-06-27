@@ -22,10 +22,6 @@ public class ImplSharkNet implements SharkNet {
 	//ToDo: Clearify - setter müssen Datan in shark speichern
 
 
-/*	List<Profile> profile_list = new LinkedList<>();
-	List<Contact> contact_list = new LinkedList<>();
-	List<Chat> chat_list = new LinkedList<>();
-*/
 	Profile myProfile;
 	ArrayList<Dummy> chatListenerList = new ArrayList<Dummy>();
 
@@ -114,11 +110,10 @@ public class ImplSharkNet implements SharkNet {
 	}
 
 	@Override
-	public Profile newProfile(String nickname, String uid, String publickey) {
-		Profile p = new ImplProfile(new ImplContact(nickname, uid, publickey, null));
+	public Profile newProfile(String nickname, String deviceID) {
+		Profile p = new ImplProfile(nickname, deviceID);
 		ImplContact c = (ImplContact)p.getContact();
 		c.setOwner(p);
-		//List<Profile> profile_list.add(p);
 		return p;
 	}
 
@@ -131,7 +126,6 @@ public class ImplSharkNet implements SharkNet {
 		if(chat == null) {
 			chat = new ImplChat(recipients, myProfile);
 		}
-		//chat_list.add(chat);
 		return chat;
 	}
 
@@ -139,7 +133,6 @@ public class ImplSharkNet implements SharkNet {
 	public Contact newContact(String nickname, String uid, String publickey) {
 		if(myProfile == null) return null;
 		Contact c = new ImplContact(nickname, uid, publickey, myProfile);
-		//contact_list.add(c);
 		return c;
 
 		//ToDo: Clearify - how to share contacts

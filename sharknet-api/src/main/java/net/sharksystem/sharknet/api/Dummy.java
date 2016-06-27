@@ -18,11 +18,8 @@ public class Dummy {
 
 		//Anlegen von Profilen
 
-		Profile bob_p = s.newProfile("bob", "bob@htw-berlin.de", "foomanchu");
-		Profile alice_p  = s.newProfile("alice", "alice@htw-berlin.de", "foomanchu");
-
-		bob_p.save();
-		alice_p.save();
+		Profile bob_p = s.newProfile("bob", "bobsDevice");
+		Profile alice_p  = s.newProfile("alice", "alicesDevice");
 
 		s.setProfile(alice_p, "");
 
