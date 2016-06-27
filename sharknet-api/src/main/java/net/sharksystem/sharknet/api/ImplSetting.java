@@ -5,6 +5,7 @@ package net.sharksystem.sharknet.api;
  */
 public class ImplSetting implements Setting{
 	boolean nfc, bluetooth, tcp, wifi, mail;
+	boolean syncProfile, syncConctact, syncChat, syncTimeline, syncHausaufgaben;
 	boolean radarON;
 	int wifiON;
 	int maxFileSize;
@@ -51,17 +52,70 @@ public class ImplSetting implements Setting{
 	}
 
 	@Override
+	public boolean isSyncHausaufgaben() {
+		return syncHausaufgaben;
+	}
+
+	@Override
+	public void setSyncHausaufgaben(boolean syncHausaufgaben) {
+		this.syncHausaufgaben = syncHausaufgaben;
+	}
+
+	@Override
+	public boolean isSyncTimeline() {
+		return syncTimeline;
+	}
+
+	@Override
+	public void setSyncTimeline(boolean syncTimeline) {
+		this.syncTimeline = syncTimeline;
+	}
+
+	@Override
+	public boolean isSyncChat() {
+		return syncChat;
+	}
+
+	@Override
+	public void setSyncChat(boolean syncChat) {
+		this.syncChat = syncChat;
+	}
+
+	@Override
+	public boolean isSyncConctact() {
+		return syncConctact;
+	}
+
+	@Override
+	public void setSyncConctact(boolean syncConctact) {
+		this.syncConctact = syncConctact;
+	}
+
+	@Override
+	public boolean isSyncProfile() {
+		return syncProfile;
+	}
+
+	@Override
+	public void setSyncProfile(boolean syncProfile) {
+		this.syncProfile = syncProfile;
+	}
+
+	@Override
 	public String getEmailPassword() {
 		return emailPassword;
 	}
+
 	@Override
 	public void setEmailPassword(String emailPassword) {
 		this.emailPassword = emailPassword;
 	}
+
 	@Override
 	public String getEmail() {
 		return email;
 	}
+
 	@Override
 	public void setEmail(String email) {
 		this.email = email;
@@ -71,19 +125,23 @@ public class ImplSetting implements Setting{
 	public boolean getNfc() {
 		return nfc;
 	}
+
 	@Override
 	public void setNfc(boolean nfc) {
 		this.nfc = nfc;
 	}
+
 	@Override
 	public boolean getBluetooth() {
 		return bluetooth;
 	}
+
 	@Override
 	public void setBluetooth(boolean bluetooth) {
 		this.bluetooth = bluetooth;
 	}
 	@Override
+
 	public boolean getTcp() {
 		return tcp;
 	}

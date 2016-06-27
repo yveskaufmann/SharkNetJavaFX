@@ -170,4 +170,67 @@ public interface Setting {
 	 * @param email
      */
 	public void setEmail(String email);
+
+
+	/**
+	 * Returns of synchronization of Hausaufgaben is enabled
+	 * @return
+     */
+	public boolean isSyncHausaufgaben();
+
+	/**
+	 * Enable or disable synchronization of Hausaufgaben
+	 * @param syncHausaufgaben
+     */
+	public void setSyncHausaufgaben(boolean syncHausaufgaben);
+
+	/**
+	 * Returns of synchronization of Timeline is enabled
+ 	 * @return
+     */
+    public boolean isSyncTimeline();
+
+	/**
+	 * Enable or disable synchronization of Timeline
+	 * @param syncTimeline
+     */
+	public void setSyncTimeline(boolean syncTimeline);
+
+	/**
+	 * Returns of synchronization of Chat is enabled
+	 * @return
+     */
+	public boolean isSyncChat();
+
+	/**
+	 * Enable or disable synchronization of Chat
+	 * @param syncChat
+     */
+	public void setSyncChat(boolean syncChat);
+
+	/**
+	 * Returns of synchronization of Contacts is enabled
+	 * @return
+     */
+	public boolean isSyncConctact();
+
+	/**
+	 * Enable or disable synchronization of Contacts
+	 * @param syncConctact
+     */
+	public void setSyncConctact(boolean syncConctact);
+
+	/**
+	 * Returns of synchronization of Profile is enabled
+	 * @return
+     */
+	public boolean isSyncProfile() ;
+
+	/**
+	 * Enable or disable synchronization of Profile
+	 * @param syncProfile
+     */
+
+	public void setSyncProfile(boolean syncProfile);
+
 }
