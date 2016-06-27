@@ -8,6 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.Content;
@@ -87,6 +88,12 @@ public class CreateProfileController extends AbstractController{
 		// if a file is selected
 		if (file != null) {
 			profileFile = file;
+			try {
+				InputStream in = new BufferedInputStream(new FileInputStream(profileFile.getAbsolutePath()));
+				imageViewPicture.setImage(new Image(in));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -150,6 +157,7 @@ public class CreateProfileController extends AbstractController{
 				Content pic = new ImplContent(in, extension, profileFile.getName());
 				// add the picture to contact
 				p.getContact().setPicture(pic);
+
 			}
 			else {
 				Content pic = new ImplContent(in, extension, "profile placeholder");
