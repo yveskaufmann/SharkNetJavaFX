@@ -1,4 +1,4 @@
-package net.sharksystem.sharknet.javafx.controller;
+package net.sharksystem.sharknet.javafx.controller.contactlist;
 
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
@@ -33,7 +33,7 @@ public class ContactListEntryController extends MediaListCellController<Contact>
 
 
 	public ContactListEntryController(MediaListCell<Contact> contactListCell) {
-		super(App.class.getResource("views/contactListEntry.fxml"), contactListCell);
+		super(App.class.getResource("views/contactlist/contactListEntry.fxml"), contactListCell);
 	}
 
 	@Override

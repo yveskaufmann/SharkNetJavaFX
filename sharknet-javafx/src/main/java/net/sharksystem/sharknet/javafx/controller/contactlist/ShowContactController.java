@@ -1,4 +1,4 @@
-package net.sharksystem.sharknet.javafx.controller;
+package net.sharksystem.sharknet.javafx.controller.contactlist;
 
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -51,7 +51,7 @@ public class ShowContactController extends AbstractController {
 
 
 	public ShowContactController(Contact c){
-		super(App.class.getResource("views/showContactView.fxml"));
+		super(App.class.getResource("views/contactlist/showContactView.fxml"));
 		this.contact = c;
 		stage = new Stage();
 		stage.setTitle("");

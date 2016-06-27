@@ -1,4 +1,4 @@
-package net.sharksystem.sharknet.javafx.controller;
+package net.sharksystem.sharknet.javafx.controller.contactlist;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import net.sharksystem.sharknet.api.*;
 import net.sharksystem.sharknet.javafx.App;
+import net.sharksystem.sharknet.javafx.controller.FrontController;
 import net.sharksystem.sharknet.javafx.services.ImageManager;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
@@ -19,7 +20,7 @@ import java.util.Optional;
 public class ContactController extends AbstractController{
 
 	public ContactController() {
-		super(App.class.getResource("views/contactsView.fxml"));
+		super(App.class.getResource("views/contactlist/contactsView.fxml"));
 		this.appController = Controllers.getInstance().get(FrontController.class);
 	}
 

@@ -1,7 +1,6 @@
 package net.sharksystem.sharknet.javafx.controller;
 
 import com.google.inject.Inject;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -12,14 +11,12 @@ import net.sharksystem.sharknet.api.Profile;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controller.chat.ChatController;
+import net.sharksystem.sharknet.javafx.controller.contactlist.ContactController;
 import net.sharksystem.sharknet.javafx.controller.inbox.InboxController;
 import net.sharksystem.sharknet.javafx.controls.Navigation;
-import net.sharksystem.sharknet.javafx.controls.dialogs.ImageChooserDialog;
 import net.sharksystem.sharknet.javafx.controls.RoundImageView;
 import net.sharksystem.sharknet.javafx.services.ImageManager;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
-
-import java.io.IOException;
 
 /**
  * This controller is responsible to provide a

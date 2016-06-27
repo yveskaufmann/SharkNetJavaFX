@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
-<?import net.sharksystem.sharknet.javafx.controller.ContactList?>
+<?import net.sharksystem.sharknet.javafx.controller.contactlist.ContactList?>
 
 <StackPane fx:id="contactsView" maxHeight="Infinity" maxWidth="Infinity" minHeight="600.0" minWidth="800.0" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>

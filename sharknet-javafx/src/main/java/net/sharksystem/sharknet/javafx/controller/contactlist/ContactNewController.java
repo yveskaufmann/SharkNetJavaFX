@@ -1,4 +1,4 @@
-package net.sharksystem.sharknet.javafx.controller;
+package net.sharksystem.sharknet.javafx.controller.contactlist;
 
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -44,7 +44,7 @@ public class ContactNewController extends AbstractController {
 	//private String email;
 
 	public ContactNewController(){
-		super(App.class.getResource("views/newContactView.fxml"));
+		super(App.class.getResource("views/contactlist/newContactView.fxml"));
 		Parent root = super.getRoot();
 		stage = new Stage();
 		stage.setTitle("Neuen Kontakt erstellen");

@@ -1,9 +1,7 @@
-package net.sharksystem.sharknet.javafx.controller;
+package net.sharksystem.sharknet.javafx.controller.contactlist;
 
 
 import net.sharksystem.sharknet.api.Contact;
-import net.sharksystem.sharknet.api.Feed;
-import net.sharksystem.sharknet.javafx.controller.inbox.InboxEntryController;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCell;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListView;
 
