@@ -6,9 +6,10 @@ package net.sharksystem.sharknet.api;
 public class ImplSetting implements Setting{
 	boolean nfc, bluetooth, tcp, wifi, mail;
 	boolean radarON;
-	boolean wifiON;
+	int wifiON;
 	int maxFileSize;
 	String smtpServer, imapServer;
+	String emailPassword, email;
 	Profile owner;
 
 	/**
@@ -25,7 +26,7 @@ public class ImplSetting implements Setting{
      * @param imapServer
      * @param owner
      */
-	public ImplSetting(boolean nfc, boolean bluetooth, boolean tcp, boolean wifi, boolean mail, boolean radarON, boolean wifiON, int maxFileSize, String smtpServer, String imapServer, Profile owner) {
+	public ImplSetting(boolean nfc, boolean bluetooth, boolean tcp, boolean wifi, boolean mail, boolean radarON, int wifiON, int maxFileSize, String smtpServer, String imapServer, Profile owner, String email, String emailPassword) {
 		this.nfc = nfc;
 		this.bluetooth = bluetooth;
 		this.tcp = tcp;
@@ -37,6 +38,8 @@ public class ImplSetting implements Setting{
 		this.smtpServer = smtpServer;
 		this.imapServer = imapServer;
 		this.owner = owner;
+		this.email = email;
+		this.emailPassword = emailPassword;
 	}
 
 	/**
@@ -45,6 +48,23 @@ public class ImplSetting implements Setting{
      */
 	public ImplSetting(Profile owner){
 		this.owner = owner;
+	}
+
+	@Override
+	public String getEmailPassword() {
+		return emailPassword;
+	}
+	@Override
+	public void setEmailPassword(String emailPassword) {
+		this.emailPassword = emailPassword;
+	}
+	@Override
+	public String getEmail() {
+		return email;
+	}
+	@Override
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	@Override
@@ -96,11 +116,11 @@ public class ImplSetting implements Setting{
 		this.radarON = radarON;
 	}
 	@Override
-	public boolean getWifiON() {
+	public int getWifiON() {
 		return wifiON;
 	}
 	@Override
-	public void setWifiON(boolean wifiON) {
+	public void setWifiON(int wifiON) {
 		this.wifiON = wifiON;
 	}
 	@Override

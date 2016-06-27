@@ -80,4 +80,12 @@ public interface Chat extends Timeable {
 	 * Returns the Timestamp of the most recent Message
 	 */
 	public Timestamp getTimestamp();
+
+
+	/**
+	 * Adds Contacts to the Chat
+	 * @param cList
+	 */
+	public void addContact(List<Contact> cList);
+
 }

@@ -162,6 +162,17 @@ public class ImplChat implements Chat {
 		return recentMessage;
 	}
 
+	@Override
+	public void addContact(List<Contact> cList) {
+		//ToDo: Shark - Implement that Contacts will added to the Chat in the Shark DB
+		List<Contact> contactList = DummyDB.getInstance().getChatContacts(this);
+		for(Contact newc : cList){
+			if(!contactList.contains(newc)){
+				contactList.add(newc);
+			}
+		}
+	}
+
 	/**
 	 * This Method is used to give the Chat a random ID including to check within the Database that the id is unique
 	 */

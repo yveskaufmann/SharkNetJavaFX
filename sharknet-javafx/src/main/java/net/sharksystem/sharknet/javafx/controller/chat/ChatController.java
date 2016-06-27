@@ -11,12 +11,14 @@ import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.*;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
+import net.sharksystem.sharknet.javafx.controller.contactlist.ShowContactController;
 import net.sharksystem.sharknet.javafx.services.ImageManager;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.List;
 
 
@@ -139,7 +141,6 @@ public class ChatController extends AbstractController implements ChatListener {
 	 * sending attachment... open filedialog
 	 */
 	private void onAttachmentClick() {
-		// TODO: display attachment in chat somehow..
 		System.out.println("onAttachmentClick");
 		if (activeChat != null) {
 			// setup and open filechooser
@@ -152,6 +153,8 @@ public class ChatController extends AbstractController implements ChatListener {
 				try {
 					// load file into stream
 					InputStream fileAttachment = new FileInputStream(file.getPath());
+					// determine mimeType
+					String mimeType = Files.probeContentType(file.toPath());
 					fileAttachment.close();
 					// set flag for attachment
 					sendAttachment = true;
@@ -162,6 +165,7 @@ public class ChatController extends AbstractController implements ChatListener {
 						extension = file.getPath().substring(i + 1);
 					}
 					// create attachment object
+					// ToDo: set mimetype
 					attachment = new ImplContent(fileAttachment, extension, file.getName());
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
@@ -188,7 +192,10 @@ public class ChatController extends AbstractController implements ChatListener {
 
 	private void onContactProfileClick() {
 		System.out.println("onContactProfileClick");
-		//ToDo: profile view
+		//ToDo: what to do with group chat?
+		if (activeChat != null && activeChat.getContacts().size() == 1) {
+			ShowContactController sc = new ShowContactController(activeChat.getContacts().get(0));
+		}
 	}
 
 	private void onVoteClick() {
@@ -308,6 +315,7 @@ public class ChatController extends AbstractController implements ChatListener {
 		// if contacts get added...
 		if (addChatContacts) {
 			if (c.size() > 0) {
+				//ToDo: change to api usage
 				activeChat.getContacts().addAll(c);
 			}
 		// start new chat

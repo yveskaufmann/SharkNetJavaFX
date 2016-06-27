@@ -1,7 +1,6 @@
-package net.sharksystem.sharknet.javafx.controller;
+package net.sharksystem.sharknet.javafx.controller.login;
 
 import com.google.inject.Inject;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,13 +13,14 @@ import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.Profile;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
+import net.sharksystem.sharknet.javafx.controller.FrontController;
 import net.sharksystem.sharknet.javafx.controls.RoundImageView;
-import net.sharksystem.sharknet.javafx.modules.SharkNetModule;
 import net.sharksystem.sharknet.javafx.services.ImageManager;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
-import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
 
 import java.util.List;
+
+// ToDo: add create new profile
 
 /**
  * Created by Benni on 18.05.2016.
@@ -45,7 +45,7 @@ public class LoginController extends AbstractController {
 	@FXML
 	private Button buttonLogin;
 	@FXML
-	private Button buttonExit;
+	private Button buttonRegister;
 	@FXML
 	private PasswordField passwordfield;
 
@@ -83,8 +83,8 @@ public class LoginController extends AbstractController {
 			event.consume();
 		});
 
-		buttonExit.setOnMouseClicked(event -> {
-			onExitClick();
+		buttonRegister.setOnMouseClicked(event -> {
+			onRegisterClick();
 			event.consume();
 		});
 
@@ -127,9 +127,10 @@ public class LoginController extends AbstractController {
 	}
 
 
-	private void onExitClick() {
-		System.out.println("onExitClick");
-		stage.close();
+	private void onRegisterClick() {
+		System.out.println("onRegisterClick");
+		CreateProfileController cp = new CreateProfileController();
+
 	}
 
 	private void onProfileChanged() {

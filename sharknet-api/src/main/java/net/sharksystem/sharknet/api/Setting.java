@@ -5,51 +5,169 @@ package net.sharksystem.sharknet.api;
  */
 public interface Setting {
 
+	/**
+	 * Returns if NFC is enabled
+	 * @return
+     */
 	public boolean getNfc();
 
+	/**
+	 * Enable or Disable DataExchange via NFC
+	 * @param nfc
+     */
 	public void setNfc(boolean nfc);
 
+	/**
+	 * Returns if Bluetooth is enabled
+	 * @return
+     */
 	public boolean getBluetooth();
 
+	/**
+	 * Enable or Disable DataExchange via Bluetooth
+	 * @param bluetooth
+     */
 	public void setBluetooth(boolean bluetooth);
 
+	/**
+	 * Returns if TCP is enabled
+	 * @return
+     */
 	public boolean getTcp();
 
+	/**
+	 * Enable or Disable DataExchange via TCP
+	 * @param tcp
+     */
 	public void setTcp(boolean tcp);
 
+	/**
+	 * Returns if Wifi is enabled
+	 * @return
+     */
 	public boolean getWifi();
+
+	/**
+	 * Enable or Disable DataExchange via Wifi
+	 * @param wifi
+     */
 
 	public void setWifi(boolean wifi);
 
+	/**
+	 * Returns if Mail for Dataexchange is enabled
+	 * @return
+     */
 	public boolean getMail();
 
+	/**
+	 * Enable or Disable DataExchange via Mail
+	 * @param mail
+     */
 	public void setMail(boolean mail);
 
+	/**
+	 * Returns if the Radar-Funcionality is enabled
+	 * @return
+     */
 	public boolean getRadarON();
 
+
+	/**
+	 * Enable or Disable Radar Functionality
+	 * @param radarON
+     */
 	public void setRadarON(boolean radarON);
 
-	public boolean getWifiON();
+	/**
+	 * Returns the time Wifi should be enabled before it`s going to be disabled
+	 * @return
+     */
+	public int getWifiON();
 
-	public void setWifiON(boolean wifiON);
+	/**
+	 * Sets the time Wifi should be enabled before it`s going to be disabled
+	 * @param wifiON
+     */
+	public void setWifiON(int wifiON);
 
+	/**
+	 * Returns maximal file size which is going to be sended or received
+	 * @return
+     */
 	public int getMaxFileSize();
 
+	/**
+	 * Sets maximal file size which is going to be sended or received
+	 * @param maxFileSize
+     */
 	public void setMaxFileSize(int maxFileSize);
 
+	/**
+	 * Returns SMTP-Server for Exchange Data per Mail
+	 * @return
+     */
 	public String getSmtpServer();
 
+	/**
+	 * Sets SMTP-Server for Exchange Data per Mail
+	 * @param smtpServer
+     */
 	public void setSmtpServer(String smtpServer);
 
+	/**
+	 * Returns IMAP-Server for Exchange Data per Mail
+	 * @return
+     */
 	public String getImapServer();
 
+	/**
+	 * Sets IMAP-Server for Exchange Data per Mail
+	 * @param imapServer
+     */
 	public void setImapServer(String imapServer);
 
+	/**
+	 * Save Settings in Database
+	 */
 	public void save();
+
+	/**
+	 * Deletes Settings in Database
+	 */
 	public void delete();
 
+	/**
+	 * Syncs Data through configured way
+	 */
 	public void syncData();
+
+	/**
+	 * Generates a new Pair of Keys and deletes the old ones
+	 */
 	public void generateKeyPair();
 
+	/**
+	 * Returns Email-Adress which is configured for Data-Exchange
+	 * @return
+     */
+	public String getEmailPassword();
 
+	/**
+	 * Sets Email-Adress which is configured for Data-Exchange
+	 * @param emailPassword
+     */
+	public void setEmailPassword(String emailPassword);
+
+	/**
+	 * Returns Password of Email-Adress which is configured for Data-Exchange
+	 * @return
+     */
+	public String getEmail();
+
+	/**
+	 * Sets Password of Email-Adress which is configured for Data-Exchange
+	 * @param email
+     */
+	public void setEmail(String email);
 }

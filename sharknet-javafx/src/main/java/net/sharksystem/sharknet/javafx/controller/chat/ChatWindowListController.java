@@ -57,6 +57,8 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 		//textFlow.setPadding(new Insets(0));
 		//textFlow.setLineSpacing(0);
 
+		// ToDo: add picture support
+
 		// if emoji was found
 		if (message.getContent().getMessage().matches(".*[:emojione-].*[:].*")) {
 			// split the whole message

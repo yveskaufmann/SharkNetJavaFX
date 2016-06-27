@@ -12,6 +12,8 @@ public class ImplContent implements Content {
 	String fileExtension, message, filename;
 	InputStream file;
 	private byte[] bytesOfFile;
+	ImplVoting voting;
+
 
 	public ImplContent (String message){
 		this.message = message;
@@ -111,6 +113,20 @@ public class ImplContent implements Content {
 			}
 		}
 		return new ByteArrayInputStream(bytesOfFile);
+	}
+
+	@Override
+	public ImplVoting addVoting(String question, boolean singleqoice){
+		if(voting == null){
+			voting = new ImplVoting(question, singleqoice);
+		}
+		return voting;
+	}
+
+	@Override
+	public ImplVoting getVoting(){
+		if(voting == null) return null;
+		else return voting;
 	}
 
 
