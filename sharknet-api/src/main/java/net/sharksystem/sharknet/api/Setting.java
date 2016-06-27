@@ -233,4 +233,61 @@ public interface Setting {
 
 	public void setSyncProfile(boolean syncProfile);
 
+
+	/**
+	 * Returns if Sync per NFC is enabled
+	 * @return
+     */
+	public boolean isSyncnfc();
+
+	/**
+	 * Enables or Disables Sync per NFC
+	 * @param syncnfc
+     */
+	public void setSyncnfc(boolean syncnfc);
+	/**
+	 * Returns if Sync per Bluetooth is enabled
+	 * @return
+	 */
+	public boolean isSyncbluetooth();
+
+	/**
+	 * Enables or Disables Sync per Bluetooth
+	 * @param syncbluetooth
+	 */
+	public void setSyncbluetooth(boolean syncbluetooth);
+	/**
+	 * Returns if Sync per TCP is enabled
+	 * @return
+	 */
+	public boolean isSynctcp();
+
+	/**
+	 * Enables or Disables Sync per TCP
+	 * @param synctcp
+	 */
+	public void setSynctcp(boolean synctcp);
+	/**
+	 * Returns if Sync per Wifi is enabled
+	 * @return
+	 */
+	public boolean isSyncwifi();
+
+	/**
+	 * Enables or Disables Sync per Wifi
+	 * @param syncwifi
+	 */
+	public void setSyncwifi(boolean syncwifi);
+	/**
+	 * Returns if Sync per Mail is enabled
+	 * @return
+	 */
+	public boolean isSyncmail();
+
+	/**
+	 * Enables or Disables Sync per Mail
+	 * @param syncmail
+	 */
+	public void setSyncmail(boolean syncmail);
+
 }
