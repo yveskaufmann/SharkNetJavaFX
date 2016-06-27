@@ -35,4 +35,18 @@ public interface Content {
 	 */
 	public void setMessage(String message);
 
+	/**
+	 * Adds a Voting to the Content if not already done and returns the Object
+	 * @param question
+	 * @param singleqoice
+     * @return
+     */
+	public ImplVoting addVoting(String question, boolean singleqoice);
+
+	/**
+	 * Returns the Voting, if it`s not there returns null
+	 * @return
+     */
+	public ImplVoting getVoting();
+
 }

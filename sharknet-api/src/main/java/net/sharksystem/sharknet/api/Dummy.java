@@ -3,11 +3,7 @@ package net.sharksystem.sharknet.api;
 import java.io.*;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.LinkedList;
-import java.util.List;
-
+import java.util.*;
 
 
 public class Dummy {
@@ -170,6 +166,33 @@ public class Dummy {
 
 		time7ago = java.sql.Timestamp.valueOf("2012-04-06 09:01:10");
 		time7after = java.sql.Timestamp.valueOf("2017-04-06 09:01:10");
+
+
+		//Generate a Content and add a Voting
+		Content c_test = new ImplContent("foo");
+		ImplVoting vote = c_test.addVoting("what is foo", false);
+
+		//Generate a list of Answers
+		List<String> testanswers = new LinkedList<>();
+		testanswers.add("fooans1");
+		testanswers.add("fooans2");
+		testanswers.add("fooans3");
+
+		//Add the Answers to the voting
+		vote.addAnswers(testanswers);
+
+
+		//Get a HashMap to add the contact to the voting
+		HashMap<String, Contact> answers = vote.getAnswers();
+		answers.put(testanswers.get(2), alice);
+
+		//Return the Hasmap with the Voting
+		vote.vote(answers);
+
+		//Get a Hash Map with Answers an List of Content to See the Voting
+		HashMap<String, List<Contact>> voting_finished = vote.getVotings();
+
+
 
 		s.setProfile(alice_p, "");
 		List <Feed> foo = s.getFeeds("about", 0, 5, true);
