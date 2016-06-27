@@ -118,7 +118,7 @@ public class CreateProfileController extends AbstractController{
 			}
 		}
 		// create new profile
-		Profile p = sharkNetModel.newProfile(textFieldNick.getText(), "uid", "publickey");
+		Profile p = sharkNetModel.newProfile(textFieldNick.getText(), "uid");
 		// set values if set
 		if (passwordFieldPass.getText().length() > 0) {
 			p.setPassword(passwordFieldPass.getText());
