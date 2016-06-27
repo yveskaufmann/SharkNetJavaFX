@@ -84,10 +84,30 @@ public interface SharkNet {
      */
 	public void exchangeContactNFC();
 
+	/**
+	 * Adds Listener to the List of Listener
+ 	 * @param p
+	 * @param listener
+     */
+	public void addListener(Profile p, GetEvents listener);
 
-	public void addChatListener(Profile p, Dummy listener);
-	public void addFeedListener(Profile p, Dummy listener);
-	public void informNewMessage(Profile p, Message m);
-	public void informNewFeed(Profile p, Feed f);
+	/**
+	 * Methods calls all Methods of registered listeners when the profile matches a contact in the recipientslist of the message
+	 * @param m
+     */
+	public void informMessage(Message m);
+
+	/**
+	 * Methods calls all Methods of registered listeners and informs about feed
+	 * @param f
+     */
+	public void informFeed(Feed f);
+
+	/**
+	 * Methods calls all Methods of registered listeners and informs about comment
+	 * @param c
+     */
+	public void informComment(Comment c);
+
 
 }

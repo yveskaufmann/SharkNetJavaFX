@@ -190,6 +190,12 @@ public class Dummy {
 		HashMap<String, List<Contact>> voting_finished = vote.getVotings();
 
 
+		TestListener foolistener = new TestListener();
+		s.addListener(alice_p, foolistener);
+
+		Message mlistener1 = new ImplMessage(new ImplContent("received through listener - bob to alice"), time5ago, bob, s.getMyProfile(), recipients1, false, false);
+		Message mlistener2 = new ImplMessage(new ImplContent("received through listener - alice to bob"), time5ago, alice, s.getMyProfile(), recipients2, false, false);
+
 
 		s.setProfile(alice_p, "");
 		List <Feed> foo = s.getFeeds("about", 0, 5, true);
