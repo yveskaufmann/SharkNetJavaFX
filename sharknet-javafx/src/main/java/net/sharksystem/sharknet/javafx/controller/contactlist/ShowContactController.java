@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -19,8 +20,8 @@ import javax.inject.Inject;
 
 public class ShowContactController extends AbstractController {
 
-	@FXML
-	private TextField nameTextField;
+	//@FXML
+	//private TextField nameTextField;
 	@FXML
 	private TextField nicknameTextField;
 	@FXML
@@ -39,6 +40,10 @@ public class ShowContactController extends AbstractController {
 	private Button closeWindowButton;
 	@FXML
 	private RoundImageView profilePictureImageView;
+	@FXML
+	private Label nameLabel;
+	@FXML
+	private Label editLabel;
 
 	@Inject
 	private ImageManager imageManager;
@@ -59,7 +64,21 @@ public class ShowContactController extends AbstractController {
 		stage.setScene(new Scene(root, 600, 400));
 		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
 		stage.show();
+		editLabel.setVisible(false);
+	}
 
+	public ShowContactController(Contact c, boolean nfc_or_qrcode){
+		super(App.class.getResource("views/contactlist/showContactView.fxml"));
+		this.contact = c;
+		stage = new Stage();
+		stage.setTitle("");
+		Parent root = super.getRoot();
+		stage.setScene(new Scene(root, 600, 400));
+		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
+		stage.show();
+		editButton.setVisible(false);
+		editLabel.setVisible(true);
+		saveButton.setText("Kontakt Übernehmen");
 	}
 
 	@Override
@@ -67,28 +86,27 @@ public class ShowContactController extends AbstractController {
 
 		imageManager.readImageFrom(contact.getPicture()).ifPresent(profilePictureImageView::setImage);
 
-
 		nicknameTextField.setEditable(false);
-		nameTextField.setEditable(false);
+		//nameTextField.setEditable(false);
 		emailTextField.setEditable(false);
 		telephoneTextField.setEditable(false);
 		infoTextField.setEditable(false);
 		publicKeyTextField.setEditable(false);
 
-
 		nicknameTextField.setText(contact.getNickname());
-		nameTextField.setText(contact.getName());
+		//nameTextField.setText(contact.getName());
+		nameLabel.setText(contact.getName());
 		emailTextField.setText(contact.getEmail());
 		//telephoneTextField.setText(testkontakt.getTelephonnumber());
 		infoTextField.setText(contact.getNote());
 		publicKeyTextField.setText(contact.getPublicKey());
-
 
 		editButton.setOnMouseClicked(event -> {
 			nicknameTextField.setEditable(true);
 			//nameTextField.setEditable(true);
 			emailTextField.setEditable(true);
 			telephoneTextField.setEditable(true);
+			editLabel.setVisible(true);
 		});
 
 		saveButton.setOnMouseClicked(event -> {
