@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<?import net.sharksystem.sharknet.javafx.controls.RoundImageView?>
+
+<?import javafx.scene.control.PasswordField?>
+<AnchorPane fx:id="createProfileView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="346.0" prefWidth="552.0" styleClass="theme-presets" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="285.0" layoutY="36.0" text="Nickname *" />
+      <Label layoutX="285.0" layoutY="152.0" text="Name" />
+      <Label layoutX="284.0" layoutY="193.0" text="E-Mail" />
+      <Label layoutX="282.0" layoutY="237.0" text="Telefon" />
+      <RoundImageView fx:id="imageViewPicture" fitHeight="232.0" fitWidth="200.0" layoutX="41.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/profile-placeholder.jpg" />
+         </image>
+      </RoundImageView>
+      <TextField fx:id="textFieldNick" layoutX="370.0" layoutY="32.0" prefHeight="25.0" prefWidth="173.0" />
+      <TextField fx:id="textFieldName" layoutX="370.0" layoutY="152.0" prefHeight="25.0" prefWidth="173.0" />
+      <TextField fx:id="textFieldMail" layoutX="370.0" layoutY="192.0" prefHeight="25.0" prefWidth="173.0" />
+      <TextField fx:id="textFieldTel" layoutX="370.0" layoutY="232.0" prefHeight="25.0" prefWidth="173.0" />
+      <PasswordField fx:id="passwordFieldPass" layoutX="370.0" layoutY="72.0" prefHeight="25.0" prefWidth="173.0" />
+      <PasswordField fx:id="passwordFieldPassRepeat" layoutX="370.0" layoutY="112.0" prefHeight="25.0" prefWidth="173.0" />
+      <Label layoutX="285.0" layoutY="76.0" text="Password" />
+      <Label layoutX="283.0" layoutY="115.0" text="Repeat" />
+      <Button fx:id="buttonSave" layoutX="227.0" layoutY="296.0" mnemonicParsing="false" text="Save" />
+   </children>
+</AnchorPane>

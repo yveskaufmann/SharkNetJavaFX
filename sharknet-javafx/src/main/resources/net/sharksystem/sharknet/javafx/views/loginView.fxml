@@ -16,7 +16,7 @@
          <children>
             <Button fx:id="buttonLogin" layoutX="301.0" layoutY="45.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="54.0" text="Login" />
             <PasswordField fx:id="passwordfield" layoutX="202.0" layoutY="1.0" prefHeight="26.0" prefWidth="149.0" />
-            <Button fx:id="buttonExit" layoutX="166.0" layoutY="45.0" mnemonicParsing="false" text="Exit" />
+            <Button fx:id="buttonRegister" layoutX="166.0" layoutY="45.0" mnemonicParsing="false" text="Register" />
          </children>
       </AnchorPane>
    </bottom>

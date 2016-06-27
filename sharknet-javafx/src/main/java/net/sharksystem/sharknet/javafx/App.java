@@ -6,14 +6,11 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.javafx.context.ApplicationContext;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
-import net.sharksystem.sharknet.javafx.controller.LoginController;
-import net.sharksystem.sharknet.javafx.controller.LoginListener;
+import net.sharksystem.sharknet.javafx.controller.login.LoginController;
+import net.sharksystem.sharknet.javafx.controller.login.LoginListener;
 import net.sharksystem.sharknet.javafx.controller.ProfileController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 public class App extends Application implements LoginListener{
 
