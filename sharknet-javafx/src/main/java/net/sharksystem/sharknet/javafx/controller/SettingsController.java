@@ -72,6 +72,8 @@ public class SettingsController extends AbstractController {
 	private RadioButton syncMediumSelectMail;
 	@FXML
 	private RadioButton syncMediumSelectNFC;
+	@FXML
+	private RadioButton syncMediumSelectTCP;
 
 
 	public SettingsController() {
@@ -134,6 +136,12 @@ public class SettingsController extends AbstractController {
 			System.out.println("Medium= Wifi");
 			syncViaWifi();
 		}
+		if(settings.getTcp()){
+			System.out.println("Medium= TCP");
+			syncViaTCP();
+		}
+
+
 
 		// TODO aus Model holen:
 		if(profileSyncCheckbox.isSelected()){
@@ -158,25 +166,16 @@ public class SettingsController extends AbstractController {
 	}
 
 
-	private void syncViaWifi(){
-
-	}
-	private void syncViaNFC(){
-
-	}
-	private void syncViaMail(){
-
-	}
-	private void syncViaBluetooth(){
-
-	}
+	private void syncViaWifi(){}
+	private void syncViaNFC(){}
+	private void syncViaMail(){}
+	private void syncViaBluetooth(){}
+	private void syncViaTCP(){}
 
 
 	@Override
 	protected void onFxmlLoaded() {
 		settings = sharkNetModel.getMyProfile().getSettings();
-
-
 
 		// Settings aus Model auslesen
 		maxRoutedMB = settings.getMaxFileSize();
@@ -201,6 +200,12 @@ public class SettingsController extends AbstractController {
 		}
 		else if(settings.getWifi()){
 			syncMediumSelectWifi.setSelected(true);
+		}
+		else if(settings.getNfc()){
+			syncMediumSelectNFC.setSelected(true);
+		}
+		else if(settings.getTcp()){
+			syncMediumSelectTCP.setSelected(true);
 		}
 
 

@@ -84,11 +84,14 @@
                                   <RadioButton fx:id="syncMediumSelectBluetooth" layoutX="561.0" layoutY="233.0" mnemonicParsing="false" text="Bluetooth" toggleGroup="$syncMedium" />
                                   <RadioButton fx:id="syncMediumSelectMail" layoutX="561.0" layoutY="274.0" mnemonicParsing="false" text="Mail" toggleGroup="$syncMedium" />
                                   <RadioButton fx:id="syncMediumSelectNFC" layoutX="561.0" layoutY="314.0" mnemonicParsing="false" text="NFC" toggleGroup="$syncMedium" />
+                                  <RadioButton fx:id="syncMediumSelectTCP" layoutX="561.0" layoutY="351.0" mnemonicParsing="false" text="TCP" toggleGroup="$syncMedium" />
+
                                   <Label layoutX="70.0" layoutY="154.0" text="Was möchten Sie synchronisieren?" />
                                   <Label layoutX="487.0" layoutY="154.0" text="WIe soll synchronisiert werden?" />
                                   <Button fx:id="syncStartButton" layoutX="638.0" layoutY="512.0" mnemonicParsing="false" onAction="#onStartSyncButtonClick" text="Synchronisieren" />
                                   <Separator layoutX="399.0" maxHeight="1.7976931348623157E308" orientation="VERTICAL" prefHeight="567.0" prefWidth="6.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="397.0" AnchorPane.topAnchor="0.0" />
                                   <CheckBox fx:id="profileSyncCheckbox" layoutX="145.0" layoutY="201.0" mnemonicParsing="false" text="Mein Profil" />
+
                               </children>
                           </AnchorPane>
                       </content>

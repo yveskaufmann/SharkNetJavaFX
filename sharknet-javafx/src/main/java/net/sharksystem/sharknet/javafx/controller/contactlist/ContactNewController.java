@@ -1,9 +1,14 @@
 package net.sharksystem.sharknet.javafx.controller.contactlist;
 
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.Contact;
@@ -11,9 +16,11 @@ import net.sharksystem.sharknet.api.ImplContact;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
+import net.sharksystem.sharknet.javafx.controller.contactlist.ShowContactController;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.TimerTask;
 
 
 public class ContactNewController extends AbstractController {
@@ -23,6 +30,8 @@ public class ContactNewController extends AbstractController {
 	@FXML
 	private TextField mailInputTextField;
 	@FXML
+	private TextArea publicKeyTextArea;
+	@FXML
 	private Button saveButton;
 	@FXML
 	private Button backButton;
@@ -30,6 +39,8 @@ public class ContactNewController extends AbstractController {
 	private Button newContactScanQRButton;
 	@FXML
 	private Button newContactNFCButton;
+	@FXML
+	private Label nfcInfoLabel;
 
 	@Inject
 	private SharkNet sharkNetModel;
@@ -37,11 +48,14 @@ public class ContactNewController extends AbstractController {
 	//@Inject
 	//private ContactController contactController;
 
+
 	private List<Contact> allContacts;
 	private Stage stage;
 	private String uid;
 	private String publickey;
 	//private String email;
+
+
 
 	public ContactNewController(){
 		super(App.class.getResource("views/contactlist/newContactView.fxml"));
@@ -55,13 +69,49 @@ public class ContactNewController extends AbstractController {
 
 
 	private void scanQRCode(){
-		//TODO
-		publickey = "TESTKEY";
-		System.out.println("QR-Code scannen: " + publickey);
+		publickey = getQRCodeFromCamera();
 		ImplContact newContact = new ImplContact("", uid, publickey, sharkNetModel.getMyProfile());
+		stage.close();
+		ShowContactController s = new ShowContactController(newContact, true);
 	}
 
-	private void contactExchangeNFC(){}
+	//TODO
+	private void contactExchangeNFC(){
+		nameInputTextField.setVisible(false);
+		mailInputTextField.setVisible(false);
+		switchOnNFC();
+		Contact newContact = waitForContactExchangeNFC();
+		if(newContact != null){
+			stage.close();
+			ShowContactController s = new ShowContactController(newContact, true);
+		}
+
+		nameInputTextField.setVisible(true);
+		mailInputTextField.setVisible(true);
+	}
+
+
+	//TODO
+	private String getQRCodeFromCamera(){
+		String qrcode = "";
+
+		//dummy
+		qrcode= "DUMMYKEY from QR-Code";
+
+		return qrcode;
+	}
+
+
+	private void switchOnNFC(){}
+	private Contact waitForContactExchangeNFC(){
+		//dummy
+		publickey = "DUMMYKEY from NFC";
+		ImplContact testkontakt = new ImplContact("NFCKontakt", uid, publickey, sharkNetModel.getMyProfile());
+
+		return testkontakt;
+	}
+
+
 
 	@Override
 	protected void onFxmlLoaded() {
@@ -73,6 +123,10 @@ public class ContactNewController extends AbstractController {
 				if(mailInputTextField.getText() != "") {
 					newContact.setEmail(mailInputTextField.getText());
 				}
+				if(publicKeyTextArea.getText() != ""){
+					newContact.setPublicKey(publicKeyTextArea.getText());
+				}
+
 				sharkNetModel.getContacts().add(newContact);
 				stage.close();
 				event.consume();

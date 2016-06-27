@@ -137,7 +137,10 @@ public class ContactController extends AbstractController{
 		blockedContacts.clear();
 
 		for(Contact c : sharkNetModel.getContacts()){
-			if(!sharkNetModel.getMyProfile().getBlacklist().getList().contains(c)){
+			if(sharkNetModel.getMyProfile().getBlacklist().getList().isEmpty()){
+				contacts.add(c);
+			}
+			else if(!sharkNetModel.getMyProfile().getBlacklist().getList().contains(c)){
 				contacts.add(c);
 			}
 		}

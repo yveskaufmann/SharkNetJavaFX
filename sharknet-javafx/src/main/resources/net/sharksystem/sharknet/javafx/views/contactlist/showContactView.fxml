@@ -6,8 +6,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import net.sharksystem.sharknet.javafx.controls.RoundImageView?>
+<?import javafx.scene.text.Font?>
 
+<?import net.sharksystem.sharknet.javafx.controls.RoundImageView?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
@@ -19,7 +20,6 @@
             <Label layoutX="234.0" layoutY="208.0" text="Info:" />
             <Label layoutX="234.0" layoutY="279.0" text="Public Key:" />
             <RoundImageView fx:id="profilePictureImageView" fitHeight="128.0" fitWidth="128.0" layoutX="51.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" />
-            <TextField fx:id="nameTextField" layoutX="377.0" layoutY="78.0" />
             <TextField fx:id="nicknameTextField" layoutX="377.0" layoutY="42.0" />
             <TextField fx:id="emailTextField" layoutX="377.0" layoutY="115.0" />
             <TextField fx:id="telephoneTextField" layoutX="377.0" layoutY="152.0" />
@@ -30,5 +30,11 @@
             <Button fx:id="saveButton" layoutX="356.0" layoutY="355.0" mnemonicParsing="false" text="Speichern" />
          </children>
       </AnchorPane>
+      <Label fx:id="editLabel" layoutX="203.0" layoutY="327.0" text="Sie können nun bearbeiten." textFill="#e80202">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="nameLabel" layoutX="376.0" layoutY="84.0" />
    </children>
 </AnchorPane>
