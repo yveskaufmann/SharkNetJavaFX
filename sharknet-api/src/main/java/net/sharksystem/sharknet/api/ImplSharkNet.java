@@ -5,9 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.security.PublicKey;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by timol on 16.05.2016.
@@ -23,8 +21,7 @@ public class ImplSharkNet implements SharkNet {
 
 
 	Profile myProfile;
-	ArrayList<Dummy> chatListenerList = new ArrayList<Dummy>();
-
+	HashMap<Profile, List<GetEvents>> ListenerMap = new HashMap<>();
 	@Override
 	public List<Profile> getProfiles() {
 
@@ -158,26 +155,62 @@ public class ImplSharkNet implements SharkNet {
 	}
 
 	@Override
-	public void addChatListener(Profile p, Dummy listener) {
-		if (!chatListenerList.contains(listener)) {
-			chatListenerList.add(listener);
+	public void addListener(Profile p, GetEvents listener) {
+		if(!ListenerMap.containsKey(p)){
+			List<GetEvents> listenerList = new LinkedList<>();
+			listenerList.add(listener);
+			ListenerMap.put(p, listenerList);
+		}
+		else{
+			if(!ListenerMap.get(p).contains(listener)){
+				ListenerMap.get(p).add(listener);
+			}
 		}
 	}
 
-	@Override
-	public void addFeedListener(Profile p, Dummy listener) {
-
+	public void informMessage(Message m){
+		List<Profile> pList = getProfiles();
+		for(Contact c : m.getRecipients()){
+			for(Profile p : pList){
+				if(p.getContact().isEqual(c)){
+					List<GetEvents> listenerList = ListenerMap.get(p);
+					if(listenerList != null) {
+						for (GetEvents ev : listenerList) {
+							ev.receivedMessage(m);
+						}
+					}
+				}
+			}
+		}
 	}
 
-	@Override
-	public void informNewMessage(Profile p, Message m) {
-
+	public void informFeed(Feed f){
+		Iterator it = ListenerMap.entrySet().iterator();
+		while(it.hasNext()){
+			Map.Entry pair = (Map.Entry)it.next();
+			List<GetEvents> listener = (List<GetEvents>)pair.getValue();
+			for(GetEvents ev : listener){
+				ev.receivedFeed(f);
+			}
+		}
 	}
 
-	@Override
-	public void informNewFeed(Profile p, Feed f) {
 
+	public void informComment(Comment c){
+		Iterator it = ListenerMap.entrySet().iterator();
+		while(it.hasNext()){
+			Map.Entry pair = (Map.Entry)it.next();
+			List<GetEvents> listener = (List<GetEvents>)pair.getValue();
+			for(GetEvents ev : listener){
+				ev.receivedComment(c);
+			}
+		}
 	}
+
+
+
+
+
 
 	public void fillWithDummyData(){
 		Dummy d = new Dummy();
