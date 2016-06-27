@@ -4,10 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import net.sharksystem.sharknet.api.*;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.services.ImageManager;
@@ -216,15 +214,26 @@ public class ContactController extends AbstractController{
 
 	}*/
 
-
 	@Override
 	protected void onFxmlLoaded() {
 		loadEntries();
 
-
 		contactListView.setOnMouseClicked(event -> {
-			ShowContactController s = new ShowContactController(sharkNetModel.getContacts().get(0));
+			if(event.getButton() == MouseButton.PRIMARY){
+				if(contactListView.getSelectionModel().getSelectedItem() != null) {
+					ShowContactController s = new ShowContactController(contactListView.getSelectionModel().getSelectedItem());
+					contactListView.getSelectionModel().clearSelection();
+				}
+			}
 		});
 
+		blackListView.setOnMouseClicked(event -> {
+			if(event.getButton() == MouseButton.PRIMARY){
+				if(blackListView.getSelectionModel().getSelectedItem() != null) {
+					ShowContactController s = new ShowContactController(blackListView.getSelectionModel().getSelectedItem());
+					contactListView.getSelectionModel().clearSelection();
+				}
+			}
+		});
 	}
 }

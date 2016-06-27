@@ -48,7 +48,7 @@ public class ContactNewController extends AbstractController {
 		Parent root = super.getRoot();
 		stage = new Stage();
 		stage.setTitle("Neuen Kontakt erstellen");
-		stage.setScene(new Scene(root, 600, 500));
+		stage.setScene(new Scene(root, 600, 400));
 		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
 		stage.show();
 	}

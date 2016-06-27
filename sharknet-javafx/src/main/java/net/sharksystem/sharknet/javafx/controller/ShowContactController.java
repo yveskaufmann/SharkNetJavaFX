@@ -4,20 +4,21 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.Contact;
+import net.sharksystem.sharknet.api.Profile;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
+import net.sharksystem.sharknet.javafx.controls.RoundImageView;
+import net.sharksystem.sharknet.javafx.services.ImageManager;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
-
 import javax.inject.Inject;
 
 public class ShowContactController extends AbstractController {
 
-	@FXML
-	private ImageView profilePictureImageView;
 	@FXML
 	private TextField nameTextField;
 	@FXML
@@ -27,15 +28,20 @@ public class ShowContactController extends AbstractController {
 	@FXML
 	private TextField telephoneTextField;
 	@FXML
-	private TextField infoTextField;
+	private TextArea infoTextField;
 	@FXML
-	private TextField publicKeyTextField;
+	private TextArea publicKeyTextField;
 	@FXML
 	private Button editButton;
 	@FXML
 	private Button saveButton;
 	@FXML
 	private Button closeWindowButton;
+	@FXML
+	private RoundImageView profilePictureImageView;
+
+	@Inject
+	private ImageManager imageManager;
 
 	@Inject
 	private SharkNet sharkNetModel;
@@ -46,26 +52,30 @@ public class ShowContactController extends AbstractController {
 
 	public ShowContactController(Contact c){
 		super(App.class.getResource("views/showContactView.fxml"));
-		Parent root = super.getRoot();
+		this.contact = c;
 		stage = new Stage();
 		stage.setTitle("");
-		stage.setScene(new Scene(root, 600, 500));
+		Parent root = super.getRoot();
+		stage.setScene(new Scene(root, 600, 400));
 		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
 		stage.show();
 
-		this.contact = c;
+	}
+
+	@Override
+	protected void onFxmlLoaded() {
+
+		imageManager.readImageFrom(contact.getPicture()).ifPresent(profilePictureImageView::setImage);
+
+
 		nicknameTextField.setEditable(false);
 		nameTextField.setEditable(false);
 		emailTextField.setEditable(false);
 		telephoneTextField.setEditable(false);
 		infoTextField.setEditable(false);
 		publicKeyTextField.setEditable(false);
-	}
 
 
-
-	@Override
-	protected void onFxmlLoaded() {
 		nicknameTextField.setText(contact.getNickname());
 		nameTextField.setText(contact.getName());
 		emailTextField.setText(contact.getEmail());
@@ -74,19 +84,18 @@ public class ShowContactController extends AbstractController {
 		publicKeyTextField.setText(contact.getPublicKey());
 
 
-
-
 		editButton.setOnMouseClicked(event -> {
 			nicknameTextField.setEditable(true);
 			//nameTextField.setEditable(true);
 			emailTextField.setEditable(true);
 			telephoneTextField.setEditable(true);
-			infoTextField.setEditable(true);
 		});
 
 		saveButton.setOnMouseClicked(event -> {
 			contact.setNickname(nicknameTextField.getText());
+			//contact.setName(nameTextField.getText());
 			contact.setEmail(emailTextField.getText());
+			stage.close();
 		});
 
 		closeWindowButton.setOnMouseClicked(event -> {

@@ -45,7 +45,7 @@
                                                   </AnchorPane>
                                                 <StackPane minHeight="0.0" minWidth="0.0">
                                                      <children>
-                                                         <ContactList fx:id = "contactListView"></ContactList>
+                                                         <ContactList fx:id = "contactListView" styleClass=""></ContactList>
                                                      </children>
                                                   </StackPane>
                                               </items>

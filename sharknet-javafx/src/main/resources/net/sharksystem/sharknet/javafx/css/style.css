@@ -325,6 +325,10 @@
 	-fx-background-color: derive(-sn-primary-color, 60%);
 }
 
+.media-list .media-list-item:selected{
+	-fx-background-color: derive(-sn-primary-color, 60%);
+}
+
 /*------------------------------------------------------------------------------
  * Navigation
  *------------------------------------------------------------------------------*/
