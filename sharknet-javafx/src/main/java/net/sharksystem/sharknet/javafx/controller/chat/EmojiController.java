@@ -18,6 +18,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,12 +31,12 @@ public class EmojiController extends AbstractController {
 
 	private Emoji emoji;
 	private List<String> emojis;
-	private ChatListener listener;
+	private List<ChatListener> listeners;
 
 	public EmojiController() {
 		super(App.class.getResource("views/chat/emojiView.fxml"));
 
-		listener = null;
+		listeners = new ArrayList<>();
 
 		Parent root = super.getRoot();
 		Stage stage = new Stage();
@@ -74,13 +75,13 @@ public class EmojiController extends AbstractController {
 	}
 
 	private void onEmojiClicked(Pane p) {
-		if (listener != null) {
+		for (ChatListener listener : listeners) {
 			// notify listener about chosen emoji
 			listener.onEmojiChoose(p.getStyleClass().get(1));
 		}
 	}
 
-	public void setListener(ChatListener listener) {
-		this.listener = listener;
+	public void addListener(ChatListener listener) {
+		listeners.add(listener);
 	}
 }

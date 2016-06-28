@@ -15,6 +15,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
+import net.sharksystem.sharknet.api.Content;
+import net.sharksystem.sharknet.api.ImplContent;
 import net.sharksystem.sharknet.api.ImplVoting;
 import net.sharksystem.sharknet.api.Voting;
 import net.sharksystem.sharknet.javafx.App;
@@ -42,17 +44,19 @@ public class VoteController extends AbstractController {
 	@FXML
 	private TextField textFieldQuestion;
 
+	private List<ChatListener> listeners;
 	private List<String> answers;
+	private Stage stage;
 
 	public VoteController() {
 		super(App.class.getResource("views/chat/voteView.fxml"));
 
 		Parent root = super.getRoot();
-		Stage stage = new Stage();
+		stage = new Stage();
 		stage.setScene(new Scene(root, 494, 350));
 		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
 		stage.show();
-
+		listeners = new ArrayList<>();
 		answers = new ArrayList<>();
 	}
 
@@ -145,12 +149,16 @@ public class VoteController extends AbstractController {
 		if (radioButtonMulti.isSelected()) {
 			singleChoice = false;
 		}
-
-		if (textFieldQuestion.getText().length() > 0) {
-			Voting vote = new ImplVoting(textFieldQuestion.getText(), singleChoice);
+		// if a question is set and min. one answer
+		if (textFieldQuestion.getText().length() > 0 && answers.size() > 0) {
+			Content content = new ImplContent("");
+			Voting vote = content.addVoting(textFieldQuestion.getText(), singleChoice);
 			vote.addAnswers(answers);
 			vote.save();
-
+			for (ChatListener listener : listeners) {
+				listener.onVoteAdded(content);
+			}
+			stage.close();
 		}
 
 	}
@@ -233,5 +241,9 @@ public class VoteController extends AbstractController {
 				entry = newAnswer;
 			}
 		}
+	}
+
+	public void addListener(ChatListener l) {
+		listeners.add(l);
 	}
 }

@@ -4,13 +4,13 @@ import javafx.fxml.FXML;
 import javafx.geometry.*;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
+import net.sharksystem.sharknet.api.Contact;
 import net.sharksystem.sharknet.api.Message;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCell;
@@ -20,6 +20,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by Benni on 04.06.2016.
@@ -52,15 +55,14 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 		if (message == null) {
 			return;
 		}
-		// using textflow for emoji support
-		TextFlow textFlow = new TextFlow();
-		//textFlow.setPadding(new Insets(0));
-		//textFlow.setLineSpacing(0);
 
-		// ToDo: add picture support
+
+
 
 		// if emoji was found
 		if (message.getContent().getMessage().matches(".*[:emojione-].*[:].*")) {
+			// using textflow for emoji support
+			TextFlow textFlow = new TextFlow();
 			// split the whole message
 			String[] splitted = message.getContent().getMessage().split(":");
 			for (String s : splitted) {
@@ -88,7 +90,58 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 		}
 		// if message doesn't contain any emoji...
 		else {
-			labelMessage.setText("<" + message.getSender().getNickname() + ">" + " " + message.getContent().getMessage());
+			// if it's a vote
+			if (message.getContent().getVoting() != null) {
+				System.out.println("vote found");
+				GridPane grid = new GridPane();
+				grid.getColumnConstraints().add(new ColumnConstraints(35));
+				grid.getColumnConstraints().add(new ColumnConstraints(175));
+				// first row
+				grid.getRowConstraints().add(new RowConstraints(75));
+
+
+				//grid.setPrefHeight(25);
+				grid.setPrefWidth(210);
+
+
+				Label questionLabel = new Label();
+				questionLabel.setMaxHeight(100);
+				questionLabel.setPrefWidth(300);
+				questionLabel.setText(message.getContent().getVoting().getQuestion());
+				questionLabel.setWrapText(true);
+				grid.add(questionLabel, 1, 0);
+
+				HashMap<String, Contact> answerList = message.getContent().getVoting().getAnswers();
+				Iterator it = answerList.entrySet().iterator();
+				int index = 1;
+				while (it.hasNext()) {
+					grid.getRowConstraints().add(new RowConstraints(25));
+					Map.Entry pair = (Map.Entry)it.next();
+					RadioButton rb = new RadioButton();
+					Label answerLabel = new Label();
+					answerLabel.setText(pair.getKey().toString());
+					//answerLabel.setMaxHeight();
+					answerLabel.setPrefWidth(gridPaneMessages.getPrefWidth() - 100);
+					answerLabel.setWrapText(true);
+					grid.add(rb, 0, index);
+					grid.add(answerLabel, 1, index);
+					index++;
+				}
+
+
+
+
+				hboxMessage.getChildren().remove(labelMessage);
+				hboxMessage.getChildren().add(grid);
+
+			}
+			// if it's just a simple message
+			else {
+				System.out.println("found normal msg: " + message.getContent().getMessage());
+				labelMessage.setText("<" + message.getSender().getNickname() + ">" + " " + message.getContent().getMessage());
+			}
+
+
 		}
 
 

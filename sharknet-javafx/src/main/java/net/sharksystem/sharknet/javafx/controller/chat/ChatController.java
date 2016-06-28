@@ -23,7 +23,7 @@ import java.util.List;
 
 
 @Controller( title = "%sidebar.chat")
-public class ChatController extends AbstractController implements ChatListener {
+public class ChatController extends AbstractController implements ChatListener, GetEvents {
 
 	@Inject
 	private SharkNet sharkNetModel;
@@ -36,15 +36,14 @@ public class ChatController extends AbstractController implements ChatListener {
 	public static ChatController chatControllerInstance;
 	// the currently active chat object
 	private Chat activeChat;
-	// attachment object
-	private Content attachment;
 
 	// used so we can use the same window / class for adding contacts and new chats
-	private boolean newChat;
-	private boolean addChatContacts;
+	private Status status;
 
-	// if true, the next message will contain the fileAttachment
-	private boolean sendAttachment;
+	private enum Status {
+		NONE, ADDCONTACT, NEWCHAT
+	}
+
 
 	@FXML
 	private TextField textFieldMessage;
@@ -76,10 +75,7 @@ public class ChatController extends AbstractController implements ChatListener {
 		this.frontController = Controllers.getInstance().get(FrontController.class);
 		activeChat = null;
 		chatControllerInstance = this;
-		newChat = false;
-		addChatContacts = false;
-		sendAttachment = false;
-		attachment = null;
+		status = Status.NONE;
 	}
 
 	public static ChatController getInstance() {
@@ -135,6 +131,12 @@ public class ChatController extends AbstractController implements ChatListener {
 		});
 		// load all chats into chathistorylistview
 		loadChatHistory();
+		// load first chat from history if there is one
+		if (chatHistoryListView.getItems().size() > 0) {
+			activeChat = chatHistoryListView.getItems().get(0);
+			loadChat(activeChat);
+		}
+
 	}
 
 	/**
@@ -156,8 +158,6 @@ public class ChatController extends AbstractController implements ChatListener {
 					// determine mimeType
 					String mimeType = Files.probeContentType(file.toPath());
 					fileAttachment.close();
-					// set flag for attachment
-					sendAttachment = true;
 					// extract extension
 					String extension = "";
 					int i = file.getPath().lastIndexOf('.');
@@ -166,7 +166,8 @@ public class ChatController extends AbstractController implements ChatListener {
 					}
 					// create attachment object
 					// ToDo: set mimetype
-					attachment = new ImplContent(fileAttachment, extension, file.getName());
+					Content attachment = new ImplContent(fileAttachment, extension, file.getName());
+					sendAttachment(attachment);
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -177,13 +178,25 @@ public class ChatController extends AbstractController implements ChatListener {
 
 	}
 
+	private void sendAttachment(Content attachment) {
+		// if user wants to send attachment
+		if (activeChat != null && attachment != null) {
+			// append filename to chat message
+			attachment.setMessage(textFieldMessage.getText() + "<" + attachment.getFileName() + ">");
+			// send message and attachment
+			activeChat.sendMessage(attachment);
+		}
+		// reload chat area, so new message is shown
+		loadChat(activeChat);
+	}
+
 	/**
 	 * add contacts to active chat conversation
 	 */
 	private void onAddClick() {
 		System.out.println("onAddClick");
 		if (activeChat != null) {
-			addChatContacts = true;
+			status = Status.ADDCONTACT;
 			// open add contacts window
 			ChatContactsController c = new ChatContactsController();
 			c.addListener(this);
@@ -203,6 +216,19 @@ public class ChatController extends AbstractController implements ChatListener {
 		if (activeChat != null) {
 			// open vote window
 			VoteController voteController = new VoteController();
+			voteController.addListener(this);
+		}
+	}
+
+	@Override
+	public void onVoteAdded(Content vote) {
+		sendVote(vote);
+	}
+
+	private void sendVote(Content vote) {
+		if (activeChat != null && vote != null) {
+			activeChat.sendMessage(vote);
+			loadChat(activeChat);
 		}
 	}
 
@@ -212,21 +238,11 @@ public class ChatController extends AbstractController implements ChatListener {
 	private void onSendClick() {
 
 		if (activeChat != null) {
-			// if user wants to send attachment
-			if (sendAttachment && attachment != null) {
-				// append filename to chat message
-				attachment.setMessage(textFieldMessage.getText() + "<" + attachment.getFileName() + ">");
-				// send message and attachment
-				activeChat.sendMessage(attachment);
-			} else {
+			if (textFieldMessage.getText().length() > 0){
 				// just send chat message
 				activeChat.sendMessage(new ImplContent(null, "", "", textFieldMessage.getText()));
+				loadChat(activeChat);
 			}
-			// reload chat area, so new message is shown
-			fillChatArea(activeChat);
-			// reset flags
-			sendAttachment = false;
-			attachment = null;
 		}
 	}
 
@@ -236,10 +252,19 @@ public class ChatController extends AbstractController implements ChatListener {
 	private void onNewChatClick() {
 		System.out.println("onNewChatClick");
 		// set flag
-		newChat = true;
+		status = Status.NEWCHAT;
 		// open new chat window
 		ChatContactsController c = new ChatContactsController();
 		c.addListener(this);
+	}
+
+	private void loadChat(Chat c) {
+		fillChatArea(c);
+		fillContactLabel(c);
+		// try to set chat picture
+		if (c.getPicture() != null) {
+			imageManager.readImageFrom(c.getPicture()).ifPresent(imageViewContactProfile::setImage);
+		}
 	}
 
 	/**
@@ -262,26 +287,21 @@ public class ChatController extends AbstractController implements ChatListener {
 	 * @param c
 	 */
 	private void onChatSelected(Chat c) {
-		fillChatArea(c);
 		activeChat = c;
-		// try to set chat picture
-		if (activeChat.getPicture() != null) {
-			imageManager.readImageFrom(activeChat.getPicture()).ifPresent(imageViewContactProfile::setImage);
-		}
-		fillContactLabel();
+		loadChat(c);
 	}
 
 	/**
 	 * fill contact label with all chat contacts, except yourself...
 	 */
-	private void fillContactLabel() {
+	private void fillContactLabel(Chat c) {
 		String contactNames = "";
 		// loop through chat contacts
-		for (int i = 0; i < activeChat.getContacts().size(); i++) {
+		for (int i = 0; i < c.getContacts().size(); i++) {
 			// if contact != you
-			if (!activeChat.getContacts().get(i).isEqual(sharkNetModel.getMyProfile().getContact())) {
-				contactNames += activeChat.getContacts().get(i).getNickname();
-				if (i < activeChat.getContacts().size()-1 && !activeChat.getContacts().get(i+1).isEqual(sharkNetModel.getMyProfile().getContact())) {
+			if (!c.getContacts().get(i).isEqual(sharkNetModel.getMyProfile().getContact())) {
+				contactNames += c.getContacts().get(i).getNickname();
+				if (i < c.getContacts().size()-1 && !c.getContacts().get(i+1).isEqual(sharkNetModel.getMyProfile().getContact())) {
 					contactNames += " , ";
 				}
 			}
@@ -312,16 +332,16 @@ public class ChatController extends AbstractController implements ChatListener {
 	public void onContactListChanged(List<Contact> c) {
 		System.out.println("oncontactslistchanged");
 		// if contacts get added...
-		if (addChatContacts) {
+		if (status == Status.ADDCONTACT) {
 			if (c.size() > 0) {
 				//ToDo: change to api usage
 				activeChat.addContact(c);
-				fillContactLabel();
+				fillContactLabel(activeChat);
 				//activeChat.getContacts().addAll(c);
 
 			}
 		// start new chat
-		} else if (newChat) {
+		} else if (status == Status.NEWCHAT) {
 			// create new chat
 			Chat chat = sharkNetModel.newChat(c);
 			// add chat to history listview
@@ -329,12 +349,12 @@ public class ChatController extends AbstractController implements ChatListener {
 			// set active chat
 			activeChat = chat;
 			// reload chat area
-			fillChatArea(activeChat);
-			fillContactLabel();
+			//fillChatArea(activeChat);
+			//fillContactLabel();
+			loadChat(activeChat);
 		}
 		// reset flags
-		addChatContacts = false;
-		newChat = false;
+		status = Status.NONE;
 	}
 
 	/**
@@ -347,6 +367,7 @@ public class ChatController extends AbstractController implements ChatListener {
 		textFieldMessage.appendText(" :" + emojiClass + ": ");
 	}
 
+
 	/**
 	 * triggered by emoji imageview click
 	 */
@@ -354,6 +375,22 @@ public class ChatController extends AbstractController implements ChatListener {
 		System.out.println("onEmojiClick");
 		// open emoji window
 		EmojiController e = new EmojiController();
-		e.setListener(this);
+		e.addListener(this);
 	}
+
+	@Override
+	public void receivedMessage(Message m) {
+		// ToDo: handling
+	}
+
+	@Override
+	public void receivedFeed(Feed f) {
+		// do nothing
+	}
+
+	@Override
+	public void receivedComment(Comment c) {
+		// do nothing
+	}
+
 }
