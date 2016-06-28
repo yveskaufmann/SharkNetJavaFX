@@ -1,5 +1,6 @@
 package net.sharksystem.sharknet.javafx.controller.chat;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.*;
 import javafx.geometry.Insets;
@@ -14,14 +15,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
-import net.sharksystem.sharknet.api.Contact;
 import net.sharksystem.sharknet.api.ImplVoting;
 import net.sharksystem.sharknet.api.Voting;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
-import org.controlsfx.control.spreadsheet.Grid;
 
-import javax.xml.soap.Text;
 
 import java.util.*;
 import java.util.List;
@@ -44,7 +42,7 @@ public class VoteController extends AbstractController {
 	@FXML
 	private TextField textFieldQuestion;
 
-	private int answerCount;
+	private List<String> answers;
 
 	public VoteController() {
 		super(App.class.getResource("views/chat/voteView.fxml"));
@@ -55,7 +53,7 @@ public class VoteController extends AbstractController {
 		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
 		stage.show();
 
-		answerCount = 0;
+		answers = new ArrayList<>();
 	}
 
 	@Override
@@ -82,18 +80,31 @@ public class VoteController extends AbstractController {
 		Optional<String> result = dialog.showAndWait();
 		// if input is valid
 		if (result.isPresent()) {
+			answers.add(result.get());
+			refreshAnswerGrid();
+		}
+	}
+
+	// draw the whole grid with answers, needed because we cant directly remove a specific row
+	private void refreshAnswerGrid() {
+		// first remove everything
+		gridPaneAnswers.getChildren().removeAll(gridPaneAnswers.getChildren());
+
+		for (int i = 0; i < answers.size(); i++) {
 			// add radiobutton and answer to the first column
 			RowConstraints rCon = new RowConstraints();
 			rCon.setPrefHeight(30.0);
 			HBox boxLeft = new HBox();
 			Label label = new Label();
-			label.setText(result.get());
+			label.setText(answers.get(i));
 			RadioButton radioButton = new RadioButton();
 			boxLeft.setMargin(label, new Insets(0, 0, 0, 25));
 			boxLeft.getChildren().addAll(radioButton, label);
 
 			// add button for edit and remove to the second column
 			HBox boxRight = new HBox();
+			// for removing later
+			boxRight.setUserData(answers.get(i));
 			ImageView remove = new ImageView();
 			remove.setImage(new Image(App.class.getResourceAsStream("images/minus.png")));
 			remove.setFitWidth(32.0);
@@ -104,6 +115,7 @@ public class VoteController extends AbstractController {
 				onRemoveClick(gridPaneAnswers.getRowIndex(boxLeft));
 				event.consume();
 			});
+
 			ImageView edit = new ImageView();
 			edit.setImage(new Image(App.class.getResourceAsStream("images/edit.png")));
 			edit.setFitWidth(32.0);
@@ -119,16 +131,16 @@ public class VoteController extends AbstractController {
 
 			gridPaneAnswers.getRowConstraints().add(rCon);
 			// add first and second column content
-			gridPaneAnswers.add(boxLeft, 0, answerCount);
-			gridPaneAnswers.add(boxRight, 1, answerCount);
-			answerCount += 1;
-
+			gridPaneAnswers.add(boxLeft, 0, i);
+			gridPaneAnswers.add(boxRight, 1, i);
 
 		}
+
 	}
 
 	private void onSaveClick() {
-		// ToDo: implement saving, waiting for api
+		System.out.println("onSaveClick");
+
 		boolean singleChoice = true;
 		if (radioButtonMulti.isSelected()) {
 			singleChoice = false;
@@ -136,17 +148,90 @@ public class VoteController extends AbstractController {
 
 		if (textFieldQuestion.getText().length() > 0) {
 			Voting vote = new ImplVoting(textFieldQuestion.getText(), singleChoice);
+			vote.addAnswers(answers);
+			vote.save();
+
 		}
 
 	}
 
 	private void onRemoveClick(int row) {
 		System.out.println("remove: " + row);
-
+		ObservableList<Node> childs = gridPaneAnswers.getChildren();
+		Iterator<Node> iterator = childs.iterator();
+		String answer = "";
+		// get our answer text which we want to remove
+		while (iterator.hasNext()) {
+			Node child = iterator.next();
+			if (gridPaneAnswers.getRowIndex(child) == row) {
+				if (child instanceof HBox) {
+					HBox box = (HBox) child;
+					if (box.getUserData() instanceof String) {
+						String tmp = (String) box.getUserData();
+						if (tmp.length() > 0) {
+							answer = tmp;
+						}
+					}
+				}
+				iterator.remove();
+			}
+		}
+		removeAnswerFromList(answer);
+		refreshAnswerGrid();
 	}
 
 	private void onEditClick(int row) {
 		// ToDo: edit function
 		System.out.println("edit: " + row);
+
+		// create and open dialog for the answers
+		TextInputDialog dialog = new TextInputDialog();
+		dialog.setTitle("Edit Answer");
+		dialog.setHeaderText("Enter your answer");
+		Optional<String> result = dialog.showAndWait();
+		// if input is valid
+		if (result.isPresent()) {
+			// get childs of the gridpane -> hbox
+			ObservableList<Node> childs = gridPaneAnswers.getChildren();
+			for (Node child : childs) {
+				if (gridPaneAnswers.getRowIndex(child) == row) {
+					if (child instanceof HBox) {
+						HBox hbox = (HBox) child;
+						// get childs of the hbox, so we can find our label with the answer string
+						ObservableList<Node> childChilds = hbox.getChildren();
+						for (Node childChild : childChilds) {
+							if (childChild instanceof Label) {
+								String oldAnswer = ((Label) childChild).getText();
+								((Label) childChild).setText(result.get());
+								editAnswer(oldAnswer, result.get());
+								return;
+							}
+						}
+					}
+
+				}
+			}
+		}
+
+
+	}
+
+	private void removeAnswerFromList(String answer) {
+		Iterator<String> it = answers.iterator();
+		while (it.hasNext()) {
+			String entry = it.next();
+			if (entry.equals(answer)) {
+				it.remove();
+				break;
+			}
+		}
+	}
+
+	private void editAnswer(String oldAnswer, String newAnswer) {
+		for (String entry : answers) {
+			if (entry.equals(oldAnswer)) {
+				entry = newAnswer;
+			}
+		}
 	}
 }
