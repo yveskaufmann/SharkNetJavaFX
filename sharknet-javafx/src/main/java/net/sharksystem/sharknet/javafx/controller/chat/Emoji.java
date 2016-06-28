@@ -43,9 +43,9 @@ public class Emoji {
 		try {
 			cssPath = App.class.getResource("css/emojis.css").toURI();
 			List<String> cssLines = Files.readAllLines(Paths.get(cssPath), Charset.defaultCharset());
-			for (int i = 0; i < cssLines.size(); i++) {
-				if (cssLines.get(i).contains(".emojione-")) {
-					String tmp = cssLines.get(i).replace("{", "").replace(".","").trim();
+			for (String line : cssLines) {
+				if (line.contains(".emojione-")) {
+					String tmp = line.replace("{", "").replace(".","").trim();
 					emojis.add(tmp);
 				}
 			}

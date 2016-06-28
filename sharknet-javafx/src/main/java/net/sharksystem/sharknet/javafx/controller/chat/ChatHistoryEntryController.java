@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import net.sharksystem.sharknet.api.Chat;
+import net.sharksystem.sharknet.api.Contact;
+import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCell;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCellController;
@@ -20,6 +22,9 @@ import java.text.SimpleDateFormat;
  * responsible for custom listview entry @chathistorylistview
  */
 public class ChatHistoryEntryController extends MediaListCellController<Chat> {
+
+	@Inject
+	private SharkNet sharkNetModel;
 
 	@Inject
 	private ImageManager imageManager;

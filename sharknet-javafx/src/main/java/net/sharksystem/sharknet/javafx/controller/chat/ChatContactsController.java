@@ -39,14 +39,15 @@ public class ChatContactsController extends AbstractController {
 	private List<Contact> allContacts;
 	// list containing only the contacts you want to add
 	private List<Contact> addedContacts;
-	private ChatListener listener;
+	private List<ChatListener> listeners;
+
 
 	private Stage stage;
 
 	public ChatContactsController() {
 		super(App.class.getResource("views/chat/chatAddContacts.fxml"));
 		addedContacts = new ArrayList<>();
-		listener = null;
+		listeners = new ArrayList<>();
 
 		Parent root = super.getRoot();
 		stage = new Stage();
@@ -120,8 +121,8 @@ public class ChatContactsController extends AbstractController {
 	private void loadContacts() {
 		allContacts = sharkNet.getContacts();
 
-		for (int i = 0; i < allContacts.size(); i++) {
-			listViewAllContacts.getItems().add(allContacts.get(i).getNickname());
+		for (Contact contact : allContacts) {
+			listViewAllContacts.getItems().add(contact.getNickname());
 		}
 	}
 
@@ -129,17 +130,17 @@ public class ChatContactsController extends AbstractController {
 	 * notify listener about changed contactlist
 	 */
 	private void onOKClick() {
-		if (listener != null) {
-			listener.onContactListChanged(addedContacts);
+		for (ChatListener c : listeners) {
+			c.onContactListChanged(addedContacts);
 		}
 		stage.close();
 	}
 
 	/**
-	 * set listener for contactlist
+	 * add listener for contactlist
 	 * @param c listener
 	 */
-	public void setContactListListener(ChatListener c) {
-		listener = c;
+	public void addListener(ChatListener c) {
+		listeners.add(c);
 	}
 }

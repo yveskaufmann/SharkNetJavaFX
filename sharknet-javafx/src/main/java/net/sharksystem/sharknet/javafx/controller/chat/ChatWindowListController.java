@@ -63,20 +63,20 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 		if (message.getContent().getMessage().matches(".*[:emojione-].*[:].*")) {
 			// split the whole message
 			String[] splitted = message.getContent().getMessage().split(":");
-			for (int i = 0; i < splitted.length; i++) {
+			for (String s : splitted) {
 				// if emoji in substring is found
-				if (splitted[i].matches("[emojione-].*")) {
+				if (s.matches("[emojione-].*")) {
 					// create emoji pane
 					Pane smileyPane = new Pane();
 					// translate emoji... just a workaround.. fx still thinks emoji is 64x64 px...
 					smileyPane.setTranslateY(28.0);
 					// add css class
-					smileyPane.getStyleClass().addAll("emojionetest", splitted[i].trim());
+					smileyPane.getStyleClass().addAll("emojionetest", s.trim());
 					// add emoji to textflow
 					textFlow.getChildren().add(smileyPane);
 				} else {
 					Label label = new Label();
-					label.setText(splitted[i].trim());
+					label.setText(s.trim());
 					label.setWrapText(true);
 					textFlow.getChildren().add(label);
 				}

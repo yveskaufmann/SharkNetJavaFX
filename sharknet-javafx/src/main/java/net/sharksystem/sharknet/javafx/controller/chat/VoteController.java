@@ -14,12 +14,17 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
+import net.sharksystem.sharknet.api.Contact;
+import net.sharksystem.sharknet.api.ImplVoting;
+import net.sharksystem.sharknet.api.Voting;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import org.controlsfx.control.spreadsheet.Grid;
 
-import java.awt.*;
-import java.util.Optional;
+import javax.xml.soap.Text;
+
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by Benni on 21.06.2016.
@@ -32,6 +37,12 @@ public class VoteController extends AbstractController {
 	private ImageView imageViewSave;
 	@FXML
 	private GridPane gridPaneAnswers;
+	@FXML
+	private RadioButton radioButtonSingle;
+	@FXML
+	private RadioButton radioButtonMulti;
+	@FXML
+	private TextField textFieldQuestion;
 
 	private int answerCount;
 
@@ -111,11 +122,22 @@ public class VoteController extends AbstractController {
 			gridPaneAnswers.add(boxLeft, 0, answerCount);
 			gridPaneAnswers.add(boxRight, 1, answerCount);
 			answerCount += 1;
+
+
 		}
 	}
 
 	private void onSaveClick() {
 		// ToDo: implement saving, waiting for api
+		boolean singleChoice = true;
+		if (radioButtonMulti.isSelected()) {
+			singleChoice = false;
+		}
+
+		if (textFieldQuestion.getText().length() > 0) {
+			Voting vote = new ImplVoting(textFieldQuestion.getText(), singleChoice);
+		}
+
 	}
 
 	private void onRemoveClick(int row) {
@@ -124,6 +146,7 @@ public class VoteController extends AbstractController {
 	}
 
 	private void onEditClick(int row) {
+		// ToDo: edit function
 		System.out.println("edit: " + row);
 	}
 }

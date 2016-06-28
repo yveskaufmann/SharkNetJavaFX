@@ -186,7 +186,7 @@ public class ChatController extends AbstractController implements ChatListener {
 			addChatContacts = true;
 			// open add contacts window
 			ChatContactsController c = new ChatContactsController();
-			c.setContactListListener(this);
+			c.addListener(this);
 		}
 	}
 
@@ -239,7 +239,7 @@ public class ChatController extends AbstractController implements ChatListener {
 		newChat = true;
 		// open new chat window
 		ChatContactsController c = new ChatContactsController();
-		c.setContactListListener(this);
+		c.addListener(this);
 	}
 
 	/**
@@ -252,8 +252,8 @@ public class ChatController extends AbstractController implements ChatListener {
 		// load chats
 		List<Chat> chatList = sharkNetModel.getChats();
 		// add chats to listview
-		for (int i = 0; i < chatList.size(); i++) {
-			chatHistoryListView.getItems().add(chatList.get(i));
+		for (Chat chat : chatList) {
+			chatHistoryListView.getItems().add(chat);
 		}
 	}
 
@@ -299,9 +299,8 @@ public class ChatController extends AbstractController implements ChatListener {
 		chatWindowListView.getItems().clear();
 		// if chat contains messages
 		if (c.getMessages(false) != null) {
-			for (int i = 0; i < c.getMessages(false).size(); i++) {
-				// add message to listview
-				chatWindowListView.getItems().add(c.getMessages(false).get(i));
+			for (Message message : c.getMessages(false)) {
+				chatWindowListView.getItems().add(message);
 			}
 		}
 	}
@@ -316,7 +315,10 @@ public class ChatController extends AbstractController implements ChatListener {
 		if (addChatContacts) {
 			if (c.size() > 0) {
 				//ToDo: change to api usage
-				activeChat.getContacts().addAll(c);
+				activeChat.addContact(c);
+				fillContactLabel();
+				//activeChat.getContacts().addAll(c);
+
 			}
 		// start new chat
 		} else if (newChat) {
