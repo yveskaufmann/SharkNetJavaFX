@@ -114,7 +114,7 @@ public class ImplMessage implements Message {
 	 * @return
      */
 
-	private Chat getChat(){
+	public Chat getChat(){
 		//Implementation of DummyDB
 		//ToDo: Shark - lookup for the Chat
 		DummyDB db = DummyDB.getInstance();
