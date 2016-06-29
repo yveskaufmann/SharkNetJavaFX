@@ -65,6 +65,15 @@ public class ImplMessage implements Message {
 		db.addMessage(this, getChat());
 	}
 
+	/**
+	 * Saves Message to the Database, this is only used for incoming messages (no sending)
+	 */
+	private void save(Chat c){
+		//ToDo: Save the Message to the Database, no need to send it
+		DummyDB.getInstance().addMessage(this, c);
+
+	}
+
 	@Override
 	public Timestamp getTimestamp() {
 		return time;
@@ -123,11 +132,13 @@ public class ImplMessage implements Message {
 		for(Chat c : chats){
 			List<Contact> cs = c.getContacts();
 			if(cs.equals(recipient_list)){
+				save(c);
 				return c;
 			}
 		}
-		return new ImplChat(recipient_list, owner);
-
+		Chat newChat = new ImplChat(recipient_list, owner);
+		save(newChat);
+		return newChat;
 	}
 
 

@@ -233,5 +233,6 @@ public class ImplChat implements Chat {
 		DummyDB.getInstance().setChatContacts(this, contact_list);
 	}
 
+
 }
 

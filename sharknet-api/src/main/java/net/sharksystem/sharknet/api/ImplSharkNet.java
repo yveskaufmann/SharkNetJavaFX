@@ -208,10 +208,6 @@ public class ImplSharkNet implements SharkNet {
 	}
 
 
-
-
-
-
 	public void fillWithDummyData(){
 		Dummy d = new Dummy();
 		d.fillWithDummyData(this);
