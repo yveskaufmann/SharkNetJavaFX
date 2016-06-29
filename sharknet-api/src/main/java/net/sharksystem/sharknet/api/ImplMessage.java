@@ -111,6 +111,7 @@ public class ImplMessage implements Message {
 
 	/**
 	 * Method is called to find the Chat the Message belongs to in the DummyDB
+	 * if there is no existing Chat the Mehtod returns a new one
 	 * @return
      */
 
@@ -125,9 +126,10 @@ public class ImplMessage implements Message {
 				return c;
 			}
 		}
-		return null;
+		return new ImplChat(recipient_list, owner);
 
 	}
+
 
 	@Override
 	public boolean isMine(){
