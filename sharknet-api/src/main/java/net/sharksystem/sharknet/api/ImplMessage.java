@@ -132,7 +132,7 @@ public class ImplMessage implements Message {
 		for(Chat c : chats){
 			List<Contact> cs = c.getContacts();
 			if(cs.equals(recipient_list)){
-				save(c);
+				if(!c.getMessages(true).contains(this))	save(c);
 				return c;
 			}
 		}
