@@ -6,13 +6,13 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.javafx.context.ApplicationContext;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
+import net.sharksystem.sharknet.javafx.controller.profile.ProfileController;
 import net.sharksystem.sharknet.javafx.controller.login.LoginController;
 import net.sharksystem.sharknet.javafx.controller.login.LoginListener;
-import net.sharksystem.sharknet.javafx.controller.ProfileController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class App extends Application implements LoginListener{
+public class App extends Application implements LoginListener {
 
 	/**
 	 * Class Logger instance
@@ -93,7 +93,6 @@ public class App extends Application implements LoginListener{
 			frontController.show();
 
 		} catch (Exception ex) {
-			System.out.println("error");
 			Log.error("Exception in a controller detected." ,ex);
 			Platform.exit();
 		}

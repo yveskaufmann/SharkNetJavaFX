@@ -13,6 +13,7 @@ import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controller.chat.ChatController;
 import net.sharksystem.sharknet.javafx.controller.contactlist.ContactController;
 import net.sharksystem.sharknet.javafx.controller.inbox.InboxController;
+import net.sharksystem.sharknet.javafx.controller.profile.ProfileController;
 import net.sharksystem.sharknet.javafx.controls.Navigation;
 import net.sharksystem.sharknet.javafx.controls.RoundImageView;
 import net.sharksystem.sharknet.javafx.services.ImageManager;
