@@ -26,6 +26,7 @@ public class Dummy {
 		Contact alice = alice_p.getContact();
 		Contact bob = bob_p.getContact();
 
+
 		//Set Profilepictures
 		InputStream in = null;
 		ClassLoader cl = Thread.currentThread().getContextClassLoader();
@@ -56,17 +57,21 @@ public class Dummy {
 
 */
 		Contact alice_bob = s.newContact(bob.getNickname(), bob.getUID(), bob.getPublicKey());
-
+		Contact alice_charles = s.newContact("charles", "charlesuid", "charlespublickey");
 
 		//Anlegen von Chats
 		List<Contact> recipients1 = new ArrayList<>();
-		recipients1.add(alice);
+		recipients1.add(bob);
 		List<Contact> recipients2 = new ArrayList<>();
-		recipients2.add(bob);
+		recipients2.add(alice_charles);
 
 		List<Contact> recipients3 = new ArrayList<>();
 		recipients3.add(bob);
-		recipients3.add(alice);
+		recipients3.add(alice_charles);
+
+		in = cl.getResourceAsStream("Bob.jpg");
+		Content charlespic = new ImplContent(in, "jpg", "Charles profile picture");
+		alice_charles.setPicture(charlespic);
 
 		Chat chat1 = s.newChat(recipients1);
 		Chat chat2  = s.newChat(recipients2);
