@@ -59,19 +59,19 @@ public class ImplMessage implements Message {
 	 * writes the Message in the Database and sends it, is only called by the constructor for new Messages
 	 */
 	private void sendMessage(){
-		//ToDo: Shark - safe the Message in the Database and send it
+		//ToDo: Shark - send the message, saveing is in the Method Save
 		//DummyDB Implementation
-		DummyDB db = DummyDB.getInstance();
-		db.addMessage(this, getChat());
+		save(getChat());
 	}
 
 	/**
 	 * Saves Message to the Database, this is only used for incoming messages (no sending)
 	 */
 	private void save(Chat c){
-		//ToDo: Save the Message to the Database, no need to send it
-		DummyDB.getInstance().addMessage(this, c);
-
+		//ToDo: Save the Message to the Database
+		if(!c.getMessages(true).contains(this)){
+			DummyDB.getInstance().addMessage(this, c);
+		}
 	}
 
 	@Override
@@ -132,7 +132,7 @@ public class ImplMessage implements Message {
 		for(Chat c : chats){
 			List<Contact> cs = c.getContacts();
 			if(cs.equals(recipient_list)){
-				if(!c.getMessages(true).contains(this))	save(c);
+				save(c);
 				return c;
 			}
 		}
