@@ -15,6 +15,8 @@ import net.sharksystem.sharknet.javafx.services.ImageManager;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Benni on 31.05.2016.
@@ -55,18 +57,18 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 
 	@Override
 	protected void onItemChanged(Chat chat) {
-		String senders = chat.getContacts().get(0).getNickname();
+
 
 		if (chat == null) {
 			return;
 		}
 
-		// extracting senders
-		if (chat.getContacts().size() > 1) {
-			for (int i = 1; i < chat.getContacts().size(); i++) {
-				senders += " , " + chat.getContacts().get(i).getNickname();
-			}
+		List<String> contactNames = new ArrayList<>();
+		for (Contact contact : chat.getContacts()) {
+			contactNames.add(contact.getNickname());
 		}
+
+		String senders = String.join(", ", contactNames);
 		// set sender label
 		chatContacts.setText(senders);
 		if (chat.getMessages(false) != null && chat.getMessages(false).size() > 0) {

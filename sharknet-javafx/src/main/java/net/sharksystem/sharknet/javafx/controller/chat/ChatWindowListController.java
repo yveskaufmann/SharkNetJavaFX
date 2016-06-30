@@ -3,8 +3,10 @@ package net.sharksystem.sharknet.javafx.controller.chat;
 import javafx.fxml.FXML;
 import javafx.geometry.*;
 import javafx.geometry.Insets;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
@@ -48,6 +50,7 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 
 	public ChatWindowListController(MediaListCell<Message> chatHistoryListCell) {
 		super(App.class.getResource("views/chat/chatWindowEntry.fxml"), chatHistoryListCell);
+
 	}
 
 	@Override
@@ -83,15 +86,18 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 					textFlow.getChildren().add(label);
 				}
 			}
-			hboxMessage.getChildren().add(textFlow);
 			// remove default message
 			hboxMessage.getChildren().remove(labelMessage);
+			hboxMessage.getChildren().add(textFlow);
+
 			labelMessage.setVisible(false);
 		}
 		// if message doesn't contain any emoji...
 		else {
 			// if it's a vote
 			if (message.getContent().getVoting() != null) {
+				hboxMessage.getChildren().remove(labelMessage);
+				
 				System.out.println("vote found");
 				GridPane grid = new GridPane();
 				grid.getColumnConstraints().add(new ColumnConstraints(35));
@@ -114,16 +120,30 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 				HashMap<String, Contact> answerList = message.getContent().getVoting().getAnswers();
 				Iterator it = answerList.entrySet().iterator();
 				int index = 1;
+				ToggleGroup toggle = new ToggleGroup();
+
 				while (it.hasNext()) {
 					grid.getRowConstraints().add(new RowConstraints(25));
 					Map.Entry pair = (Map.Entry)it.next();
-					RadioButton rb = new RadioButton();
+
 					Label answerLabel = new Label();
 					answerLabel.setText(pair.getKey().toString());
 					//answerLabel.setMaxHeight();
 					answerLabel.setPrefWidth(gridPaneMessages.getPrefWidth() - 100);
 					answerLabel.setWrapText(true);
-					grid.add(rb, 0, index);
+					// single choice
+					if (message.getContent().getVoting().isSingleqoice()) {
+						RadioButton rb = new RadioButton();
+
+						rb.setToggleGroup(toggle);
+						grid.add(rb, 0, index);
+					}
+					// multi choice
+					else {
+						CheckBox cb = new CheckBox();
+						grid.add(cb, 0, index);
+					}
+
 					grid.add(answerLabel, 1, index);
 					index++;
 				}
@@ -131,7 +151,7 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 
 
 
-				hboxMessage.getChildren().remove(labelMessage);
+
 				hboxMessage.getChildren().add(grid);
 
 			}
