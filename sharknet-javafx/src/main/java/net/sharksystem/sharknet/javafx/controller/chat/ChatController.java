@@ -263,7 +263,7 @@ public class ChatController extends AbstractController implements ChatListener, 
 		fillContactLabel(c);
 		// try to set chat picture
 		if (c.getPicture() != null) {
-			//imageManager.readImageFrom(c.getPicture()).ifPresent(imageViewContactProfile::setImage);
+			imageManager.readImageFrom(c.getPicture()).ifPresent(imageViewContactProfile::setImage);
 		}
 	}
 
@@ -319,10 +319,6 @@ public class ChatController extends AbstractController implements ChatListener, 
 		// clear old chat messages
 		//chatWindowListView.getItems().removeAll(chatWindowListView.getItems());
 		chatWindowListView.getItems().clear();
-		if (chatWindowListView.getItems().isEmpty()) {
-			System.out.println("blub");
-		}
-
 		// if chat contains messages
 		if (c.getMessages(false) != null) {
 			for (Message message : c.getMessages(false)) {
