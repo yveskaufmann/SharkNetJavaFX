@@ -76,7 +76,7 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 					// translate emoji... just a workaround.. fx still thinks emoji is 64x64 px...
 					smileyPane.setTranslateY(28.0);
 					// add css class
-					smileyPane.getStyleClass().addAll("emojionetest", s.trim());
+					smileyPane.getStyleClass().addAll("emojione", s.trim());
 					// add emoji to textflow
 					textFlow.getChildren().add(smileyPane);
 				} else {
