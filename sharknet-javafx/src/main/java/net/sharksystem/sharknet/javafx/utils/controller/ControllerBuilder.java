@@ -117,7 +117,7 @@ public class ControllerBuilder {
 		try {
 			injectDependencies(controllerClass, ctx);
 		} catch (Exception ex) {
-			throw new ControllerLoaderException("Failed to inject dependencies for " + controller.getClass().getSimpleName());
+			throw new ControllerLoaderException("Failed to inject dependencies for " + controller.getClass().getSimpleName(), ex);
 		}
 
 		return ctx;
