@@ -19,6 +19,7 @@ import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -198,7 +199,7 @@ public class ChatController extends AbstractController implements ChatListener, 
 		if (activeChat != null) {
 			status = Status.ADDCONTACT;
 			// open add contacts window
-			ChatContactsController c = new ChatContactsController();
+			ChatContactsController c = new ChatContactsController(activeChat);
 			c.addListener(this);
 		}
 	}
@@ -254,13 +255,13 @@ public class ChatController extends AbstractController implements ChatListener, 
 		// set flag
 		status = Status.NEWCHAT;
 		// open new chat window
-		ChatContactsController c = new ChatContactsController();
+		ChatContactsController c = new ChatContactsController(null);
 		c.addListener(this);
 	}
 
 	private void loadChat(Chat c) {
 		fillChatArea(c);
-		fillContactLabel(c);
+		fillContactLabel(c.getContacts());
 		// try to set chat picture
 		if (c.getPicture() != null) {
 			imageManager.readImageFrom(c.getPicture()).ifPresent(imageViewContactProfile::setImage);
@@ -295,20 +296,17 @@ public class ChatController extends AbstractController implements ChatListener, 
 	/**
 	 * fill contact label with all chat contacts, except yourself...
 	 */
-	private void fillContactLabel(Chat c) {
-		String contactNames = "";
-		// loop through chat contacts
-		for (int i = 0; i < c.getContacts().size(); i++) {
-			// if contact != you
-			if (!c.getContacts().get(i).isEqual(sharkNetModel.getMyProfile().getContact())) {
-				contactNames += c.getContacts().get(i).getNickname();
-				if (i < c.getContacts().size()-1 && !c.getContacts().get(i+1).isEqual(sharkNetModel.getMyProfile().getContact())) {
-					contactNames += " , ";
-				}
-			}
+	private void fillContactLabel(List<Contact> contactList) {
+		List<String> contactNames = new ArrayList<>();
+		for (Contact contact : contactList) {
+			contactNames.add(contact.getNickname());
 		}
+
+		String contacts = String.join(", ", contactNames);
 		// set label text
-		labelChatRecipients.setText(contactNames);
+		System.out.println("contacts: " + contacts);
+		labelChatRecipients.setText("");
+		labelChatRecipients.setText(contacts);
 	}
 
 	/**
@@ -333,15 +331,51 @@ public class ChatController extends AbstractController implements ChatListener, 
 	@Override
 	public void onContactListChanged(List<Contact> c) {
 		System.out.println("oncontactslistchanged");
+		for (Contact contact : c) {
+			System.out.println(contact.getNickname());
+		}
 		// if contacts get added...
 		if (status == Status.ADDCONTACT) {
-			if (c.size() > 0) {
-				//ToDo: change to api usage
-				activeChat.addContact(c);
-				fillContactLabel(activeChat);
-				//activeChat.getContacts().addAll(c);
-
+			// check if active contact is still in the new list or did he get removed?
+			for (Contact activeChatContact : activeChat.getContacts()) {
+				boolean found = false;
+				// through new contact list and check for equality
+				for (Contact contact : c) {
+					if (activeChatContact.isEqual(contact)) {
+						found = true;
+						break;
+					}
+				}
+				// if contact got removed
+				if (!found) {
+					// ToDo: add api usage when aviable
+					System.out.println("contact removed");
+					//activechat.remove(activechatcontact)
+				}
 			}
+			List<Contact> tmpContactList = new ArrayList<>();
+			// now the check vice versa... check if the contacts from the new list are already in activechat added
+			for (Contact contact : c) {
+				boolean found = false;
+				for (Contact activeChatContact : activeChat.getContacts()) {
+					if (contact.isEqual(activeChatContact)) {
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
+					tmpContactList.add(contact);
+				}
+			}
+			// if we found a new contact for this chat
+			if (tmpContactList.size() > 0) {
+				System.out.println("found new contacts");
+				activeChat.addContact(tmpContactList);
+			}
+
+			fillContactLabel(c);
+
+
 		// start new chat
 		} else if (status == Status.NEWCHAT) {
 			// create new chat

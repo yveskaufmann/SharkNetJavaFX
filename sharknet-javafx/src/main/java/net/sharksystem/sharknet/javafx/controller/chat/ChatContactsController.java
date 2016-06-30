@@ -7,12 +7,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import net.sharksystem.sharknet.api.Chat;
 import net.sharksystem.sharknet.api.Contact;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -40,15 +42,15 @@ public class ChatContactsController extends AbstractController {
 	// list containing only the contacts you want to add
 	private List<Contact> addedContacts;
 	private List<ChatListener> listeners;
-
+	private Chat chat;
 
 	private Stage stage;
 
-	public ChatContactsController() {
+	public ChatContactsController(Chat chat) {
 		super(App.class.getResource("views/chat/chatAddContacts.fxml"));
 		addedContacts = new ArrayList<>();
 		listeners = new ArrayList<>();
-
+		this.chat = chat;
 		Parent root = super.getRoot();
 		stage = new Stage();
 		stage.setTitle("Choose the contacts you want to add");
@@ -120,9 +122,34 @@ public class ChatContactsController extends AbstractController {
 	 */
 	private void loadContacts() {
 		allContacts = sharkNet.getContacts();
+		// remove own contact
+		Iterator<Contact> contactIterator = allContacts.iterator();
+		while (contactIterator.hasNext()) {
+			Contact contact = contactIterator.next();
+			if (contact.isEqual(sharkNet.getMyProfile().getContact())) {
+				contactIterator.remove();
+			}
+		}
+
+
+		for (Contact contact : chat.getContacts()) {
+			addedContacts.add(contact);
+			listViewAddContacts.getItems().add(contact.getNickname());
+			// remove contacts from allContacts list, which are already in chat
+			Iterator<Contact> it = allContacts.iterator();
+			while (it.hasNext()) {
+				Contact tmpContact = it.next();
+				if (contact.isEqual(tmpContact)) {
+					it.remove();
+				}
+			}
+		}
+
 
 		for (Contact contact : allContacts) {
+
 			listViewAllContacts.getItems().add(contact.getNickname());
+
 		}
 	}
 
