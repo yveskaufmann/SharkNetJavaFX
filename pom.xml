@@ -1,15 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>net.sharksystem</groupId>
     <artifactId>sharknet</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
+
     <packaging>pom</packaging>
+
     <name>SharkNet</name>
+    <description>A p2p social based chat client based on the shark-framework.</description>
+    <url>https://github.com/yveskaufmann/SharkNetJavaFX</url>
+
+    <scm>
+        <url>https://github.com/yveskaufmann/SharkNetJavaFX</url>
+        <connection>scm:git:git://github.com/yveskaufmann/SharkNetJavaFX.git</connection>
+        <developerConnection>scm:git:git@github.com:yveskaufmann/SharkNetJavaFX</developerConnection>
+    </scm>
+
+    <issueManagement>
+        <url>https://github.com/yveskaufmann/SharkNetJavaFX/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
+
+    <licenses>
+        <license>
+            <name>GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007</name>
+            <url>https://www.gnu.org/licenses/lgpl-3.0.de.html</url>
+        </license>
+    </licenses>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>bintray-yveskaufmann-maven</id>
+            <url>https://api.bintray.com/maven/yveskaufmann/maven/sharknet/;publish=1</url>
+        </repository>
+    </distributionManagement>
 
     <modules>
         <module>sharknet-javafx</module>
@@ -29,11 +59,6 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>exec-maven-plugin</artifactId>
-                    <version>1.4.0</version>
-                </plugin>
-                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.5.1</version>
@@ -42,8 +67,50 @@
                         <target>1.8</target>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.0.1</version>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                                <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                            </manifest>
+                        </archive>
+                    </configuration>
+                </plugin>
+                <!-- http://central.sonatype.org/pages/apache-maven.html -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.10.4</version>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                            <configuration>
+                                <failOnError>false</failOnError>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
-
 </project>

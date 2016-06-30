@@ -4,11 +4,15 @@
     <parent>
         <groupId>net.sharksystem</groupId>
         <artifactId>sharknet</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1</version>
     </parent>
 
     <artifactId>sharknet-javafx</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
+
+    <properties>
+        <mainClass>net.sharksystem.sharknet.javafx.App</mainClass>
+    </properties>
 
     <repositories>
         <repository>
@@ -21,7 +25,7 @@
         <dependency>
             <groupId>net.sharksystem</groupId>
             <artifactId>sharknet-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.0.1</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -73,9 +77,21 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.5.0</version>
+                <configuration>
+                    <executable>java</executable>
+                    <arguments>
+                        <argument>-classpath</argument>
+                        <classpath/>
+                        <argument>${mainClass}</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.6</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -83,7 +99,7 @@
                             <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>net.sharksystem.sharknet.javafx.App</mainClass>
+                            <mainClass>${mainClass}</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -113,6 +129,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -122,6 +139,15 @@
                         src/main/assembly/assembly.xml
                     </descriptor>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
