@@ -64,7 +64,9 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 		}
 
 		List<String> contactNames = new ArrayList<>();
+		System.out.println("history entry");
 		for (Contact contact : chat.getContacts()) {
+			System.out.println(contact.getNickname());
 			contactNames.add(contact.getNickname());
 		}
 
@@ -80,9 +82,13 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 		}
 		// set chat title
 		chatTitle.setText(chat.getTitle());
-		// set chat picture
+		// set chat picture, if no chat picture is set, just use the picture from chat contact
+		for (Contact contact : chat.getContacts()) {
+			if (!contact.isEqual(sharkNetModel.getMyProfile().getContact())) {
+				imageManager.readImageFrom(contact.getPicture()).ifPresent(imageViewContactProfile::setImage);
+			}
+		}
 		imageManager.readImageFrom(chat.getPicture()).ifPresent(imageViewContactProfile::setImage);
-
 	}
 
 
