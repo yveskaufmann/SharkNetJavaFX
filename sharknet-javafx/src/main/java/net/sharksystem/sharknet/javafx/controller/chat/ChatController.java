@@ -11,9 +11,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.*;
 import net.sharksystem.sharknet.javafx.App;
+import net.sharksystem.sharknet.javafx.controller.FrontController;
 import net.sharksystem.sharknet.javafx.controller.contactlist.ShowContactController;
 import net.sharksystem.sharknet.javafx.services.ImageManager;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
+import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,9 +74,11 @@ public class ChatController extends AbstractController implements ChatListener, 
 	@FXML
 	private Label labelChatRecipients;
 
+	private FrontController frontController;
+
 	public ChatController() {
 		super(App.class.getResource("views/chat/chatView.fxml"));
-		//this.frontController = Controllers.getInstance().get(FrontController.class);
+		this.frontController = Controllers.getInstance().get(FrontController.class);
 		activeChat = null;
 		chatControllerInstance = this;
 		status = Status.NONE;
@@ -131,7 +135,9 @@ public class ChatController extends AbstractController implements ChatListener, 
 		});
 		// set onMouseCLick for newchat Button
 		buttonNewChat.setOnMouseClicked(event -> {
-			onNewChatClick();
+			//onNewChatClick();
+			Message m = new ImplMessage(new ImplContent("Das ist eine neue Nachricht. Bla blub keks tralalalalalala wer wie wo was der die das bla blub keks"), sharkNetModel.getContacts(), sharkNetModel.getMyProfile().getContact(), sharkNetModel.getMyProfile());
+			receivedMessage(m);
 			event.consume();
 		});
 		// set listener for chathistorylistview items
@@ -427,7 +433,8 @@ public class ChatController extends AbstractController implements ChatListener, 
 
 	@Override
 	public void receivedMessage(Message m) {
-		loadChat(m.getChat());
+		//loadChat(m.getChat());
+		NewMessageController controller = new NewMessageController(m);
 		// ToDo: update history listview
 	}
 

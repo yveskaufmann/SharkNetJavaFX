@@ -18,8 +18,10 @@ import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controls.RoundImageView;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
+import org.controlsfx.validation.Severity;
 
 import java.io.*;
+import java.util.regex.Pattern;
 
 
 /**
@@ -49,6 +51,10 @@ public class CreateProfileController extends AbstractController{
 
 	private Stage stage;
 	private File profileFile;
+
+	private static final String EMAIL_PATTERN =
+		"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
 	public CreateProfileController() {
 		super(App.class.getResource("views/createProfileView.fxml"));
@@ -127,7 +133,17 @@ public class CreateProfileController extends AbstractController{
 			p.getContact().addName(textFieldName.getText());
 		}
 		if (textFieldMail.getText().length() > 0) {
-			p.getContact().setEmail(textFieldMail.getText());
+			if (textFieldMail.getText().matches(EMAIL_PATTERN)) {
+				p.getContact().setEmail(textFieldMail.getText());
+			} else {
+				Alert alert = new Alert(Alert.AlertType.ERROR);
+				alert.setTitle("Error creating Profile");
+				alert.setContentText("No valid E-Mail");
+				alert.setHeaderText("");
+				alert.showAndWait();
+				return;
+			}
+
 		}
 		if (textFieldTel.getText().length() > 0) {
 			p.getContact().addTelephonnumber(textFieldTel.getText());
@@ -164,9 +180,6 @@ public class CreateProfileController extends AbstractController{
 				// add the picture to contact
 				p.getContact().setPicture(pic);
 			}
-
-
-
 		}
 		// save all profile changes
 		p.save();
