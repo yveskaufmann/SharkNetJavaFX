@@ -2,7 +2,6 @@ package net.sharksystem.sharknet.javafx.controller.chat;
 
 
 import com.google.inject.Inject;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -16,6 +15,8 @@ import net.sharksystem.sharknet.javafx.services.ImageManager;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -25,6 +26,8 @@ import java.util.List;
 
 @Controller( title = "%sidebar.chat")
 public class ChatController extends AbstractController implements ChatListener, GetEvents {
+
+	private  static final Logger Log = LoggerFactory.getLogger(ChatController.class);
 
 	@Inject
 	private SharkNet sharkNetModel;
@@ -243,6 +246,7 @@ public class ChatController extends AbstractController implements ChatListener, 
 				// just send chat message
 				activeChat.sendMessage(new ImplContent(null, "", "", textFieldMessage.getText()));
 				loadChat(activeChat);
+				chatHistoryListView.refresh();
 			}
 		}
 	}
@@ -273,14 +277,11 @@ public class ChatController extends AbstractController implements ChatListener, 
 	 */
 	private void loadChatHistory() {
 		// TODO: seperate chats in today, yesterday, earlier...
-		// clear old chats
-		chatHistoryListView.getItems().clear();
 		// load chats
 		List<Chat> chatList = sharkNetModel.getChats();
-		// add chats to listview
-		for (Chat chat : chatList) {
-			chatHistoryListView.getItems().add(chat);
-		}
+		Log.debug("reload chat history");
+		// remove old chats and add new chats to listview
+		chatHistoryListView.getItems().setAll(chatList);
 	}
 
 	/**

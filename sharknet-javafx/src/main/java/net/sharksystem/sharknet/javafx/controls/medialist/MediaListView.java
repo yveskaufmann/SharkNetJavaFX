@@ -19,4 +19,6 @@ public class MediaListView<T> extends ListView<T> {
 	private void initialize() {
 		getStyleClass().add("media-list");
 	}
+
+
 }

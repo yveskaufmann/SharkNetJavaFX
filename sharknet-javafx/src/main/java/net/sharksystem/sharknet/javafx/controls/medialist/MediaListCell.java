@@ -43,6 +43,8 @@ public class MediaListCell<T> extends ListCell<T> {
 				}
 			}
 			setGraphic(cellController.getRoot());
+			// Ensure that the property is invalidated
+			cellController.setItem(null);
 			cellController.setItem(item);
 		}
 	}
