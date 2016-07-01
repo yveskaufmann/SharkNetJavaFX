@@ -58,7 +58,7 @@ public class Dummy {
 */
 		Contact alice_bob = s.newContact(bob.getNickname(), bob.getUID(), bob.getPublicKey());
 		Contact alice_charles = s.newContact("charles", "charlesuid", "charlespublickey");
-
+		Contact alice_dean = s.newContact("dean", "deanuid", "deanpublickey");
 		//Anlegen von Chats
 		List<Contact> recipients1 = new ArrayList<>();
 		recipients1.add(bob);
@@ -72,6 +72,10 @@ public class Dummy {
 		in = cl.getResourceAsStream("Bob.jpg");
 		Content charlespic = new ImplContent(in, "jpg", "Charles profile picture");
 		alice_charles.setPicture(charlespic);
+
+		in = cl.getResourceAsStream("Bob.jpg");
+		Content deanpic = new ImplContent(in, "jpg", "Deans profile picture");
+		alice_dean.setPicture(deanpic);
 
 		Chat chat1 = s.newChat(recipients1);
 		Chat chat2  = s.newChat(recipients2);

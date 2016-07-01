@@ -118,10 +118,12 @@ public class ChatContactsController extends AbstractController {
 	}
 
 	/**
-	 * load all contacts from sharknet, no check if contact is equal to own profile
+	 * load all contacts from sharknet
+	 * own contact will be removed
 	 */
 	private void loadContacts() {
 		allContacts = sharkNet.getContacts();
+		/*
 		// remove own contact
 		Iterator<Contact> contactIterator = allContacts.iterator();
 		while (contactIterator.hasNext()) {
@@ -129,27 +131,26 @@ public class ChatContactsController extends AbstractController {
 			if (contact.isEqual(sharkNet.getMyProfile().getContact())) {
 				contactIterator.remove();
 			}
-		}
+		}*/
 
-
-		for (Contact contact : chat.getContacts()) {
-			addedContacts.add(contact);
-			listViewAddContacts.getItems().add(contact.getNickname());
-			// remove contacts from allContacts list, which are already in chat
-			Iterator<Contact> it = allContacts.iterator();
-			while (it.hasNext()) {
-				Contact tmpContact = it.next();
-				if (contact.isEqual(tmpContact)) {
-					it.remove();
+		// remove contacts from allContacts list, which are already in chat
+		// check if chat already exist, if not -> new chat
+		if (chat != null) {
+			for (Contact contact : chat.getContacts()) {
+				addedContacts.add(contact);
+				listViewAddContacts.getItems().add(contact.getNickname());
+				Iterator<Contact> it = allContacts.iterator();
+				while (it.hasNext()) {
+					Contact tmpContact = it.next();
+					if (contact.isEqual(tmpContact)) {
+						it.remove();
+					}
 				}
 			}
 		}
-
-
+		// add contacts (own contact excluded) to listview
 		for (Contact contact : allContacts) {
-
 			listViewAllContacts.getItems().add(contact.getNickname());
-
 		}
 	}
 

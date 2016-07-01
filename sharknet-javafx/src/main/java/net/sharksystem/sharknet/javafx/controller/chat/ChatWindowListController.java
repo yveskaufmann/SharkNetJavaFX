@@ -7,12 +7,15 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.ImageView;
+import javafx.scene.image.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import net.sharksystem.sharknet.api.Contact;
+import net.sharksystem.sharknet.api.Content;
+import net.sharksystem.sharknet.api.ImplContent;
 import net.sharksystem.sharknet.api.Message;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCell;
@@ -20,6 +23,10 @@ import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCellControlle
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -97,19 +104,13 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 			// if it's a vote
 			if (message.getContent().getVoting() != null) {
 				hboxMessage.getChildren().remove(labelMessage);
-				
-				System.out.println("vote found");
 				GridPane grid = new GridPane();
 				grid.getColumnConstraints().add(new ColumnConstraints(35));
 				grid.getColumnConstraints().add(new ColumnConstraints(175));
 				// first row
 				grid.getRowConstraints().add(new RowConstraints(75));
-
-
 				//grid.setPrefHeight(25);
 				grid.setPrefWidth(210);
-
-
 				Label questionLabel = new Label();
 				questionLabel.setMaxHeight(100);
 				questionLabel.setPrefWidth(300);
@@ -147,23 +148,13 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 					grid.add(answerLabel, 1, index);
 					index++;
 				}
-
-
-
-
-
-				hboxMessage.getChildren().add(grid);
-
+			hboxMessage.getChildren().add(grid);
 			}
 			// if it's just a simple message
 			else {
-				System.out.println("found normal msg: " + message.getContent().getMessage());
 				labelMessage.setText("<" + message.getSender().getNickname() + ">" + " " + message.getContent().getMessage());
 			}
-
-
 		}
-
 
 		java.sql.Timestamp timestamp = message.getTimestamp();
 		labelTime.setText(dateFormat.format(timestamp));
@@ -174,6 +165,16 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 		if (!message.isSigned()) {
 			imageViewSigned.setOpacity(0.25);
 		}
+		// if message is signed but not verified, change picture to just 1 check
+		else if (message.isSigned() && !message.isVerified()) {
+			// profile picture
+			InputStream in = null;
+			in = App.class.getResourceAsStream("images/check.png");
+			if (in != null) {
+				imageViewSigned.setImage(new Image(in));
+			}
+		}
+
 		// position message
 		if (!message.isMine()) {
 			hboxGridContainer.setAlignment(Pos.TOP_RIGHT);
