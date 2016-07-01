@@ -124,6 +124,7 @@ public class ImplMessage implements Message {
 	 * @return
      */
 
+	@Override
 	public Chat getChat(){
 		//Implementation of DummyDB
 		//ToDo: Shark - lookup for the Chat
@@ -148,6 +149,13 @@ public class ImplMessage implements Message {
 			return true;
 		}
 		else return false;
+	}
+
+	@Override
+	public boolean isVerified() {
+		//ToDo: Shark - verify the Signature of the Message
+		if(isSigned)return true;
+		return false;
 	}
 
 	@Override

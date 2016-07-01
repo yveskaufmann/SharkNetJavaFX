@@ -66,4 +66,15 @@ public interface Message extends Timeable, ContainsContent {
      */
 	public boolean isMine();
 
+	/**
+	 * Returns if the Message is verified (which means the signature is valid)
+	 */
+	public boolean isVerified();
+
+	/**
+	 * Returns the Chat of the Message or constructs a new
+	 * @return
+     */
+	public Chat getChat();
+
 }
