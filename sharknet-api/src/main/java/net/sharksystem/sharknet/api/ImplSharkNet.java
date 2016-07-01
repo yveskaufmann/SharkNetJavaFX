@@ -86,6 +86,8 @@ public class ImplSharkNet implements SharkNet {
 		//ToDo: Shark - Search in KB for Contacts and return a list of them
 		//Implementation of DummyDB
 		List<Contact> contact_list = DummyDB.getInstance().getContact_list(myProfile);
+		contact_list.remove(myProfile.getContact());
+		contact_list.removeAll(myProfile.getBlacklist().getList());
 		return contact_list;
 	}
 

@@ -1,5 +1,8 @@
 package net.sharksystem.sharknet.api;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Created by timol on 22.06.2016.
  */
@@ -34,15 +37,31 @@ public class ImplSetting implements Setting{
 	 * Mail-Data for Dataexchange
 	 */
 	String smtpServer, imapServer;
-	String emailPassword, email;
+	String imapPassword;
+	String smtpPassword;
+	String email;
+	int mailboxSize;
 	/**
 	 * Owner of the Settings
 	 */
 	Profile owner;
 
+	/**
+	 * Contactpartners for Routing Data
+	 */
+	List<Contact> routingContacts = new LinkedList<>();
+	/**
+	 * List of Interessts for Routing Data
+	 */
+	List<Interest> routingInterest = new LinkedList<>();
+	/**
+	 * Filesize for Routing Data
+	 */
+	int routingFileSize;
 
 	/**
 	 * Constructor for existing Settings in the Database
+	 *
 	 * @param nfc
 	 * @param bluetooth
 	 * @param tcp
@@ -62,12 +81,17 @@ public class ImplSetting implements Setting{
 	 * @param wifiON
 	 * @param maxFileSize
 	 * @param smtpServer
-     * @param imapServer
-     * @param emailPassword
-     * @param email
+	 * @param imapServer
+	 * @param imapPassword
+	 * @param smtpPassword
+	 * @param email
+     * @param mailboxSize
      * @param owner
+     * @param routingContacts
+     * @param routingInterest
+     * @param routingFileSize
      */
-	public ImplSetting(boolean nfc, boolean bluetooth, boolean tcp, boolean wifi, boolean mail, boolean syncnfc, boolean syncbluetooth, boolean synctcp, boolean syncwifi, boolean syncmail, boolean syncProfile, boolean syncConctact, boolean syncChat, boolean syncTimeline, boolean syncHausaufgaben, boolean radarON, int wifiON, int maxFileSize, String smtpServer, String imapServer, String emailPassword, String email, Profile owner) {
+	public ImplSetting(boolean nfc, boolean bluetooth, boolean tcp, boolean wifi, boolean mail, boolean syncnfc, boolean syncbluetooth, boolean synctcp, boolean syncwifi, boolean syncmail, boolean syncProfile, boolean syncConctact, boolean syncChat, boolean syncTimeline, boolean syncHausaufgaben, boolean radarON, int wifiON, int maxFileSize, String smtpServer, String imapServer, String imapPassword, String smtpPassword, String email, int mailboxSize, Profile owner, List<Contact> routingContacts, List<Interest> routingInterest, int routingFileSize) {
 		this.nfc = nfc;
 		this.bluetooth = bluetooth;
 		this.tcp = tcp;
@@ -88,9 +112,14 @@ public class ImplSetting implements Setting{
 		this.maxFileSize = maxFileSize;
 		this.smtpServer = smtpServer;
 		this.imapServer = imapServer;
-		this.emailPassword = emailPassword;
+		this.imapPassword = imapPassword;
+		this.smtpPassword = smtpPassword;
 		this.email = email;
+		this.mailboxSize = mailboxSize;
 		this.owner = owner;
+		this.routingContacts = routingContacts;
+		this.routingInterest = routingInterest;
+		this.routingFileSize = routingFileSize;
 	}
 
 	/**
@@ -100,6 +129,27 @@ public class ImplSetting implements Setting{
 	public ImplSetting(Profile owner){
 		this.owner = owner;
 		setDefaultData();
+	}
+
+
+	@Override
+	public String getSmtpPassword() {
+		return smtpPassword;
+	}
+
+	@Override
+	public void setSmtpPassword(String smtpPassword) {
+		this.smtpPassword = smtpPassword;
+	}
+
+	@Override
+	public int getMailboxSize() {
+		return mailboxSize;
+	}
+
+	@Override
+	public void setMailboxSize(int mailboxSize) {
+		this.mailboxSize = mailboxSize;
 	}
 
 	@Override
@@ -141,6 +191,76 @@ public class ImplSetting implements Setting{
 	@Override
 	public void setSyncmail(boolean syncmail) {
 		this.syncmail = syncmail;
+	}
+
+	@Override
+	public void startTCP() {
+	//not implemented
+	}
+
+	@Override
+	public void stopTCP() {
+	//not implemented
+	}
+
+	@Override
+	public void sendProfile(Contact sender, Contact recipient) {
+	//not implemented
+
+	}
+
+	@Override
+	public void addRoutingContacts(List<Contact> routingContacts) {
+		for(Contact c : routingContacts) {
+			if (!this.routingContacts.contains(c)){
+				this.routingContacts.add(c);
+			}
+		}
+	}
+
+	@Override
+	public void addRoutingInterests(List<Interest> routingInterests) {
+		for(Interest i : routingInterests){
+			if(!this.routingInterest.contains(i)){
+				this.routingInterest.add(i);
+			}
+		}
+
+	}
+
+	@Override
+	public void deleteRoutingContacts(List<Contact> routingContacts) {
+		for(Contact c : routingContacts){
+			this.routingContacts.remove(c);
+		}
+	}
+
+	@Override
+	public void deleteRoutingInterests(List<Interest> routingInterests) {
+		for(Interest i : routingInterests){
+				routingInterests.remove(i);
+		}
+
+	}
+
+	@Override
+	public List<Interest> getRoutingInterests() {
+		return routingInterest;
+	}
+
+	@Override
+	public List<Contact> getRoutingContacts() {
+		return routingContacts;
+	}
+
+	@Override
+	public void setRoutingFileSize(int routingFileSize) {
+		this.routingFileSize = routingFileSize;
+	}
+
+	@Override
+	public int getRoutingFileSize() {
+		return routingFileSize;
 	}
 
 	@Override
@@ -193,14 +313,13 @@ public class ImplSetting implements Setting{
 		this.syncProfile = syncProfile;
 	}
 
-	@Override
-	public String getEmailPassword() {
-		return emailPassword;
+	public String getImapPassword() {
+		return imapPassword;
 	}
 
-	@Override
-	public void setEmailPassword(String emailPassword) {
-		this.emailPassword = emailPassword;
+
+	public void setImapPassword(String imapPassword) {
+		this.imapPassword = imapPassword;
 	}
 
 	@Override
@@ -343,6 +462,14 @@ public class ImplSetting implements Setting{
 
 		wifiON = 10;
 		maxFileSize = 10;
+
+		smtpServer = "";
+		imapServer = "";
+		imapPassword = "";
+		smtpPassword = "";
+		email = "";
+		mailboxSize = 500;
+
 
 	}
 

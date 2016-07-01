@@ -1,5 +1,7 @@
 package net.sharksystem.sharknet.api;
 
+import java.util.List;
+
 /**
  * Created by timol on 12.05.2016.
  */
@@ -151,19 +153,44 @@ public interface Setting {
 	 * Returns Email-Adress which is configured for Data-Exchange
 	 * @return
      */
-	public String getEmailPassword();
+	public String getImapPassword();
 
 	/**
 	 * Sets Email-Adress which is configured for Data-Exchange
-	 * @param emailPassword
+	 * @param imapPassword
      */
-	public void setEmailPassword(String emailPassword);
+	public void setImapPassword(String imapPassword);
 
 	/**
 	 * Returns Password of Email-Adress which is configured for Data-Exchange
 	 * @return
      */
 	public String getEmail();
+
+	/**
+	 * Returns the Password for the smtp Server
+	 * @return
+     */
+	public String getSmtpPassword();
+
+	/**
+	 * Returns the Password for the smtp Server
+	 * @param smtpPassword
+     */
+	public void setSmtpPassword(String smtpPassword);
+
+	/**
+	 * Returns the size of the Mailbox used for Dataexchange
+	 * @return
+     */
+	public int getMailboxSize();
+
+	/**
+	 * Sets the size of the Mailbox used for dataexchange
+	 * @param mailboxSize
+     */
+	public void setMailboxSize(int mailboxSize);
+
 
 	/**
 	 * Sets Password of Email-Adress which is configured for Data-Exchange
@@ -289,5 +316,70 @@ public interface Setting {
 	 * @param syncmail
 	 */
 	public void setSyncmail(boolean syncmail);
+
+	/**
+	 * start a TCP Server on the Client
+	 */
+	public void startTCP();
+
+	/**
+	 * Stops the TCP-Server on the Client
+	 */
+	public void stopTCP();
+
+	/**
+	 * Sends Contact of the Sender per TCP-Server (must be started) to the recipient
+	 * @param sender
+	 * @param recipient
+     */
+	public void sendProfile(Contact sender, Contact recipient);
+
+	/**
+	 * Adds the Contacts to the allowed Routing List
+	 * @param routingContacts
+     */
+	public void addRoutingContacts(List<Contact> routingContacts);
+
+	/**
+	 * Adds the Interests to the allowed Routing List
+	 * @param routingInterests
+     */
+	public void addRoutingInterests(List<Interest> routingInterests);
+
+	/**
+	 * Removes the Contacts from the allowed Routing List
+	 * @param routingContacts
+     */
+	public void deleteRoutingContacts(List<Contact> routingContacts);
+
+	/**
+	 * Removes the Interests from the allowed Routing List
+	 * @param routingInterests
+     */
+	public void deleteRoutingInterests(List<Interest> routingInterests);
+
+	/**
+	 * Returns the Contacts of the allowed Routing List
+	 * @return
+     */
+	public List<Interest> getRoutingInterests();
+
+	/**
+	 * Returns the Interests of the allowed Routing List
+	 * @return
+     */
+	public List<Contact> getRoutingContacts();
+
+	/**
+	 * Sets the maximal File Size of Routing Data
+	 * @param routingFileSize
+     */
+	public void setRoutingFileSize(int routingFileSize);
+
+	/**
+	 * Returns the maximal File Size of Routing Data
+	 * @return
+     */
+	public int getRoutingFileSize();
 
 }
