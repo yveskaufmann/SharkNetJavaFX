@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
@@ -36,9 +37,9 @@
                 <Insets left="10.0" top="5.0" />
             </GridPane.margin></Text>
 
-        <Text fx:id="chatLastMessage" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small" text="01.01.2000" GridPane.columnIndex="2" GridPane.valignment="TOP">
+        <Text fx:id="chatLastMessage" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small" text="01.01.2000" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.valignment="TOP">
             <GridPane.margin>
-                <Insets right="10.0" />
+                <Insets right="10.0" top="5.0" />
             </GridPane.margin></Text>
 
         <Text fx:id="chatTitle" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-header" text="Chat Title" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
@@ -50,6 +51,15 @@
             <GridPane.margin>
                 <Insets bottom="5.0" left="10.0" top="5.0" />
             </GridPane.margin></Text>
+      <AnchorPane prefHeight="21.0" prefWidth="50.0" GridPane.columnIndex="2">
+         <children>
+            <ImageView fx:id="imageViewDelete" fitHeight="16.0" fitWidth="18.0" layoutX="60.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/cross.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
 
     </children>
 </GridPane>

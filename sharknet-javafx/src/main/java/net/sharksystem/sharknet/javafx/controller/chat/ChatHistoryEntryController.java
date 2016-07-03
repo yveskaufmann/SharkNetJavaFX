@@ -13,6 +13,7 @@ import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCell;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCellController;
 import net.sharksystem.sharknet.javafx.services.ImageManager;
 
+import java.awt.*;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,7 +40,8 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 	private Text chatTitle;
 	@FXML
 	private Text chatContent;
-
+	@FXML
+	private ImageView imageViewDelete;
 	@FXML
 	private ImageView imageViewContactProfile;
 
@@ -52,7 +54,26 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 
 	@Override
 	protected void onFxmlLoaded() {
+		imageViewDelete.setOnMouseClicked(event -> {
+			if (event.getSource() instanceof ImageView) {
+				ImageView view = (ImageView) event.getSource();
+				if (view.getUserData() instanceof Chat) {
+					Chat chat = (Chat) view.getUserData();
+					chatDeleted(chat);
+					System.out.println("deleted chat");
+				}
+			}
 
+			event.consume();
+		});
+		imageViewDelete.setPickOnBounds(true);
+		imageViewDelete.setOpacity(0.5);
+		imageViewDelete.setOnMouseEntered(event -> {
+			imageViewDelete.setOpacity(1.0);
+		});
+		imageViewDelete.setOnMouseExited(event -> {
+			imageViewDelete.setOpacity(0.5);
+		});
 	}
 
 	@Override
@@ -89,7 +110,14 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 			}
 		}
 		imageManager.readImageFrom(chat.getPicture()).ifPresent(imageViewContactProfile::setImage);
+		imageViewDelete.setUserData(chat);
 	}
 
+
+
+	private void chatDeleted(Chat c) {
+		ChatController controller = ChatController.getInstance();
+		controller.onChatDeleted(c);
+	}
 
 }
