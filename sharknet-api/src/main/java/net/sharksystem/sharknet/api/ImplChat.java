@@ -199,6 +199,18 @@ public class ImplChat implements Chat {
 	}
 
 	@Override
+	public void removeContact(List<Contact> cList){
+
+		//ToDo: Shark - Implement that Contacts will be removed from the Chat in the Shark DB
+		List<Contact> contactList = DummyDB.getInstance().getChatContacts(this);
+		for(Contact remc : cList){
+			if(contactList.contains(remc)){
+				contactList.remove(remc);
+			}
+		}
+	}
+
+	@Override
 	public void setAdmin(Contact admin) {
 		this.admin = admin;
 	}
