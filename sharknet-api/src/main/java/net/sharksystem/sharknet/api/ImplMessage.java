@@ -17,6 +17,7 @@ public class ImplMessage implements Message {
 	boolean isSigned, isEncrypted;
 	Content content;
 	Boolean disliked = false;
+	Boolean read = false;
 
 	/**
 	 * Constructor for Messages which are from the Datebase and are not going to be sended, just used by the API to fill List of Messages
@@ -140,6 +141,16 @@ public class ImplMessage implements Message {
 		Chat newChat = new ImplChat(this, owner);
 		save(newChat);
 		return newChat;
+	}
+
+	@Override
+	public boolean isRead() {
+		return read;
+	}
+
+	@Override
+	public void setRead(boolean read) {
+		this.read = read;
 	}
 
 

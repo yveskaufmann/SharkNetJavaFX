@@ -77,4 +77,16 @@ public interface Message extends Timeable, ContainsContent {
      */
 	public Chat getChat();
 
+	/**
+	 * Returns if the Message is already read
+	 * @return
+     */
+	public boolean isRead();
+
+	/**
+	 * Sets boolean if message is read
+	 * @param read
+     */
+	public void setRead(boolean read);
+
 }

@@ -80,6 +80,7 @@ public class ImplChat implements Chat {
 	@Override
 	public void sendMessage(Content content) {
 		Message m = new ImplMessage(content, getContacts(), owner.getContact(), owner);
+		m.setRead(true);
 	}
 
 	@Override
