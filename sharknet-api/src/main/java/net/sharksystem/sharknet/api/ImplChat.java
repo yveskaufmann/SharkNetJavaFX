@@ -16,6 +16,7 @@ public class ImplChat implements Chat {
 	Content picture;
 	int id;
 	Profile owner;
+	Contact admin;
 	Timestamp lastmessage;
 
 	/**
@@ -26,6 +27,7 @@ public class ImplChat implements Chat {
 
 	public ImplChat(List <Contact> contact_List, Profile owner){
 		this.owner = owner;
+		this.admin = owner.getContact();
 		safeContactList(contact_List);
 		setDefaultPic();
 		setDefaultTitle();
@@ -35,21 +37,44 @@ public class ImplChat implements Chat {
 	}
 
 	/**
-	 * Constructor for Chats from the Database which are not going to be saved
+	 * Generates a Chat from a new Message
+	 * @param m
 	 * @param owner
-	 * @param title
-	 * @param picture
-     * @param id
      */
 
-	public ImplChat(Profile owner, String title, Content picture, int id, Timestamp lastmessage){
-		this.title=title;
+	public ImplChat(Message m, Profile owner){
+		this.owner  = owner;
+		this.admin = m.getSender();
+		List<Contact> contactList = m.getRecipients();
+		contactList.remove(owner.getContact());
+		contactList.add(m.getSender());
+		safeContactList(contactList);
+		setID();
+		lastmessage = m.getTimestamp();
+		setDefaultTitle();
+		setDefaultPic();
+	}
+
+	/**
+	 * Constructor for Chats from the Database which are not going to be saved
+	 * @param contact_List
+	 * @param title
+	 * @param picture
+	 * @param id
+	 * @param owner
+	 * @param admin
+     * @param lastmessage
+     */
+	public ImplChat(List<Contact> contact_List, String title, Content picture, int id, Profile owner, Contact admin, Timestamp lastmessage) {
+		this.title = title;
 		this.picture = picture;
 		this.id = id;
 		this.owner = owner;
+		this.admin = admin;
 		this.lastmessage = lastmessage;
-
+		safeContactList(contact_List);
 	}
+
 
 
 	@Override
@@ -171,6 +196,16 @@ public class ImplChat implements Chat {
 				contactList.add(newc);
 			}
 		}
+	}
+
+	@Override
+	public void setAdmin(Contact admin) {
+		this.admin = admin;
+	}
+
+	@Override
+	public Contact getAdmin() {
+		return admin;
 	}
 
 	/**

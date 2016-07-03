@@ -137,7 +137,7 @@ public class ImplMessage implements Message {
 				return c;
 			}
 		}
-		Chat newChat = new ImplChat(recipient_list, owner);
+		Chat newChat = new ImplChat(this, owner);
 		save(newChat);
 		return newChat;
 	}
