@@ -39,10 +39,10 @@ public class ImplInterest implements Interest {
 	}
 
 	@Override
-	public TXSemanticTag addInterest(String name, String ui) {
+	public TXSemanticTag addInterest(String name, String si) {
 		TXSemanticTag newtopic = null;
 		try {
-			newtopic = tx.createTXSemanticTag(name, ui);
+			newtopic = tx.createTXSemanticTag(name, si);
 
 		} catch (SharkKBException e) {
 			e.printStackTrace();
@@ -51,10 +51,19 @@ public class ImplInterest implements Interest {
 	}
 
 	@Override
-	public SemanticTag getTopicAsSemanticTag(String ui) {
-		SemanticTag topic = null;
+	public void addInterest(TXSemanticTag interest) {
 		try {
-			topic = tx.getSemanticTag(ui);
+			tx.merge(interest);
+		} catch (SharkKBException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public TXSemanticTag getTopicAsSemanticTag(String si) {
+		TXSemanticTag topic = null;
+		try {
+			topic = tx.getSemanticTag(si);
 		} catch (SharkKBException e) {
 			e.printStackTrace();
 		}
@@ -63,7 +72,7 @@ public class ImplInterest implements Interest {
 	}
 
 	@Override
-	public void deleteInterest(SemanticTag i) {
+	public void deleteInterest(TXSemanticTag i) {
 		try {
 			tx.removeSemanticTag(i);
 		} catch (SharkKBException e) {
@@ -131,4 +140,6 @@ public class ImplInterest implements Interest {
 		//ToDo: Shark - delete Interest from KB
 	}
 
+	//ToDo: Implemenmt "is private"
+	//ToDo: Implement direction
 }
