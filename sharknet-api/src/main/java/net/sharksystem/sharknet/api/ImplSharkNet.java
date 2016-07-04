@@ -47,7 +47,7 @@ public class ImplSharkNet implements SharkNet {
 	@Override
 	public List<Feed> getFeeds(Interest i, int start_index, int stop_index, boolean descending) {
 
-		//ToDo: Implement - return feeds with interest i from start to stop, sorted by time
+		//ToDo: Shark - return feeds with interest i from start to stop, sorted by time
 		if(myProfile == null) return null;
 		List<Feed> feed_list = DummyDB.getInstance().getFeed_list(myProfile, i, start_index, stop_index, descending);
 		return feed_list;
