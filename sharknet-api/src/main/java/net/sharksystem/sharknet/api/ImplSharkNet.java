@@ -148,6 +148,9 @@ public class ImplSharkNet implements SharkNet {
 	@Override
 	public void exchangeContactNFC() {
 		//ToDo: Shark - Implement Contact Exchange via NFC
+		//This Contact gets generated to see that sth is happening
+		informContact(new ImplContact("nfc contact", "www.nfccontact.de", "", myProfile, new ImplContent(""), null));
+
 	}
 
 	@Override
@@ -199,6 +202,17 @@ public class ImplSharkNet implements SharkNet {
 			List<GetEvents> listener = (List<GetEvents>)pair.getValue();
 			for(GetEvents ev : listener){
 				ev.receivedComment(c);
+			}
+		}
+	}
+
+	public void informContact(Contact c){
+		Iterator it = ListenerMap.entrySet().iterator();
+		while(it.hasNext()){
+			Map.Entry pair = (Map.Entry)it.next();
+			List<GetEvents> listener = (List<GetEvents>)pair.getValue();
+			for(GetEvents ev : listener){
+				ev.receivedContact(c);
 			}
 		}
 	}

@@ -527,4 +527,9 @@ public class ChatController extends AbstractController implements ChatListener, 
 		// do nothing
 	}
 
+	@Override
+	public void receivedContact(Contact c){
+		//do nothing
+	}
+
 }

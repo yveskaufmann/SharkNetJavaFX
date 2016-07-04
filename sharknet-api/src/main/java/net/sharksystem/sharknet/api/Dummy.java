@@ -212,7 +212,13 @@ public class Dummy {
 		Message mlistener2 = new ImplMessage(new ImplContent("received through listener - alice to bob"), time5ago, alice, s.getMyProfile(), recipients2, false, false);
 
 
+		s.informMessage(mlistener2);
+		s.informMessage(mlistener1);
+		s.exchangeContactNFC();
+
+
 		s.setProfile(alice_p, "");
+
 
 	}
 

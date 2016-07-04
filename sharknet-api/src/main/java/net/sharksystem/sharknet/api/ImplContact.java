@@ -47,9 +47,13 @@ public class ImplContact implements Contact {
 		this.nickname = nickname;
 		this.uid = uid;
 		this.publickey = publickey;
-		this.interest = interest;
 		this.owner = owner;
 		this.picture = pic;
+
+		if(interest == null) {
+			this.interest = new ImplInterest(this);
+		}else this.interest = interest;
+
 	}
 
 
