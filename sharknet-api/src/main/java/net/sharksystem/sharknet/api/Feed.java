@@ -1,5 +1,7 @@
 package net.sharksystem.sharknet.api;
 
+import net.sharkfw.knowledgeBase.SemanticTag;
+
 import java.sql.Timestamp;
 import java.util.List;
 

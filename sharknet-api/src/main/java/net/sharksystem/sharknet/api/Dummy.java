@@ -1,5 +1,8 @@
 package net.sharksystem.sharknet.api;
 
+import net.sharkfw.knowledgeBase.SemanticTag;
+import net.sharkfw.knowledgeBase.TXSemanticTag;
+
 import java.io.*;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -119,15 +122,18 @@ public class Dummy {
 
 		chat3.sendMessage(new ImplContent("this is a group message"));
 
-		Interest i1 = new ImpInterest("sport", "www.sport,de", null, null);
-		Interest i2 = new ImpInterest("shark", "www.shark,de", null, null);
+// Interest Managemnt
+		Interest i1 = new ImplInterest(alice);
+		TXSemanticTag si1 = i1.addInterest("sport", "www.sport.de");
+		TXSemanticTag si2 = i1.addInterest("fußball", "www.fußball.de");
+		i1.moveInterest(si1, si2);
+
+		Interest i2 = new ImplInterest(bob);
+		TXSemanticTag si3 = i2.addInterest("shark", "www.sharknet.de");
+
 		i1.save();
 		i2.save();
 
-		Feed fold = new ImplFeed((new ImplContent("this is the start")), i2, alice, time5ago, alice_p);
-		Feed fnew = new ImplFeed((new ImplContent("this is the end")), i2, alice, time5after, alice_p);
-		DummyDB.getInstance().addfeed(fold);
-		DummyDB.getInstance().addfeed(fnew);
 		Feed f1 = s.newFeed(new ImplContent("this is the fist feed of sharkNet"), i2, bob);
 		Feed f2 = s.newFeed(new ImplContent("sth about football"), i1, alice);
 		Feed f3 = s.newFeed(new ImplContent("football sucks"), i1, alice);

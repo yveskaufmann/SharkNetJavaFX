@@ -539,7 +539,7 @@ public class DummyDB {
 			int iteratorstart = 0;
 			int iteratorstop = 0;
 			int iterator = 0;
-			while ((!reachStart && !reachStop) || iterator < swaplist.size()) {
+			while ((!reachStart && !reachStop) && iterator < swaplist.size()) {
 				if (!reachStart && reachStop) {
 					if (swaplist.get(iterator).getTimestamp().before(start) || swaplist.get(iterator).getTimestamp().equals(start)) {
 						reachStart = true;
