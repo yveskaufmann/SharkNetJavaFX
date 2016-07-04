@@ -109,5 +109,11 @@ public interface SharkNet {
      */
 	public void informComment(Comment c);
 
+	/**
+	 * Methods calls all Methods of registered listeners and informs about contact (for example when exchanged via NFC)
+	 * @param c
+	 */
+	public void informContact(Contact c);
+
 
 }
