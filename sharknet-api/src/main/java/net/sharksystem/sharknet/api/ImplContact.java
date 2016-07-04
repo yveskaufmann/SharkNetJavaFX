@@ -10,10 +10,6 @@ import java.util.List;
 
 public class ImplContact implements Contact {
 
-	//ToDo: Implement - Generate KeyPairs
-
-
-
 	String nickname;
 	String name;
 	String email;
@@ -153,7 +149,6 @@ public class ImplContact implements Contact {
 
 	@Override
 	public String getPublicKey() {
-		//ToDo: Public key getter nur fingerprint bzw readable
 		return publickey;
 	}
 

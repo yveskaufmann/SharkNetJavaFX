@@ -69,6 +69,16 @@ public class DummyDB {
 		return swaplist;
 	}
 
+	public List<Feed> getFeed_list(Profile owner, Interest i, int startIndex, int stopIndex, boolean descending){
+		List <Feed> swaplist = (List<Feed>) sortList(getFeed_list(owner, descending), descending);
+		List<Feed> resultlist = new LinkedList<>();
+		for(Feed f : swaplist){
+			if(f.getInterest().contains(i)) resultlist.add(f);
+		}
+		resultlist = (List<Feed>) cutList(resultlist, startIndex, stopIndex);
+		return resultlist;
+	}
+
 
 	public List<Feed> getFeed_list(Profile owner, int startIndex, int stopIndex, Timestamp start, Timestamp stop, boolean descending) {
 		List <Feed> swaplist = (List<Feed>) sortList(getFeed_list(owner, descending), descending);

@@ -213,11 +213,7 @@ public class Dummy {
 
 
 		s.setProfile(alice_p, "");
-		List <Feed> foo = s.getFeeds("about", 0, 5, true);
-		List <Feed> foo1 = s.getFeeds(timenow, time7after, 0, 10, true);
 
-		List <Feed> foo2 = s.getFeeds(time7ago, timenow, 0, 10, true);
-		List <Feed> foo3 = s.getFeeds(time7ago, time7after, 0, 10, true);
 	}
 
 

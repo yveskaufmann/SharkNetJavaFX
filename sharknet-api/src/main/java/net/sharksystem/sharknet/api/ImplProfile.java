@@ -91,8 +91,7 @@ public class ImplProfile implements Profile {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	//ToDo: Implement - Interest
-	//ToDo: Implement - Settings
+
 
 	@Override
 	public boolean isEqual(Profile p){

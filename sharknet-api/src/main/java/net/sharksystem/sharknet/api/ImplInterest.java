@@ -19,9 +19,6 @@ public class ImplInterest implements Interest {
 
 	public ImplInterest(Contact owner){
 		kb = new InMemoSharkKB();
-
-		//ToDo: Adress nessecariy
-
 		kb.setOwner(InMemoSharkKB.createInMemoPeerSemanticTag(owner.getName(),
 			owner.getUID(),
 			""));
@@ -92,6 +89,24 @@ public class ImplInterest implements Interest {
 	}
 
 	@Override
+	public boolean contains(Interest i) {
+		List<TXSemanticTag> it = i.getAllTopics();
+		Boolean contains = true;
+		for(TXSemanticTag tag : it){
+			SemanticTag st = null;
+			try {
+				st = tx.getSemanticTag(tag.getSI());
+			} catch (SharkKBException e) {
+				e.printStackTrace();
+			}
+			if(st== null){
+				contains = false;
+			}
+		}
+		return contains;
+	}
+
+	@Override
 	public List<TXSemanticTag> getAllTopics() {
 
 		Enumeration<TXSemanticTag> enum_Tag = null;
@@ -140,6 +155,4 @@ public class ImplInterest implements Interest {
 		//ToDo: Shark - delete Interest from KB
 	}
 
-	//ToDo: Implemenmt "is private"
-	//ToDo: Implement direction
 }

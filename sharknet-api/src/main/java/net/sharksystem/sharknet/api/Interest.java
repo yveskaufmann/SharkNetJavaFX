@@ -52,6 +52,13 @@ public interface Interest {
 	public void moveInterest(TXSemanticTag parent, TXSemanticTag child);
 
 	/**
+	 * Evaluates if the Interest contains at least all Interests of i
+	 * @param i
+	 * @return
+     */
+	public boolean contains(Interest i);
+
+	/**
 	 * Returns a List of All Topics as a List within the Taxonomy
 	 * @return
      */

@@ -12,14 +12,6 @@ import java.util.*;
  */
 public class ImplSharkNet implements SharkNet {
 
-
-	//ToDo: Implement - Notifications for the GUI (Action Listener)
-
-	//ToDo: Implement - Initialisierung bauen (inkl übergabe KB etc)
-
-	//ToDo: Clearify - setter müssen Datan in shark speichern
-
-
 	Profile myProfile;
 	HashMap<Profile, List<GetEvents>> ListenerMap = new HashMap<>();
 	@Override
@@ -54,8 +46,11 @@ public class ImplSharkNet implements SharkNet {
 
 	@Override
 	public List<Feed> getFeeds(Interest i, int start_index, int stop_index, boolean descending) {
+
 		//ToDo: Implement - return feeds with interest i from start to stop, sorted by time
-		return null;
+		if(myProfile == null) return null;
+		List<Feed> feed_list = DummyDB.getInstance().getFeed_list(myProfile, i, start_index, stop_index, descending);
+		return feed_list;
 	}
 
 	@Override
@@ -134,7 +129,6 @@ public class ImplSharkNet implements SharkNet {
 		Contact c = new ImplContact(nickname, uid, publickey, myProfile);
 		return c;
 
-		//ToDo: Clearify - how to share contacts
 	}
 
 	@Override
