@@ -146,9 +146,9 @@ public class ChatController extends AbstractController implements ChatListener, 
 		});
 		// set onMouseCLick for newchat Button
 		buttonNewChat.setOnMouseClicked(event -> {
-			onNewChatClick();
-			/*Message m = new ImplMessage(new ImplContent("Das ist eine neue Nachricht. Bla blub keks tralalalalalala wer wie wo was der die das bla blub keks"), sharkNetModel.getContacts(), sharkNetModel.getMyProfile().getContact(), sharkNetModel.getMyProfile());
-			receivedMessage(m);*/
+			//onNewChatClick();
+			Message m = new ImplMessage(new ImplContent("Das ist eine neue Nachricht. Bla blub keks tralalalalalala wer wie wo was der die das bla blub keks"), sharkNetModel.getContacts(), sharkNetModel.getMyProfile().getContact(), sharkNetModel.getMyProfile());
+			receivedMessage(m);
 			event.consume();
 		});
 		// set listener for chathistorylistview items
@@ -339,7 +339,6 @@ public class ChatController extends AbstractController implements ChatListener, 
 				loadChatHistory();
 				// clear message input
 				textFieldMessage.setText("");
-
 			}
 		}
 	}

@@ -475,3 +475,13 @@
 	-fx-font-weight: bold;
 	-fx-font-size: 2em;
 }
+
+.labelChatRecipients {
+	-fx-font-weight: bold;
+	-fx-font-size: 1.25em;
+}
+
+.newMessageHeader {
+	-fx-font-weight: bold;
+	-fx-font-size: 1.1em;
+}

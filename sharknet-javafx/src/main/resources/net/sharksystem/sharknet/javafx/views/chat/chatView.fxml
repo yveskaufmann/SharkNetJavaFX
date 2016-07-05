@@ -45,7 +45,7 @@
                         <Image url="@../../images/vote.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="labelChatRecipients" layoutX="74.0" layoutY="14.0" prefHeight="40.0" prefWidth="213.0" text="Chat Contacts..." />
+                  <Label fx:id="labelChatRecipients" styleClass="labelChatRecipients" layoutX="74.0" layoutY="14.0" prefHeight="40.0" prefWidth="213.0" text="Chat Contacts..." />
              </children>
           </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="694.0" prefWidth="644.0">
