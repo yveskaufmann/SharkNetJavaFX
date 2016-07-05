@@ -127,6 +127,7 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 		for (Contact contact : chat.getContacts()) {
 			if (!contact.isEqual(sharkNetModel.getMyProfile().getContact())) {
 				imageManager.readImageFrom(contact.getPicture()).ifPresent(imageViewContactProfile::setImage);
+				break;
 			}
 		}
 		imageManager.readImageFrom(chat.getPicture()).ifPresent(imageViewContactProfile::setImage);

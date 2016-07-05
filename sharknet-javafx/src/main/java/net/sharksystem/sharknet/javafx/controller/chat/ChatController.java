@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -23,6 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -333,7 +335,8 @@ public class ChatController extends AbstractController implements ChatListener, 
 				// just send chat message
 				activeChat.sendMessage(new ImplContent(null, "", "", textFieldMessage.getText()));
 				loadChat(activeChat);
-				chatHistoryListView.refresh();
+				//chatHistoryListView.refresh();
+				loadChatHistory();
 				// clear message input
 				textFieldMessage.setText("");
 
@@ -358,10 +361,16 @@ public class ChatController extends AbstractController implements ChatListener, 
 			chatWindowListView.scrollTo(chatWindowListView.getItems().size()-1);
 			fillChatArea(c);
 			fillContactLabel(c.getContacts());
-			// try to set chat picture
-			if (c.getPicture() != null) {
-				imageManager.readImageFrom(c.getPicture()).ifPresent(imageViewContactProfile::setImage);
+
+			// set chat picture, if no chat picture is set, just use the picture from chat contacts
+			for (Contact contact : c.getContacts()) {
+				if (!contact.isEqual(sharkNetModel.getMyProfile().getContact())) {
+					imageManager.readImageFrom(contact.getPicture()).ifPresent(imageViewContactProfile::setImage);
+					break;
+				}
 			}
+			imageManager.readImageFrom(c.getPicture()).ifPresent(imageViewContactProfile::setImage);
+
 		}
 	}
 
@@ -373,6 +382,11 @@ public class ChatController extends AbstractController implements ChatListener, 
 		// load chats
 		List<Chat> chatList = sharkNetModel.getChats();
 		Log.debug("reload chat history");
+		if (chatList != null) {
+			chatList.sort((a, b) -> b.getTimestamp().compareTo(a.getTimestamp()));
+		}
+
+		//testList.sort((a, b) -> Double.compare(b, a));
 		// remove old chats and add new chats to listview
 		chatHistoryListView.getItems().setAll(chatList);
 	}

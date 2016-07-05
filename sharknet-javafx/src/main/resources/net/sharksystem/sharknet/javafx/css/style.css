@@ -471,3 +471,7 @@
 	-fx-font-weight: bold;
 }
 
+.loginProfileName {
+	-fx-font-weight: bold;
+	-fx-font-size: 2em;
+}
