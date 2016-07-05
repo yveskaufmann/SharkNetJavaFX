@@ -3,10 +3,13 @@ package net.sharksystem.sharknet.javafx.controller.chat;
 import com.google.inject.Inject;
 import javafx.beans.property.ObjectProperty;
 import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import net.sharksystem.sharknet.api.Chat;
 import net.sharksystem.sharknet.api.Contact;
+import net.sharksystem.sharknet.api.Message;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCell;
@@ -44,6 +47,8 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 	private ImageView imageViewDelete;
 	@FXML
 	private ImageView imageViewContactProfile;
+	@FXML
+	private Label labelNewMsgCount;
 
 	private ObjectProperty<Chat> chatProp;
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat();
@@ -74,6 +79,7 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 		imageViewDelete.setOnMouseExited(event -> {
 			imageViewDelete.setOpacity(0.5);
 		});
+
 	}
 
 	@Override
@@ -85,11 +91,25 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 		}
 
 		List<String> contactNames = new ArrayList<>();
+		labelNewMsgCount.setVisible(false);
 
 		for (Contact contact : chat.getContacts()) {
-			System.out.println(contact.getNickname());
 			contactNames.add(contact.getNickname());
 		}
+
+		// check if some of the msgs are unread
+		int newMsgCount = 0;
+		for (Message msg : chat.getMessages(false)) {
+			if (!msg.isRead()) {
+				newMsgCount++;
+			}
+		}
+		// if we found unread msgs, enable newmsg label
+		if (newMsgCount > 0) {
+			labelNewMsgCount.setText(String.valueOf(newMsgCount));
+			labelNewMsgCount.setVisible(true);
+		}
+
 
 		String senders = String.join(", ", contactNames);
 		// set sender label

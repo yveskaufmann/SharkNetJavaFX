@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -53,11 +54,12 @@
             </GridPane.margin></Text>
       <AnchorPane prefHeight="21.0" prefWidth="50.0" GridPane.columnIndex="2">
          <children>
-            <ImageView fx:id="imageViewDelete" fitHeight="16.0" fitWidth="18.0" layoutX="60.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imageViewDelete" fitHeight="16.0" fitWidth="18.0" layoutX="60.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../images/cross.png" />
                </image>
             </ImageView>
+            <Label fx:id="labelNewMsgCount" layoutX="10.0" layoutY="0.0" text="10" styleClass="newmessagecount" />
          </children>
       </AnchorPane>
 

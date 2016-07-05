@@ -153,15 +153,16 @@ public class ChatController extends AbstractController implements ChatListener, 
 		chatHistoryListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		chatHistoryListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			onChatSelected(chatHistoryListView.getSelectionModel().getSelectedItem());
+			chatHistoryListView.refresh();
 		});
+		/*
 		// scroll to last chat message in chatwindow, everytime a new message gets added
 		chatWindowListView.getItems().addListener(new ListChangeListener<Message>(){
 			@Override
 			public void onChanged(javafx.collections.ListChangeListener.Change<? extends Message> c) {
 				chatWindowListView.scrollTo(c.getList().size()-1);
-
 			}
-		});
+		});*/
 
 		// load all chats into chathistorylistview
 		loadChatHistory();
@@ -354,11 +355,7 @@ public class ChatController extends AbstractController implements ChatListener, 
 
 	private void loadChat(Chat c) {
 		if (c != null) {
-			System.out.println("loadchat");
-			for (Message m : c.getMessages(false)) {
-			System.out.println(m.getContent().getMessage());
-			}
-
+			chatWindowListView.scrollTo(chatWindowListView.getItems().size()-1);
 			fillChatArea(c);
 			fillContactLabel(c.getContacts());
 			// try to set chat picture
@@ -388,6 +385,13 @@ public class ChatController extends AbstractController implements ChatListener, 
 		if (c != null) {
 			activeChat = c;
 			loadChat(activeChat);
+
+			for (Message msg : activeChat.getMessages(false)) {
+				if (!msg.isRead()) {
+					msg.setRead(true);
+				}
+			}
+
 		}
 	}
 
@@ -471,7 +475,7 @@ public class ChatController extends AbstractController implements ChatListener, 
 			fillContactLabel(c);
 			loadChatHistory();
 
-		// start new chat
+			// start new chat
 		} else if (status == Status.NEWCHAT) {
 			// create new chat
 			Chat chat = sharkNetModel.newChat(c);
@@ -512,9 +516,14 @@ public class ChatController extends AbstractController implements ChatListener, 
 
 	@Override
 	public void receivedMessage(Message m) {
-		//loadChat(m.getChat());
 		NewMessageController controller = new NewMessageController(m);
-		// ToDo: update history listview
+		// TODO: dont load chat automatically, maybe just add a label for new message count
+
+		// reload current chatwindow if msg belongs to the active chat
+		if (activeChat.getID() == m.getChat().getID()) {
+			loadChat(m.getChat());
+		}
+		loadChatHistory();
 	}
 
 	@Override

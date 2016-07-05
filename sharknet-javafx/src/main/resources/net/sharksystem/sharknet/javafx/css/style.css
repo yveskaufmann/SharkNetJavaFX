@@ -461,5 +461,13 @@
 	-fx-text-color: white;
 }
 
-
+.newmessagecount {
+	-fx-background-radius: 5em;
+	-fx-background-color: #E91E63;
+	-fx-min-width: 25px;
+	-fx-min-height: 25px;
+	-fx-alignment: center;
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+}
 
