@@ -137,8 +137,8 @@ public class ChatContactsController extends AbstractController {
 			if (contact.isEqual(sharkNet.getMyProfile().getContact())) {
 				contactIterator.remove();
 			}
-		}*/
-
+		}
+		*/
 		// remove contacts from allContacts list, which are already in chat
 		// check if chat already exist, if not -> new chat
 		if (chat != null) {

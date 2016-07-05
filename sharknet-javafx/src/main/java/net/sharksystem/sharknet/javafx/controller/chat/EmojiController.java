@@ -54,8 +54,8 @@ public class EmojiController extends AbstractController {
 				if (counter < emojis.size()) {
 					Pane pane = new Pane();
 					pane.getStyleClass().addAll("emojione", emojis.get(counter));
-					pane.setPrefHeight(64);
-					pane.setPrefWidth(64);
+					//pane.setPrefHeight(64);
+					//pane.setPrefWidth(64);
 					// set onmouseclick event for each emoji
 					pane.setOnMouseClicked(event -> {
 						onEmojiClicked(pane);
