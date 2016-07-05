@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 import net.sharksystem.sharknet.api.Chat;
 import net.sharksystem.sharknet.api.Contact;
@@ -42,7 +43,7 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 	@FXML
 	private Text chatTitle;
 	@FXML
-	private Text chatContent;
+	private Label chatContent;
 	@FXML
 	private ImageView imageViewDelete;
 	@FXML
@@ -119,7 +120,17 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 			// timestamp of last message
 			chatLastMessage.setText(dateFormat.format(timestamp));
 			// chat preview (last message)
-			chatContent.setText(chat.getMessages(false).get(chat.getMessages(false).size()-1).getContent().getMessage());
+			// remove any emojis...
+			if (chat.getMessages(false).get(chat.getMessages(false).size()-1).getContent().getMessage().matches(".*[:emojione-].*[:].*")) {
+				String tmp = chat.getMessages(false).get(chat.getMessages(false).size() - 1).getContent().getMessage();
+				tmp = tmp.replaceAll(":emojione-.*[:]", "");
+				chatContent.setText(tmp);
+			}
+			// if msg doesnt contain any emojis, just display the msg
+			else {
+				chatContent.setText(chat.getMessages(false).get(chat.getMessages(false).size()-1).getContent().getMessage());
+			}
+
 		}
 		// set chat title
 		chatTitle.setText(chat.getTitle());

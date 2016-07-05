@@ -13,16 +13,15 @@
 <?import net.sharksystem.sharknet.javafx.controls.RoundImageView?>
 <GridPane fx:id="container" prefHeight="80.0" prefWidth="355.0" styleClass="theme-presets inbox-entry" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
     <columnConstraints>
-        <ColumnConstraints halignment="LEFT" hgrow="NEVER" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
-        <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
-        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
+        <ColumnConstraints halignment="LEFT" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
+        <ColumnConstraints halignment="LEFT" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
+        <ColumnConstraints halignment="LEFT" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
 
     </columnConstraints>
     <rowConstraints>
         <RowConstraints vgrow="NEVER" />
-        <RowConstraints vgrow="SOMETIMES" />
-        <RowConstraints vgrow="ALWAYS" />
-      <RowConstraints />
+        <RowConstraints vgrow="NEVER" />
+        <RowConstraints vgrow="SOMETIMES" maxHeight="50.0" prefHeight="50.0"/>
 
     </rowConstraints>
     <children>
@@ -48,10 +47,10 @@
                 <Insets left="10.0" top="5.0" />
             </GridPane.margin></Text>
 
-        <Text fx:id="chatContent" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-mid" text="Chat message preview" wrappingWidth="302.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+        <Label fx:id="chatContent" styleClass="text-mid" text="Chat message preview" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
             <GridPane.margin>
                 <Insets bottom="5.0" left="10.0" top="5.0" />
-            </GridPane.margin></Text>
+            </GridPane.margin></Label>
       <AnchorPane prefHeight="21.0" prefWidth="50.0" GridPane.columnIndex="2">
          <children>
             <ImageView fx:id="imageViewDelete" fitHeight="16.0" fitWidth="18.0" layoutX="60.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
@@ -59,7 +58,7 @@
                   <Image url="@../../images/cross.png" />
                </image>
             </ImageView>
-            <Label fx:id="labelNewMsgCount" layoutX="10.0" layoutY="0.0" text="10" styleClass="newmessagecount" />
+            <Label fx:id="labelNewMsgCount" layoutX="10.0" layoutY="0.0" styleClass="newmessagecount" text="10" />
          </children>
       </AnchorPane>
 
