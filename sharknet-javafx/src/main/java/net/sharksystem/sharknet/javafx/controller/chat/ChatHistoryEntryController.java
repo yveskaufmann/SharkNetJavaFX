@@ -13,7 +13,6 @@ import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCell;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCellController;
 import net.sharksystem.sharknet.javafx.services.ImageManager;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;

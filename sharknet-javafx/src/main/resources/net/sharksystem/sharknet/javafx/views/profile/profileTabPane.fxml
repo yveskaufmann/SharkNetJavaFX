@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.image.*?>
-
-<?import impl.org.controlsfx.skin.DecorationPane?>
-
 <!-- fix layout issues which triggered by controlsfx validation decoration
      see for details: https://bitbucket.org/controlsfx/controlsfx/issues/285/validator-support-change-resize-behavior -->
+<?import impl.org.controlsfx.skin.DecorationPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.VBox?>
 <DecorationPane>
     <VBox spacing="0" stylesheets="@profile.css" fx:id="profileView" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1">
         <fx:include source="profileHeader.fxml"/>

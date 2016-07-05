@@ -1,8 +1,5 @@
 package net.sharksystem.sharknet.javafx.controls;
 
-import com.sun.javafx.css.PseudoClassState;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.css.PseudoClass;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

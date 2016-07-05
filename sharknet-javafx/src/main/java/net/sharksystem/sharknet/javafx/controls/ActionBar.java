@@ -13,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
 import javafx.scene.control.Tooltip;
-import net.sharksystem.sharknet.javafx.actions.ActionCallback;
 import net.sharksystem.sharknet.javafx.actions.ActionEntry;
 import net.sharksystem.sharknet.javafx.controls.skins.ActionbarSkin;
 

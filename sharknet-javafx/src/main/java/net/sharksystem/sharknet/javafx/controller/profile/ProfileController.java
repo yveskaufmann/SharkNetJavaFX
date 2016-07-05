@@ -1,11 +1,9 @@
 package net.sharksystem.sharknet.javafx.controller.profile;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import net.sharksystem.sharknet.api.Contact;
@@ -36,41 +34,58 @@ public class ProfileController extends AbstractController {
 		"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
+	/******************************************************************************
+	 *
+	 * FXML Fields
+	 *
+	 ******************************************************************************/
+
+	/* Profile image fields */
+	@FXML private RoundImageView profileImageView;
+	@FXML private Label nameLabel;
+	@FXML private Label nicknameLabel;
+
+	/* Profile fields */
+	@FXML private TextField nicknameTextfield;
+	@FXML private TextField realnameTextfield;
+	@FXML private TextField emailTextfield;
+	@FXML private TextArea userInfoTextfield;
+	@FXML private Button cancelButton;
+	@FXML private Button saveButton;
+
+	/* Public Key fields */
+
+	@FXML private Label publicKeyField;
+	@FXML private Label periodOfValidityField;
+	@FXML private JFXButton generateNewPublicKey;
+
+	/* Password change fields */
+	@FXML private PasswordField oldPasswordField;
+	@FXML private PasswordField newPasswordField;
+	@FXML private PasswordField confirmPasswordField;
+	@FXML private JFXButton changePasswordButton;
+
+
+	/******************************************************************************
+	 *
+	 * Fields
+	 *
+	 ******************************************************************************/
+
 	@Inject
 	private ImageManager imageManager;
 
 	@Inject
 	private SharkNet sharkNet;
 
-	@FXML
-	private RoundImageView profileImageView;
-
-	@FXML
-	private Label nameLabel;
-
-	@FXML
-	private Label nicknameLabel;
-
-	@FXML
-	private TextField nicknameTextfield;
-
-	@FXML
-	private TextField realnameTextfield;
-
-	@FXML
-	private TextField emailTextfield;
-
-	@FXML
-	private TextArea userInfoTextfield;
-
-	@FXML
-	private Button cancelButton;
-
-	@FXML
-	private Button saveButton;
-
 	private FrontController frontController;
 	private ValidationSupport validationSupport;
+
+	/******************************************************************************
+	 *
+	 * Constructors
+	 *
+	 ******************************************************************************/
 
 	public ProfileController() {
 		super(App.class.getResource("views/profile/profileTabPane.fxml"));
@@ -99,6 +114,12 @@ public class ProfileController extends AbstractController {
 		loadData();
 	}
 
+	/******************************************************************************
+	 *
+	 * Methods
+	 *
+	 ******************************************************************************/
+
 	private void loadData() {
 		Profile profile = sharkNet.getMyProfile();
 		Contact contact = profile.getContact();
@@ -121,7 +142,7 @@ public class ProfileController extends AbstractController {
 	}
 
 	@FXML
-	void onSave(ActionEvent event) {
+	void onSaveProfile(ActionEvent event) {
 		if(!validationSupport.isInvalid()) {
 			Log.info("Update Profile");
 			Profile profile = sharkNet.getMyProfile();
@@ -135,9 +156,8 @@ public class ProfileController extends AbstractController {
 	}
 
 	@FXML
-	void onCancel(ActionEvent event) {
+	void onResetProfile(ActionEvent event) {
 		Log.debug("Reset Profile");
 		loadData();
 	}
-
 }

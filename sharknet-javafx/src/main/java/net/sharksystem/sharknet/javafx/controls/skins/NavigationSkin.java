@@ -7,15 +7,12 @@ import javafx.scene.AccessibleAction;
 import javafx.scene.AccessibleRole;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.SkinBase;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
 import net.sharksystem.sharknet.javafx.actions.ActionEntry;
 import net.sharksystem.sharknet.javafx.controls.FontIcon;
 import net.sharksystem.sharknet.javafx.controls.Navigation;
 
-import java.nio.channels.Channels;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

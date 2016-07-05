@@ -5,16 +5,12 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ObjectPropertyBase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.AccessibleRole;
-import javafx.scene.control.*;
+import javafx.scene.control.Control;
+import javafx.scene.control.Skin;
 import net.sharksystem.sharknet.javafx.actions.ActionCallback;
 import net.sharksystem.sharknet.javafx.actions.ActionEntry;
 import net.sharksystem.sharknet.javafx.controls.skins.NavigationSkin;
-import org.controlsfx.control.PropertySheet;
-
-import javax.management.Notification;
 
 /**
  *

@@ -1,7 +1,5 @@
 package net.sharksystem.sharknet.javafx.utils;
 
-import net.sharksystem.sharknet.javafx.controls.FontIcon;
-
 /**
  * <p>
  * A enum with all <a href="http://fontawesome.io/" >Font Awesome</a> icons,

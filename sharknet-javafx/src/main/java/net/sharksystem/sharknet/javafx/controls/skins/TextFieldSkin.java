@@ -1,15 +1,15 @@
 package net.sharksystem.sharknet.javafx.controls.skins;
 
 import javafx.beans.binding.Bindings;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeType;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import net.sharksystem.sharknet.javafx.controls.TextField;
 import net.sharksystem.sharknet.javafx.utils.FontAwesomeIcon;

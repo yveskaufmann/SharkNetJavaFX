@@ -1,7 +1,6 @@
 package net.sharksystem.sharknet.javafx.context;
 
 
-import com.google.inject.Injector;
 import javafx.application.Application;
 import net.sharksystem.sharknet.javafx.modules.SharkNetModule;
 import org.slf4j.Logger;

@@ -1,7 +1,6 @@
 package net.sharksystem.sharknet.javafx.controller.inbox;
 
 import com.google.inject.Inject;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
@@ -14,11 +13,6 @@ import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCellControlle
 import net.sharksystem.sharknet.javafx.services.ImageManager;
 import net.sharksystem.sharknet.javafx.utils.FontAwesomeIcon;
 import net.sharksystem.sharknet.javafx.utils.TimeUtils;
-
-import java.text.SimpleDateFormat;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
 
 public class InboxEntryController extends MediaListCellController<Feed> {
 

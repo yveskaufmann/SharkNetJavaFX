@@ -18,10 +18,8 @@ import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controls.RoundImageView;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
-import org.controlsfx.validation.Severity;
 
 import java.io.*;
-import java.util.regex.Pattern;
 
 
 /**

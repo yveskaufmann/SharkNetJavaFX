@@ -3,7 +3,6 @@ package net.sharksystem.sharknet.javafx.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.PreDestroy;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -45,14 +44,19 @@ public class ReflectionUtils {
      */
 	public static Object getFieldValue(String fieldName, Class<?> cls, Object instance) {
 		try {
-			Field field = cls.getDeclaredField(fieldName);
-			field.setAccessible(true);
+			Field field = getFieldByName(fieldName, cls);
 			return field.get(instance);
 
 		} catch (NoSuchFieldException | IllegalAccessException e) {
 			Log.warn(MessageFormat.format("\"{0}\" is not a accessible field of {1}.", fieldName, cls.getName()),e);
 		}
 		return null;
+	}
+
+	private static Field getFieldByName(String fieldName, Class<?> cls) throws NoSuchFieldException {
+		Field field = cls.getDeclaredField(fieldName);
+		field.setAccessible(true);
+		return field;
 	}
 
 	/**
@@ -90,6 +94,15 @@ public class ReflectionUtils {
 			}
 			return null;
 		});
+	}
+
+	public static void setFieldValue(String fieldName, Class<?> cls, Object instance, Object value) {
+		try {
+			Field field = getFieldByName(fieldName, cls);
+			setFieldValue(field, instance, value);
+		} catch (NoSuchFieldException e) {
+			Log.warn(MessageFormat.format("\"{0}\" is not a accessible field of {1}.", fieldName, cls.getName()),e);
+		}
 	}
 
 	/***

@@ -1,12 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import net.sharksystem.sharknet.javafx.controls.SectionPane?>
 
-<?import net.sharksystem.sharknet.javafx.controls.FontIcon?>
+<?import javafx.geometry.Insets?>
 <BorderPane fx:id="keyManagmentPane" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.92"
             xmlns:fx="http://javafx.com/fxml/1">
     <center>
-        <Label fx:id="label" >Key-Managment</Label>
+        <VBox spacing="15" fillWidth="true">
+            <padding>
+                <Insets top="15" bottom="15" left="15" right="15"/>
+            </padding>
+        <SectionPane text="%profile.publicKey.title" collapsible="false">
+            <VBox>
+                <Label text="%profile.publicKey.description"/>
+                <Separator orientation="HORIZONTAL" />
+                <HBox>
+                    <Label text="%profile.publicKey.label"/>
+                    <Label fx:id="publicKeyField" />
+                </HBox>
+                <HBox>
+                    <Label text="%profile.publicKey.periodOfValidityLabel"/>
+                    <Label fx:id="periodOfValidityField"/>
+                </HBox>
+                <HBox spacing="5">
+                    <JFXButton fx:id="generateNewPublicKey" text="%profile.publicKey.generate"/>
+                </HBox>
+            </VBox>
+        </SectionPane>
+        <SectionPane text="%profile.changePassword.title" collapsible="false">
+            <VBox prefHeight="-Infinity">
+                <VBox spacing="5">
+                    <Label text="%profile.changePassword.oldPassword"/>
+                    <PasswordField fx:id="oldPasswordField" maxWidth="444" />
+                </VBox>
+                <VBox>
+                    <Label text="%profile.changePassword.newPassword"/>
+                    <PasswordField fx:id="newPasswordField"  maxWidth="444"/>
+                </VBox>
+                <VBox spacing="10">
+                    <Label text="%profile.changePassword.confirmPassword"/>
+                    <PasswordField fx:id="confirmPasswordField"  maxWidth="444" />
+                </VBox>
+                <JFXButton fx:id="changePasswordButton" alignment="CENTER_RIGHT" text="%profile.changePassword.title" />
+            </VBox>
+        </SectionPane>
+        </VBox>
     </center>
 </BorderPane>

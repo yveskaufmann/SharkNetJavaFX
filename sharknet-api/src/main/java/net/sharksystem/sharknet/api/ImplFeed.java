@@ -2,7 +2,6 @@ package net.sharksystem.sharknet.api;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 /**

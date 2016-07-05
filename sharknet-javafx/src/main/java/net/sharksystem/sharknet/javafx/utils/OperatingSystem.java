@@ -1,7 +1,5 @@
 package net.sharksystem.sharknet.javafx.utils;
 
-import org.controlsfx.tools.Platform;
-
 import java.io.File;
 
 /**

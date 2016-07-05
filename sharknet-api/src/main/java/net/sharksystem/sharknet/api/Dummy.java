@@ -1,9 +1,12 @@
 package net.sharksystem.sharknet.api;
 
-import java.io.*;
+import java.io.InputStream;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class Dummy {

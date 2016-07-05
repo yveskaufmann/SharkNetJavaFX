@@ -3,13 +3,9 @@ package net.sharksystem.sharknet.javafx.controls;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ListChangeListener;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Labeled;
 import net.sharksystem.sharknet.javafx.utils.FontAwesomeIcon;
 import net.sharksystem.sharknet.javafx.utils.FontBasedIcon;
-
-import java.util.stream.Collectors;
 
 
 public class FontIcon extends Label {

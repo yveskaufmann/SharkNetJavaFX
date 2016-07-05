@@ -1,33 +1,22 @@
 package net.sharksystem.sharknet.javafx.controller.chat;
 
 import javafx.fxml.FXML;
-import javafx.geometry.*;
-import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import net.sharksystem.sharknet.api.Contact;
-import net.sharksystem.sharknet.api.Content;
-import net.sharksystem.sharknet.api.ImplContent;
 import net.sharksystem.sharknet.api.Message;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCell;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCellController;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Iterator;

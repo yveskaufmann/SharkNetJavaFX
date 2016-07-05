@@ -15,3 +15,7 @@
 #profileImageLayer:hover .icon-label {
     visibility: visible;
 }
+
+.section-pane .title {
+    -fx-font-weight: bold;
+}

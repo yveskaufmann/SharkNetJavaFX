@@ -13,7 +13,6 @@ import net.sharksystem.sharknet.javafx.context.ViewContext;
 import net.sharksystem.sharknet.javafx.controls.FontIcon;
 import net.sharksystem.sharknet.javafx.i18n.I18N;
 import net.sharksystem.sharknet.javafx.utils.ReflectionUtils;
-import net.sharksystem.sharknet.javafx.utils.ExceptionUtils;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.FXMLViewContext;
 import org.slf4j.Logger;

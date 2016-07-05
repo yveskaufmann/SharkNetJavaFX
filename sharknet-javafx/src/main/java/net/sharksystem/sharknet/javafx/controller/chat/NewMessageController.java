@@ -7,10 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.ToolBar;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -18,10 +15,10 @@ import javafx.util.Duration;
 import net.sharksystem.sharknet.api.Message;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
-import java.util.Timer;
 
 import java.awt.*;
 import java.text.SimpleDateFormat;
+import java.util.Timer;
 import java.util.TimerTask;
 
 /**

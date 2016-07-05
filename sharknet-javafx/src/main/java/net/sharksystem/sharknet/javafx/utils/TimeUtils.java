@@ -1,12 +1,9 @@
 package net.sharksystem.sharknet.javafx.utils;
 
 
-import javafx.util.*;
 import net.sharksystem.sharknet.javafx.i18n.I18N;
 
-import java.text.SimpleDateFormat;
 import java.time.*;
-import java.time.Duration;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Date;

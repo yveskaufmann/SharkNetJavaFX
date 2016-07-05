@@ -1,6 +1,5 @@
 package net.sharksystem.sharknet.javafx.controller.chat;
 
-import javafx.scene.control.ListView;
 import net.sharksystem.sharknet.api.Message;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCell;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListView;

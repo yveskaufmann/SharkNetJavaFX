@@ -1,27 +1,24 @@
 package net.sharksystem.sharknet.javafx.controls;
 
 
-import javafx.animation.*;
+import javafx.animation.Animation;
+import javafx.animation.Interpolator;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import net.sharksystem.sharknet.javafx.controls.animations.DoublePropertyTransition;
 import net.sharksystem.sharknet.javafx.utils.NodeUtils;
 
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class Workbench extends StackPane {
 
