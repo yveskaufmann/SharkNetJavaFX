@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.Chat;
 import net.sharksystem.sharknet.api.Contact;
@@ -13,6 +14,7 @@ import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -56,6 +58,10 @@ public class ChatContactsController extends AbstractController {
 		stage.setTitle("Choose the contacts you want to add");
 		stage.setScene(new Scene(root, 494, 414));
 		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
+		InputStream in = App.class.getResourceAsStream("images/shark-icon256x256.png");
+		if (in != null) {
+			stage.getIcons().add(new Image(in));
+		}
 		stage.show();
 	}
 

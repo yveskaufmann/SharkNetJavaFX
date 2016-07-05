@@ -146,9 +146,9 @@ public class ChatController extends AbstractController implements ChatListener, 
 		});
 		// set onMouseCLick for newchat Button
 		buttonNewChat.setOnMouseClicked(event -> {
-			//onNewChatClick();
-			Message m = new ImplMessage(new ImplContent("Das ist eine neue Nachricht. Bla blub keks tralalalalalala wer wie wo was der die das bla blub keks"), sharkNetModel.getContacts(), sharkNetModel.getMyProfile().getContact(), sharkNetModel.getMyProfile());
-			receivedMessage(m);
+			onNewChatClick();
+			//Message m = new ImplMessage(new ImplContent("Das ist eine neue Nachricht. Bla blub keks tralalalalalala wer wie wo was der die das bla blub keks"), sharkNetModel.getContacts(), sharkNetModel.getMyProfile().getContact(), sharkNetModel.getMyProfile());
+			//receivedMessage(m);
 			event.consume();
 		});
 		// set listener for chathistorylistview items
@@ -381,11 +381,10 @@ public class ChatController extends AbstractController implements ChatListener, 
 		// load chats
 		List<Chat> chatList = sharkNetModel.getChats();
 		Log.debug("reload chat history");
+		// sort chatlist, newest chat @top
 		if (chatList != null) {
 			chatList.sort((a, b) -> b.getTimestamp().compareTo(a.getTimestamp()));
 		}
-
-		//testList.sort((a, b) -> Double.compare(b, a));
 		// remove old chats and add new chats to listview
 		chatHistoryListView.getItems().setAll(chatList);
 	}

@@ -64,6 +64,10 @@ public class CreateProfileController extends AbstractController{
 		stage.setTitle("Create your Profile");
 		stage.setScene(new Scene(root, 552, 346));
 		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
+		InputStream in = App.class.getResourceAsStream("images/shark-icon256x256.png");
+		if (in != null) {
+			stage.getIcons().add(new Image(in));
+		}
 		stage.show();
 	}
 
