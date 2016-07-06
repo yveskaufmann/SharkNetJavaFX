@@ -485,3 +485,13 @@
 	-fx-font-weight: bold;
 	-fx-font-size: 1.1em;
 }
+
+.chatDivider {
+	-fx-background-radius: 5em;
+	-fx-background-color: #E91E63;
+	-fx-min-height: 20px;
+	-fx-min-width: 580px;
+	-fx-alignment: center;
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+}

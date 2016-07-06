@@ -21,11 +21,14 @@ import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.util.resources.cldr.ar.CalendarData_ar_YE;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -357,7 +360,7 @@ public class ChatController extends AbstractController implements ChatListener, 
 
 	private void loadChat(Chat c) {
 		if (c != null) {
-			chatWindowListView.scrollTo(chatWindowListView.getItems().size()-1);
+			chatWindowListView.scrollTo(chatWindowListView.getItems().size() - 1);
 			fillChatArea(c);
 			fillContactLabel(c.getContacts());
 
@@ -430,13 +433,59 @@ public class ChatController extends AbstractController implements ChatListener, 
 	private void fillChatArea(Chat c) {
 		// clear old chat messages
 		chatWindowListView.getItems().clear();
+		// contains message list sorted by date 0 -> earlierst date, 1 -> 2nd earlierst date etc...
+		List<List<Message>> messageStructure = new ArrayList<>();
+		// contains message for one date -> gets added to messageStructure
+		List<Message> messageList = null;
+		LocalDate compareDate = LocalDate.of(1970,1,1);
+
 
 		// if chat contains messages
 		if (c.getMessages(false) != null) {
-			for (Message message : c.getMessages(false)) {
-				chatWindowListView.getItems().add(message);
+			// seperate messages for date
+			for (int i = 0; i < c.getMessages(false).size(); i++) {
+				Message msg = c.getMessages(false).get(i);
+				java.util.Date msgD = msg.getTimestamp();
+				LocalDate msgDate = msgD.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				// if a new date was found
+				if (!compareDate.equals(msgDate)) {
+					if (messageList != null && messageList.size() > 0) {
+						messageStructure.add(messageList);
+					}
+					compareDate = msgDate;
+					messageList = new ArrayList<>();
+				}
+
+				messageList.add(msg);
+
+				// last iteration
+				if (i == c.getMessages(false).size()-1) {
+					messageStructure.add(messageList);
+				}
+
+			}
+
+			messageStructure = insertDateDivider(messageStructure);
+			// finally add the messages to gui
+			for (List<Message> partList : messageStructure) {
+				for (Message msg : partList) {
+					chatWindowListView.getItems().add(msg);
+				}
 			}
 		}
+	}
+
+	/**
+	 * inserts dummy messages, so the chatwindowcontroller can detect a date change
+	 * @param list list with a list of messages, each list represents one day
+	 * @return list with the inserted dummy messages
+	 */
+	private List<List<Message>> insertDateDivider(List<List<Message>> list) {
+		for (List<Message> partList : list) {
+			Message divider = new ImplMessage(new ImplContent(":datedivider:"), partList.get(0).getTimestamp(), null, null, null, false, false);
+			partList.add(0, divider);
+		}
+		return list;
 	}
 
 	/**
