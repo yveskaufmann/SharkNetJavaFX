@@ -20,6 +20,7 @@ public class ImplContact implements Contact {
 	List<String> telephonnumber_list = new LinkedList<>();
 	Profile owner;
 	Content picture;
+	Timestamp lastWifiContact = null;
 
 
 	/**
@@ -207,5 +208,13 @@ public class ImplContact implements Contact {
 		this.owner = p;
 	}
 
+	@Override
+	public Timestamp getLastWifiContact() {
+		return lastWifiContact;
+	}
 
+	@Override
+	public void setLastWifiContact(Timestamp lastWifiContact) {
+		this.lastWifiContact = lastWifiContact;
+	}
 }

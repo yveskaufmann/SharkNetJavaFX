@@ -123,5 +123,17 @@ public interface Contact {
      */
 	public String getEmail();
 
+	/**
+	 * Returns the timestamp of the last direct wifi connection with the contact
+	 * @return
+     */
+	public Timestamp getLastWifiContact();
 
-}
+	/**
+	 * Sets the timestamp of the last direct wifi connection with the contact
+	 * @param lastWifiContact
+     */
+	public void setLastWifiContact(Timestamp lastWifiContact);
+
+
+	}
