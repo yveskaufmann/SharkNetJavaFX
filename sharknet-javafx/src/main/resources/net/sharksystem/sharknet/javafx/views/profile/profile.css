@@ -25,4 +25,6 @@
     visibility: hidden; -fx-padding: -1em;
 }
 
-
+.button .text {
+    -fx-text-fill: white;
+}

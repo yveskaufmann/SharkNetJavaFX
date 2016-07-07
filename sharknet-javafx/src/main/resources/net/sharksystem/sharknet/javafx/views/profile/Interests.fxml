@@ -9,12 +9,14 @@
    <SplitPane orientation="HORIZONTAL" dividerPositions="0.3">
         <StackPane>
             <SectionPane text="Interessen">
+                <titleControl>
+                    <fx:include fx:id="interestFilter" source="interestFilter.fxml"></fx:include>
+                </titleControl>
                 <TreeTableView styleClass="interest-tree" fx:id="interestsTreeTable"/>
             </SectionPane>
         </StackPane>
        <AnchorPane>
            <fx:include fx:id="interestEntry" source="InterestEntry.fxml" AnchorPane.leftAnchor="16" AnchorPane.rightAnchor="16" />
        </AnchorPane>
-
    </SplitPane>
 </StackPane>

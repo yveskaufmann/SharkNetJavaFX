@@ -449,16 +449,11 @@
 	-fx-text-fill: white;
 	-fx-min-width: 88px;
 	-fx-min-height: 25px;
-	-fx-label-padding: 0 16px;
 	-fx-cursor: hand;
 }
 
 .button:hover {
 	-fx-effect: null;
-}
-
-.button .text {
-	-fx-text-color: white;
 }
 
 .newmessagecount {

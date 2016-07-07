@@ -42,6 +42,7 @@ public class InterestsController {
 
 	@FXML private TreeTableView<TXSemanticTag> interestsTreeTable;
 	@FXML private InterestEntryController interestEntryController;
+	@FXML private InterestFilterController interestFilterController;
 
 	/******************************************************************************
 	 *
@@ -60,7 +61,7 @@ public class InterestsController {
 	 ******************************************************************************/
 
 	public void initialize() {
-
+		System.out.println(interestFilterController);
 		rootItem = new TreeItem<>(null);
 		interestsTreeTable.setRoot(rootItem);
 		interestsTreeTable.setShowRoot(false);
