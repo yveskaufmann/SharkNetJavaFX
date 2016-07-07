@@ -79,7 +79,7 @@ public class Dummy {
 
 		in = cl.getResourceAsStream("Bob.jpg");
 		Content deanpic = new ImplContent(in, "jpg", "Deans profile picture");
-		alice_dean.setPicture(deanpic);
+	alice_dean.setPicture(deanpic);
 
 		Chat chat1 = s.newChat(recipients1);
 		Chat chat2  = s.newChat(recipients2);

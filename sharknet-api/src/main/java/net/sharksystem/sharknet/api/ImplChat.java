@@ -258,19 +258,26 @@ public class ImplChat implements Chat {
 	/**
 	 * Sets a default picture. The Picture of the first Contact in the List
 	 */
-	private void setDefaultPic(){
-		if(getContacts().size() > 1){
+	private void setDefaultPic() {
+		if (getContacts().size() > 1) {
 			InputStream in = null;
 			ClassLoader cl = Thread.currentThread().getContextClassLoader();
 			in = cl.getResourceAsStream("group.png");
 			Content grouppic = new ImplContent(in, "png", "Grouppicture");
 			setPicture(grouppic);
 
-		}else{
+		} else if (getContacts().get(0).getPicture() == null) {
+			InputStream in = null;
+			ClassLoader cl = Thread.currentThread().getContextClassLoader();
+			in = cl.getResourceAsStream("person.png");
+			Content personpic = new ImplContent(in, "png", "Grouppicture");
+			setPicture(personpic);
+		} else {
 			setPicture(getContacts().get(0).getPicture());
 		}
-
 	}
+
+
 
 	/**
 	 * Sets the default Value for Timestamp lastmessage which is the creation date
