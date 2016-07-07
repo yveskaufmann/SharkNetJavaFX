@@ -105,6 +105,11 @@ public class Dummy {
 		java.util.Date sevenMinAfter = new Date(System.currentTimeMillis()+100*60*1000);
 		Timestamp time7after = new java.sql.Timestamp(fiveMinAfter.getTime());
 
+		java.util.Date oneDayAgo = new Date(System.currentTimeMillis() - 24*60*60*1000);
+		Timestamp timeOneDayAgo = new java.sql.Timestamp(oneDayAgo.getTime());
+
+		java.util.Date twoDayAgo = new Date(System.currentTimeMillis() - 24*60*60*1000*2);
+		Timestamp timeTwoDayAgo = new java.sql.Timestamp(twoDayAgo.getTime());
 
 		java.util.Date now = new Date(System.currentTimeMillis());
 		Timestamp timenow = new java.sql.Timestamp(now.getTime());
@@ -112,8 +117,13 @@ public class Dummy {
 
 		alice_charles.setLastWifiContact(timenow);
 
-		Message m1 = new ImplMessage(new ImplContent("answer 1"), time5ago, bob, s.getMyProfile(), recipients1, false, false);
+		Message m1 = new ImplMessage(new ImplContent("answer 3"), time5ago, bob, s.getMyProfile(), recipients1, false, false);
 		DummyDB.getInstance().addMessage(m1, chat1);
+		Message m2 = new ImplMessage(new ImplContent("answer 2"), timeOneDayAgo, bob, s.getMyProfile(), recipients1, false, false);
+		DummyDB.getInstance().addMessage(m2, chat1);
+		Message m3 = new ImplMessage(new ImplContent("answer 1"), timeTwoDayAgo, bob, s.getMyProfile(), recipients1, false, false);
+		DummyDB.getInstance().addMessage(m3, chat1);
+
 
 
 

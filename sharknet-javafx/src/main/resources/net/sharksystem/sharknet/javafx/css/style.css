@@ -495,3 +495,43 @@
 	-fx-text-fill: white;
 	-fx-font-weight: bold;
 }
+
+
+.chatbox {
+	-fx-padding: 10px 0px 10px 0px;
+	-fx-border-color: transparent transparent #bec0c1 transparent;
+	-fx-border-width: 1px;
+}
+
+.datedivider {
+	-fx-padding: 0px;
+	-fx-border-width: 0px;
+}
+
+.chatbox:hover {
+	-fx-background-color: derive(-sn-primary-color, 60%);
+}
+
+.imageViewVote {
+	-fx-opacity: 50%;
+}
+
+.imageViewVote:hover{
+	-fx-opacity: 100%;
+}
+
+.imageViewAttachment {
+	-fx-opacity: 50%;
+}
+
+.imageViewAttachment:hover{
+	-fx-opacity: 100%;
+}
+
+.imageViewAdd {
+	-fx-opacity: 50%;
+}
+
+.imageViewAdd:hover{
+	-fx-opacity: 100%;
+}

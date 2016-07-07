@@ -18,14 +18,14 @@
                         <ToggleGroup fx:id="votetype" />
                      </toggleGroup></RadioButton>
                   <RadioButton fx:id="radioButtonMulti" layoutX="224.0" layoutY="84.0" mnemonicParsing="false" text="Multiple Choice" toggleGroup="$votetype" />
-                  <ImageView fx:id="imageViewAdd" fitHeight="48.0" fitWidth="40.0" layoutX="400.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imageViewAdd" opacity="0.5" fitHeight="48.0" fitWidth="40.0" layoutX="405.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../images/plus.png" />
+                        <Image url="@../../images/ic_playlist_add_black_24dp.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="imageViewSave" fitHeight="48.0" fitWidth="40.0" layoutX="452.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imageViewSave" opacity="0.5" fitHeight="48.0" fitWidth="40.0" layoutX="450.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../images/save.png" />
+                        <Image url="@../../images/ic_save_black_24dp.png" />
                      </image>
                   </ImageView>
                </children>

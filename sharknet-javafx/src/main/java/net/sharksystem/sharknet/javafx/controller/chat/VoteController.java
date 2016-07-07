@@ -60,6 +60,7 @@ public class VoteController extends AbstractController {
 		if (in != null) {
 			stage.getIcons().add(new Image(in));
 		}
+		stage.setTitle("Create Vote");
 		stage.show();
 		listeners = new ArrayList<>();
 		answers = new ArrayList<>();

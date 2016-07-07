@@ -3,8 +3,14 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<HBox fx:id="hboxGridContainer" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="580.0" styleClass="theme-presets inbox-entry" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<fx:root type="javafx.scene.layout.HBox" fx:id="hboxGridContainer" maxHeight="Infinity" maxWidth="Infinity" prefWidth="580.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" alignment="CENTER_LEFT" styleClass="theme-presets inbox-entry">
     <children>
         <GridPane fx:id="gridPaneMessages" prefWidth="350.0">
             <columnConstraints>
@@ -16,19 +22,19 @@
 
             </rowConstraints>
             <children>
-            <HBox fx:id="hboxMessage" alignment="TOP_LEFT" maxHeight="Infinity" minWidth="191.0">
-               <children>
-                      <Label fx:id="labelMessage" alignment="TOP_LEFT" maxHeight="Infinity" minWidth="191.0" text="blablubkeks" wrapText="true" />
-               </children>
-            </HBox>
+                <HBox fx:id="hboxMessage" alignment="TOP_LEFT" maxHeight="Infinity" minWidth="191.0">
+                    <children>
+                        <Label fx:id="labelMessage" alignment="TOP_LEFT" maxHeight="Infinity" minWidth="191.0" text="blablubkeks" wrapText="true" />
+                    </children>
+                </HBox>
                 <AnchorPane GridPane.columnIndex="1">
                     <children>
-                        <ImageView fx:id="imageViewEncrypted" fitHeight="33.0" fitWidth="33.0" layoutX="43.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imageViewEncrypted" fitHeight="20.0" fitWidth="20.0" layoutX="43.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../images/key.png" />
+                                <Image url="@../../images/ic_enhanced_encryption_black_24dp.png" />
                             </image>
                         </ImageView>
-                        <ImageView fx:id="imageViewSigned" fitHeight="42.0" fitWidth="33.0" layoutX="80.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imageViewSigned" fitHeight="20.0" fitWidth="20.0" layoutX="65.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../../images/doublecheck.png" />
                             </image>
@@ -39,4 +45,5 @@
             </children>
         </GridPane>
     </children>
-</HBox>
+</fx:root>
+

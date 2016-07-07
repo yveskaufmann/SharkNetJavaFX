@@ -1,67 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
 <?import net.sharksystem.sharknet.javafx.controller.chat.ChatHistoryList?>
-<?import net.sharksystem.sharknet.javafx.controller.chat.ChatWindowList?>
 <?import net.sharksystem.sharknet.javafx.controls.RoundImageView?>
+<?import com.jfoenix.controls.JFXButton?>
 <AnchorPane maxHeight="Infinity" maxWidth="Infinity" minHeight="600" minWidth="800" prefHeight="768.0" prefWidth="1046.0" styleClass="theme-presets" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <SplitPane fx:id="chatView" dividerPositions="0.09007832898172324" layoutX="401.0" minHeight="0.0" orientation="VERTICAL" prefHeight="768.0" prefWidth="635.0">
-      <items>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="69.0" prefWidth="550.0">
-             <children>
-                <RoundImageView fx:id="imageViewContactProfile" fitHeight="50.0" fitWidth="50.0" layoutX="10.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-                   <image>
-                      <Image url="@../../images/profile-placeholder.jpg" />
-                   </image>
-                </RoundImageView>
+    <children>
+        <SplitPane fx:id="chatView" dividerPositions="0.09007832898172324" layoutX="401.0" minHeight="0.0" orientation="VERTICAL" prefHeight="768.0" prefWidth="635.0">
+            <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="69.0" prefWidth="550.0">
+                    <children>
+                        <RoundImageView fx:id="imageViewContactProfile" fitHeight="50.0" fitWidth="50.0" layoutX="10.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../images/profile-placeholder.jpg" />
+                            </image>
+                        </RoundImageView>
 
-                <ImageView fx:id="imageViewAdd" fitHeight="50.0" fitWidth="50.0" layoutX="519.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                   <image>
-                      <Image url="@../../images/plus.png" />
-                   </image>
-                </ImageView>
-                <ImageView fx:id="imageViewAttachment" fitHeight="50.0" fitWidth="50.0" layoutX="569.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
-                   <image>
-                      <Image url="@../../images/bueroklammer.png" />
-                   </image>
-                </ImageView>
-                  <ImageView fx:id="imageViewVote" fitHeight="50.0" fitWidth="50.0" layoutX="460.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../images/vote.png" />
-                     </image>
-                  </ImageView>
-                  <Label fx:id="labelChatRecipients" styleClass="labelChatRecipients" layoutX="74.0" layoutY="14.0" prefHeight="40.0" prefWidth="213.0" text="Chat Contacts..." />
-             </children>
-          </AnchorPane>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="694.0" prefWidth="644.0">
-             <children>
-                <!--
-                 <TextArea fx:id="textAreaChat" editable="false" layoutX="14.0" layoutY="14.0" prefHeight="531.0" prefWidth="607.0" text="&lt;You&gt; Hallo&#10;&lt;Contact 1&gt; Hey" />
-                -->
-                 <ChatWindowList fx:id="chatWindowListView"  layoutX="14.0" layoutY="14.0" prefHeight="531.0" prefWidth="607.0" />
-                 <TextField id="emoji" fx:id="textFieldMessage" layoutX="14.0" layoutY="561.0" prefHeight="25.0" prefWidth="412.0" text="Type your message here..." />
+                        <ImageView fx:id="imageViewAdd" opacity="0.5" fitHeight="50.0" fitWidth="50.0" layoutX="519.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../images/ic_person_add_black_24dp.png" />
+                            </image>
+                        </ImageView>
+                        <ImageView fx:id="imageViewAttachment" opacity="0.5" fitHeight="50.0" fitWidth="50.0" layoutX="569.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../images/ic_attach_file_black_24dp.png" />
+                            </image>
+                        </ImageView>
+                        <ImageView fx:id="imageViewVote" opacity="0.5" fitHeight="45.0" fitWidth="45.0" layoutX="460.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../images/ic_gavel_black_24dp.png" />
+                            </image>
+                        </ImageView>
+                        <Label fx:id="labelChatRecipients" layoutX="74.0" layoutY="14.0" prefHeight="40.0" prefWidth="213.0" styleClass="labelChatRecipients" text="Chat Contacts..." />
+                    </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="694.0" prefWidth="644.0">
+                    <children>
+                        <ScrollPane fx:id="scrollPaneChat" layoutX="14.0" layoutY="14.0">
+                            <content>
 
-                 <ImageView fx:id="imageViewEmoji" fitHeight="32.0" fitWidth="32.0" layoutX="440.0" layoutY="561.0" pickOnBounds="true"  preserveRatio="true">
-                     <image>
-                         <Image url="@../../images/smiley.png" />
-                     </image>
-                 </ImageView>
+                                <VBox fx:id="chatWindowListView" prefHeight="531.0" prefWidth="607.0" />
+                            </content>
+                        </ScrollPane>
+                        <TextField id="emoji" fx:id="textFieldMessage" layoutX="14.0" layoutY="561.0" prefHeight="25.0" prefWidth="412.0" text="Type your message here..." />
 
-                 <Button fx:id="buttonSend" layoutX="500.0" layoutY="561.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" text="Send" />
-                  
-             </children>
-            </AnchorPane>
-      </items>
-      </SplitPane>
-<!--
-      <ListView fx:id="listViewChatHistory" layoutX="14.0" layoutY="14.0" prefHeight="595.0" prefWidth="374.0" />
-    -->
+                        <ImageView fx:id="imageViewEmoji" fitHeight="32.0" fitWidth="32.0" layoutX="440.0" layoutY="561.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../images/smiley.png" />
+                            </image>
+                        </ImageView>
 
-      <ChatHistoryList fx:id = "chatHistoryListView" layoutX="14.0" layoutY="14.0" prefHeight="595.0" prefWidth="380.0"></ChatHistoryList>
+                        <JFXButton fx:id="buttonSend" layoutX="500.0" layoutY="561.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" text="Send" />
 
-      <Button fx:id="buttonNewChat" layoutX="150.0" layoutY="635.0" mnemonicParsing="false" text="New Chat" />
-   </children>
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
+        <!--
+              <ListView fx:id="listViewChatHistory" layoutX="14.0" layoutY="14.0" prefHeight="595.0" prefWidth="374.0" />
+            -->
+
+        <ChatHistoryList fx:id = "chatHistoryListView" layoutX="14.0" layoutY="14.0" prefHeight="595.0" prefWidth="380.0"></ChatHistoryList>
+
+        <JFXButton fx:id="buttonNewChat" layoutX="150.0" layoutY="635.0" mnemonicParsing="false" text="New Chat" />
+    </children>
 </AnchorPane>

@@ -1,6 +1,7 @@
 package net.sharksystem.sharknet.javafx.controller.chat;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -13,9 +14,8 @@ import javafx.scene.text.TextFlow;
 import net.sharksystem.sharknet.api.Contact;
 import net.sharksystem.sharknet.api.Message;
 import net.sharksystem.sharknet.javafx.App;
-import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCell;
-import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCellController;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -25,9 +25,9 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * Created by Benni on 04.06.2016.
+ * Created by Benni on 07.07.2016.
  */
-public class ChatWindowListController extends MediaListCellController<Message> {
+public class ChatBox extends HBox {
 
 	@FXML
 	private Label labelMessage;
@@ -44,28 +44,46 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 	@FXML
 	private GridPane gridPaneMessages;
 
-	private MediaListCell<Message> cell;
-
 	private static final SimpleDateFormat timeformat = new SimpleDateFormat("H:mm");
 	private static final SimpleDateFormat dateformat = new SimpleDateFormat("dd.MM.yyyy");
 
-	public ChatWindowListController(MediaListCell<Message> chatHistoryListCell) {
-		super(App.class.getResource("views/chat/chatWindowEntry.fxml"), chatHistoryListCell);
-		cell = chatHistoryListCell;
+	private Message msg;
+	private double height = -1.0;
+
+	public ChatBox(Message msg) {
+		super();
+		this.msg = msg;
+		FXMLLoader loader = new FXMLLoader(App.class.getResource("views/chat/chatWindowEntry.fxml"));
+		loader.setRoot(this);
+		loader.setController(this);
+
+
+
+		try{
+			loader.load();
+		}catch(IOException exception){
+			throw new RuntimeException(exception);
+		}
+
+		update();
 	}
 
-	@Override
-	protected void onItemChanged(Message message) {
-		if (message == null) {
+	private void update() {
+		imageViewEncrypted.setOpacity(0.25);
+		imageViewSigned.setOpacity(0.25);
+
+		if (msg == null) {
 			return;
 		}
+
 		// if it's just a dummy message for a date divider
-		if (message.getContent().getMessage().equals(":datedivider:")) {
+		if (msg.getContent().getMessage().equals(":datedivider:")) {
+			getStyleClass().add("datedivider");
 			hboxGridContainer.getChildren().clear();
 			Label label = new Label();
 			label.getStyleClass().add("chatDivider");
 
-			LocalDate msgDate = message.getTimestamp().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			LocalDate msgDate = msg.getTimestamp().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			LocalDate yesterday = LocalDate.now().minusDays(1);
 			LocalDate today = LocalDate.now();
 
@@ -79,28 +97,25 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 			}
 			// if the messag is not from yesterday or today
 			else {
-				label.setText(dateformat.format(message.getTimestamp()));
+				label.setText(dateformat.format(msg.getTimestamp()));
 			}
 
 			hboxGridContainer.getChildren().add(label);
-			cell.setMinHeight(30);
-			cell.setMaxHeight(30);
-			cell.setPrefHeight(30);
 			return;
 		}
 
-
+		getStyleClass().add("chatbox");
 
 		// if emoji was found
-		if (message.getContent().getMessage().matches(".*[:emojione-].*[:].*")) {
+		if (msg.getContent().getMessage().matches(".*[:emojione-].*[:].*")) {
 			// using textflow for emoji support
 			TextFlow textFlow = new TextFlow();
 			//textFlow.setPadding(new Insets(50, 0, 0, 0));
 			Label sender = new Label();
-			sender.setText("<" + message.getSender().getNickname() + ">");
+			sender.setText("<" + msg.getSender().getNickname() + ">");
 			textFlow.getChildren().add(sender);
 			// split the whole message
-			String[] splitted = message.getContent().getMessage().split(":");
+			String[] splitted = msg.getContent().getMessage().split(":");
 			for (String s : splitted) {
 				// if emoji in substring is found
 				if (s.matches("[emojione-].*")) {
@@ -133,7 +148,7 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 		// if message doesn't contain any emoji...
 		else {
 			// if it's a vote
-			if (message.getContent().getVoting() != null) {
+			if (msg.getContent().getVoting() != null) {
 				hboxMessage.getChildren().remove(labelMessage);
 				GridPane grid = new GridPane();
 				grid.getColumnConstraints().add(new ColumnConstraints(35));
@@ -145,11 +160,11 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 				Label questionLabel = new Label();
 				questionLabel.setMaxHeight(100);
 				questionLabel.setPrefWidth(300);
-				questionLabel.setText(message.getContent().getVoting().getQuestion());
+				questionLabel.setText("<" + msg.getSender().getNickname() + "> " + msg.getContent().getVoting().getQuestion());
 				questionLabel.setWrapText(true);
 				grid.add(questionLabel, 1, 0);
 
-				HashMap<String, Contact> answerList = message.getContent().getVoting().getAnswers();
+				HashMap<String, Contact> answerList = msg.getContent().getVoting().getAnswers();
 				Iterator it = answerList.entrySet().iterator();
 				int index = 1;
 				ToggleGroup toggle = new ToggleGroup();
@@ -164,7 +179,7 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 					answerLabel.setPrefWidth(gridPaneMessages.getPrefWidth() - 100);
 					answerLabel.setWrapText(true);
 					// single choice
-					if (message.getContent().getVoting().isSingleqoice()) {
+					if (msg.getContent().getVoting().isSingleqoice()) {
 						RadioButton rb = new RadioButton();
 
 						rb.setToggleGroup(toggle);
@@ -179,25 +194,31 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 					grid.add(answerLabel, 1, index);
 					index++;
 				}
-			hboxMessage.getChildren().add(grid);
+				hboxMessage.getChildren().add(grid);
 			}
 			// if it's just a simple message
 			else {
-				labelMessage.setText("<" + message.getSender().getNickname() + ">" + " " + message.getContent().getMessage());
+				labelMessage.setText("<" + msg.getSender().getNickname() + ">" + " " + msg.getContent().getMessage());
 			}
 		}
 
-		java.sql.Timestamp timestamp = message.getTimestamp();
+		java.sql.Timestamp timestamp = msg.getTimestamp();
 		labelTime.setText(timeformat.format(timestamp));
 
-		if (!message.isEncrypted()) {
-			imageViewEncrypted.setOpacity(0.25);
+		if (!msg.isEncrypted()) {
+			InputStream in = null;
+			in = App.class.getResourceAsStream("images/ic_no_encryption_black_24dp.png");
+			if (in != null) {
+				imageViewEncrypted.setImage(new Image(in));
+			}
+
 		}
-		if (!message.isSigned()) {
-			imageViewSigned.setOpacity(0.25);
+		if (!msg.isSigned()) {
+			//imageViewSigned.setOpacity(0.25);
+			imageViewSigned.setVisible(false);
 		}
 		// if message is signed but not verified, change picture to just 1 check
-		else if (message.isSigned() && !message.isVerified()) {
+		else if (msg.isSigned() && !msg.isVerified()) {
 			// profile picture
 			InputStream in = null;
 			in = App.class.getResourceAsStream("images/check.png");
@@ -205,17 +226,27 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 				imageViewSigned.setImage(new Image(in));
 			}
 		}
-	
+
 		// position message
-		if (!message.isMine()) {
+		if (!msg.isMine()) {
 			hboxGridContainer.setAlignment(Pos.TOP_RIGHT);
 		} else {
 			hboxGridContainer.setAlignment(Pos.TOP_LEFT);
 		}
 	}
 
-	@Override
-	protected void onFxmlLoaded() {
+	public Message getMessage() {
+		return msg;
+	}
 
+	@Override
+	protected void layoutChildren() {
+		if (height < 0) {
+			height = computePrefHeight(-1);
+			setMaxHeight(height);
+			setMinHeight(height);
+			setPrefHeight(height);
+		}
+		super.layoutChildren();
 	}
 }
