@@ -218,8 +218,8 @@ public class FrontController extends AbstractWindowController {
 		});
 
 		titleBurgerContainer.setOnMouseClicked((e)->{
-			if (!workbench.isShown()) workbench.open();
-			else workbench.close();
+			if (!workbench.isShown()) workbench.draw();
+			else workbench.hide();
 		});
 
 
