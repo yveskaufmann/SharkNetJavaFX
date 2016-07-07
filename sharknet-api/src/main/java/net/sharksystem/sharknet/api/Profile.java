@@ -54,4 +54,9 @@ public interface Profile {
 	 * @return
      */
 	public Blacklist getBlacklist();
+
+	/**
+	 * Generates new pair of keys
+	 */
+	public void renewKeys();
 }

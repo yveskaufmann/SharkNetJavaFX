@@ -107,6 +107,12 @@ public class ImplProfile implements Profile {
 		return blacklist;
 	}
 
+	@Override
+	public void renewKeys() {
+		this.c.deleteKey();
+		//ToDo: Shark - Renew the keypair
+	}
+
 	private String gernateUID(String nickname, String deviceID){
 		String newUID = "foo";
 		SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss:SS");
@@ -116,5 +122,6 @@ public class ImplProfile implements Profile {
 		newUID = nickname + "/" + deviceID + "/" + strDate;
 		return newUID;
 	}
+
 
 }
