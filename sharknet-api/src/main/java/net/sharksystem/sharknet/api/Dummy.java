@@ -61,6 +61,7 @@ public class Dummy {
 */
 		Contact alice_bob = s.newContact(bob.getNickname(), bob.getUID(), bob.getPublicKey());
 		Contact alice_charles = s.newContact("charles", "charlesuid", "charlespublickey");
+
 		Contact alice_dean = s.newContact("dean", "deanuid", "deanpublickey");
 		//Anlegen von Chats
 		List<Contact> recipients1 = new ArrayList<>();
@@ -108,6 +109,8 @@ public class Dummy {
 		java.util.Date now = new Date(System.currentTimeMillis());
 		Timestamp timenow = new java.sql.Timestamp(now.getTime());
 
+
+		alice_charles.setLastWifiContact(timenow);
 
 		Message m1 = new ImplMessage(new ImplContent("answer 1"), time5ago, bob, s.getMyProfile(), recipients1, false, false);
 		DummyDB.getInstance().addMessage(m1, chat1);
