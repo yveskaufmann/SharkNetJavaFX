@@ -91,6 +91,13 @@ public class Dummy {
 		chat1.sendMessage(new ImplContent("bla bla bla"));
 		chat1.sendMessage(new ImplContent("fooo"));
 
+		List<Message> chat1_m = chat1.getMessages(true);
+		for(Message m : chat1_m){
+			m.setEncrypted(true);
+			m.setSigned(true);
+			m.setDierectRecived(true);
+		}
+
 
 		java.util.Date fiveMinAgo = new Date(System.currentTimeMillis()-5*60*1000);
 		Timestamp time5ago = new java.sql.Timestamp(fiveMinAgo.getTime());
@@ -111,6 +118,9 @@ public class Dummy {
 
 		Message m1 = new ImplMessage(new ImplContent("answer 1"), time5ago, bob, s.getMyProfile(), recipients1, false, false);
 		DummyDB.getInstance().addMessage(m1, chat1);
+
+		m1.setSigned(true);
+		m1.setEncrypted(true);
 
 
 
@@ -218,6 +228,8 @@ public class Dummy {
 
 
 		s.setProfile(alice_p, "");
+
+		s.getMyProfile().getContact().getInterests().addInterest("foo", "www.foo.de");
 
 
 	}

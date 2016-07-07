@@ -89,4 +89,28 @@ public interface Message extends Timeable, ContainsContent {
      */
 	public void setRead(boolean read);
 
-}
+
+	/**
+	 * Set the Status of the Message as Signed
+	 * @param signed
+     */
+	public void setSigned(boolean signed);
+
+	/**
+	 * Set the Status of the  Message as Encrypted
+	 * @param encrypted
+     */
+	public void setEncrypted(boolean encrypted);
+
+	/**
+	 * Returns if the Message was recived through direct contact with sender
+	 * @return
+     */
+	public boolean isDierectRecived();
+
+	/**
+	 * Sets if Message was recived through direct contact with sender
+	 * @param dierectRecived
+     */
+	public void setDierectRecived(boolean dierectRecived);
+	}
