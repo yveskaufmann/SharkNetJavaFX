@@ -1,5 +1,6 @@
 package net.sharksystem.sharknet.api;
 
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class ImplContact implements Contact {
 		this.publickey = publickey;
 		this.owner = owner;
 		this.interest = new ImplInterest(this);
+		setDefaultPicture();
 		save();
 
 	}
@@ -216,5 +218,13 @@ public class ImplContact implements Contact {
 	@Override
 	public void setLastWifiContact(Timestamp lastWifiContact) {
 		this.lastWifiContact = lastWifiContact;
+	}
+
+	private void setDefaultPicture(){
+		InputStream in = null;
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
+		in = cl.getResourceAsStream("person.png");
+		Content personpic = new ImplContent(in, "png", "Grouppicture");
+		setPicture(personpic);
 	}
 }
