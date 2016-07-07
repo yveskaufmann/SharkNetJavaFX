@@ -38,7 +38,7 @@
          </children></AnchorPane>
    </center>
    <top>
-      <Label fx:id="labelProfileName" text="Profile Name" BorderPane.alignment="CENTER">
+      <Label fx:id="labelProfileName" text="Profile Name" BorderPane.alignment="CENTER" styleClass="loginProfileName">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>

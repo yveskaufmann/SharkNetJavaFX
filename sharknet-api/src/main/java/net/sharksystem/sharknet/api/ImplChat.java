@@ -181,7 +181,7 @@ public class ImplChat implements Chat {
 		//ToDo: Shark - get Timestamp from the most recent Message
 		Timestamp recentMessage = null;
 		if(!DummyDB.getInstance().getMessageList(this, true).isEmpty()){
-			DummyDB.getInstance().getMessageList(this, true).get(0).getTimestamp();
+			recentMessage = DummyDB.getInstance().getMessageList(this, true).get(0).getTimestamp();
 		}
 
 		return recentMessage;

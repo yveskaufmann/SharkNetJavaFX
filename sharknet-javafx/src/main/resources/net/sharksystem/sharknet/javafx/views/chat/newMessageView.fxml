@@ -13,9 +13,9 @@
             <Image url="@../../images/cross.png" />
          </image>
       </ImageView>
-      <Separator layoutY="28.0" prefHeight="4.0" prefWidth="300.0" />
-      <Label fx:id="labelHeader" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="6.0" prefHeight="17.0" prefWidth="251.0" text="Label" />
-      <Label fx:id="labelTime" layoutX="258.0" layoutY="42.0" text="Label" />
-      <Label fx:id="labelMessage" alignment="TOP_LEFT" layoutX="14.0" layoutY="42.0" prefHeight="97.0" prefWidth="220.0" text="Label" wrapText="true" />
+      <Separator layoutY="31.0" prefHeight="7.0" prefWidth="300.0" />
+      <Label fx:id="labelHeader" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="6.0" prefHeight="17.0" prefWidth="251.0" styleClass="newMessageHeader" text="Label" />
+      <Label fx:id="labelTime" layoutX="258.0" layoutY="51.0" text="Label" />
+      <Label fx:id="labelMessage" alignment="TOP_LEFT" layoutX="15.0" layoutY="51.0" prefHeight="88.0" prefWidth="219.0" text="Label" wrapText="true" />
    </children>
 </AnchorPane>

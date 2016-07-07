@@ -8,6 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.Profile;
@@ -18,6 +19,7 @@ import net.sharksystem.sharknet.javafx.controls.RoundImageView;
 import net.sharksystem.sharknet.javafx.services.ImageManager;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
+import java.io.InputStream;
 import java.util.List;
 
 // ToDo: add create new profile
@@ -62,6 +64,10 @@ public class LoginController extends AbstractController {
 		stage.setTitle("Please login");
 		stage.setScene(new Scene(root, 552, 346));
 		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
+		InputStream in = App.class.getResourceAsStream("images/shark-icon256x256.png");
+		if (in != null) {
+			stage.getIcons().add(new Image(in));
+		}
 		stage.show();
 	}
 

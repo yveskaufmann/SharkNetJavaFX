@@ -461,5 +461,37 @@
 	-fx-text-color: white;
 }
 
+.newmessagecount {
+	-fx-background-radius: 5em;
+	-fx-background-color: #E91E63;
+	-fx-min-width: 25px;
+	-fx-min-height: 25px;
+	-fx-alignment: center;
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+}
 
+.loginProfileName {
+	-fx-font-weight: bold;
+	-fx-font-size: 2em;
+}
 
+.labelChatRecipients {
+	-fx-font-weight: bold;
+	-fx-font-size: 1.25em;
+}
+
+.newMessageHeader {
+	-fx-font-weight: bold;
+	-fx-font-size: 1.1em;
+}
+
+.chatDivider {
+	-fx-background-radius: 5em;
+	-fx-background-color: #E91E63;
+	-fx-min-height: 20px;
+	-fx-min-width: 580px;
+	-fx-alignment: center;
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+}
