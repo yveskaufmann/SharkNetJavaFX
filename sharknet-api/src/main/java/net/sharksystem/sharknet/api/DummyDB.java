@@ -70,6 +70,16 @@ public class DummyDB {
 		return swaplist;
 	}
 
+	public List<Feed> getFeed_list(Profile owner, Interest i, int startIndex, int stopIndex, boolean descending){
+		List <Feed> swaplist = (List<Feed>) sortList(getFeed_list(owner, descending), descending);
+		List<Feed> resultlist = new LinkedList<>();
+		for(Feed f : swaplist){
+			if(f.getInterest().contains(i)) resultlist.add(f);
+		}
+		resultlist = (List<Feed>) cutList(resultlist, startIndex, stopIndex);
+		return resultlist;
+	}
+
 
 	public List<Feed> getFeed_list(Profile owner, int startIndex, int stopIndex, Timestamp start, Timestamp stop, boolean descending) {
 		List <Feed> swaplist = (List<Feed>) sortList(getFeed_list(owner, descending), descending);
@@ -540,7 +550,7 @@ public class DummyDB {
 			int iteratorstart = 0;
 			int iteratorstop = 0;
 			int iterator = 0;
-			while ((!reachStart && !reachStop) || iterator < swaplist.size()) {
+			while ((!reachStart && !reachStop) && iterator < swaplist.size()) {
 				if (!reachStart && reachStop) {
 					if (swaplist.get(iterator).getTimestamp().before(start) || swaplist.get(iterator).getTimestamp().equals(start)) {
 						reachStart = true;

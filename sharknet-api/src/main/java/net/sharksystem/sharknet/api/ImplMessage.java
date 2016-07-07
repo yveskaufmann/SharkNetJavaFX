@@ -17,6 +17,7 @@ public class ImplMessage implements Message {
 	boolean isSigned, isEncrypted;
 	Content content;
 	Boolean disliked = false;
+	Boolean read = false;
 
 	/**
 	 * Constructor for Messages which are from the Datebase and are not going to be sended, just used by the API to fill List of Messages
@@ -68,7 +69,7 @@ public class ImplMessage implements Message {
 	 * Saves Message to the Database, this is only used for incoming messages (no sending)
 	 */
 	private void save(Chat c){
-		//ToDo: Save the Message to the Database
+		//ToDo: Shark - Save the Message to the Database
 		if(!c.getMessages(true).contains(this)){
 			DummyDB.getInstance().addMessage(this, c);
 		}
@@ -137,9 +138,19 @@ public class ImplMessage implements Message {
 				return c;
 			}
 		}
-		Chat newChat = new ImplChat(recipient_list, owner);
+		Chat newChat = new ImplChat(this, owner);
 		save(newChat);
 		return newChat;
+	}
+
+	@Override
+	public boolean isRead() {
+		return read;
+	}
+
+	@Override
+	public void setRead(boolean read) {
+		this.read = read;
 	}
 
 

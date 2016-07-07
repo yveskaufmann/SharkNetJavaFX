@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.util.Callback;
 import net.sharksystem.sharknet.javafx.actions.ActionEntry;
 import net.sharksystem.sharknet.javafx.actions.annotations.Action;
 import net.sharksystem.sharknet.javafx.context.ApplicationContext;
@@ -137,12 +138,20 @@ public class ControllerBuilder {
 		loader.setResources(controller.getResourceBundle());
 		loader.setCharset(Charset.forName("UTF-8"));
 		loader.setController(controller);
-		loader.setControllerFactory(c -> controller);
+		loader.setControllerFactory((cls) -> {
+			try {
+				// Fall back implementation if no controller instance is provided
+				Object instance = cls.newInstance();
+				ApplicationContext.get().getInjector().injectMembers(instance);
+				return instance;
+			} catch (InstantiationException | IllegalAccessException ex) {
+				throw new IllegalStateException("Cannot instantiate controller: " + controller , ex);
+			}
+		});
 		return loader;
 	}
 
 	private <T extends AbstractController> void injectDependencies(Class<T> controllerClass, ViewContext<T> ctx) {
-
 
 
 		for(Field field : ReflectionUtils.getAllFields(controllerClass)) {

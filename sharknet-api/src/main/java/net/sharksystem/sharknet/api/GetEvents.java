@@ -12,6 +12,7 @@ public interface GetEvents {
 	public void receivedMessage(Message m);
 	public void receivedFeed(Feed f);
 	public void receivedComment(Comment c);
+	public void receivedContact(Contact c);
 
 
 }

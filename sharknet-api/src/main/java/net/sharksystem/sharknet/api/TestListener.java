@@ -18,4 +18,9 @@ public class TestListener  implements GetEvents{
 	public void receivedComment(Comment c) {
 		System.out.println(c.getContent().getMessage());
 	}
+
+	@Override
+	public void receivedContact(Contact c) {
+		System.out.println(c.getNickname());
+	}
 }

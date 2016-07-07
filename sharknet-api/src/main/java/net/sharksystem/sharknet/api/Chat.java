@@ -88,4 +88,24 @@ public interface Chat extends Timeable {
 	 */
 	public void addContact(List<Contact> cList);
 
+	/**
+	 * Removes the Contact from the chat
+	 * @param cList
+     */
+	public void removeContact(List<Contact> cList);
+
+	/**
+	 * sets the Admin of the Chat
+	 * @param admin
+     */
+    public void setAdmin(Contact admin);
+
+	/**
+	 * returns the Admin of the Chat
+	 * @return
+     */
+	public Contact getAdmin();
+
+
+
 }

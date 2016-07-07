@@ -270,6 +270,7 @@
 /*------------------------------------------------------------------------------
  * Context Menu
  *------------------------------------------------------------------------------*/
+/*
 .context-menu {
 	-fx-padding: 8px 0 8px 0;
 	-fx-border-radius: 5px;
@@ -284,20 +285,19 @@
 	-fx-min-width: 112px;
 }
 
-.context-menu .context-menu .menu-item .label {
+.context-menu .menu-item .label {
 	-fx-padding: 16px 0 20px 0;
 }
 
-.context-menu .context-menu .menu-item .label .text {
-	-fx-font-family: "Roboto Bold"!important;
+.context-menu. .menu-item .label .text {
+ 	-fx-font-family: "Roboto Bold"!important;
 	-fx-text-fill: #242424 !important;
 	-fx-fill: #242424 !important;
-	-fx-font-size: 16px;
+	-fx-font-size: 14px;
 	-fx-padding: 0;
 	-fx-margin: 0;
-
 }
-
+*/
 /*------------------------------------------------------------------------------
  * MediaList
  *------------------------------------------------------------------------------*/
@@ -448,7 +448,7 @@
 	-fx-border-color: null;
 	-fx-text-fill: white;
 	-fx-min-width: 88px;
-	-fx-min-height: 36px;
+	-fx-min-height: 25px;
 	-fx-label-padding: 0 16px;
 	-fx-cursor: hand;
 }

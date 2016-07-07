@@ -8,7 +8,7 @@
 <?import net.sharksystem.sharknet.javafx.controls.SectionPane?>
 
 
-<StackPane  xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.sharksystem.sharknet.javafx.controller.profile.ProfileController">
+<StackPane  xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.sharksystem.sharknet.javafx.controller.profile.ProfileFormController">
     <padding>
         <Insets top="30" bottom="30" left="150" right="150"/>
     </padding>
@@ -55,8 +55,8 @@
               </VBox>
               <HBox alignment="CENTER_RIGHT" spacing="5.0" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
                  <children>
-                    <JFXButton fx:id="cancelButton" mnemonicParsing="false" onAction="#onResetProfile" text="Abbrechen" />
-                    <JFXButton fx:id="saveButton" mnemonicParsing="false" onAction="#onSaveProfile" text="Speichern" />
+                     <JFXButton fx:id="cancelButton" mnemonicParsing="false" text="Abbrechen" />
+                     <JFXButton fx:id="saveButton" mnemonicParsing="false" text="Speichern" />
                  </children>
                  <GridPane.margin>
                     <Insets top="10.0" />

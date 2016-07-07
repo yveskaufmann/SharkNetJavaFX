@@ -10,17 +10,13 @@ import java.util.List;
 
 public class ImplContact implements Contact {
 
-	//ToDo: Implement - Generate KeyPairs
-
-
-
 	String nickname;
 	String name;
 	String email;
 	String notes;
 	String uid;
 	String publickey;
-	List<Interest> interest_list = new LinkedList<>();
+	Interest interest;
 	List<String> telephonnumber_list = new LinkedList<>();
 	Profile owner;
 	Content picture;
@@ -37,6 +33,7 @@ public class ImplContact implements Contact {
 		this.uid = uid;
 		this.publickey = publickey;
 		this.owner = owner;
+		this.interest = new ImplInterest(this);
 		save();
 
 	}
@@ -45,14 +42,18 @@ public class ImplContact implements Contact {
 	 * Contructor for the Objects from the Database which are not going to be saved
 	 */
 
-	public ImplContact(String nickname, String uid, String publickey, Profile owner, Content pic, List<Interest> interest_list){
+	public ImplContact(String nickname, String uid, String publickey, Profile owner, Content pic, Interest interest){
 
 		this.nickname = nickname;
 		this.uid = uid;
 		this.publickey = publickey;
-		this.interest_list = interest_list;
 		this.owner = owner;
 		this.picture = pic;
+
+		if(interest == null) {
+			this.interest = new ImplInterest(this);
+		}else this.interest = interest;
+
 	}
 
 
@@ -68,9 +69,9 @@ public class ImplContact implements Contact {
 	}
 
 	@Override
-	public List<Interest> getInterests() {
+	public Interest getInterests() {
 		//ToDo: Shark - search for interessts and fill list
-		return interest_list;
+		return interest;
 	}
 
 	@Override
@@ -152,7 +153,6 @@ public class ImplContact implements Contact {
 
 	@Override
 	public String getPublicKey() {
-		//ToDo: Public key getter nur fingerprint bzw readable
 		return publickey;
 	}
 

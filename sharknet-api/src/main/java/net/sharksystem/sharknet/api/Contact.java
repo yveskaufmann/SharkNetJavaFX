@@ -1,5 +1,7 @@
 package net.sharksystem.sharknet.api;
 
+import net.sharkfw.knowledgeBase.Taxonomy;
+
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -59,7 +61,7 @@ public interface Contact {
 	 * returns a List of all Interests the profile is interested in
 	 * @return
 	 */
-	public List<Interest> getInterests();
+	public Interest getInterests();
 
 	/**
 	 * Method to evaluate is a Contact is equal to another
@@ -85,6 +87,7 @@ public interface Contact {
 	public String getName();
 
 	/**
+	 * spelling suggestion- addTelephoneNumber()
 	 * add a Telephonnumber to the Contact. The Contact has a List which can include more phone numbers (no validation included)
 	 * @param telephonnumber
      */
