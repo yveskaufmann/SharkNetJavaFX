@@ -2,6 +2,9 @@ package net.sharksystem.sharknet.javafx.controller.chat;
 
 
 import com.google.inject.Inject;
+import com.jfoenix.controls.JFXButton;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -9,6 +12,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.*;
@@ -27,10 +32,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Controller( title = "%sidebar.chat")
@@ -73,21 +75,28 @@ public class ChatController extends AbstractController implements ChatListener, 
 	@FXML
 	private ChatHistoryList chatHistoryListView;
 	@FXML
-	private Button buttonSend;
+	private JFXButton buttonSend;
 	@FXML
-	private Button buttonNewChat;
+	private JFXButton buttonNewChat;
 	@FXML
-	private ChatWindowList chatWindowListView;
+	private VBox chatWindowListView;
 	@FXML
 	private Label labelChatRecipients;
+	@FXML
+	private Label labelNewMsgEvent;
+	@FXML
+	private ScrollPane scrollPaneChat;
 
 	private FrontController frontController;
+	// used for deleting message
+	private Message selectedMessage;
 
 	public ChatController() {
 		super(App.class.getResource("views/chat/chatView.fxml"));
 		this.frontController = Controllers.getInstance().get(FrontController.class);
 		activeChat = null;
 		chatControllerInstance = this;
+		selectedMessage = null;
 		status = Status.NONE;
 		// enable sending messages with ENTER, works just if textFieldMessage is focused
 		this.getRoot().addEventHandler(KeyEvent.KEY_PRESSED, ev -> {
@@ -155,11 +164,18 @@ public class ChatController extends AbstractController implements ChatListener, 
 			event.consume();
 		});
 		// set listener for chathistorylistview items
+
 		chatHistoryListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		chatHistoryListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			onChatSelected(chatHistoryListView.getSelectionModel().getSelectedItem());
 			chatHistoryListView.refresh();
 		});
+
+		labelNewMsgEvent.setOnMouseClicked(event -> {
+			Message m = new ImplMessage(new ImplContent("Das ist eine neue Nachricht. Bla blub keks tralalalalalala wer wie wo was der die das bla blub keks"), sharkNetModel.getContacts(), sharkNetModel.getMyProfile().getContact(), sharkNetModel.getMyProfile());
+			receivedMessage(m);
+		});
+
 		/*
 		// scroll to last chat message in chatwindow, everytime a new message gets added
 		chatWindowListView.getItems().addListener(new ListChangeListener<Message>(){
@@ -176,10 +192,15 @@ public class ChatController extends AbstractController implements ChatListener, 
 			activeChat = chatHistoryListView.getItems().get(0);
 			loadChat(activeChat);
 		}
+		//scrollPaneChat.setFitToHeight(true);
+		// prevent horizontal scrollbar
+		scrollPaneChat.setFitToWidth(true);
 	}
 
+
 	private void onMessageDelete() {
-		if (chatWindowListView.getSelectionModel().getSelectedItem() != null) {
+
+		if (selectedMessage != null) {
 			// delete msg dialog
 			Alert alert = new Alert(Alert.AlertType.WARNING);
 			alert.setTitle("Delete Message");
@@ -191,13 +212,14 @@ public class ChatController extends AbstractController implements ChatListener, 
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if(result.get() == buttonDel){
-				Message msg = chatWindowListView.getSelectionModel().getSelectedItem();
-				msg.deleteMessage();
+				selectedMessage.deleteMessage();
 				loadChat(activeChat);
 				loadChatHistory();
 
 			}
+
 		}
+
 	}
 
 	/**
@@ -325,6 +347,7 @@ public class ChatController extends AbstractController implements ChatListener, 
 		if (activeChat != null && vote != null) {
 			activeChat.sendMessage(vote);
 			loadChat(activeChat);
+			loadChatHistory();
 		}
 	}
 
@@ -360,7 +383,6 @@ public class ChatController extends AbstractController implements ChatListener, 
 
 	private void loadChat(Chat c) {
 		if (c != null) {
-			chatWindowListView.scrollTo(chatWindowListView.getItems().size() - 1);
 			fillChatArea(c);
 			fillContactLabel(c.getContacts());
 
@@ -432,7 +454,7 @@ public class ChatController extends AbstractController implements ChatListener, 
 	 */
 	private void fillChatArea(Chat c) {
 		// clear old chat messages
-		chatWindowListView.getItems().clear();
+		chatWindowListView.getChildren().clear();
 		// contains message list sorted by date 0 -> earlierst date, 1 -> 2nd earlierst date etc...
 		List<List<Message>> messageStructure = new ArrayList<>();
 		// contains message for one date -> gets added to messageStructure
@@ -469,7 +491,30 @@ public class ChatController extends AbstractController implements ChatListener, 
 			// finally add the messages to gui
 			for (List<Message> partList : messageStructure) {
 				for (Message msg : partList) {
-					chatWindowListView.getItems().add(msg);
+					//hatWindowListView.getItems().add(msg);
+					ChatBox chatmsg = new ChatBox(msg);
+					// bugfix -> scroll to end of chatlist
+
+					chatmsg.heightProperty().addListener(new ChangeListener() {
+
+						@Override
+						public void changed(ObservableValue observable, Object oldvalue, Object newValue) {
+
+							scrollPaneChat.setVvalue((Double) newValue);
+						}
+					});
+
+					chatmsg.setOnMouseEntered( event -> {
+						selectedMessage = chatmsg.getMessage();
+					});
+					/*chatmsg.setOnMouseExited( event -> {
+						selectedMessage = null;
+					});*/
+					//double height = chatmsg.getPrefHeight();
+					//chatmsg.setPrefHeight(200);
+					//chatmsg.setMinHeight(200);
+					//chatmsg.setMaxHeight(200);
+					chatWindowListView.getChildren().add(chatmsg);
 				}
 			}
 		}
@@ -497,8 +542,11 @@ public class ChatController extends AbstractController implements ChatListener, 
 		// if contacts get added...
 		if (status == Status.ADDCONTACT) {
 			// check if active contact is still in the new list or did he get removed?
-			for (Contact activeChatContact : activeChat.getContacts()) {
+			Iterator<Contact> iterator = activeChat.getContacts().iterator();
+			List<Contact> deleteList = new ArrayList<>();
+			while (iterator.hasNext()) {
 				boolean found = false;
+				Contact activeChatContact = iterator.next();
 				// loop through new contact list and check for equality
 				for (Contact contact : c) {
 					if (activeChatContact.isEqual(contact)) {
@@ -510,10 +558,16 @@ public class ChatController extends AbstractController implements ChatListener, 
 				if (!found) {
 					// ToDo: add api usage when aviable
 					System.out.println("contact removed");
-					//activechat.remove(activechatcontact)
+					deleteList.add(activeChatContact);
+					//activeChat.removeContact(tmpList);
+
 				}
 			}
+			// finally remove the collected contacts
+			activeChat.removeContact(deleteList);
+
 			List<Contact> tmpContactList = new ArrayList<>();
+			// check for added contacts
 			// now the check vice versa... check if the contacts from the new list are already in activechat added
 			for (Contact contact : c) {
 				boolean found = false;
@@ -545,8 +599,6 @@ public class ChatController extends AbstractController implements ChatListener, 
 			// set active chat
 			activeChat = chat;
 			// reload chat area
-			//fillChatArea(activeChat);
-			//fillContactLabel();
 			loadChat(activeChat);
 
 		}

@@ -1,5 +1,6 @@
 package net.sharksystem.sharknet.api;
 
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
@@ -179,12 +180,11 @@ public class ImplChat implements Chat {
 	@Override
 	public Timestamp getTimestamp() {
 		//ToDo: Shark - get Timestamp from the most recent Message
-		Timestamp recentMessage = null;
 		if(!DummyDB.getInstance().getMessageList(this, true).isEmpty()){
-			recentMessage = DummyDB.getInstance().getMessageList(this, true).get(0).getTimestamp();
+			lastmessage = DummyDB.getInstance().getMessageList(this, true).get(0).getTimestamp();
 		}
 
-		return recentMessage;
+		return lastmessage;
 	}
 
 	@Override
@@ -258,9 +258,26 @@ public class ImplChat implements Chat {
 	/**
 	 * Sets a default picture. The Picture of the first Contact in the List
 	 */
-	private void setDefaultPic(){
-		setPicture(getContacts().get(0).getPicture());
+	private void setDefaultPic() {
+		if (getContacts().size() > 1) {
+			InputStream in = null;
+			ClassLoader cl = Thread.currentThread().getContextClassLoader();
+			in = cl.getResourceAsStream("group.png");
+			Content grouppic = new ImplContent(in, "png", "Grouppicture");
+			setPicture(grouppic);
+
+		} else if (getContacts().get(0).getPicture() == null) {
+			InputStream in = null;
+			ClassLoader cl = Thread.currentThread().getContextClassLoader();
+			in = cl.getResourceAsStream("person.png");
+			Content personpic = new ImplContent(in, "png", "Grouppicture");
+			setPicture(personpic);
+		} else {
+			setPicture(getContacts().get(0).getPicture());
+		}
 	}
+
+
 
 	/**
 	 * Sets the default Value for Timestamp lastmessage which is the creation date

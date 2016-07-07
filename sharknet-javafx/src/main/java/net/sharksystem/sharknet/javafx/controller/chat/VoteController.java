@@ -60,6 +60,7 @@ public class VoteController extends AbstractController {
 		if (in != null) {
 			stage.getIcons().add(new Image(in));
 		}
+		stage.setTitle("Create Vote");
 		stage.show();
 		listeners = new ArrayList<>();
 		answers = new ArrayList<>();
@@ -115,9 +116,10 @@ public class VoteController extends AbstractController {
 			// for removing later
 			boxRight.setUserData(answers.get(i));
 			ImageView remove = new ImageView();
-			remove.setImage(new Image(App.class.getResourceAsStream("images/minus.png")));
+			remove.setImage(new Image(App.class.getResourceAsStream("images/ic_remove_circle_outline_black_24dp.png")));
 			remove.setFitWidth(32.0);
 			remove.setFitHeight(32.0);
+			remove.setOpacity(0.5);
 			// used so we can use the whole image area for click event
 			remove.setPickOnBounds(true);
 			remove.setOnMouseClicked(event -> {
@@ -126,9 +128,10 @@ public class VoteController extends AbstractController {
 			});
 
 			ImageView edit = new ImageView();
-			edit.setImage(new Image(App.class.getResourceAsStream("images/edit.png")));
+			edit.setImage(new Image(App.class.getResourceAsStream("images/ic_edit_black_24dp.png")));
 			edit.setFitWidth(32.0);
 			edit.setFitHeight(32.0);
+			edit.setOpacity(0.5);
 			// used so we can use the whole image area for click event
 			edit.setPickOnBounds(true);
 			edit.setOnMouseClicked(event -> {
