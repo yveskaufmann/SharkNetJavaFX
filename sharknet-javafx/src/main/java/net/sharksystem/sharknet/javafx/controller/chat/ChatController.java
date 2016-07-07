@@ -32,10 +32,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Controller( title = "%sidebar.chat")
@@ -537,8 +534,11 @@ public class ChatController extends AbstractController implements ChatListener, 
 		// if contacts get added...
 		if (status == Status.ADDCONTACT) {
 			// check if active contact is still in the new list or did he get removed?
-			for (Contact activeChatContact : activeChat.getContacts()) {
+			Iterator<Contact> iterator = activeChat.getContacts().iterator();
+			List<Contact> deleteList = new ArrayList<>();
+			while (iterator.hasNext()) {
 				boolean found = false;
+				Contact activeChatContact = iterator.next();
 				// loop through new contact list and check for equality
 				for (Contact contact : c) {
 					if (activeChatContact.isEqual(contact)) {
@@ -550,10 +550,16 @@ public class ChatController extends AbstractController implements ChatListener, 
 				if (!found) {
 					// ToDo: add api usage when aviable
 					System.out.println("contact removed");
-					//activeChat.removeContact();
+					deleteList.add(activeChatContact);
+					//activeChat.removeContact(tmpList);
+
 				}
 			}
+			// finally remove the collected contacts
+			activeChat.removeContact(deleteList);
+
 			List<Contact> tmpContactList = new ArrayList<>();
+			// check for added contacts
 			// now the check vice versa... check if the contacts from the new list are already in activechat added
 			for (Contact contact : c) {
 				boolean found = false;
@@ -585,8 +591,6 @@ public class ChatController extends AbstractController implements ChatListener, 
 			// set active chat
 			activeChat = chat;
 			// reload chat area
-			//fillChatArea(activeChat);
-			//fillContactLabel();
 			loadChat(activeChat);
 
 		}

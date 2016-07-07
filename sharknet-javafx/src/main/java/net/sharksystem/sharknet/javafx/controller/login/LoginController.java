@@ -1,6 +1,7 @@
 package net.sharksystem.sharknet.javafx.controller.login;
 
 import com.google.inject.Inject;
+import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -45,9 +46,9 @@ public class LoginController extends AbstractController {
 	@FXML
 	private RoundImageView roundImageViewProfilePic;
 	@FXML
-	private Button buttonLogin;
+	private JFXButton buttonLogin;
 	@FXML
-	private Button buttonRegister;
+	private JFXButton buttonRegister;
 	@FXML
 	private PasswordField passwordfield;
 
@@ -115,7 +116,7 @@ public class LoginController extends AbstractController {
 
 	private void onLoginClick() {
 		System.out.println("onLoginClick");
-
+		System.out.println(buttonLogin.getStyle());
 		if (sharkNetModel.getProfiles().get(profileNumber).login(passwordfield.getText())) {
 			System.out.println("login ok");
 			sharkNetModel.setProfile(sharkNetModel.getProfiles().get(profileNumber), passwordfield.getText());
