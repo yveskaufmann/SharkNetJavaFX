@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.image.*?>
-
-<?import impl.org.controlsfx.skin.DecorationPane?>
-
 <!-- fix layout issues which triggered by controlsfx validation decoration
      see for details: https://bitbucket.org/controlsfx/controlsfx/issues/285/validator-support-change-resize-behavior -->
+<?import impl.org.controlsfx.skin.DecorationPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
 <DecorationPane>
     <VBox spacing="0" stylesheets="@profile.css" fx:id="profileView" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1">
         <fx:include source="profileHeader.fxml"/>
         <TabPane fx:id="profileTabs" tabClosingPolicy="UNAVAILABLE">
             <Tab fx:id="profileTab" text="%profile.text">
-                <fx:include source="personalData.fxml"/>
+                <fx:include fx:id="profileForm" source="profileForm.fxml"/>
             </Tab>
 
             <Tab fx:id="keyTab" text="%profile.keyManagment">
-                <fx:include source="keyManagment.fxml"/>
+                <VBox spacing="15" fillWidth="true">
+                    <padding>
+                        <Insets top="15" bottom="15" left="15" right="15"/>
+                    </padding>
+                    <fx:include fx:id="publicKey" source="publicKey.fxml"/>
+                    <fx:include fx:id="changePassword" source="changePassword.fxml"/>
+                </VBox>
             </Tab>
 
             <Tab fx:id="interestsTab" text="%profile.interessts">
-                <fx:include source="Interests.fxml"/>
+                <fx:include fx:id="interests" source="Interests.fxml"/>
             </Tab>
         </TabPane>
     </VBox>

@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -20,10 +21,14 @@ import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.util.resources.cldr.ar.CalendarData_ar_YE;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -145,23 +150,24 @@ public class ChatController extends AbstractController implements ChatListener, 
 		// set onMouseCLick for newchat Button
 		buttonNewChat.setOnMouseClicked(event -> {
 			onNewChatClick();
-			/*Message m = new ImplMessage(new ImplContent("Das ist eine neue Nachricht. Bla blub keks tralalalalalala wer wie wo was der die das bla blub keks"), sharkNetModel.getContacts(), sharkNetModel.getMyProfile().getContact(), sharkNetModel.getMyProfile());
-			receivedMessage(m);*/
+			//Message m = new ImplMessage(new ImplContent("Das ist eine neue Nachricht. Bla blub keks tralalalalalala wer wie wo was der die das bla blub keks"), sharkNetModel.getContacts(), sharkNetModel.getMyProfile().getContact(), sharkNetModel.getMyProfile());
+			//receivedMessage(m);
 			event.consume();
 		});
 		// set listener for chathistorylistview items
 		chatHistoryListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		chatHistoryListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			onChatSelected(chatHistoryListView.getSelectionModel().getSelectedItem());
+			chatHistoryListView.refresh();
 		});
+		/*
 		// scroll to last chat message in chatwindow, everytime a new message gets added
 		chatWindowListView.getItems().addListener(new ListChangeListener<Message>(){
 			@Override
 			public void onChanged(javafx.collections.ListChangeListener.Change<? extends Message> c) {
 				chatWindowListView.scrollTo(c.getList().size()-1);
-
 			}
-		});
+		});*/
 
 		// load all chats into chathistorylistview
 		loadChatHistory();
@@ -332,10 +338,10 @@ public class ChatController extends AbstractController implements ChatListener, 
 				// just send chat message
 				activeChat.sendMessage(new ImplContent(null, "", "", textFieldMessage.getText()));
 				loadChat(activeChat);
-				chatHistoryListView.refresh();
+				//chatHistoryListView.refresh();
+				loadChatHistory();
 				// clear message input
 				textFieldMessage.setText("");
-
 			}
 		}
 	}
@@ -354,17 +360,19 @@ public class ChatController extends AbstractController implements ChatListener, 
 
 	private void loadChat(Chat c) {
 		if (c != null) {
-			System.out.println("loadchat");
-			for (Message m : c.getMessages(false)) {
-			System.out.println(m.getContent().getMessage());
-			}
-
+			chatWindowListView.scrollTo(chatWindowListView.getItems().size() - 1);
 			fillChatArea(c);
 			fillContactLabel(c.getContacts());
-			// try to set chat picture
-			if (c.getPicture() != null) {
-				imageManager.readImageFrom(c.getPicture()).ifPresent(imageViewContactProfile::setImage);
+
+			// set chat picture, if no chat picture is set, just use the picture from chat contacts
+			for (Contact contact : c.getContacts()) {
+				if (!contact.isEqual(sharkNetModel.getMyProfile().getContact())) {
+					imageManager.readImageFrom(contact.getPicture()).ifPresent(imageViewContactProfile::setImage);
+					break;
+				}
 			}
+			imageManager.readImageFrom(c.getPicture()).ifPresent(imageViewContactProfile::setImage);
+
 		}
 	}
 
@@ -376,6 +384,10 @@ public class ChatController extends AbstractController implements ChatListener, 
 		// load chats
 		List<Chat> chatList = sharkNetModel.getChats();
 		Log.debug("reload chat history");
+		// sort chatlist, newest chat @top
+		if (chatList != null) {
+			chatList.sort((a, b) -> b.getTimestamp().compareTo(a.getTimestamp()));
+		}
 		// remove old chats and add new chats to listview
 		chatHistoryListView.getItems().setAll(chatList);
 	}
@@ -388,6 +400,13 @@ public class ChatController extends AbstractController implements ChatListener, 
 		if (c != null) {
 			activeChat = c;
 			loadChat(activeChat);
+
+			for (Message msg : activeChat.getMessages(false)) {
+				if (!msg.isRead()) {
+					msg.setRead(true);
+				}
+			}
+
 		}
 	}
 
@@ -414,13 +433,59 @@ public class ChatController extends AbstractController implements ChatListener, 
 	private void fillChatArea(Chat c) {
 		// clear old chat messages
 		chatWindowListView.getItems().clear();
+		// contains message list sorted by date 0 -> earlierst date, 1 -> 2nd earlierst date etc...
+		List<List<Message>> messageStructure = new ArrayList<>();
+		// contains message for one date -> gets added to messageStructure
+		List<Message> messageList = null;
+		LocalDate compareDate = LocalDate.of(1970,1,1);
+
 
 		// if chat contains messages
 		if (c.getMessages(false) != null) {
-			for (Message message : c.getMessages(false)) {
-				chatWindowListView.getItems().add(message);
+			// seperate messages for date
+			for (int i = 0; i < c.getMessages(false).size(); i++) {
+				Message msg = c.getMessages(false).get(i);
+				java.util.Date msgD = msg.getTimestamp();
+				LocalDate msgDate = msgD.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				// if a new date was found
+				if (!compareDate.equals(msgDate)) {
+					if (messageList != null && messageList.size() > 0) {
+						messageStructure.add(messageList);
+					}
+					compareDate = msgDate;
+					messageList = new ArrayList<>();
+				}
+
+				messageList.add(msg);
+
+				// last iteration
+				if (i == c.getMessages(false).size()-1) {
+					messageStructure.add(messageList);
+				}
+
+			}
+
+			messageStructure = insertDateDivider(messageStructure);
+			// finally add the messages to gui
+			for (List<Message> partList : messageStructure) {
+				for (Message msg : partList) {
+					chatWindowListView.getItems().add(msg);
+				}
 			}
 		}
+	}
+
+	/**
+	 * inserts dummy messages, so the chatwindowcontroller can detect a date change
+	 * @param list list with a list of messages, each list represents one day
+	 * @return list with the inserted dummy messages
+	 */
+	private List<List<Message>> insertDateDivider(List<List<Message>> list) {
+		for (List<Message> partList : list) {
+			Message divider = new ImplMessage(new ImplContent(":datedivider:"), partList.get(0).getTimestamp(), null, null, null, false, false);
+			partList.add(0, divider);
+		}
+		return list;
 	}
 
 	/**
@@ -471,7 +536,7 @@ public class ChatController extends AbstractController implements ChatListener, 
 			fillContactLabel(c);
 			loadChatHistory();
 
-		// start new chat
+			// start new chat
 		} else if (status == Status.NEWCHAT) {
 			// create new chat
 			Chat chat = sharkNetModel.newChat(c);
@@ -512,9 +577,14 @@ public class ChatController extends AbstractController implements ChatListener, 
 
 	@Override
 	public void receivedMessage(Message m) {
-		//loadChat(m.getChat());
 		NewMessageController controller = new NewMessageController(m);
-		// ToDo: update history listview
+		// TODO: dont load chat automatically, maybe just add a label for new message count
+
+		// reload current chatwindow if msg belongs to the active chat
+		if (activeChat.getID() == m.getChat().getID()) {
+			loadChat(m.getChat());
+		}
+		loadChatHistory();
 	}
 
 	@Override

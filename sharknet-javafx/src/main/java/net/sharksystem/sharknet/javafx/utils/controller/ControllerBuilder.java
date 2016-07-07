@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.util.Callback;
 import net.sharksystem.sharknet.javafx.actions.ActionEntry;
 import net.sharksystem.sharknet.javafx.actions.annotations.Action;
 import net.sharksystem.sharknet.javafx.context.ApplicationContext;
@@ -13,7 +14,6 @@ import net.sharksystem.sharknet.javafx.context.ViewContext;
 import net.sharksystem.sharknet.javafx.controls.FontIcon;
 import net.sharksystem.sharknet.javafx.i18n.I18N;
 import net.sharksystem.sharknet.javafx.utils.ReflectionUtils;
-import net.sharksystem.sharknet.javafx.utils.ExceptionUtils;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.FXMLViewContext;
 import org.slf4j.Logger;
@@ -138,12 +138,20 @@ public class ControllerBuilder {
 		loader.setResources(controller.getResourceBundle());
 		loader.setCharset(Charset.forName("UTF-8"));
 		loader.setController(controller);
-		loader.setControllerFactory(c -> controller);
+		loader.setControllerFactory((cls) -> {
+			try {
+				// Fall back implementation if no controller instance is provided
+				Object instance = cls.newInstance();
+				ApplicationContext.get().getInjector().injectMembers(instance);
+				return instance;
+			} catch (InstantiationException | IllegalAccessException ex) {
+				throw new IllegalStateException("Cannot instantiate controller: " + controller , ex);
+			}
+		});
 		return loader;
 	}
 
 	private <T extends AbstractController> void injectDependencies(Class<T> controllerClass, ViewContext<T> ctx) {
-
 
 
 		for(Field field : ReflectionUtils.getAllFields(controllerClass)) {

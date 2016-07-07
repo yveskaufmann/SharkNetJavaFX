@@ -23,6 +23,7 @@ import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
 
+import java.io.InputStream;
 import java.util.*;
 import java.util.List;
 
@@ -55,6 +56,10 @@ public class VoteController extends AbstractController {
 		stage = new Stage();
 		stage.setScene(new Scene(root, 494, 350));
 		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
+		InputStream in = App.class.getResourceAsStream("images/shark-icon256x256.png");
+		if (in != null) {
+			stage.getIcons().add(new Image(in));
+		}
 		stage.show();
 		listeners = new ArrayList<>();
 		answers = new ArrayList<>();

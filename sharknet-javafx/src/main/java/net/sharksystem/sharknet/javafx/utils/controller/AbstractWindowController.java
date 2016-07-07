@@ -11,7 +11,6 @@ import javafx.stage.WindowEvent;
 import net.sharksystem.sharknet.javafx.i18n.I18N;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.rmi.runtime.Log;
 
 import java.net.URL;
 import java.util.ResourceBundle;

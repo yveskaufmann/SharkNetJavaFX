@@ -59,7 +59,7 @@
 	-fx-font-size: 24px;
 }
 
-.title {
+.title_text {
 	-fx-font-family: Roboto-Medium;
 	-fx-font-size: 20px;
 }
@@ -270,6 +270,7 @@
 /*------------------------------------------------------------------------------
  * Context Menu
  *------------------------------------------------------------------------------*/
+/*
 .context-menu {
 	-fx-padding: 8px 0 8px 0;
 	-fx-border-radius: 5px;
@@ -284,20 +285,19 @@
 	-fx-min-width: 112px;
 }
 
-.context-menu .context-menu .menu-item .label {
+.context-menu .menu-item .label {
 	-fx-padding: 16px 0 20px 0;
 }
 
-.context-menu .context-menu .menu-item .label .text {
-	-fx-font-family: "Roboto Bold"!important;
+.context-menu. .menu-item .label .text {
+ 	-fx-font-family: "Roboto Bold"!important;
 	-fx-text-fill: #242424 !important;
 	-fx-fill: #242424 !important;
-	-fx-font-size: 16px;
+	-fx-font-size: 14px;
 	-fx-padding: 0;
 	-fx-margin: 0;
-
 }
-
+*/
 /*------------------------------------------------------------------------------
  * MediaList
  *------------------------------------------------------------------------------*/
@@ -448,7 +448,7 @@
 	-fx-border-color: null;
 	-fx-text-fill: white;
 	-fx-min-width: 88px;
-	-fx-min-height: 36px;
+	-fx-min-height: 25px;
 	-fx-label-padding: 0 16px;
 	-fx-cursor: hand;
 }
@@ -461,5 +461,37 @@
 	-fx-text-color: white;
 }
 
+.newmessagecount {
+	-fx-background-radius: 5em;
+	-fx-background-color: #E91E63;
+	-fx-min-width: 25px;
+	-fx-min-height: 25px;
+	-fx-alignment: center;
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+}
 
+.loginProfileName {
+	-fx-font-weight: bold;
+	-fx-font-size: 2em;
+}
 
+.labelChatRecipients {
+	-fx-font-weight: bold;
+	-fx-font-size: 1.25em;
+}
+
+.newMessageHeader {
+	-fx-font-weight: bold;
+	-fx-font-size: 1.1em;
+}
+
+.chatDivider {
+	-fx-background-radius: 5em;
+	-fx-background-color: #E91E63;
+	-fx-min-height: 20px;
+	-fx-min-width: 580px;
+	-fx-alignment: center;
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+}

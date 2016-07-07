@@ -1,34 +1,25 @@
 package net.sharksystem.sharknet.javafx.controller.chat;
 
 import javafx.fxml.FXML;
-import javafx.geometry.*;
-import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import net.sharksystem.sharknet.api.Contact;
-import net.sharksystem.sharknet.api.Content;
-import net.sharksystem.sharknet.api.ImplContent;
 import net.sharksystem.sharknet.api.Message;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCell;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCellController;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -53,11 +44,14 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 	@FXML
 	private GridPane gridPaneMessages;
 
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("H:mm");
+	private MediaListCell<Message> cell;
+
+	private static final SimpleDateFormat timeformat = new SimpleDateFormat("H:mm");
+	private static final SimpleDateFormat dateformat = new SimpleDateFormat("dd.MM.yyyy");
 
 	public ChatWindowListController(MediaListCell<Message> chatHistoryListCell) {
 		super(App.class.getResource("views/chat/chatWindowEntry.fxml"), chatHistoryListCell);
-
+		cell = chatHistoryListCell;
 	}
 
 	@Override
@@ -65,7 +59,35 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 		if (message == null) {
 			return;
 		}
+		// if it's just a dummy message for a date divider
+		if (message.getContent().getMessage().equals(":datedivider:")) {
+			hboxGridContainer.getChildren().clear();
+			Label label = new Label();
+			label.getStyleClass().add("chatDivider");
 
+			LocalDate msgDate = message.getTimestamp().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			LocalDate yesterday = LocalDate.now().minusDays(1);
+			LocalDate today = LocalDate.now();
+
+			// if the message is from yesterday
+			if (yesterday.equals(msgDate)) {
+				label.setText("Yesterday");
+			}
+			// if the msg is not from today or yesterday...
+			else if (today.equals(msgDate)) {
+				label.setText("Today");
+			}
+			// if the messag is not from yesterday or today
+			else {
+				label.setText(dateformat.format(message.getTimestamp()));
+			}
+
+			hboxGridContainer.getChildren().add(label);
+			cell.setMinHeight(30);
+			cell.setMaxHeight(30);
+			cell.setPrefHeight(30);
+			return;
+		}
 
 
 
@@ -73,6 +95,10 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 		if (message.getContent().getMessage().matches(".*[:emojione-].*[:].*")) {
 			// using textflow for emoji support
 			TextFlow textFlow = new TextFlow();
+			//textFlow.setPadding(new Insets(50, 0, 0, 0));
+			Label sender = new Label();
+			sender.setText("<" + message.getSender().getNickname() + ">");
+			textFlow.getChildren().add(sender);
 			// split the whole message
 			String[] splitted = message.getContent().getMessage().split(":");
 			for (String s : splitted) {
@@ -81,23 +107,28 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 					// create emoji pane
 					Pane smileyPane = new Pane();
 					// translate emoji... just a workaround.. fx still thinks emoji is 64x64 px...
-					smileyPane.setTranslateY(28.0);
+					smileyPane.setTranslateY(10.0);
 					// add css class
 					smileyPane.getStyleClass().addAll("emojione", s.trim());
+					smileyPane.setPrefWidth(32.0);
+					smileyPane.setPrefHeight(32.0);
+
 					// add emoji to textflow
 					textFlow.getChildren().add(smileyPane);
+
 				} else {
 					Label label = new Label();
 					label.setText(s.trim());
 					label.setWrapText(true);
 					textFlow.getChildren().add(label);
+
 				}
 			}
 			// remove default message
+			labelMessage.setVisible(false);
 			hboxMessage.getChildren().remove(labelMessage);
 			hboxMessage.getChildren().add(textFlow);
 
-			labelMessage.setVisible(false);
 		}
 		// if message doesn't contain any emoji...
 		else {
@@ -157,7 +188,7 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 		}
 
 		java.sql.Timestamp timestamp = message.getTimestamp();
-		labelTime.setText(dateFormat.format(timestamp));
+		labelTime.setText(timeformat.format(timestamp));
 
 		if (!message.isEncrypted()) {
 			imageViewEncrypted.setOpacity(0.25);
@@ -174,7 +205,7 @@ public class ChatWindowListController extends MediaListCellController<Message> {
 				imageViewSigned.setImage(new Image(in));
 			}
 		}
-
+	
 		// position message
 		if (!message.isMine()) {
 			hboxGridContainer.setAlignment(Pos.TOP_RIGHT);

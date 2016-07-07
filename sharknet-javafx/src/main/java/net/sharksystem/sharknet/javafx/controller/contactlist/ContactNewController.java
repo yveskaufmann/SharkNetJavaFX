@@ -1,8 +1,5 @@
 package net.sharksystem.sharknet.javafx.controller.contactlist;
 
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,11 +13,9 @@ import net.sharksystem.sharknet.api.ImplContact;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
-import net.sharksystem.sharknet.javafx.controller.contactlist.ShowContactController;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.TimerTask;
 
 
 public class ContactNewController extends AbstractController {

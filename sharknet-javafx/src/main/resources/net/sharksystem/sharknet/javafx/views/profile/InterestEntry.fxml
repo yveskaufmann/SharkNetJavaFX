@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.sharksystem.sharknet.javafx.controller.profile.InterestEntryController">
+   <children>
+      <Label layoutX="17.0" layoutY="41.0" text="Name:" AnchorPane.leftAnchor="17.0" />
+      <Text layoutX="53.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Interesse" AnchorPane.leftAnchor="53.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Text>
+      <Separator layoutX="114.0" layoutY="24.0" prefHeight="3.0" prefWidth="472.0" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="14.0" />
+      <TextField fx:id="interestNameTextbox" layoutX="112.0" layoutY="37.0" prefHeight="25.0" prefWidth="472.0" promptText="Name des Interesse" AnchorPane.leftAnchor="112.0" AnchorPane.rightAnchor="16.0" />
+      <ComboBox fx:id="subscriptionChooser" layoutX="112.0" layoutY="76.0" prefHeight="25.0" prefWidth="472.0" promptText="Möchtest du Feeds zu diesem Interesse abonnieren ?" AnchorPane.leftAnchor="112.0" AnchorPane.rightAnchor="16.0" />
+      <TableView fx:id="interestLinkTable" layoutX="17.0" layoutY="161.0" prefHeight="218.0" prefWidth="567.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="161.0" />
+      <Separator layoutX="18.0" layoutY="23.0" prefHeight="3.0" prefWidth="26.0" AnchorPane.leftAnchor="18.0" />
+      <Text layoutX="18.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Über folgende Tabelle kannst du Links zu Webseiten hinterlegen, die dein Interẹsse am besten beschreiben. " wrappingWidth="450.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="132.0" />
+      <HBox layoutX="17.0" layoutY="393.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="264.0">
+         <children>
+            <TextField fx:id="linkToAddTextfield" prefHeight="25.0" prefWidth="319.0" promptText="Web Addresse" HBox.hgrow="ALWAYS" />
+         </children></HBox>
+      <HBox layoutX="436.0" layoutY="398.0" spacing="5.0" AnchorPane.bottomAnchor="11.0" AnchorPane.rightAnchor="14.0">
+         <children>
+            <JFXButton fx:id="addLinkButton" mnemonicParsing="false" text="Hinzufügen" />
+            <JFXButton fx:id="removeLinkButton" mnemonicParsing="false" text="Entfernen" />
+         </children>
+      </HBox>
+      <Label layoutX="17.0" layoutY="80.0" prefHeight="17.0" prefWidth="67.0" text="Abonnieren:" AnchorPane.leftAnchor="17.0" />
+   </children>
+</AnchorPane>

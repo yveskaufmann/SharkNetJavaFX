@@ -15,3 +15,14 @@
 #profileImageLayer:hover .icon-label {
     visibility: visible;
 }
+
+.section-pane .title {
+    -fx-font-weight: bold;
+}
+
+/* Hide the tree table header */
+.interest-tree .column-header-background {
+    visibility: hidden; -fx-padding: -1em;
+}
+
+

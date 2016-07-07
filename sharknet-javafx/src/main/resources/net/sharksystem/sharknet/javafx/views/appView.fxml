@@ -1,22 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import net.sharksystem.sharknet.javafx.controls.ActionBar?>
-<?import net.sharksystem.sharknet.javafx.controls.Workbench?>
-<?import javafx.scene.layout.VBox?>
-
-<?import net.sharksystem.sharknet.javafx.controls.Navigation?>
-<?import javafx.scene.control.MenuItem?>
-<?import net.sharksystem.sharknet.javafx.controls.FontIcon?>
-<?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.control.Label?>
-<?import com.jfoenix.controls.JFXDrawer?>
-<?import com.jfoenix.controls.JFXToolbar?>
-<?import com.jfoenix.controls.JFXRippler?>
-<?import com.jfoenix.controls.JFXHamburger?>
+<?import com.jfoenix.controls.*?>
 <?import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
 <BorderPane fx:id="appView" styleClass="theme-presets" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
     <top>
         <JFXToolbar fx:id="toolbar">

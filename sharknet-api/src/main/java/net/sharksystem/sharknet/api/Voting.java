@@ -1,6 +1,7 @@
 package net.sharksystem.sharknet.api;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by timol on 27.06.2016.

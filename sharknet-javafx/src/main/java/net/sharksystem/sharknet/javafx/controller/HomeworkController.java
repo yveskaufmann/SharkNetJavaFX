@@ -1,9 +1,9 @@
 package net.sharksystem.sharknet.javafx.controller;
 
 import net.sharksystem.sharknet.javafx.App;
+import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
-import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
 @Controller(title = "%sidebar.homework")
 public class HomeworkController extends AbstractController {

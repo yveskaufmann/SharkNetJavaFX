@@ -2,13 +2,29 @@ package net.sharksystem.sharknet.javafx;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.beans.property.ReadOnlyBooleanWrapper;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.adapter.ReadOnlyJavaBeanBooleanProperty;
+import javafx.beans.value.ObservableBooleanValue;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import net.sharksystem.sharknet.javafx.context.ApplicationContext;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
-import net.sharksystem.sharknet.javafx.controller.profile.ProfileController;
 import net.sharksystem.sharknet.javafx.controller.login.LoginController;
 import net.sharksystem.sharknet.javafx.controller.login.LoginListener;
+import net.sharksystem.sharknet.javafx.controller.profile.ProfileController;
+import net.sharksystem.sharknet.javafx.i18n.I18N;
+import org.controlsfx.control.CheckComboBox;
+import org.controlsfx.dialog.ExceptionDialog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,9 +45,12 @@ public class App extends Application implements LoginListener {
 	public void init() throws Exception {
 		ApplicationContext.get().init(this);
 		Runtime.getRuntime().addShutdownHook(new Thread(ApplicationContext.get()::destroy));
-		Thread.setDefaultUncaughtExceptionHandler((t, e) ->
-			Log.error("Detect uncaught exception in [" + t.getName() + " Thread]", e));
-
+		Thread.setDefaultUncaughtExceptionHandler((t, e) -> {
+			Log.error("Detect uncaught exception in [" + t.getName() + " Thread]", e);
+			ExceptionDialog exceptionDialog = new ExceptionDialog(e);
+			exceptionDialog.setHeaderText(I18N.getString("app.uncaught.exception.header"));
+			exceptionDialog.showAndWait();
+		});
 	}
 
 	@Override
@@ -47,6 +66,7 @@ public class App extends Application implements LoginListener {
 		} else {
 			onLoginSuccessful();
 		}
+
 	}
 
 	@Override

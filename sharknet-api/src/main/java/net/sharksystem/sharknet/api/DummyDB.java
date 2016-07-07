@@ -2,7 +2,9 @@ package net.sharksystem.sharknet.api;
 
 
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -504,6 +506,10 @@ public class DummyDB {
 	private List<? extends Timeable> sortList(List<? extends Timeable> sortlist, boolean ascending) {
 		List<Timeable> m_list = new LinkedList<>();
 		boolean change = false;
+		// fix so it doesn't crash
+		if (sortlist == null) {
+			sortlist = new ArrayList<>();
+		}
 		m_list.addAll(sortlist);
 		Timeable temp, temp2;
 		for (int i = 1; i < m_list.size(); i++) {

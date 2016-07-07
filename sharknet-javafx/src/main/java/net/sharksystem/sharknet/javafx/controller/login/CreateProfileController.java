@@ -18,10 +18,8 @@ import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controls.RoundImageView;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
-import org.controlsfx.validation.Severity;
 
 import java.io.*;
-import java.util.regex.Pattern;
 
 
 /**
@@ -64,6 +62,10 @@ public class CreateProfileController extends AbstractController{
 		stage.setTitle("Create your Profile");
 		stage.setScene(new Scene(root, 552, 346));
 		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
+		InputStream in = App.class.getResourceAsStream("images/shark-icon256x256.png");
+		if (in != null) {
+			stage.getIcons().add(new Image(in));
+		}
 		stage.show();
 	}
 

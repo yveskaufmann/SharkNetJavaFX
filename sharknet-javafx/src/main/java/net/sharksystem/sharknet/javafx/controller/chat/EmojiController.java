@@ -3,21 +3,12 @@ package net.sharksystem.sharknet.javafx.controller.chat;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,8 +45,8 @@ public class EmojiController extends AbstractController {
 				if (counter < emojis.size()) {
 					Pane pane = new Pane();
 					pane.getStyleClass().addAll("emojione", emojis.get(counter));
-					pane.setPrefHeight(64);
-					pane.setPrefWidth(64);
+					//pane.setPrefHeight(64);
+					//pane.setPrefWidth(64);
 					// set onmouseclick event for each emoji
 					pane.setOnMouseClicked(event -> {
 						onEmojiClicked(pane);

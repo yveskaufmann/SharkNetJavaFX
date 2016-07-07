@@ -8,10 +8,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import net.sharksystem.sharknet.javafx.actions.ActionEntry;
-import net.sharksystem.sharknet.javafx.actions.annotations.Action;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Meta data about a controller

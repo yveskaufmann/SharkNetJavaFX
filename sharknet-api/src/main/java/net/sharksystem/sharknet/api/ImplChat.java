@@ -2,7 +2,6 @@ package net.sharksystem.sharknet.api;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -182,7 +181,7 @@ public class ImplChat implements Chat {
 		//ToDo: Shark - get Timestamp from the most recent Message
 		Timestamp recentMessage = null;
 		if(!DummyDB.getInstance().getMessageList(this, true).isEmpty()){
-			DummyDB.getInstance().getMessageList(this, true).get(0).getTimestamp();
+			recentMessage = DummyDB.getInstance().getMessageList(this, true).get(0).getTimestamp();
 		}
 
 		return recentMessage;

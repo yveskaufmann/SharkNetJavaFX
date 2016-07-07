@@ -87,6 +87,7 @@ public interface Contact {
 	public String getName();
 
 	/**
+	 * spelling suggestion- addTelephoneNumber()
 	 * add a Telephonnumber to the Contact. The Contact has a List which can include more phone numbers (no validation included)
 	 * @param telephonnumber
      */

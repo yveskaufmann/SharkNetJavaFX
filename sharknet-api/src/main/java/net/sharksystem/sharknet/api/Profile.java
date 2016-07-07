@@ -1,7 +1,5 @@
 package net.sharksystem.sharknet.api;
 
-import java.util.List;
-
 /**
  * Created by timol on 12.05.2016.
  *

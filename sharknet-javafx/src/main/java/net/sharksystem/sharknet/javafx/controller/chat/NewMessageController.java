@@ -7,10 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.ToolBar;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -18,10 +15,10 @@ import javafx.util.Duration;
 import net.sharksystem.sharknet.api.Message;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
-import java.util.Timer;
 
 import java.awt.*;
 import java.text.SimpleDateFormat;
+import java.util.Timer;
 import java.util.TimerTask;
 
 /**
@@ -43,7 +40,7 @@ public class NewMessageController extends AbstractController {
 
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("H:mm");
 	private static final int KEYFRAMEDURATION = 3000;
-	private static final int KEYFRAMEDELAY = 5000;
+	private static final int KEYFRAMEDELAY = 3000;
 	private static final int WINDOWWIDTH = 300;
 	private static final int WINDOWHEIGHT = 150;
 
@@ -103,7 +100,15 @@ public class NewMessageController extends AbstractController {
 	}
 
 	private void loadData() {
-		labelMessage.setText("<" + message.getSender().getNickname() + "> " + message.getContent().getMessage());
+		// if it's a vote
+		if (message.getContent() != null && message.getContent().getVoting() != null) {
+			labelMessage.setText("<" + message.getSender().getNickname() + "> " + "sent you a new vote to participate");
+		}
+		// otherwise..
+		else {
+			labelMessage.setText("<" + message.getSender().getNickname() + "> " + message.getContent().getMessage());
+		}
+		//labelMessage.setText("<" + message.getSender().getNickname() + "> " + message.getContent().getMessage());
 		labelHeader.setText("New incoming Message!");
 		java.sql.Timestamp timestamp = message.getTimestamp();
 		labelTime.setText(dateFormat.format(timestamp));

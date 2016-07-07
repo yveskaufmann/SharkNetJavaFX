@@ -3,15 +3,12 @@ package net.sharksystem.sharknet.javafx.controller;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.TextField;
+import net.sharksystem.sharknet.api.Setting;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
+import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
-import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
-import net.sharksystem.sharknet.api.Setting;
-
-import java.util.List;
 
 @Controller( title = "%sidebar.settings")
 public class SettingsController extends AbstractController {

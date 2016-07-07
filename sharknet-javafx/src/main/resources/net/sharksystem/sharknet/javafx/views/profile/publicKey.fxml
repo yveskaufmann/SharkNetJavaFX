@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import net.sharksystem.sharknet.javafx.controls.SectionPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import com.jfoenix.controls.JFXButton?>
+
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.HBox?>
+<SectionPane text="%profile.publicKey.title" collapsible="false" xmlns="http://javafx.com/javafx/8.0.92"
+             xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.sharksystem.sharknet.javafx.controller.profile.PublicKeyController">
+    <VBox>
+        <Label text="%profile.publicKey.description"/>
+        <Separator orientation="HORIZONTAL" />
+        <HBox>
+            <Label text="%profile.publicKey.label"/>
+            <Label fx:id="publicKeyField" />
+        </HBox>
+        <HBox>
+            <Label text="%profile.publicKey.expirationLabel"/>
+            <Label fx:id="expirationField"/>
+        </HBox>
+        <HBox spacing="5">
+            <JFXButton fx:id="generateNewPublicKey" text="%profile.publicKey.generate"/>
+        </HBox>
+    </VBox>
+</SectionPane>

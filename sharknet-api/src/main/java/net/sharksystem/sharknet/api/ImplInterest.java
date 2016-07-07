@@ -4,6 +4,7 @@ package net.sharksystem.sharknet.api;
 import net.sharkfw.knowledgeBase.*;
 import net.sharkfw.knowledgeBase.inmemory.InMemoSharkKB;
 
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
@@ -106,43 +107,45 @@ public class ImplInterest implements Interest {
 		return contains;
 	}
 
+	/***
+	 * Loads all topics of this interest.
+	 *
+	 * @return a flat list of all topics
+	 * @throws RuntimeException if topic loading failed
+     */
 	@Override
 	public List<TXSemanticTag> getAllTopics() {
 
-		Enumeration<TXSemanticTag> enum_Tag = null;
+		if (tx == null) return Collections.emptyList();
+
 		try {
-			enum_Tag = tx.rootTags();
+			List<TXSemanticTag> tags = new LinkedList<>();
+			Enumeration<TXSemanticTag> enum_Tag = tx.rootTags();
+			while (enum_Tag != null && enum_Tag.hasMoreElements()){
+				TXSemanticTag tag = enum_Tag.nextElement();
+				tags.add(tag);
+				getSubTags(tag, tags);
+			}
+
+			return tags;
 		} catch (SharkKBException e) {
-			e.printStackTrace();
+			throw new RuntimeException("topic loading failed", e);
 		}
 
-		List<TXSemanticTag> subtag_list = new LinkedList<>();
-		while (enum_Tag.hasMoreElements()){
-			TXSemanticTag tag = enum_Tag.nextElement();
-			subtag_list.add(tag);
-			List<TXSemanticTag> subsubtag_list = getSubTags(tag);
-			if(!subsubtag_list.isEmpty()){
-				subtag_list.addAll(subsubtag_list);
-			}
-		}
-		return subtag_list;
 	}
 
-	private List<TXSemanticTag> getSubTags(TXSemanticTag root){
-		Enumeration<TXSemanticTag> subtagenum =root.getSubTags();
-		List <TXSemanticTag> subtag_List = new LinkedList<>();
+	private void getSubTags(TXSemanticTag tag, List<TXSemanticTag> tags){
+		Enumeration<TXSemanticTag> subtagenum = tag.getSubTags();
+
 		if(subtagenum == null){
-			return subtag_List;
+			return;
 		}
+
 		while(subtagenum.hasMoreElements()){
-			TXSemanticTag txtag = subtagenum.nextElement();
-			subtag_List.add(txtag);
-			List<TXSemanticTag> subsubtag_list = getSubTags(txtag);
-			if(!subsubtag_list.isEmpty()){
-				subtag_List.addAll(subsubtag_list);
-			}
+			TXSemanticTag txTag = subtagenum.nextElement();
+			getSubTags(txTag, tags);
+			tags.add(txTag);
 		}
-		return subtag_List;
 	}
 
 	@Override

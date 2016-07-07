@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.VBox?>
-<?import net.sharksystem.sharknet.javafx.controls.RoundImageView?>
-
-<?import net.sharksystem.sharknet.javafx.controls.Navigation?>
-<?import net.sharksystem.sharknet.javafx.actions.ActionEntry?>
-
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.*?>
+<?import net.sharksystem.sharknet.javafx.actions.*?>
+<?import net.sharksystem.sharknet.javafx.controls.Navigation?>
+<?import net.sharksystem.sharknet.javafx.controls.RoundImageView?>
 <VBox fx:id="sidebar" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.71" xmlns:fx="http://javafx.com/fxml/1">
    <children>
 

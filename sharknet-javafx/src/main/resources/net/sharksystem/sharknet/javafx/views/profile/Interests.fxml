@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.*?>
+<?import net.sharksystem.sharknet.javafx.controls.SectionPane?>
+<StackPane fx:id="interestsPane" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.92"
+           xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.sharksystem.sharknet.javafx.controller.profile.InterestsController">
+   <SplitPane orientation="HORIZONTAL" dividerPositions="0.3">
+        <StackPane>
+            <SectionPane text="Interessen">
+                <TreeTableView styleClass="interest-tree" fx:id="interestsTreeTable"/>
+            </SectionPane>
+        </StackPane>
+       <AnchorPane>
+           <fx:include fx:id="interestEntry" source="InterestEntry.fxml" AnchorPane.leftAnchor="16" AnchorPane.rightAnchor="16" />
+       </AnchorPane>
 
-<BorderPane fx:id="interestsPane" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.92"
-            xmlns:fx="http://javafx.com/fxml/1">
-</BorderPane>
+   </SplitPane>
+</StackPane>

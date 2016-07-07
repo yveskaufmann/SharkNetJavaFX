@@ -2,7 +2,6 @@ package net.sharksystem.sharknet.javafx.actions.annotations;
 
 
 import net.sharksystem.sharknet.javafx.utils.FontAwesomeIcon;
-import net.sharksystem.sharknet.javafx.utils.FontBasedIcon;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
