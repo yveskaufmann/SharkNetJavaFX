@@ -12,6 +12,6 @@ addons:
       - oracle-java8-installer
 
 
-deploy:
-  provider: bintray
+#deploy:
+#  provider: bintray
 
