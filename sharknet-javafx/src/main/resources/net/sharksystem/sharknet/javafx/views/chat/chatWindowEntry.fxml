@@ -15,7 +15,7 @@
         <GridPane fx:id="gridPaneMessages" prefWidth="350.0">
             <columnConstraints>
                 <ColumnConstraints fillWidth="true" hgrow="ALWAYS" />
-                <ColumnConstraints hgrow="SOMETIMES" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="110"/>
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints fillHeight="true" vgrow="ALWAYS" />
@@ -37,6 +37,11 @@
                         <ImageView fx:id="imageViewSigned" fitHeight="20.0" fitWidth="20.0" layoutX="65.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../../images/doublecheck.png" />
+                            </image>
+                        </ImageView>
+                        <ImageView fx:id="imageViewDirectContact" fitHeight="20.0" fitWidth="20.0" layoutX="80.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../images/ic_network_locked_black_24dp.png" />
                             </image>
                         </ImageView>
                         <Label fx:id="labelTime" layoutX="4.0" layoutY="6.0" prefHeight="17.0" prefWidth="76.0" text="Label" />

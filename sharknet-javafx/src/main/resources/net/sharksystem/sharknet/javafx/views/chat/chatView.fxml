@@ -25,19 +25,19 @@
                             </image>
                         </RoundImageView>
 
-                        <ImageView fx:id="imageViewAdd" opacity="0.5" fitHeight="50.0" fitWidth="50.0" layoutX="519.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imageViewAdd" opacity="1" fitHeight="50.0" fitWidth="50.0" layoutX="519.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../../images/ic_person_add_black_24dp.png" />
                             </image>
                         </ImageView>
-                        <ImageView fx:id="imageViewAttachment" opacity="0.5" fitHeight="50.0" fitWidth="50.0" layoutX="569.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imageViewAttachment" opacity="1" fitHeight="45.0" fitWidth="45.0" layoutX="573.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../../images/ic_attach_file_black_24dp.png" />
                             </image>
                         </ImageView>
-                        <ImageView fx:id="imageViewVote" opacity="0.5" fitHeight="45.0" fitWidth="45.0" layoutX="460.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="imageViewVote" opacity="1" fitHeight="45.0" fitWidth="45.0" layoutX="460.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../images/ic_gavel_black_24dp.png" />
+                                <Image url="@../../images/ic_poll_black_24dp.png" />
                             </image>
                         </ImageView>
                         <Label fx:id="labelChatRecipients" layoutX="74.0" layoutY="14.0" prefHeight="40.0" prefWidth="213.0" styleClass="labelChatRecipients" text="Chat Contacts..." />
@@ -51,6 +51,7 @@
                                 <VBox fx:id="chatWindowListView" prefHeight="531.0" prefWidth="607.0" />
                             </content>
                         </ScrollPane>
+                        <Label fx:id="labelNewMsgEvent" prefHeight="20.0" prefWidth="20.0" text="" layoutX="440.0" layoutY="600.0"/>
                         <TextField id="emoji" fx:id="textFieldMessage" layoutX="14.0" layoutY="561.0" prefHeight="25.0" prefWidth="412.0" text="Type your message here..." />
 
                         <ImageView fx:id="imageViewEmoji" fitHeight="32.0" fitWidth="32.0" layoutX="440.0" layoutY="561.0" pickOnBounds="true" preserveRatio="true">

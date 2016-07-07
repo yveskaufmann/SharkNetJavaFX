@@ -48,7 +48,7 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 	private Label labelNewMsgCount;
 
 	private ObjectProperty<Chat> chatProp;
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat();
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy H:mm");
 
 	public ChatHistoryEntryController(MediaListCell<Chat> chatHistoryListCell) {
 		super(App.class.getResource("views/chat/chatHistoryEntry.fxml"), chatHistoryListCell);

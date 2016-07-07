@@ -83,6 +83,8 @@ public class ChatController extends AbstractController implements ChatListener, 
 	@FXML
 	private Label labelChatRecipients;
 	@FXML
+	private Label labelNewMsgEvent;
+	@FXML
 	private ScrollPane scrollPaneChat;
 
 	private FrontController frontController;
@@ -167,6 +169,11 @@ public class ChatController extends AbstractController implements ChatListener, 
 		chatHistoryListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			onChatSelected(chatHistoryListView.getSelectionModel().getSelectedItem());
 			chatHistoryListView.refresh();
+		});
+
+		labelNewMsgEvent.setOnMouseClicked(event -> {
+			Message m = new ImplMessage(new ImplContent("Das ist eine neue Nachricht. Bla blub keks tralalalalalala wer wie wo was der die das bla blub keks"), sharkNetModel.getContacts(), sharkNetModel.getMyProfile().getContact(), sharkNetModel.getMyProfile());
+			receivedMessage(m);
 		});
 
 		/*
@@ -340,6 +347,7 @@ public class ChatController extends AbstractController implements ChatListener, 
 		if (activeChat != null && vote != null) {
 			activeChat.sendMessage(vote);
 			loadChat(activeChat);
+			loadChatHistory();
 		}
 	}
 

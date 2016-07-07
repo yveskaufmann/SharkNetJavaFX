@@ -1,12 +1,15 @@
 package net.sharksystem.sharknet.javafx.controller.chat;
 
 import com.google.inject.Inject;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.Chat;
 import net.sharksystem.sharknet.api.Contact;
@@ -85,6 +88,26 @@ public class ChatContactsController extends AbstractController {
 
 		// initial load of contacts
 		loadContacts();
+		listViewAllContacts.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				if (event.getClickCount() == 2) {
+					onAddContact(listViewAllContacts.getSelectionModel().getSelectedIndex());
+				}
+
+			}
+		});
+		listViewAddContacts.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				if (event.getClickCount() == 2) {
+					onRemoveContact(listViewAddContacts.getSelectionModel().getSelectedIndex());
+				}
+
+			}
+		});
 	}
 
 	/**
@@ -164,10 +187,19 @@ public class ChatContactsController extends AbstractController {
 	 * notify listener about changed contactlist
 	 */
 	private void onOKClick() {
-		for (ChatListener c : listeners) {
-			c.onContactListChanged(addedContacts);
+		if (addedContacts.size() > 0) {
+			for (ChatListener c : listeners) {
+				c.onContactListChanged(addedContacts);
+			}
+			stage.close();
+		} else {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Error editing Chat Members");
+			alert.setContentText("You need atleast one contact for a chat");
+			alert.setHeaderText("");
+			alert.showAndWait();
 		}
-		stage.close();
+
 	}
 
 	/**

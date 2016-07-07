@@ -38,6 +38,8 @@ public class ChatBox extends HBox {
 	@FXML
 	private ImageView imageViewSigned;
 	@FXML
+	private ImageView imageViewDirectContact;
+	@FXML
 	private HBox hboxGridContainer;
 	@FXML
 	private HBox hboxMessage;
@@ -71,6 +73,7 @@ public class ChatBox extends HBox {
 	private void update() {
 		imageViewEncrypted.setOpacity(0.25);
 		imageViewSigned.setOpacity(0.25);
+		imageViewDirectContact.setOpacity(0.25);
 
 		if (msg == null) {
 			return;
@@ -212,6 +215,9 @@ public class ChatBox extends HBox {
 				imageViewEncrypted.setImage(new Image(in));
 			}
 
+		}
+		if (!msg.isDierectRecived()) {
+			imageViewDirectContact.setVisible(false);
 		}
 		if (!msg.isSigned()) {
 			//imageViewSigned.setOpacity(0.25);
