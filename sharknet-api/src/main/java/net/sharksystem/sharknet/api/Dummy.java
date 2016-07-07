@@ -127,6 +127,7 @@ public class Dummy {
 			m.setEncrypted(true);
 			m.setSigned(true);
 			m.setDierectRecived(true);
+			m.setVerified(true);
 		}
 
 // Interest Managemnt

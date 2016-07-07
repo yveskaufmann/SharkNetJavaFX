@@ -16,8 +16,7 @@ public class ImplMessage implements Message {
 	Timestamp time;
 	boolean isSigned;
 	boolean isEncrypted;
-
-
+	boolean isVerified;
 	boolean dierectRecived;
 	Content content;
 	Boolean disliked = false;
@@ -179,9 +178,12 @@ public class ImplMessage implements Message {
 
 	@Override
 	public boolean isVerified() {
-		//ToDo: Shark - verify the Signature of the Message
-		if(isSigned)return true;
-		return false;
+		return isVerified;
+	}
+
+	@Override
+	public void setVerified(boolean verified){
+		this.isVerified = verified;
 	}
 
 	@Override
@@ -199,4 +201,5 @@ public class ImplMessage implements Message {
 	public void setDierectRecived(boolean dierectRecived) {
 		this.dierectRecived = dierectRecived;
 	}
+
 }

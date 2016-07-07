@@ -71,6 +71,12 @@ public interface Message extends Timeable, ContainsContent {
 	public boolean isVerified();
 
 	/**
+	 * Sets if Message is verified
+	 * @param verified
+     */
+	public void setVerified(boolean verified);
+
+	/**
 	 * Returns the Chat of the Message or constructs a new
 	 * @return
      */
