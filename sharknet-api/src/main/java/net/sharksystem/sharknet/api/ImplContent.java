@@ -2,6 +2,7 @@ package net.sharksystem.sharknet.api;
 
 import net.sharksystem.sharknet.api.utils.ResetOnCloseInputStream;
 
+import javax.activation.MimetypesFileTypeMap;
 import java.io.*;
 
 /**
@@ -35,6 +36,13 @@ public class ImplContent implements Content {
 		this.message = message;
 		this.filename = filename;
 	}
+/*
+	public String getMimeType(File f){
+		final MimetypesFileTypeMap fileTypeMap = new MimetypesFileTypeMap();
+		return fileTypeMap.getContentType(f);
+	}
+
+*/
 
 	@Override
 	public String getFileExtension() {

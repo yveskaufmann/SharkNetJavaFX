@@ -1,15 +1,12 @@
 package net.sharksystem.sharknet.api;
 
-
 import net.sharkfw.knowledgeBase.SemanticTag;
 import net.sharkfw.knowledgeBase.TXSemanticTag;
+
 import java.io.*;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 
 public class Dummy {
@@ -97,19 +94,13 @@ public class Dummy {
 
 		java.util.Date fiveMinAgo = new Date(System.currentTimeMillis()-5*60*1000);
 		Timestamp time5ago = new java.sql.Timestamp(fiveMinAgo.getTime());
-
-		java.util.Date oneDayAgo = new Date(System.currentTimeMillis() - 24*60*60*1000);
-		Timestamp timeOneDayAgo = new java.sql.Timestamp(oneDayAgo.getTime());
-
-		java.util.Date twoDayAgo = new Date(System.currentTimeMillis() - 24*60*60*1000*2);
-		Timestamp timeTwoDayAgo = new java.sql.Timestamp(twoDayAgo.getTime());
-
+			;
 		java.util.Date fiveMinAfter = new Date(System.currentTimeMillis()+5*60*1000);
 		Timestamp time5after = new java.sql.Timestamp(fiveMinAfter.getTime());
 
 		java.util.Date sevenMinAgo = new Date(System.currentTimeMillis()-100*60*1000);
 		Timestamp time7ago = new java.sql.Timestamp(fiveMinAgo.getTime());
-
+		;
 		java.util.Date sevenMinAfter = new Date(System.currentTimeMillis()+100*60*1000);
 		Timestamp time7after = new java.sql.Timestamp(fiveMinAfter.getTime());
 
@@ -118,12 +109,10 @@ public class Dummy {
 		Timestamp timenow = new java.sql.Timestamp(now.getTime());
 
 
-		Message m1 = new ImplMessage(new ImplContent("answer 3"), time5ago, bob, s.getMyProfile(), recipients1, false, false);
+		Message m1 = new ImplMessage(new ImplContent("answer 1"), time5ago, bob, s.getMyProfile(), recipients1, false, false);
 		DummyDB.getInstance().addMessage(m1, chat1);
-		Message m2 = new ImplMessage(new ImplContent("answer 2"), timeOneDayAgo, bob, s.getMyProfile(), recipients1, false, false);
-		DummyDB.getInstance().addMessage(m2, chat1);
-		Message m3 = new ImplMessage(new ImplContent("answer 1"), timeTwoDayAgo, bob, s.getMyProfile(), recipients1, false, false);
-		DummyDB.getInstance().addMessage(m3, chat1);
+
+
 
 //		ImplMessage(String message, Timestamp time, Contact sender, List<Contact> recipient_list, boolean isSigned, boolean isEncrypted)
 
@@ -132,6 +121,14 @@ public class Dummy {
 		chat2.sendMessage(new ImplContent("lorem ipsum"));
 
 		chat3.sendMessage(new ImplContent("this is a group message"));
+
+		List<Message> chat1_m = chat1.getMessages(true);
+		for(Message m : chat1_m){
+			m.setEncrypted(true);
+			m.setSigned(true);
+			m.setDierectRecived(true);
+			m.setVerified(true);
+		}
 
 // Interest Managemnt
 		Interest i1 = new ImplInterest(alice);

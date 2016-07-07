@@ -14,7 +14,10 @@ public class ImplMessage implements Message {
 	Contact sender;
 	List<Contact> recipient_list;
 	Timestamp time;
-	boolean isSigned, isEncrypted;
+	boolean isSigned;
+	boolean isEncrypted;
+	boolean isVerified;
+	boolean dierectRecived;
 	Content content;
 	Boolean disliked = false;
 	Boolean read = false;
@@ -73,6 +76,17 @@ public class ImplMessage implements Message {
 		if(!c.getMessages(true).contains(this)){
 			DummyDB.getInstance().addMessage(this, c);
 		}
+	}
+
+
+	@Override
+	public void setSigned(boolean signed) {
+		isSigned = signed;
+	}
+
+	@Override
+	public void setEncrypted(boolean encrypted) {
+		isEncrypted = encrypted;
 	}
 
 	@Override
@@ -164,14 +178,28 @@ public class ImplMessage implements Message {
 
 	@Override
 	public boolean isVerified() {
-		//ToDo: Shark - verify the Signature of the Message
-		if(isSigned)return true;
-		return false;
+		return isVerified;
+	}
+
+	@Override
+	public void setVerified(boolean verified){
+		this.isVerified = verified;
 	}
 
 	@Override
 	public boolean isdisliked() {
 		return disliked;
+	}
+
+
+	@Override
+	public boolean isDierectRecived() {
+		return dierectRecived;
+	}
+
+	@Override
+	public void setDierectRecived(boolean dierectRecived) {
+		this.dierectRecived = dierectRecived;
 	}
 
 }
