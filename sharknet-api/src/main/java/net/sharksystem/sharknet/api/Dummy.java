@@ -122,6 +122,13 @@ public class Dummy {
 
 		chat3.sendMessage(new ImplContent("this is a group message"));
 
+		List<Message> chat1_m = chat1.getMessages(true);
+		for(Message m : chat1_m){
+			m.setEncrypted(true);
+			m.setSigned(true);
+			m.setDierectRecived(true);
+		}
+
 // Interest Managemnt
 		Interest i1 = new ImplInterest(alice);
 		TXSemanticTag si1 = i1.addInterest("sport", "www.sport.de");
