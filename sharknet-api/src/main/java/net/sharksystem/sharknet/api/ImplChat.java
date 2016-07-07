@@ -179,12 +179,11 @@ public class ImplChat implements Chat {
 	@Override
 	public Timestamp getTimestamp() {
 		//ToDo: Shark - get Timestamp from the most recent Message
-		Timestamp recentMessage = null;
 		if(!DummyDB.getInstance().getMessageList(this, true).isEmpty()){
-			recentMessage = DummyDB.getInstance().getMessageList(this, true).get(0).getTimestamp();
+			lastmessage = DummyDB.getInstance().getMessageList(this, true).get(0).getTimestamp();
 		}
 
-		return recentMessage;
+		return lastmessage;
 	}
 
 	@Override
