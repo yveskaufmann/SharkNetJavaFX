@@ -3,10 +3,7 @@ package net.sharksystem.sharknet.javafx.controller.contactlist;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.Contact;
 import net.sharksystem.sharknet.api.SharkNet;
@@ -16,6 +13,7 @@ import net.sharksystem.sharknet.javafx.services.ImageManager;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
 import javax.inject.Inject;
+import java.util.Optional;
 
 public class ShowContactController extends AbstractController {
 
@@ -38,11 +36,17 @@ public class ShowContactController extends AbstractController {
 	@FXML
 	private Button closeWindowButton;
 	@FXML
+	private Button deletePublicKeyButton;
+	@FXML
+	private Button deleteContactButton;
+	@FXML
 	private RoundImageView profilePictureImageView;
 	@FXML
 	private Label nameLabel;
 	@FXML
 	private Label editLabel;
+	@FXML
+	private ListView interestsListView;
 
 	@Inject
 	private ImageManager imageManager;
@@ -60,7 +64,7 @@ public class ShowContactController extends AbstractController {
 		stage = new Stage();
 		stage.setTitle("");
 		Parent root = super.getRoot();
-		stage.setScene(new Scene(root, 600, 400));
+		stage.setScene(new Scene(root, 800, 600));
 		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
 		stage.show();
 		editLabel.setVisible(false);
@@ -118,6 +122,32 @@ public class ShowContactController extends AbstractController {
 		closeWindowButton.setOnMouseClicked(event -> {
 			stage.close();
 			event.consume();
+		});
+
+		deletePublicKeyButton.setOnMouseClicked(event -> {
+			contact.deleteKey();
+			publicKeyTextField.setText(contact.getPublicKey());
+		});
+
+		deleteContactButton.setOnMouseClicked(event -> {
+
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("Kontakt löschen");
+			alert.setHeaderText("Soll " + contact.getNickname() + " wirklich gelöscht werden?");
+
+			ButtonType loeschenOKButton = new ButtonType("Löschen");
+			ButtonType abbruchButton = new ButtonType("Abbrechen", ButtonBar.ButtonData.CANCEL_CLOSE);
+			alert.getButtonTypes().setAll(loeschenOKButton, abbruchButton);
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if(result.get() == loeschenOKButton){
+				sharkNetModel.getContacts().remove(contact);
+
+				//TODO changelistener
+
+				stage.close();;
+
+			}
 		});
 
 	}

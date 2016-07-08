@@ -25,15 +25,11 @@ public class ContactNewController extends AbstractController {
 	@FXML
 	private TextField mailInputTextField;
 	@FXML
-	private TextArea publicKeyTextArea;
-	@FXML
 	private Button saveButton;
 	@FXML
 	private Button backButton;
 	@FXML
 	private Button newContactScanQRButton;
-	@FXML
-	private Button newContactNFCButton;
 	@FXML
 	private Label nfcInfoLabel;
 
@@ -118,9 +114,6 @@ public class ContactNewController extends AbstractController {
 				if(mailInputTextField.getText() != "") {
 					newContact.setEmail(mailInputTextField.getText());
 				}
-				if(publicKeyTextArea.getText() != ""){
-					newContact.setPublicKey(publicKeyTextArea.getText());
-				}
 
 				sharkNetModel.getContacts().add(newContact);
 				stage.close();
@@ -136,10 +129,6 @@ public class ContactNewController extends AbstractController {
 
 		newContactScanQRButton.setOnMouseClicked(event -> {
 			scanQRCode();
-		});
-
-		newContactNFCButton.setOnMouseClicked(event -> {
-			contactExchangeNFC();
 		});
 	}
 }

@@ -19,18 +19,16 @@ public class SettingsController extends AbstractController {
 	private SharkNet sharkNetModel;
 
 	private Setting settings;
-	private int maxRoutedMB;
+	private int MAXMBTEST;
 	private int switchOffWifiDirectAfterMin;
-	private String mailAddress;
-	private String mailPassword;
-	private String smtpServer;
-	private String imapServer;
 	private boolean radar;
 
 	@FXML
 	private Button settingsSaveButton;
 	@FXML
 	private Button syncStartButton;
+	@FXML
+	private Button routingSaveButton;
 	@FXML
 	private CheckBox contactsSyncCheckbox;
 	@FXML
@@ -42,17 +40,19 @@ public class SettingsController extends AbstractController {
 	@FXML
 	private CheckBox profileSyncCheckbox;
 	@FXML
-	private TextField settingsMailAddress;
+	private TextField mailAddressInput;
 	@FXML
-	private TextField settingsSMTPServer;
+	private TextField smtpServerInput;
 	@FXML
-	private TextField settingsIMAPServer;
+	private TextField imapServerInput;
 	@FXML
-	private TextField mailPasswordTextField;
+	private TextField smtpPasswordInput;
 	@FXML
-	private TextField maximumRouteSize;
+	private TextField imapPasswordInput;
 	@FXML
-	private TextField settingsWiFiDirectOffMinutes;
+	private TextField maximumRouteSizeInput;
+	@FXML
+	private TextField wifiDirectOffMinutesInput;
 	@FXML
 	private ToggleGroup syncMedium;
 	@FXML
@@ -82,29 +82,27 @@ public class SettingsController extends AbstractController {
 
 	@FXML
 	private void onSettingsSaveButtonClick() {
-		mailAddress = settingsMailAddress.getText();
-		settings.setSmtpServer(settingsSMTPServer.getText());
-		settings.setImapServer(settingsIMAPServer.getText());
+		//mailAddress = mailAddressInput.getText();
+
+
+		settings.setSmtpServer(smtpServerInput.getText());
+		settings.setImapServer(imapServerInput.getText());
+		settings.setSmtpPassword(smtpPasswordInput.getText());
+		settings.setImapPassword(imapPasswordInput.getText());
 
 		//TODO sharkNetModel.getMyProfile().setMail(mailAddress);
-		//TODO settings.setMailPW = mailPasswordTextField.getText();
 
-		try {
-			settings.setMaxFileSize(Integer.parseInt(maximumRouteSize.getText()));
-		}catch (Exception e){
-			e.printStackTrace();}
 		try{
 			// TODO
-			switchOffWifiDirectAfterMin = Integer.parseInt(settingsWiFiDirectOffMinutes.getText());
+			settings.setWifiON(Integer.parseInt(wifiDirectOffMinutesInput.getText()));
 		}catch (Exception e){
 			e.printStackTrace();
 		}
 
-		System.out.println("Mail address= "+ mailAddress);
-		System.out.println("SMTP= "+ settingsSMTPServer.getText());
-		System.out.println("IMAP= " + settingsIMAPServer.getText());
-		System.out.println("MaxMB= " + Integer.parseInt(maximumRouteSize.getText()));
-		System.out.println("Wifi Direct off after: " + switchOffWifiDirectAfterMin + " min");
+		System.out.println("Mail address= "+ mailAddressInput.getText());
+		System.out.println("SMTP= "+ smtpServerInput.getText());
+		System.out.println("IMAP= " + imapServerInput.getText());
+		System.out.println("Wifi Direct off after: " + wifiDirectOffMinutesInput.getText() + " min");
 
 
 		if(radarOnRadioButton.isSelected()){
@@ -114,6 +112,29 @@ public class SettingsController extends AbstractController {
 		}
 	}
 
+	@FXML
+	private void onRoutingSaveButtonClick() {
+		//TODO
+		if (maximumRouteSizeInput.getText() != "") {
+			try {
+				MAXMBTEST = Integer.parseInt(maximumRouteSizeInput.getText());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		System.out.println("MaxMB= " + MAXMBTEST);
+
+
+		System.out.println("Routing-Einstellungen speichern");
+
+		if(maximumRouteSizeInput.getText() != "") {
+			try {
+				settings.setMaxFileSize(Integer.parseInt(maximumRouteSizeInput.getText()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	@FXML
 	private void onStartSyncButtonClick() {
@@ -174,19 +195,12 @@ public class SettingsController extends AbstractController {
 	protected void onFxmlLoaded() {
 		settings = sharkNetModel.getMyProfile().getSettings();
 
-		// Settings aus Model auslesen
-		maxRoutedMB = settings.getMaxFileSize();
-		imapServer = settings.getImapServer();
-		smtpServer = settings.getSmtpServer();
-		//TODO mailPassword = settings.getMailPassword();
+
 		//TODO switchOffWifiDirectAfterMin = settings.getWiFiOffMin();
 
 		if(settings.getRadarON()){
 			radarOnRadioButton.setSelected(true);
 		}else radarOffRadioButton.setSelected(true);
-
-
-
 
 		// Sync
 		if(settings.getMail()){
@@ -207,14 +221,16 @@ public class SettingsController extends AbstractController {
 
 
 		// Textfelder füllen
-		mailPasswordTextField.setText(mailPassword);
-		maximumRouteSize.setText("" + maxRoutedMB);
-		settingsMailAddress.setText(mailAddress);
-		settingsIMAPServer.setText(imapServer);
-		settingsSMTPServer.setText(smtpServer);
-		maximumRouteSize.setText(""+maxRoutedMB);
-		settingsWiFiDirectOffMinutes.setText(""+switchOffWifiDirectAfterMin);
+		maximumRouteSizeInput.setText("" + settings.getMaxFileSize());
+		mailAddressInput.setText("" + settings.getMail());
+		imapServerInput.setText("" + settings.getImapServer());
+		smtpServerInput.setText("" + settings.getSmtpServer());
+		smtpPasswordInput.setText("" + settings.getSmtpPassword());
+		imapPasswordInput.setText("" + settings.getImapPassword());
+		maximumRouteSizeInput.setText("" );
+		wifiDirectOffMinutesInput.setText("" + switchOffWifiDirectAfterMin);
 
+		//TODO
 		profileSyncCheckbox.setSelected(true);
 		contactsSyncCheckbox.setSelected(true);
 		timelineSyncCheckbox.setSelected(true);
