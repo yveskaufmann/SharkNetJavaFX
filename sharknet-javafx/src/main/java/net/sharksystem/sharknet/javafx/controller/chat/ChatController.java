@@ -131,6 +131,13 @@ public class ChatController extends AbstractController implements ChatListener, 
 		buttonNewChat.setText(getString("chat.button.newchat"));
 		buttonSend.setText(getString("chat.button.send"));
 		textFieldMessage.setText(getString("chat.textinput.typemsg"));
+
+		labelChatRecipients.setTooltip(new Tooltip(getString("chat.tooltip.contacts")));
+		Tooltip.install(imageViewAttachment, new Tooltip(getString("chat.tooltip.attachment")));
+		Tooltip.install(imageViewAdd, new Tooltip(getString("chat.tooltip.add")));
+		Tooltip.install(imageViewVote, new Tooltip(getString("chat.tooltip.vote")));
+		Tooltip.install(imageViewContactProfile, new Tooltip(getString("chat.tooltip.profile")));
+
 		// set onMouseClick for Attachment ImageView
 		imageViewAttachment.setOnMouseClicked(event -> {
 			onAttachmentClick();
@@ -308,6 +315,26 @@ public class ChatController extends AbstractController implements ChatListener, 
 		//ToDo: what to do with group chat?
 		if (activeChat != null && activeChat.getContacts().size() == 1) {
 			ShowContactController sc = new ShowContactController(activeChat.getContacts().get(0));
+		}
+		// grpchat -> set picture
+		else if (activeChat != null && activeChat.getContacts().size() > 1) {
+			FileChooser fileChooser = new FileChooser();
+			FileChooser.ExtensionFilter extFilter =	new FileChooser.ExtensionFilter("Picture files", "*.jpg", "*.bmp", "*.png", "*.gif");
+			fileChooser.getExtensionFilters().add(extFilter);
+			Stage stage = new Stage();
+			fileChooser.setTitle(getString("chat.groupchat.picture.title"));
+			File file = fileChooser.showOpenDialog(stage);
+			// if a file is selected
+			if (file != null) {
+				try {
+					InputStream in = new BufferedInputStream(new FileInputStream(file.getAbsolutePath()));
+					activeChat.setPicture(new ImplContent(in, "jpg", "grppicture"));
+					imageManager.readImageFrom(activeChat.getPicture()).ifPresent(imageViewContactProfile::setImage);
+					loadChatHistory();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 

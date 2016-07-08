@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import net.sharksystem.sharknet.javafx.context.ApplicationContext;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
+import net.sharksystem.sharknet.javafx.controller.chat.ChatController;
 import net.sharksystem.sharknet.javafx.controller.login.LoginController;
 import net.sharksystem.sharknet.javafx.controller.login.LoginListener;
 import net.sharksystem.sharknet.javafx.controller.profile.ProfileController;
@@ -105,7 +106,8 @@ public class App extends Application implements LoginListener {
 			if (indexController != null) {
 				try {
 					Class.forName(indexController);
-					frontController.setDefaultController(ProfileController.class);
+					//frontController.setDefaultController(ProfileController.class);
+					frontController.setDefaultController(ChatController.class);
 				} catch (Exception ex) {
 					Log.error("Invalid value for 'indexController' passed, must be a full class name");
 				}
