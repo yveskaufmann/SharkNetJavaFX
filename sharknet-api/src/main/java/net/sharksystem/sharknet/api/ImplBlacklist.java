@@ -30,10 +30,12 @@ public class ImplBlacklist implements Blacklist {
 
 	@Override
 	public List<Contact> getList() {
-		List<Contact> blacklist_list = new LinkedList<>();
 
 		//ToDo: Shark - fill List with Contact from Blacklist
-		blacklist_list = DummyDB.getInstance().blacklistGet(owner);
+		List<Contact> blacklist_list = DummyDB.getInstance().blacklistGet(owner);
+		if(blacklist_list == null){
+			blacklist_list = new LinkedList<>();
+		}
 
 		return blacklist_list;
 	}
