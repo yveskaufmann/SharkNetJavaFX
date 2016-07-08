@@ -24,6 +24,7 @@ import net.sharksystem.sharknet.javafx.controller.login.LoginController;
 import net.sharksystem.sharknet.javafx.controller.login.LoginListener;
 import net.sharksystem.sharknet.javafx.controller.profile.ProfileController;
 import net.sharksystem.sharknet.javafx.i18n.I18N;
+import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import org.controlsfx.control.CheckComboBox;
 import org.controlsfx.dialog.ExceptionDialog;
 import org.slf4j.Logger;
@@ -106,8 +107,7 @@ public class App extends Application implements LoginListener {
 			if (indexController != null) {
 				try {
 					Class.forName(indexController);
-					//frontController.setDefaultController(ProfileController.class);
-					frontController.setDefaultController(ChatController.class);
+					frontController.setDefaultController((Class<? extends AbstractController>) Class.forName(indexController));
 				} catch (Exception ex) {
 					Log.error("Invalid value for 'indexController' passed, must be a full class name");
 				}
