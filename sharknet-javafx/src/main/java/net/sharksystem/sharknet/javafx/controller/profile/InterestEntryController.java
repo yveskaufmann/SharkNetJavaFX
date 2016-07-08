@@ -14,13 +14,15 @@ import javafx.scene.input.KeyCode;
 import net.sharkfw.knowledgeBase.SharkKBException;
 import net.sharkfw.knowledgeBase.TXSemanticTag;
 
+import static net.sharksystem.sharknet.javafx.i18n.I18N.getString;
+
 import java.util.Arrays;
 
 public class InterestEntryController {
 
 	private enum SubscriptionType {
-		ACTIVATED("Ja, ich möchte Feeds zu diesem Thema erhalten"),
-		DEACTIVATED("Nein, ich möchte keine Feeds zu diesenm Thema erhalten");
+		ACTIVATED(getString("interest.subscription.activated")),
+		DEACTIVATED(getString("interest.subscription.deactivated"));
 
 		private String caption;
 
@@ -82,7 +84,7 @@ public class InterestEntryController {
 
 		subscriptionChooser.getItems().addAll(SubscriptionType.ACTIVATED, SubscriptionType.DEACTIVATED);
 
-		TableColumn<LinkEntry, String> linkColumn = new TableColumn<>("Webadressen");
+		TableColumn<LinkEntry, String> linkColumn = new TableColumn<>(getString("interest.si.header"));
 		linkColumn.setCellFactory(TextFieldTableCell.forTableColumn());
 		linkColumn.setCellValueFactory(new PropertyValueFactory<>("link"));
 		linkColumn.setEditable(true);
@@ -140,7 +142,13 @@ public class InterestEntryController {
 	 * Methods
 	 *
 	 ******************************************************************************/
-
+	/**
+	 * Loads the data of tag from interestTagProperty when its value is changed
+	 *
+	 * @param observableValue
+	 * @param oldTag
+	 * @param newTag
+     */
 	private void onTagChanged(ObservableValue<? extends TXSemanticTag> observableValue, TXSemanticTag oldTag, TXSemanticTag newTag) {
 		interestNameTextbox.clear();
 		interestLinkTable.getItems().clear();
@@ -155,6 +163,11 @@ public class InterestEntryController {
 
 	}
 
+	/**
+	 * Called when a user request to add a link to a interest
+	 *
+	 * @param event
+     */
 	private void onAddLinkClicked(ActionEvent event) {
 		String newURL = linkToAddTextfield.getText().trim();
 		linkToAddTextfield.clear();
@@ -168,6 +181,11 @@ public class InterestEntryController {
 		}
 	}
 
+	/**
+	 * Called when a user requested to remove si identifier
+	 *
+	 * @param event
+     */
 	private void onRemoveLinkClicked(ActionEvent event) {
 		TableView.TableViewSelectionModel<LinkEntry> selectionModel = interestLinkTable.getSelectionModel();
 		if (! selectionModel.isEmpty()) {
