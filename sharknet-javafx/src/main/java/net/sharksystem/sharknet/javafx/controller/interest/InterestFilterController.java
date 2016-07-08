@@ -1,12 +1,10 @@
-package net.sharksystem.sharknet.javafx.controller.profile;
+package net.sharksystem.sharknet.javafx.controller.interest;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
-import javafx.util.Callback;
 import javafx.util.Pair;
-import org.controlsfx.dialog.LoginDialog;
 
 /**
  * Filter controller for all possible

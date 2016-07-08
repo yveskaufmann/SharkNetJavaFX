@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<AnchorPane fx:controller="net.sharksystem.sharknet.javafx.controller.profile.InterestFilterController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:controller="net.sharksystem.sharknet.javafx.controller.interest.InterestFilterController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TextField fx:id= "interestFilter"  layoutX="14.0" layoutY="10.0" minWidth="200.0" prefHeight="25.0" prefWidth="425.0" promptText="Interessen Filtern" style="-fx-border-radius: 20px; -fx-background-radius: 20px;" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="61.0" />
       <HBox layoutX="357.0" layoutY="17.0" spacing="5.0" AnchorPane.rightAnchor="14.0" />

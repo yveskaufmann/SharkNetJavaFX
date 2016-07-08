@@ -1,7 +1,5 @@
 package net.sharksystem.sharknet.javafx.controller.profile;
 
-import com.jfoenix.controls.JFXButton;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -11,21 +9,17 @@ import net.sharksystem.sharknet.api.Profile;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
+import net.sharksystem.sharknet.javafx.controller.interest.InterestsController;
 import net.sharksystem.sharknet.javafx.controls.RoundImageView;
-import net.sharksystem.sharknet.javafx.controls.SectionPane;
 import net.sharksystem.sharknet.javafx.controls.dialogs.ImageChooserDialog;
 import net.sharksystem.sharknet.javafx.services.ImageManager;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
-import org.controlsfx.validation.Severity;
-import org.controlsfx.validation.ValidationSupport;
-import org.controlsfx.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import java.util.Optional;
-import java.util.regex.Pattern;
 
 public class ProfileController extends AbstractController {
 

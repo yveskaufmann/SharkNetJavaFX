@@ -1,4 +1,4 @@
-package net.sharksystem.sharknet.javafx.controller.profile;
+package net.sharksystem.sharknet.javafx.controller.interest;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;

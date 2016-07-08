@@ -27,7 +27,7 @@
             </Tab>
 
             <Tab fx:id="interestsTab" text="%profile.interessts">
-                <fx:include fx:id="interests" source="Interests.fxml"/>
+                <fx:include fx:id="interests" source="../interest/Interests.fxml"/>
             </Tab>
         </TabPane>
     </VBox>

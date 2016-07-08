@@ -1,4 +1,4 @@
-package net.sharksystem.sharknet.javafx.controller.profile;
+package net.sharksystem.sharknet.javafx.controller.interest;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

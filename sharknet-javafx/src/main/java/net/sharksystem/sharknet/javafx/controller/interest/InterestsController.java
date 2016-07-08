@@ -1,10 +1,8 @@
-package net.sharksystem.sharknet.javafx.controller.profile;
+package net.sharksystem.sharknet.javafx.controller.interest;
 
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.ClipboardContent;
