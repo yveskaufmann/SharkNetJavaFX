@@ -15,6 +15,8 @@ import net.sharksystem.sharknet.api.Contact;
 import net.sharksystem.sharknet.api.Message;
 import net.sharksystem.sharknet.javafx.App;
 
+import static net.sharksystem.sharknet.javafx.i18n.I18N.getString;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -92,11 +94,11 @@ public class ChatBox extends HBox {
 
 			// if the message is from yesterday
 			if (yesterday.equals(msgDate)) {
-				label.setText("Yesterday");
+				label.setText(getString("chat.divider.yesterday"));
 			}
 			// if the msg is not from today or yesterday...
 			else if (today.equals(msgDate)) {
-				label.setText("Today");
+				label.setText(getString("chat.divider.today"));
 			}
 			// if the messag is not from yesterday or today
 			else {

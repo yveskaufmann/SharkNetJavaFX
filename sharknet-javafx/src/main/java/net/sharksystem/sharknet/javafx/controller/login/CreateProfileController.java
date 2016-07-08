@@ -19,6 +19,8 @@ import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controls.RoundImageView;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
+import static net.sharksystem.sharknet.javafx.i18n.I18N.getString;
+
 import java.io.*;
 
 
@@ -59,7 +61,7 @@ public class CreateProfileController extends AbstractController{
 		profileFile = null;
 		Parent root = super.getRoot();
 		stage = new Stage();
-		stage.setTitle("Create your Profile");
+		stage.setTitle(getString("login.profile.title"));
 		stage.setScene(new Scene(root, 552, 346));
 		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
 		InputStream in = App.class.getResourceAsStream("images/shark-icon256x256.png");
@@ -71,6 +73,7 @@ public class CreateProfileController extends AbstractController{
 
 	@Override
 	protected void onFxmlLoaded() {
+		buttonSave.setText(getString("login.profile.button.save"));
 		buttonSave.setOnMouseClicked(event -> {
 			onSaveClick();
 			event.consume();
@@ -80,8 +83,6 @@ public class CreateProfileController extends AbstractController{
 			onPictureClick();
 			event.consume();
 		});
-
-
 	}
 
 	private void onPictureClick() {
@@ -91,7 +92,7 @@ public class CreateProfileController extends AbstractController{
 		FileChooser.ExtensionFilter extFilter =	new FileChooser.ExtensionFilter("Picture files", "*.jpg", "*.bmp", "*.png", "*.gif");
 		fileChooser.getExtensionFilters().add(extFilter);
 		Stage stage = new Stage();
-		fileChooser.setTitle("Select Profile Picture");
+		fileChooser.setTitle(getString("login.profile.picture"));
 		File file = fileChooser.showOpenDialog(stage);
 		// if a file is selected
 		if (file != null) {
@@ -108,8 +109,8 @@ public class CreateProfileController extends AbstractController{
 	private void onSaveClick() {
 		if (textFieldNick.getText().length() == 0) {
 			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("Error creating Profile");
-			alert.setContentText("Please choose a Nickname");
+			alert.setTitle(getString("login.profile.error"));
+			alert.setContentText(getString("login.profile.error.nick"));
 			alert.setHeaderText("");
 			alert.showAndWait();
 			return;
@@ -118,8 +119,8 @@ public class CreateProfileController extends AbstractController{
 		if (passwordFieldPass.getText().length() > 0 && passwordFieldPassRepeat.getText().length() > 0) {
 			if (!passwordFieldPass.getText().equals(passwordFieldPassRepeat.getText())) {
 				Alert alert = new Alert(Alert.AlertType.ERROR);
-				alert.setTitle("Error creating Profile");
-				alert.setContentText("Please make sure the passwords are identical");
+				alert.setTitle(getString("login.profile.error"));
+				alert.setContentText(getString("login.profile.error.password"));
 				alert.setHeaderText("");
 				alert.showAndWait();
 				return;
@@ -139,8 +140,8 @@ public class CreateProfileController extends AbstractController{
 				p.getContact().setEmail(textFieldMail.getText());
 			} else {
 				Alert alert = new Alert(Alert.AlertType.ERROR);
-				alert.setTitle("Error creating Profile");
-				alert.setContentText("No valid E-Mail");
+				alert.setTitle(getString("login.profile.error"));
+				alert.setContentText(getString("login.profile.error.mail"));
 				alert.setHeaderText("");
 				alert.showAndWait();
 				return;

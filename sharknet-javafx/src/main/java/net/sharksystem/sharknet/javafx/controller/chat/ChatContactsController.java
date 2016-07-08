@@ -1,6 +1,7 @@
 package net.sharksystem.sharknet.javafx.controller.chat;
 
 import com.google.inject.Inject;
+import com.jfoenix.controls.JFXButton;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -16,6 +17,8 @@ import net.sharksystem.sharknet.api.Contact;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
+
+import static net.sharksystem.sharknet.javafx.i18n.I18N.getString;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -33,11 +36,11 @@ public class ChatContactsController extends AbstractController {
 	@FXML
 	private ListView listViewAddContacts;
 	@FXML
-	private Button buttonAdd;
+	private JFXButton buttonAdd;
 	@FXML
-	private Button buttonRemove;
+	private JFXButton buttonRemove;
 	@FXML
-	private Button buttonOk;
+	private JFXButton buttonOk;
 
 	@Inject
 	private SharkNet sharkNet;
@@ -58,7 +61,7 @@ public class ChatContactsController extends AbstractController {
 		this.chat = chat;
 		Parent root = super.getRoot();
 		stage = new Stage();
-		stage.setTitle("Choose the contacts you want to add");
+		stage.setTitle(getString("chat.contacts.add.title"));
 		stage.setScene(new Scene(root, 494, 414));
 		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
 		InputStream in = App.class.getResourceAsStream("images/shark-icon256x256.png");
@@ -194,8 +197,8 @@ public class ChatContactsController extends AbstractController {
 			stage.close();
 		} else {
 			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("Error editing Chat Members");
-			alert.setContentText("You need atleast one contact for a chat");
+			alert.setTitle(getString("chat.contacts.remove.error.title"));
+			alert.setContentText(getString("chat.contacts.remove.error.msg"));
 			alert.setHeaderText("");
 			alert.showAndWait();
 		}

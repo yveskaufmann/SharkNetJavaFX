@@ -22,6 +22,7 @@ import net.sharksystem.sharknet.api.Voting;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
+import static net.sharksystem.sharknet.javafx.i18n.I18N.getString;
 
 import java.io.InputStream;
 import java.util.*;
@@ -44,6 +45,8 @@ public class VoteController extends AbstractController {
 	private RadioButton radioButtonMulti;
 	@FXML
 	private TextField textFieldQuestion;
+	@FXML
+	private Label labelQuestion;
 
 	private List<ChatListener> listeners;
 	private List<String> answers;
@@ -60,7 +63,7 @@ public class VoteController extends AbstractController {
 		if (in != null) {
 			stage.getIcons().add(new Image(in));
 		}
-		stage.setTitle("Create Vote");
+		stage.setTitle(getString("chat.vote.title"));
 		stage.show();
 		listeners = new ArrayList<>();
 		answers = new ArrayList<>();
@@ -68,6 +71,9 @@ public class VoteController extends AbstractController {
 
 	@Override
 	protected void onFxmlLoaded() {
+		labelQuestion.setText(getString("chat.vote.question"));
+		radioButtonSingle.setText(getString("chat.vote.type.single"));
+		radioButtonMulti.setText(getString("chat.vote.type.multi"));
 		imageViewAdd.setOnMouseClicked(event -> {
 			onAddClick();
 			event.consume();
@@ -85,8 +91,8 @@ public class VoteController extends AbstractController {
 	private void onAddClick() {
 		// create and open dialog for the answers
 		TextInputDialog dialog = new TextInputDialog();
-		dialog.setTitle("Add Answer");
-		dialog.setHeaderText("Enter your answer");
+		dialog.setTitle(getString("chat.vote.answer.add"));
+		dialog.setHeaderText(getString("chat.vote.answer.prompt"));
 		Optional<String> result = dialog.showAndWait();
 		// if input is valid
 		if (result.isPresent()) {

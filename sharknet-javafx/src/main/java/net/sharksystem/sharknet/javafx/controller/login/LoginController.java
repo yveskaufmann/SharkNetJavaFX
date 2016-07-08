@@ -20,6 +20,8 @@ import net.sharksystem.sharknet.javafx.controls.RoundImageView;
 import net.sharksystem.sharknet.javafx.services.ImageManager;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
+import static net.sharksystem.sharknet.javafx.i18n.I18N.getString;
+
 import java.io.InputStream;
 import java.util.List;
 
@@ -62,7 +64,7 @@ public class LoginController extends AbstractController {
 		listener = null;
 		Parent root = super.getRoot();
 		stage = new Stage();
-		stage.setTitle("Please login");
+		stage.setTitle(getString("login.title"));
 		stage.setScene(new Scene(root, 552, 346));
 		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
 		InputStream in = App.class.getResourceAsStream("images/shark-icon256x256.png");
@@ -74,7 +76,8 @@ public class LoginController extends AbstractController {
 
 	@Override
 	protected void onFxmlLoaded() {
-
+		buttonLogin.setText(getString("login.login"));
+		buttonRegister.setText(getString("login.register"));
 		imageViewScrollLeft.setOnMouseClicked(event -> {
 			onScrollLeftClick();
 			event.consume();
@@ -126,8 +129,8 @@ public class LoginController extends AbstractController {
 			}
 		} else {
 			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("Login Error");
-			alert.setContentText("Wrong Password");
+			alert.setTitle(getString("login.error.password.title"));
+			alert.setContentText(getString("login.error.password"));
 			alert.setHeaderText("");
 			alert.showAndWait();
 		}

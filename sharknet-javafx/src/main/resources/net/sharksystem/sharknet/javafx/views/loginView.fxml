@@ -12,8 +12,8 @@
    <bottom>
       <AnchorPane prefHeight="102.0" prefWidth="552.0" BorderPane.alignment="CENTER">
          <children>
-            <JFXButton fx:id="buttonLogin"  layoutX="301.0" layoutY="45.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="45.0" text="Login" />
-            <JFXButton fx:id="buttonRegister" layoutX="166.0" layoutY="45.0" mnemonicParsing="false" prefHeight="27.0" text="Register" />
+            <JFXButton fx:id="buttonLogin"  layoutX="301.0" layoutY="45.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="45.0" />
+            <JFXButton fx:id="buttonRegister" layoutX="166.0" layoutY="45.0" mnemonicParsing="false" prefHeight="27.0" />
             <PasswordField fx:id="passwordfield" layoutX="202.0" layoutY="1.0" prefHeight="26.0" prefWidth="149.0" />
          </children>
       </AnchorPane>

@@ -22,7 +22,7 @@
       <PasswordField fx:id="passwordFieldPass" layoutX="370.0" layoutY="72.0" prefHeight="25.0" prefWidth="173.0" />
       <PasswordField fx:id="passwordFieldPassRepeat" layoutX="370.0" layoutY="112.0" prefHeight="25.0" prefWidth="173.0" />
       <Label layoutX="285.0" layoutY="76.0" text="Password" />
-      <Label layoutX="283.0" layoutY="115.0" text="Repeat" />
-      <Button fx:id="buttonSave" layoutX="227.0" layoutY="296.0" mnemonicParsing="false" text="Save" />
+      <Label layoutX="283.0" layoutY="115.0" text="Wiederholen" />
+      <Button fx:id="buttonSave" layoutX="227.0" layoutY="296.0" mnemonicParsing="false" />
    </children>
 </AnchorPane>

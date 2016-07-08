@@ -52,7 +52,7 @@
                             </content>
                         </ScrollPane>
                         <Label fx:id="labelNewMsgEvent" prefHeight="20.0" prefWidth="20.0" text="" layoutX="440.0" layoutY="600.0"/>
-                        <TextField id="emoji" fx:id="textFieldMessage" layoutX="14.0" layoutY="561.0" prefHeight="25.0" prefWidth="412.0" text="Type your message here..." />
+                        <TextField id="emoji" fx:id="textFieldMessage" layoutX="14.0" layoutY="561.0" prefHeight="25.0" prefWidth="412.0" />
 
                         <ImageView fx:id="imageViewEmoji" fitHeight="32.0" fitWidth="32.0" layoutX="440.0" layoutY="561.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -60,7 +60,7 @@
                             </image>
                         </ImageView>
 
-                        <JFXButton fx:id="buttonSend" layoutX="500.0" layoutY="561.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" text="Send" />
+                        <JFXButton fx:id="buttonSend" layoutX="500.0" layoutY="561.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" />
 
                     </children>
                 </AnchorPane>
@@ -72,6 +72,6 @@
 
         <ChatHistoryList fx:id = "chatHistoryListView" layoutX="14.0" layoutY="14.0" prefHeight="595.0" prefWidth="380.0"></ChatHistoryList>
 
-        <JFXButton fx:id="buttonNewChat" layoutX="150.0" layoutY="635.0" mnemonicParsing="false" text="New Chat" />
+        <JFXButton fx:id="buttonNewChat" layoutX="150.0" layoutY="635.0" mnemonicParsing="false" />
     </children>
 </AnchorPane>

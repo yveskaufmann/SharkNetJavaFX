@@ -2,12 +2,13 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import com.jfoenix.controls.JFXButton?>
 <AnchorPane maxHeight="Infinity" maxWidth="Infinity" prefHeight="414.0" prefWidth="494.0" styleClass="theme-presets" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ListView fx:id="listViewAllContacts" layoutX="14.0" layoutY="27.0" prefHeight="300.0" prefWidth="170.0" />
       <ListView fx:id="listViewAddContacts" layoutX="309.0" layoutY="27.0" prefHeight="300.0" prefWidth="170.0" />
-      <Button fx:id="buttonAdd" layoutX="204.0" layoutY="125.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="43.0" text="&gt;&gt;" />
-      <Button fx:id="buttonRemove" layoutX="204.0" layoutY="165.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="43.0" text="&lt;&lt;" />
-      <Button fx:id="buttonOk" layoutX="204.0" layoutY="353.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" text="OK" />
+      <JFXButton fx:id="buttonAdd" layoutX="204.0" layoutY="125.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="43.0" text="&gt;&gt;" />
+      <JFXButton fx:id="buttonRemove" layoutX="204.0" layoutY="165.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="43.0" text="&lt;&lt;" />
+      <JFXButton fx:id="buttonOk" layoutX="204.0" layoutY="353.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" text="OK" />
    </children>
 </AnchorPane>

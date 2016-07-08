@@ -34,6 +34,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
+import static net.sharksystem.sharknet.javafx.i18n.I18N.getString;
+
 
 @Controller( title = "%sidebar.chat")
 public class ChatController extends AbstractController implements ChatListener, GetEvents {
@@ -126,6 +128,9 @@ public class ChatController extends AbstractController implements ChatListener, 
 
 	@Override
 	protected void onFxmlLoaded() {
+		buttonNewChat.setText(getString("chat.button.newchat"));
+		buttonSend.setText(getString("chat.button.send"));
+		textFieldMessage.setText(getString("chat.textinput.typemsg"));
 		// set onMouseClick for Attachment ImageView
 		imageViewAttachment.setOnMouseClicked(event -> {
 			onAttachmentClick();
@@ -231,7 +236,7 @@ public class ChatController extends AbstractController implements ChatListener, 
 			// setup and open filechooser
 			FileChooser fileChooser = new FileChooser();
 			Stage stage = new Stage();
-			fileChooser.setTitle("Select Attachment");
+			fileChooser.setTitle(getString("chat.attachment.title"));
 			File file = fileChooser.showOpenDialog(stage);
 			// if a file is selected
 			if (file != null) {
