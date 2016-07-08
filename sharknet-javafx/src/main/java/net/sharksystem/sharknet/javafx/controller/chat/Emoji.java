@@ -16,7 +16,6 @@ import java.util.List;
  */
 public class Emoji {
 
-
 	private List<String> emojis;
 	private static Emoji emojiInstance = null;
 	public static int cols = 43;

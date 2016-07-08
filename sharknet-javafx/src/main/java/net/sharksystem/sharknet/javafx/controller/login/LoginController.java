@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.image.Image;
@@ -24,8 +23,6 @@ import static net.sharksystem.sharknet.javafx.i18n.I18N.getString;
 
 import java.io.InputStream;
 import java.util.List;
-
-// ToDo: add create new profile
 
 /**
  * Created by Benni on 18.05.2016.
@@ -82,22 +79,18 @@ public class LoginController extends AbstractController {
 			onScrollLeftClick();
 			event.consume();
 		});
-
 		imageViewScrollRight.setOnMouseClicked(event -> {
 			onScrollRightClick();
 			event.consume();
 		});
-
 		buttonLogin.setOnMouseClicked(event -> {
 			onLoginClick();
 			event.consume();
 		});
-
 		buttonRegister.setOnMouseClicked(event -> {
 			onRegisterClick();
 			event.consume();
 		});
-
 		profileList = sharkNetModel.getProfiles();
 		profileNumber = 0;
 		onProfileChanged();
@@ -118,10 +111,7 @@ public class LoginController extends AbstractController {
 	}
 
 	private void onLoginClick() {
-		System.out.println("onLoginClick");
-		System.out.println(buttonLogin.getStyle());
 		if (sharkNetModel.getProfiles().get(profileNumber).login(passwordfield.getText())) {
-			System.out.println("login ok");
 			sharkNetModel.setProfile(sharkNetModel.getProfiles().get(profileNumber), passwordfield.getText());
 			if (listener != null) {
 				listener.onLoginSuccessful();
@@ -138,9 +128,7 @@ public class LoginController extends AbstractController {
 
 
 	private void onRegisterClick() {
-		System.out.println("onRegisterClick");
 		CreateProfileController cp = new CreateProfileController();
-
 	}
 
 	private void onProfileChanged() {

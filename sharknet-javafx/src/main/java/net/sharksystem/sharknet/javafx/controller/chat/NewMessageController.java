@@ -85,7 +85,6 @@ public class NewMessageController extends AbstractController {
 
 			}
 		}, KEYFRAMEDELAY);
-
 	}
 
 	@Override
@@ -95,7 +94,6 @@ public class NewMessageController extends AbstractController {
 			event.consume();
 		});
 		imageViewClose.setPickOnBounds(true);
-
 		loadData();
 	}
 

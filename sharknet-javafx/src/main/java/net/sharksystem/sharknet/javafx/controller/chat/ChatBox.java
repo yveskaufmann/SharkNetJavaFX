@@ -28,6 +28,8 @@ import java.util.Map;
 
 /**
  * Created by Benni on 07.07.2016.
+ * This Class is used as replacement for listview items. Listview items with
+ * different sizes caused a visual bug with duplicated entries.
  */
 public class ChatBox extends HBox {
 
@@ -52,6 +54,7 @@ public class ChatBox extends HBox {
 	private static final SimpleDateFormat dateformat = new SimpleDateFormat("dd.MM.yyyy");
 
 	private Message msg;
+	// to fix resize problem, not working 100%
 	private double height = -1.0;
 
 	public ChatBox(Message msg) {
@@ -60,19 +63,19 @@ public class ChatBox extends HBox {
 		FXMLLoader loader = new FXMLLoader(App.class.getResource("views/chat/chatWindowEntry.fxml"));
 		loader.setRoot(this);
 		loader.setController(this);
-
-
-
 		try{
 			loader.load();
 		}catch(IOException exception){
 			throw new RuntimeException(exception);
 		}
-
 		update();
 	}
 
+	/**
+	 * update all elements
+	 */
 	private void update() {
+		// somehow css wasnt working...
 		imageViewEncrypted.setOpacity(0.25);
 		imageViewSigned.setOpacity(0.25);
 		imageViewDirectContact.setOpacity(0.25);
@@ -87,7 +90,7 @@ public class ChatBox extends HBox {
 			hboxGridContainer.getChildren().clear();
 			Label label = new Label();
 			label.getStyleClass().add("chatDivider");
-
+			// reference dates for determing yesterday, today, ...
 			LocalDate msgDate = msg.getTimestamp().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			LocalDate yesterday = LocalDate.now().minusDays(1);
 			LocalDate today = LocalDate.now();
@@ -104,13 +107,11 @@ public class ChatBox extends HBox {
 			else {
 				label.setText(dateformat.format(msg.getTimestamp()));
 			}
-
+			// add divider
 			hboxGridContainer.getChildren().add(label);
 			return;
 		}
-
 		getStyleClass().add("chatbox");
-
 		// if emoji was found
 		if (msg.getContent().getMessage().matches(".*[:emojione-].*[:].*")) {
 			// using textflow for emoji support
@@ -132,23 +133,19 @@ public class ChatBox extends HBox {
 					smileyPane.getStyleClass().addAll("emojione", s.trim());
 					smileyPane.setPrefWidth(32.0);
 					smileyPane.setPrefHeight(32.0);
-
 					// add emoji to textflow
 					textFlow.getChildren().add(smileyPane);
-
 				} else {
 					Label label = new Label();
 					label.setText(s.trim());
 					label.setWrapText(true);
 					textFlow.getChildren().add(label);
-
 				}
 			}
 			// remove default message
 			labelMessage.setVisible(false);
 			hboxMessage.getChildren().remove(labelMessage);
 			hboxMessage.getChildren().add(textFlow);
-
 		}
 		// if message doesn't contain any emoji...
 		else {
@@ -162,11 +159,14 @@ public class ChatBox extends HBox {
 				grid.getRowConstraints().add(new RowConstraints(75));
 				//grid.setPrefHeight(25);
 				grid.setPrefWidth(210);
+				Label labelSender = new Label();
+				labelSender.setText("<" + msg.getSender().getNickname() + ">");
 				Label questionLabel = new Label();
 				questionLabel.setMaxHeight(100);
 				questionLabel.setPrefWidth(300);
-				questionLabel.setText("<" + msg.getSender().getNickname() + "> " + msg.getContent().getVoting().getQuestion());
+				questionLabel.setText(msg.getContent().getVoting().getQuestion());
 				questionLabel.setWrapText(true);
+				grid.add(labelSender, 0, 0);
 				grid.add(questionLabel, 1, 0);
 
 				HashMap<String, Contact> answerList = msg.getContent().getVoting().getAnswers();
@@ -177,10 +177,8 @@ public class ChatBox extends HBox {
 				while (it.hasNext()) {
 					grid.getRowConstraints().add(new RowConstraints(25));
 					Map.Entry pair = (Map.Entry)it.next();
-
 					Label answerLabel = new Label();
 					answerLabel.setText(pair.getKey().toString());
-					//answerLabel.setMaxHeight();
 					answerLabel.setPrefWidth(gridPaneMessages.getPrefWidth() - 100);
 					answerLabel.setWrapText(true);
 					// single choice
@@ -195,7 +193,6 @@ public class ChatBox extends HBox {
 						CheckBox cb = new CheckBox();
 						grid.add(cb, 0, index);
 					}
-
 					grid.add(answerLabel, 1, index);
 					index++;
 				}
@@ -209,7 +206,6 @@ public class ChatBox extends HBox {
 
 		java.sql.Timestamp timestamp = msg.getTimestamp();
 		labelTime.setText(timeformat.format(timestamp));
-
 		if (!msg.isEncrypted()) {
 			InputStream in = null;
 			in = App.class.getResourceAsStream("images/ic_no_encryption_black_24dp.png");
@@ -234,7 +230,6 @@ public class ChatBox extends HBox {
 				imageViewSigned.setImage(new Image(in));
 			}
 		}
-
 		// position message
 		if (!msg.isMine()) {
 			hboxGridContainer.setAlignment(Pos.TOP_RIGHT);
@@ -247,6 +242,9 @@ public class ChatBox extends HBox {
 		return msg;
 	}
 
+	/**
+	 * try to fix the resize problem, not working 100%
+	 */
 	@Override
 	protected void layoutChildren() {
 		if (height < 0) {

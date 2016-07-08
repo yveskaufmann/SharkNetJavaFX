@@ -62,10 +62,8 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 				if (view.getUserData() instanceof Chat) {
 					Chat chat = (Chat) view.getUserData();
 					chatDeleted(chat);
-					System.out.println("deleted chat");
 				}
 			}
-
 			event.consume();
 		});
 		imageViewDelete.setPickOnBounds(true);
@@ -76,24 +74,19 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 		imageViewDelete.setOnMouseExited(event -> {
 			imageViewDelete.setOpacity(0.5);
 		});
-
 	}
 
 	@Override
 	protected void onItemChanged(Chat chat) {
 
-
 		if (chat == null) {
 			return;
 		}
-
 		List<String> contactNames = new ArrayList<>();
 		labelNewMsgCount.setVisible(false);
-
 		for (Contact contact : chat.getContacts()) {
 			contactNames.add(contact.getNickname());
 		}
-
 		// check if some of the msgs are unread
 		int newMsgCount = 0;
 		for (Message msg : chat.getMessages(false)) {
@@ -106,8 +99,6 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 			labelNewMsgCount.setText(String.valueOf(newMsgCount));
 			labelNewMsgCount.setVisible(true);
 		}
-
-
 		String senders = String.join(", ", contactNames);
 		// set sender label
 		chatContacts.setText(senders);
@@ -126,7 +117,6 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 			else {
 				chatContent.setText(chat.getMessages(false).get(chat.getMessages(false).size()-1).getContent().getMessage());
 			}
-
 		}
 		// set chat title
 		chatTitle.setText(chat.getTitle());
@@ -141,11 +131,8 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 		imageViewDelete.setUserData(chat);
 	}
 
-
-
 	private void chatDeleted(Chat c) {
 		ChatController controller = ChatController.getInstance();
 		controller.onChatDeleted(c);
 	}
-
 }

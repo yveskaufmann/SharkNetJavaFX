@@ -78,7 +78,6 @@ public class CreateProfileController extends AbstractController{
 			onSaveClick();
 			event.consume();
 		});
-
 		imageViewPicture.setOnMouseClicked(event -> {
 			onPictureClick();
 			event.consume();
@@ -151,7 +150,6 @@ public class CreateProfileController extends AbstractController{
 		if (textFieldTel.getText().length() > 0) {
 			p.getContact().addTelephonnumber(textFieldTel.getText());
 		}
-
 		// profile picture
 		InputStream in = null;
 		if (profileFile == null) {
@@ -176,7 +174,6 @@ public class CreateProfileController extends AbstractController{
 				Content pic = new ImplContent(in, extension, profileFile.getName());
 				// add the picture to contact
 				p.getContact().setPicture(pic);
-
 			}
 			else {
 				Content pic = new ImplContent(in, extension, "profile placeholder");

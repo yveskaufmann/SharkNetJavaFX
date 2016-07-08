@@ -2,7 +2,6 @@ package net.sharksystem.sharknet.javafx.controller.chat;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.geometry.*;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -17,7 +16,6 @@ import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.Content;
 import net.sharksystem.sharknet.api.ImplContent;
-import net.sharksystem.sharknet.api.ImplVoting;
 import net.sharksystem.sharknet.api.Voting;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
@@ -54,7 +52,6 @@ public class VoteController extends AbstractController {
 
 	public VoteController() {
 		super(App.class.getResource("views/chat/voteView.fxml"));
-
 		Parent root = super.getRoot();
 		stage = new Stage();
 		stage.setScene(new Scene(root, 494, 350));
@@ -74,11 +71,14 @@ public class VoteController extends AbstractController {
 		labelQuestion.setText(getString("chat.vote.question"));
 		radioButtonSingle.setText(getString("chat.vote.type.single"));
 		radioButtonMulti.setText(getString("chat.vote.type.multi"));
+		// set tooltip
+		Tooltip.install(imageViewAdd, new Tooltip(getString("chat.vote.tooltip.add")));
+		Tooltip.install(imageViewSave, new Tooltip(getString("chat.vote.tooltip.save")));
+		// set events
 		imageViewAdd.setOnMouseClicked(event -> {
 			onAddClick();
 			event.consume();
 		});
-
 		imageViewSave.setOnMouseClicked(event -> {
 			onSaveClick();
 			event.consume();
@@ -105,7 +105,6 @@ public class VoteController extends AbstractController {
 	private void refreshAnswerGrid() {
 		// first remove everything
 		gridPaneAnswers.getChildren().removeAll(gridPaneAnswers.getChildren());
-
 		for (int i = 0; i < answers.size(); i++) {
 			// add radiobutton and answer to the first column
 			RowConstraints rCon = new RowConstraints();
@@ -116,7 +115,6 @@ public class VoteController extends AbstractController {
 			RadioButton radioButton = new RadioButton();
 			boxLeft.setMargin(label, new Insets(0, 0, 0, 25));
 			boxLeft.getChildren().addAll(radioButton, label);
-
 			// add button for edit and remove to the second column
 			HBox boxRight = new HBox();
 			// for removing later
@@ -132,7 +130,6 @@ public class VoteController extends AbstractController {
 				onRemoveClick(gridPaneAnswers.getRowIndex(boxLeft));
 				event.consume();
 			});
-
 			ImageView edit = new ImageView();
 			edit.setImage(new Image(App.class.getResourceAsStream("images/ic_edit_black_24dp.png")));
 			edit.setFitWidth(32.0);
@@ -146,19 +143,14 @@ public class VoteController extends AbstractController {
 			});
 			boxRight.setMargin(remove, new Insets(0, 15, 0, 0));
 			boxRight.getChildren().addAll(remove, edit);
-
 			gridPaneAnswers.getRowConstraints().add(rCon);
 			// add first and second column content
 			gridPaneAnswers.add(boxLeft, 0, i);
 			gridPaneAnswers.add(boxRight, 1, i);
-
 		}
-
 	}
 
 	private void onSaveClick() {
-		System.out.println("onSaveClick");
-
 		boolean singleChoice = true;
 		if (radioButtonMulti.isSelected()) {
 			singleChoice = false;
@@ -174,11 +166,9 @@ public class VoteController extends AbstractController {
 			}
 			stage.close();
 		}
-
 	}
 
 	private void onRemoveClick(int row) {
-		System.out.println("remove: " + row);
 		ObservableList<Node> childs = gridPaneAnswers.getChildren();
 		Iterator<Node> iterator = childs.iterator();
 		String answer = "";
@@ -203,9 +193,6 @@ public class VoteController extends AbstractController {
 	}
 
 	private void onEditClick(int row) {
-		// ToDo: edit function
-		System.out.println("edit: " + row);
-
 		// create and open dialog for the answers
 		TextInputDialog dialog = new TextInputDialog();
 		dialog.setTitle("Edit Answer");
@@ -230,12 +217,9 @@ public class VoteController extends AbstractController {
 							}
 						}
 					}
-
 				}
 			}
 		}
-
-
 	}
 
 	private void removeAnswerFromList(String answer) {

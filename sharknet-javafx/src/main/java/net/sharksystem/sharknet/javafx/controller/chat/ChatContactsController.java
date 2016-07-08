@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -51,7 +50,6 @@ public class ChatContactsController extends AbstractController {
 	private List<Contact> addedContacts;
 	private List<ChatListener> listeners;
 	private Chat chat;
-
 	private Stage stage;
 
 	public ChatContactsController(Chat chat) {
@@ -88,11 +86,10 @@ public class ChatContactsController extends AbstractController {
 			onOKClick();
 			event.consume();
 		});
-
 		// initial load of contacts
 		loadContacts();
+		// enable double click
 		listViewAllContacts.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
 			@Override
 			public void handle(MouseEvent event) {
 				if (event.getClickCount() == 2) {
@@ -102,7 +99,6 @@ public class ChatContactsController extends AbstractController {
 			}
 		});
 		listViewAddContacts.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
 			@Override
 			public void handle(MouseEvent event) {
 				if (event.getClickCount() == 2) {
@@ -119,7 +115,6 @@ public class ChatContactsController extends AbstractController {
 	 * @param selectedIndex listindex
 	 */
 	private void onAddContact(int selectedIndex) {
-		System.out.println("onAddContact");
 		// if an item is selected
 		if (selectedIndex != -1) {
 			// add selected item to addcontact listview
@@ -139,7 +134,6 @@ public class ChatContactsController extends AbstractController {
 	 * @param selectedIndex listindex
 	 */
 	private void onRemoveContact(int selectedIndex) {
-		System.out.println("onRemoveContact");
 		// analog to onAddContact, just inverted...
 		if (selectedIndex != -1) {
 			listViewAllContacts.getItems().add(addedContacts.get(selectedIndex).getNickname());
@@ -155,16 +149,6 @@ public class ChatContactsController extends AbstractController {
 	 */
 	private void loadContacts() {
 		allContacts = sharkNet.getContacts();
-		/*
-		// remove own contact
-		Iterator<Contact> contactIterator = allContacts.iterator();
-		while (contactIterator.hasNext()) {
-			Contact contact = contactIterator.next();
-			if (contact.isEqual(sharkNet.getMyProfile().getContact())) {
-				contactIterator.remove();
-			}
-		}
-		*/
 		// remove contacts from allContacts list, which are already in chat
 		// check if chat already exist, if not -> new chat
 		if (chat != null) {
