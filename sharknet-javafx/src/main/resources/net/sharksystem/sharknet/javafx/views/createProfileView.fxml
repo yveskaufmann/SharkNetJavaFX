@@ -16,11 +16,11 @@
          </image>
       </RoundImageView>
       <TextField fx:id="textFieldNick" layoutX="370.0" layoutY="32.0" prefHeight="25.0" prefWidth="173.0" />
+      <PasswordField fx:id="passwordFieldPass" layoutX="370.0" layoutY="72.0" prefHeight="25.0" prefWidth="173.0" />
+      <PasswordField fx:id="passwordFieldPassRepeat" layoutX="370.0" layoutY="112.0" prefHeight="25.0" prefWidth="173.0" />
       <TextField fx:id="textFieldName" layoutX="370.0" layoutY="152.0" prefHeight="25.0" prefWidth="173.0" />
       <TextField fx:id="textFieldMail" layoutX="370.0" layoutY="192.0" prefHeight="25.0" prefWidth="173.0" />
       <TextField fx:id="textFieldTel" layoutX="370.0" layoutY="232.0" prefHeight="25.0" prefWidth="173.0" />
-      <PasswordField fx:id="passwordFieldPass" layoutX="370.0" layoutY="72.0" prefHeight="25.0" prefWidth="173.0" />
-      <PasswordField fx:id="passwordFieldPassRepeat" layoutX="370.0" layoutY="112.0" prefHeight="25.0" prefWidth="173.0" />
       <Label layoutX="285.0" layoutY="76.0" text="Password" />
       <Label layoutX="283.0" layoutY="115.0" text="Wiederholen" />
       <Button fx:id="buttonSave" layoutX="227.0" layoutY="296.0" mnemonicParsing="false" />
