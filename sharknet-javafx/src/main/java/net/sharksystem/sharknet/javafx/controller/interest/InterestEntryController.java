@@ -1,8 +1,12 @@
 package net.sharksystem.sharknet.javafx.controller.interest;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -10,12 +14,19 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
 import net.sharkfw.knowledgeBase.SharkKBException;
 import net.sharkfw.knowledgeBase.TXSemanticTag;
-
-import static net.sharksystem.sharknet.javafx.i18n.I18N.getString;
+import net.sharksystem.sharknet.javafx.controls.MessageBanner;
+import org.controlsfx.control.PopOver;
+import org.controlsfx.validation.ValidationResult;
+import org.controlsfx.validation.ValidationSupport;
+import org.controlsfx.validation.Validator;
 
 import java.util.Arrays;
+import java.util.function.Predicate;
+
+import static net.sharksystem.sharknet.javafx.i18n.I18N.getString;
 
 public class InterestEntryController {
 
@@ -42,6 +53,8 @@ public class InterestEntryController {
 	public static class LinkEntry {
 		private final SimpleStringProperty link;
 
+		public LinkEntry() {this("");}
+
 		public LinkEntry(String link) {
 			this.link = new SimpleStringProperty(link);
 		}
@@ -58,7 +71,24 @@ public class InterestEntryController {
 		public String toString() {
 			return link.get();
 		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (this == o) return true;
+			if (o == null || getClass() != o.getClass()) return false;
+
+			LinkEntry linkEntry = (LinkEntry) o;
+
+			return getLink().equals(linkEntry.getLink());
+		}
+
+		@Override
+		public int hashCode() {
+			return link != null ? link.get().hashCode() : 0;
+		}
 	}
+
+	private final static LinkEntry TEST_ENTRY = new LinkEntry("");
 
 	/******************************************************************************
 	 *
@@ -72,6 +102,14 @@ public class InterestEntryController {
 	@FXML private Button addLinkButton;
 	@FXML private Button removeLinkButton;
 	@FXML private TextField linkToAddTextfield;
+
+	/******************************************************************************
+	 *
+	 * Fields
+	 *
+	 ******************************************************************************/
+
+	private ValidationSupport validationSupport;
 
 	/******************************************************************************
 	 *
@@ -91,6 +129,12 @@ public class InterestEntryController {
 
 		interestLinkTable.setEditable(true);
 		interestLinkTable.getColumns().add(linkColumn);
+		interestLinkTable.getItems().addListener(new ListChangeListener<LinkEntry>() {
+			@Override
+			public void onChanged(Change<? extends LinkEntry> c) {
+				removeLinkButton.setDisable(interestLinkTable.getItems().size() <= 1);
+			}
+		});
 
 		linkToAddTextfield.setOnKeyReleased(event -> {
 			if (KeyCode.ENTER.equals(event.getCode())) {
@@ -102,8 +146,9 @@ public class InterestEntryController {
 
 		interestNameTextbox.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && !"".equals(newValue.trim())) {
-				getInterestTag().setName(newValue);
+				getInterestTag().getValue().setName(newValue);
 			}
+			Event.fireEvent(getInterestTag(), new TreeItem.TreeModificationEvent<>(TreeItem.valueChangedEvent(), getInterestTag()));
         });
 
 		/**
@@ -119,9 +164,9 @@ public class InterestEntryController {
 					String oldValue = event.getOldValue();
 
 					try {
-						getInterestTag().addSI(newValue);
+						getInterestTag().getValue().addSI(newValue);
 						if (oldValue != null) {
-							getInterestTag().removeSI(oldValue);
+							getInterestTag().getValue().removeSI(oldValue);
 						}
 					} catch (SharkKBException e) {
 						e.printStackTrace();
@@ -134,6 +179,14 @@ public class InterestEntryController {
 		interestTagProperty().addListener(this::onTagChanged);
 		interestEditorRoot.visibleProperty().bind(visibilityProperty());
 
+		validationSupport = new ValidationSupport();
+		validationSupport.registerValidator(interestNameTextbox, true, Validator.createEmptyValidator(getString("%validation.required.msg", interestNameTextbox.getPromptText())));
+		validationSupport.registerValidator(linkToAddTextfield, false, Validator.createPredicateValidator(o -> {
+			TEST_ENTRY.setLink(linkToAddTextfield.getText().trim());
+			boolean isValid = !"".equals(TEST_ENTRY.getLink()) && !interestLinkTable.getItems().contains(TEST_ENTRY);
+			addLinkButton.setDisable(!isValid);
+			return isValid;
+		}, ""));
 	}
 
 	/******************************************************************************
@@ -148,14 +201,14 @@ public class InterestEntryController {
 	 * @param oldTag
 	 * @param newTag
      */
-	private void onTagChanged(ObservableValue<? extends TXSemanticTag> observableValue, TXSemanticTag oldTag, TXSemanticTag newTag) {
+	private void onTagChanged(ObservableValue<? extends TreeItem<TXSemanticTag>> observableValue, TreeItem<TXSemanticTag> oldTag, TreeItem<TXSemanticTag> newTag) {
 		interestNameTextbox.clear();
 		interestLinkTable.getItems().clear();
 		subscriptionChooser.setValue(null);
 		linkToAddTextfield.clear();
 
-		interestNameTextbox.setText(newTag.getName());
-		Arrays.asList(newTag.getSI())
+		interestNameTextbox.setText(newTag.getValue().getName());
+		Arrays.asList(newTag.getValue().getSI())
 			.stream()
 			.map(LinkEntry::new)
 			.forEach(linkEntry -> interestLinkTable.getItems().add(linkEntry));
@@ -168,14 +221,30 @@ public class InterestEntryController {
 	 * @param event
      */
 	private void onAddLinkClicked(ActionEvent event) {
+
 		String newURL = linkToAddTextfield.getText().trim();
+		LinkEntry linkEntry = new LinkEntry(newURL);
+		if (interestLinkTable.getItems().contains(linkEntry)) {
+
+			MessageBanner messageBanner = new MessageBanner();
+			PopOver popOver = new PopOver(messageBanner);
+			popOver.setArrowLocation(PopOver.ArrowLocation.BOTTOM_CENTER);
+			messageBanner.show(getString("%interest.si.duplication.msg", newURL));
+			popOver.show(linkToAddTextfield);
+			Timeline tl = new Timeline(new KeyFrame(Duration.millis(5000)));
+			tl.setOnFinished((e) -> popOver.hide());
+			tl.play();
+
+			linkToAddTextfield.requestFocus();
+			return;
+		}
 		linkToAddTextfield.clear();
 		if (! "".equals(newURL)) {
-			interestLinkTable.getItems().add(new LinkEntry(newURL));
+			interestLinkTable.getItems().add(linkEntry);
 			try {
-				getInterestTag().addSI(newURL);
+				getInterestTag().getValue().addSI(newURL);
 			} catch (SharkKBException e) {
-				throw new RuntimeException("Failed to save si to " + getInterestTag().getName());
+				throw new RuntimeException("Failed to save si to " + getInterestTag().getValue().getName());
 			}
 		}
 	}
@@ -192,9 +261,9 @@ public class InterestEntryController {
 				if (interestLinkTable.getItems().size() > 1) {
 					interestLinkTable.getItems().remove(items);
 					try {
-						getInterestTag().removeSI(items.getLink());
+						getInterestTag().getValue().removeSI(items.getLink());
 					} catch (SharkKBException e) {
-						throw new RuntimeException("Failed to remove si from " + getInterestTag().getName(), e);
+						throw new RuntimeException("Failed to remove si from " + getInterestTag().getValue().getName(), e);
 					}
 				}
 			}
@@ -207,14 +276,14 @@ public class InterestEntryController {
 	 *
 	 ******************************************************************************/
 
-	private ObjectProperty<TXSemanticTag> interestTag;
+	private ObjectProperty<TreeItem<TXSemanticTag>> interestTag;
 
 	/**
-	 * Specifies which TXSemanticTag should be displayed by this view.
+	 * Specifies which TreeItem<TXSemanticTag> should be displayed to the user.
 	 *
 	 * @return a property
      */
-	public  ObjectProperty<TXSemanticTag> interestTagProperty() {
+	public  ObjectProperty<TreeItem<TXSemanticTag>> interestTagProperty() {
 		if (interestTag == null) {
 			interestTag = new SimpleObjectProperty<>(this, "interestTag");
 		}
@@ -222,11 +291,11 @@ public class InterestEntryController {
 	}
 
 	/**
-	 * Returns which TXSemanticTag should be displayed by this view.
+	 * Returns which reeItem<TXSemanticTag>  should be displayed by this view.
 	 *
 	 * @return the currently specified TXSemanticTag
      */
-	public TXSemanticTag getInterestTag() {
+	public TreeItem<TXSemanticTag> getInterestTag() {
 		return interestTag == null ? null : interestTag.get();
 	}
 
@@ -235,7 +304,7 @@ public class InterestEntryController {
 	 *
 	 * @param tag the tag to display
      */
-	public void setInterestTag(TXSemanticTag tag) {
+	public void setInterestTag(TreeItem<TXSemanticTag> tag) {
 		interestTagProperty().setValue(tag);
 	}
 

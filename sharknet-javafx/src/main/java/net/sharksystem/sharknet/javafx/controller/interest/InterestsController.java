@@ -79,7 +79,7 @@ public class InterestsController {
 
 		interestsTreeTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 			if (newValue != null && newValue.getValue() != null) {
-                interestEntryController.setInterestTag(newValue.getValue());
+                interestEntryController.setInterestTag(newValue);
             }
         });
 		interestsTreeTable.setShowRoot(false);
@@ -99,9 +99,9 @@ public class InterestsController {
 	 ******************************************************************************/
 
 	private void onCreateInterestButtonClicked(ActionEvent event) {
-			InterestCreationDialog dialog = new InterestCreationDialog();
-			dialog.initOwner(addInterestButton.getScene().getWindow());
-			dialog.showAndWait().ifPresent(param -> createInterest(param, event.getSource().equals(addInterestButton)));
+		InterestCreationDialog dialog = new InterestCreationDialog();
+		dialog.initOwner(addInterestButton.getScene().getWindow());
+		dialog.showAndWait().ifPresent(param -> createInterest(param, event.getSource().equals(addInterestButton)));
 	}
 
 	private void onDeleteInterestButtonClicked(ActionEvent e) {
