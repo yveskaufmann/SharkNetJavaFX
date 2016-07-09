@@ -1,8 +1,6 @@
 package net.sharksystem.sharknet.javafx.controller.interest;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
 import net.sharkfw.knowledgeBase.SharkKBException;
 import net.sharkfw.knowledgeBase.TXSemanticTag;
 
@@ -66,7 +65,7 @@ public class InterestEntryController {
 	 * FXML Fields
 	 *
 	 ******************************************************************************/
-
+	@FXML private AnchorPane interestEditorRoot;
 	@FXML private TextField interestNameTextbox;
 	@FXML private TableView<LinkEntry> interestLinkTable;
 	@FXML private ComboBox<SubscriptionType> subscriptionChooser;
@@ -101,7 +100,6 @@ public class InterestEntryController {
 		addLinkButton.setOnAction(this::onAddLinkClicked);
 		removeLinkButton.setOnAction(this::onRemoveLinkClicked);
 
-
 		interestNameTextbox.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null && !"".equals(newValue.trim())) {
 				getInterestTag().setName(newValue);
@@ -134,6 +132,7 @@ public class InterestEntryController {
 		});
 
 		interestTagProperty().addListener(this::onTagChanged);
+		interestEditorRoot.visibleProperty().bind(visibilityProperty());
 
 	}
 
@@ -240,4 +239,25 @@ public class InterestEntryController {
 		interestTagProperty().setValue(tag);
 	}
 
+	private BooleanProperty visibility;
+
+	/***
+	 * Determines if this view should be visible
+	 *
+	 * @return visibility property
+     */
+	public BooleanProperty visibilityProperty() {
+		if (visibility == null) {
+			visibility = new SimpleBooleanProperty(false);
+		}
+		return visibility;
+	}
+
+	public boolean isVisible() {
+		return visibilityProperty().get();
+	}
+
+	public void setVisible(boolean visible) {
+		visibilityProperty().set(visible);
+	}
 }

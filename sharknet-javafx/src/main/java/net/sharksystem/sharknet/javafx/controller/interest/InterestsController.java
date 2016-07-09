@@ -1,14 +1,12 @@
 package net.sharksystem.sharknet.javafx.controller.interest;
 
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DataFormat;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
+import javafx.scene.layout.StackPane;
+import javafx.util.Pair;
 import net.sharkfw.knowledgeBase.SharkKBException;
 import net.sharkfw.knowledgeBase.TXSemanticTag;
 import net.sharksystem.sharknet.api.Contact;
@@ -24,6 +22,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static net.sharksystem.sharknet.javafx.i18n.I18N.getString;
+
 /**
  * @Author Yves Kaufmann
  * @since 05.07.2016
@@ -38,9 +38,11 @@ public class InterestsController {
 	 *
 	 ******************************************************************************/
 
+	@FXML private StackPane interestsRoot;
 	@FXML private TreeTableView<TXSemanticTag> interestsTreeTable;
 	@FXML private InterestEntryController interestEntryController;
-	@FXML private InterestFilterController interestFilterController;
+	@FXML private Button addInterestButton;
+	@FXML private TextField interestFilter;
 
 	/******************************************************************************
 	 *
@@ -59,10 +61,8 @@ public class InterestsController {
 	 ******************************************************************************/
 
 	public void initialize() {
-		System.out.println(interestFilterController);
 		rootItem = new TreeItem<>(null);
-		interestsTreeTable.setRoot(rootItem);
-		interestsTreeTable.setShowRoot(false);
+
 
 		ContextMenu contextMenu = createContextMenu();
 
@@ -77,26 +77,191 @@ public class InterestsController {
 		interestsTreeTable.getColumns().add(nameColumn);
 		interestsTreeTable.setTableMenuButtonVisible(false);
 
-		interestsTreeTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<TXSemanticTag>>() {
-			@Override
-			public void changed(ObservableValue<? extends TreeItem<TXSemanticTag>> observable, TreeItem<TXSemanticTag> oldValue, TreeItem<TXSemanticTag> newValue) {
-				if (newValue != null && newValue.getValue() != null) {
-					interestEntryController.setInterestTag(newValue.getValue());
+		interestsTreeTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			if (newValue != null && newValue.getValue() != null) {
+                interestEntryController.setInterestTag(newValue.getValue());
+            }
+        });
+		interestsTreeTable.setShowRoot(false);
+		interestsTreeTable.setRoot(rootItem);
+		interestsTreeTable.getRoot().addEventHandler(TreeItem.childrenModificationEvent(), event -> {
+			interestEntryController.setVisible(! interestsTreeTable.getRoot().getChildren().isEmpty());
+        });
+
+		addInterestButton.setOnAction(this::onCreateInterestButtonClicked);
+		loadInterests();
+	}
+
+	/******************************************************************************
+	 *
+	 * Methods
+	 *
+	 ******************************************************************************/
+
+	private void onCreateInterestButtonClicked(ActionEvent event) {
+			InterestCreationDialog dialog = new InterestCreationDialog();
+			dialog.initOwner(addInterestButton.getScene().getWindow());
+			dialog.showAndWait().ifPresent(param -> createInterest(param, event.getSource().equals(addInterestButton)));
+	}
+
+	private void onDeleteInterestButtonClicked(ActionEvent e) {
+		TreeTableView.TreeTableViewSelectionModel<TXSemanticTag> selectionModel = interestsTreeTable.getSelectionModel();
+		TreeItem<TXSemanticTag> selectedTreeItem = selectionModel.getSelectedItem();
+
+		if (selectedTreeItem != null && selectedTreeItem != rootItem) {
+			TXSemanticTag tagToDelete = selectedTreeItem.getValue();
+			ButtonType deleteButtonType = new ButtonType(getString("%interest.deletion.dlg.btn"), ButtonBar.ButtonData.YES);
+			Alert deleteDialog = new Alert(
+				Alert.AlertType.WARNING,
+				getString("%interest.deletion.dlg.header", tagToDelete.getName()),
+				ButtonType.CANCEL, deleteButtonType
+			);
+			deleteDialog.getDialogPane().getStyleClass().add("theme-presets");
+			deleteDialog.setHeaderText(getString("%interest.deletion.dlg.title"));
+			deleteDialog.initOwner(interestsRoot.getScene().getWindow());
+			deleteDialog.showAndWait().ifPresent((buttonType -> {
+				if (buttonType == deleteButtonType) deleteInterest(selectedTreeItem);
+			}));
+		}
+	}
+
+	private void createInterest(Pair<String, String> interestParams, boolean addToFirstLayer) {
+		interest = retrieveInterestTaxonomy();
+
+		// Create our new interest
+		TXSemanticTag txSemanticTag = interest.addInterest(interestParams.getKey(), interestParams.getValue());
+		TreeItem<TXSemanticTag> interestTreeItem = new TreeItem<>(txSemanticTag);
+
+		// Add the new item to the current selected node
+		TreeTableView.TreeTableViewSelectionModel<TXSemanticTag> selectionModel = interestsTreeTable.getSelectionModel();
+		TreeItem<TXSemanticTag> parentTreeItem = selectionModel.getSelectedItem();
+
+		if (!addToFirstLayer && parentTreeItem != null && parentTreeItem.getValue() != null) {
+			txSemanticTag.move(parentTreeItem.getValue());
+			parentTreeItem.getChildren().add(interestTreeItem);
+		} else {
+			rootItem.getChildren().add(interestTreeItem);
+		}
+
+		interestTreeItem.getParent().setExpanded(true);
+		selectionModel.select(interestTreeItem);
+
+	}
+
+	private void deleteInterest(TreeItem<TXSemanticTag> treeItemToDelete) {
+
+		assert treeItemToDelete != rootItem;
+
+		try {
+			TXSemanticTag tag = treeItemToDelete.getValue();
+			interest.getInterests().removeSubTree(tag);
+			treeItemToDelete.getParent().getChildren().remove(treeItemToDelete);
+		} catch (SharkKBException e) {
+			e.printStackTrace();
+		}
+	}
+
+	boolean isEmpty = true;
+	/**
+	 * Load the TreeItems from the interests taxonomy.
+	 */
+	public void loadInterests() {
+		interest = retrieveInterestTaxonomy();
+
+		if (isEmpty) {
+
+			String[][] dummyInterests = {
+				{"Sport", "https://de.wikipedia.org/wiki/Sport"},
+				{"Musik", "https://de.wikipedia.org/wiki/Musik"},
+				{"Literatur", "https://de.wikipedia.org/wiki/Literatur"},
+			};
+
+			String[][] sportsTopics = {
+				{"Fußball", "https://de.wikipedia.org/wiki/Fußball"},
+				{"Handball", "https://de.wikipedia.org/wiki/Handball"},
+				{"Turmspringen", "https://de.wikipedia.org/wiki/Turmspringen"},
+			};
+
+			for (int i = 0; i < dummyInterests.length; i++) {
+				TXSemanticTag parentTag = interest.addInterest(dummyInterests[i][0], dummyInterests[i][1]);
+				if (i == 0) {
+					for (String[] child : sportsTopics) {
+						interest.addInterest(child[0], child[1]).move(parentTag);
+					}
 				}
 			}
-		});
+			isEmpty = false;
+		}
+		try {
+			Iterable<TXSemanticTag> rootTagsIterator = null;
+			rootTagsIterator = Enumerations.asIterable(interest.getInterests().rootTags());
+			List<TXSemanticTag> rootTags = StreamSupport
+				.stream(rootTagsIterator.spliterator(), true)
+				.collect(Collectors.toList());
 
-		loadInterests();
+			List<TreeItem<TXSemanticTag>> treeItems = new ArrayList<>();
 
+			for (TXSemanticTag root : rootTags) {
+				TreeItem<TXSemanticTag> treeItem = new TreeItem<>(root);
+				loadInterests(root, treeItem);
+				treeItems.add(treeItem);
+			}
+
+			rootItem.getChildren().setAll(treeItems);
+			interestsTreeTable.getSelectionModel().selectFirst();
+		} catch (SharkKBException e) {
+			throw new RuntimeException("Failed to load interests from shark", e);
+		}
+	}
+
+	private Interest retrieveInterestTaxonomy() {
+		Profile profile = sharkNet.getMyProfile();
+		Contact contact = profile.getContact();
+		return contact.getInterests();
+	}
+
+	private void loadInterests(TXSemanticTag rootTags, TreeItem<TXSemanticTag> treeItem) {
+
+		Enumeration<TXSemanticTag> txSemanticTagEnumeration = rootTags.getSubTags();
+
+		// abort no enumeration => no child interests
+		if (txSemanticTagEnumeration == null) return;
+
+		StreamSupport
+			.stream(Enumerations.asIterable(txSemanticTagEnumeration).spliterator(), false)
+			.forEach((txSemanticTag -> {
+				TreeItem<TXSemanticTag> item = new TreeItem<>(txSemanticTag);
+				treeItem.getChildren().add(item);
+				loadInterests(txSemanticTag, item);
+			}));
 	}
 
 	private ContextMenu createContextMenu() {
-		MenuItem newInterestMenuItem = new MenuItem("New");
+		MenuItem newInterestMenuItem = new MenuItem("Neues Interesse");
 		newInterestMenuItem.setMnemonicParsing(true);
-		newInterestMenuItem.setOnAction((e) -> loadInterests());
+		newInterestMenuItem.setMnemonicParsing(true);
+		newInterestMenuItem.setAccelerator(new KeyCodeCombination(KeyCode.N, KeyCombination.CONTROL_DOWN));
+		newInterestMenuItem.setOnAction(this::onCreateInterestButtonClicked);
 
-		return new ContextMenu(newInterestMenuItem);
+		MenuItem refreshInterests = new MenuItem("Neuladen");
+		refreshInterests.setAccelerator(new KeyCodeCombination(KeyCode.F5));
+		refreshInterests.setOnAction((e) -> loadInterests());
+
+		MenuItem deleteInterest = new MenuItem("Löschen");
+		deleteInterest.setAccelerator(new KeyCodeCombination(KeyCode.DELETE));
+		deleteInterest.setOnAction(this::onDeleteInterestButtonClicked);
+
+		ContextMenu contextMenu = new ContextMenu(
+			newInterestMenuItem,
+			new SeparatorMenuItem(),
+			refreshInterests,
+			deleteInterest
+		);
+
+		return contextMenu;
 	}
+
+
 
 	private TreeTableRow<TXSemanticTag> createDragAndDropRowFactory(final TreeTableView<TXSemanticTag> treeTableView) {
 		final TreeTableRow<TXSemanticTag> row = new TreeTableRow<>();
@@ -126,13 +291,13 @@ public class InterestsController {
 			if (isDropAcceptable(dragboard, row, treeTableView)) {
 				int index = (Integer) dragboard.getContent(SERIALIZED_MIME_TYPE);
 				TreeItem<TXSemanticTag> item = treeTableView.getTreeItem(index);
-				TreeItem<TXSemanticTag> target = getTarget(row, treeTableView);
+				TreeItem<TXSemanticTag> newParent = getTarget(row, treeTableView);
 
 				item.getParent().getChildren().remove(item);
-				target.getChildren().add(item);
-
+				newParent.getChildren().add(item);
 				// And now move the tag to its new parent target
-				item.getValue().move(target.getValue());
+				item.getValue().move(null);
+				item.getValue().move(newParent.getValue());
 				interest.save();
 				e.setDropCompleted(true);
 				treeTableView.getSelectionModel().select(item);
@@ -158,12 +323,6 @@ public class InterestsController {
 
 		return row;
 	}
-
-	/******************************************************************************
-	 *
-	 * Methods
-	 *
-	 ******************************************************************************/
 
 	private boolean isDropAcceptable(Dragboard dragboard, TreeTableRow<TXSemanticTag> row, TreeTableView<TXSemanticTag> treeTableView) {
 		boolean isAcceptable = false;
@@ -193,78 +352,6 @@ public class InterestsController {
 			child = child.getParent();
 		}
 		return result;
-	}
-
-
-	/**
-	 * Load the TreeItems from the interests taxonomy.
-	 */
-	public void loadInterests() {
-
-
-
-		Profile profile = sharkNet.getMyProfile();
-		Contact contact = profile.getContact();
-		interest = contact.getInterests();
-
-
-		String[][] dummyInterests = {
-			{"Sport", "https://de.wikipedia.org/wiki/Sport"},
-			{"Musik", "https://de.wikipedia.org/wiki/Musik"},
-			{"Literatur", "https://de.wikipedia.org/wiki/Literatur"},
-		};
-
-		String[][] sportsTopics = {
-			{"Fußball", "https://de.wikipedia.org/wiki/Fußball"},
-			{"Handball", "https://de.wikipedia.org/wiki/Handball"},
-			{"Turmspringen", "https://de.wikipedia.org/wiki/Turmspringen"},
-		};
-
-		for (int i = 0; i < dummyInterests.length; i++) {
-			TXSemanticTag parentTag = interest.addInterest(dummyInterests[i][0], dummyInterests[i][1]);
-			if (i == 0) {
-				for(String[] child : sportsTopics) {
-					interest.addInterest(child[0], child[1]).move(parentTag);
-				}
-			}
-		}
-
-		try {
-			Iterable<TXSemanticTag> rootTagsIterator = null;
-			rootTagsIterator = Enumerations.asIterable(interest.getInterests().rootTags());
-			List<TXSemanticTag> rootTags = StreamSupport
-				.stream(rootTagsIterator.spliterator(), true)
-				.collect(Collectors.toList());
-
-			List<TreeItem<TXSemanticTag>> treeItems = new ArrayList<>();
-
-			for (TXSemanticTag root : rootTags) {
-				TreeItem<TXSemanticTag> treeItem = new TreeItem<>(root);
-				loadInterests(root, treeItem);
-				treeItems.add(treeItem);
-			}
-
-			rootItem.getChildren().setAll(treeItems);
-			interestsTreeTable.getSelectionModel().selectFirst();
-		} catch (SharkKBException e) {
-			throw new RuntimeException("Failed to load interests from shark", e);
-		}
-	}
-
-	private void loadInterests(TXSemanticTag rootTags, TreeItem<TXSemanticTag> treeItem) {
-
-		Enumeration<TXSemanticTag> txSemanticTagEnumeration = rootTags.getSubTags();
-
-		// abort no enumeration => no child interests
-		if (txSemanticTagEnumeration == null) return;
-
-		StreamSupport
-			.stream(Enumerations.asIterable(txSemanticTagEnumeration).spliterator(), false)
-			.forEach((txSemanticTag -> {
-				TreeItem<TXSemanticTag> item = new TreeItem<>(txSemanticTag);
-				treeItem.getChildren().add(item);
-				loadInterests(txSemanticTag, item);
-			}));
 	}
 }
 

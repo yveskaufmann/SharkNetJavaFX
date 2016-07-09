@@ -4,13 +4,21 @@
 <?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.*?>
 <?import net.sharksystem.sharknet.javafx.controls.SectionPane?>
-<StackPane fx:id="interestsPane" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.92"
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+<StackPane fx:id="interestsRoot" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.92"
            xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.sharksystem.sharknet.javafx.controller.interest.InterestsController">
    <SplitPane orientation="HORIZONTAL" dividerPositions="0.3">
         <StackPane>
             <SectionPane text="Interessen">
                 <titleControl>
-                    <fx:include fx:id="interestFilter" source="interestFilter.fxml"></fx:include>
+                    <AnchorPane  maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="44.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+                        <children>
+                            <TextField fx:id= "interestFilter" layoutX="14.0" layoutY="10.0" minWidth="200.0" prefHeight="25.0" prefWidth="425.0" promptText="Interessen Filtern" style="-fx-border-radius: 20px; -fx-background-radius: 20px;" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="61.0" />
+                            <HBox layoutX="357.0" layoutY="17.0" spacing="5.0" AnchorPane.rightAnchor="14.0" />
+                            <Button fx:id="addInterestButton" style="-fx-text-fill: white; -fx-min-width: 32;-fx-max-width: 32;" layoutX="277.0" layoutY="10.0" maxHeight="25.0" maxWidth="29.0" minHeight="25.0" minWidth="29.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="29.0" text="+" />
+                        </children>
+                    </AnchorPane>
                 </titleControl>
                 <TreeTableView styleClass="interest-tree" fx:id="interestsTreeTable"/>
             </SectionPane>

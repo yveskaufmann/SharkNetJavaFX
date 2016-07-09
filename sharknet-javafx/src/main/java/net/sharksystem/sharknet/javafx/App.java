@@ -43,6 +43,8 @@ public class App extends Application implements LoginListener {
 	private FrontController frontController;
 	private Stage stage;
 
+
+
 	@Override
 	public void init() throws Exception {
 		ApplicationContext.get().init(this);
@@ -118,5 +120,14 @@ public class App extends Application implements LoginListener {
 			Log.error("Exception in a controller detected." ,ex);
 			Platform.exit();
 		}
+	}
+
+	/**
+	 * Returns the application wide stylesheet location
+	 *
+	 * @return the location of the application stylesheet
+     */
+	public static String getAppStyleSheet() {
+		return App.class.getResource("css/style.css").toExternalForm();
 	}
 }
