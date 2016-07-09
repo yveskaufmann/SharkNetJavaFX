@@ -1,16 +1,17 @@
 package net.sharksystem.sharknet.javafx.controller;
 
-import com.jfoenix.controls.JFXDrawer;
-import com.jfoenix.controls.JFXHamburger;
-import com.jfoenix.controls.JFXToolbar;
+import com.jfoenix.controls.*;
+import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import net.sharksystem.sharknet.javafx.App;
+import net.sharksystem.sharknet.javafx.context.ApplicationContext;
 import net.sharksystem.sharknet.javafx.context.ViewContext;
 import net.sharksystem.sharknet.javafx.controller.chat.ChatController;
 import net.sharksystem.sharknet.javafx.controller.contactlist.ContactController;
@@ -35,6 +36,25 @@ public class FrontController extends AbstractWindowController {
 	private static final Logger Log  = LoggerFactory.getLogger(FrontController.class);
 
 	/******************************************************************************
+	 *
+	 * FXML Fields
+	 *
+	 ******************************************************************************/
+	@FXML private StackPane root;
+	@FXML private JFXToolbar toolbar;
+	@FXML private StackPane sidebarPane;
+	@FXML private StackPane mainPane;
+	@FXML private JFXDrawer workbench;
+	@FXML private StackPane titleBurgerContainer;
+	@FXML private JFXHamburger titleBurger;
+	@FXML private StackPane optionsBurger;
+	@FXML private JFXRippler optionsRippler;
+	@FXML private JFXPopup toolbarPopup;
+
+	@FXML private Label logout;
+	@FXML private Label exit;
+
+	/******************************************************************************
 	 *                                                                             
 	 * Fields
 	 *                                                                              
@@ -52,35 +72,6 @@ public class FrontController extends AbstractWindowController {
 	 * Sidebar Controller
 	 */
 	private SidebarController sidebarController;
-
-	/**
-	 * A Toolbar which contains AbstractContext sensitive actions
-	 * these action can be provided by implementing a action Provider
-	 * Interface.
-	 */
-	@FXML
-	private JFXToolbar toolbar;
-
-	/**
-	 * Container for the sidebar menu view
-	 */
-	@FXML
-	private StackPane sidebarPane;
-
-	/**
-	 * Container for the main views like contacts, chats and so on.
-	 */
-	@FXML
-	private StackPane mainPane;
-
-	@FXML
-	private JFXDrawer workbench;
-
-	@FXML
-	private StackPane titleBurgerContainer;
-
-	@FXML
-	private JFXHamburger titleBurger;
 
 	@FXMLViewContext
 	private ViewContext<FrontController> context;
@@ -222,6 +213,17 @@ public class FrontController extends AbstractWindowController {
 			else workbench.hide();
 		});
 
+		// init Popup
+		toolbarPopup.setPopupContainer(root);
+		toolbarPopup.setSource(optionsRippler);
+		root.getChildren().remove(toolbarPopup);
+
+		optionsBurger.setOnMouseClicked((e) -> {
+			toolbarPopup.show(JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT, -12, 15);
+		});
+
+		logout.setOnMouseClicked((e) -> ((App) ApplicationContext.get().getApplication()).logout());
+		exit.setOnMouseClicked((e) -> Platform.exit());
 
 		Log.info("Initialized " + getClass().getSimpleName());
 		goToView(startController);

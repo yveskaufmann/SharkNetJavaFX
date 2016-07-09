@@ -2,33 +2,22 @@ package net.sharksystem.sharknet.javafx;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.property.ReadOnlyBooleanProperty;
-import javafx.beans.property.ReadOnlyBooleanWrapper;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.adapter.ReadOnlyJavaBeanBooleanProperty;
-import javafx.beans.value.ObservableBooleanValue;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.cell.CheckBoxListCell;
 import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import javafx.util.Callback;
+import net.sharksystem.sharknet.api.Profile;
+import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.context.ApplicationContext;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
-import net.sharksystem.sharknet.javafx.controller.chat.ChatController;
 import net.sharksystem.sharknet.javafx.controller.login.LoginController;
 import net.sharksystem.sharknet.javafx.controller.login.LoginListener;
-import net.sharksystem.sharknet.javafx.controller.profile.ProfileController;
 import net.sharksystem.sharknet.javafx.i18n.I18N;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
-import org.controlsfx.control.CheckComboBox;
+import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
 import org.controlsfx.dialog.ExceptionDialog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.inject.Inject;
 
 public class App extends Application implements LoginListener {
 
@@ -43,7 +32,8 @@ public class App extends Application implements LoginListener {
 	private FrontController frontController;
 	private Stage stage;
 
-
+	@Inject
+	private SharkNet sharkNet;
 
 	@Override
 	public void init() throws Exception {
@@ -62,47 +52,40 @@ public class App extends Application implements LoginListener {
 		Image image = new Image(App.class.getResource("images/shark-icon256x256.png").toExternalForm(), 256, 256, true, true);
 		primaryStage.getIcons().addAll(image);
 		stage = primaryStage;
-
-		// Only for convenient testing other controllers
-		if (! getParameters().getUnnamed().contains("--suppressLogin")) {
-			LoginController login = new LoginController();
-			login.setLoginListener(this);
-		} else {
-			onLoginSuccessful();
-		}
-
+		startLoginController();
 	}
+
 
 	@Override
 	public void stop() throws Exception {
 		ApplicationContext.get().destroy();
 	}
 
-	/**
-	 * Launch the this fx application.
-	 *
-	 * @param args
-     */
-	public static void main(String[] args) {
-		Log.info("Launching SharkNet");
-		/**
-		 * Improves the poor rendering results of javafx.
-		 *
-		 * @see <a href="http://comments.gmane.org/gmane.comp.java.openjdk.openjfx.devel/5072">Open JavaFX development Mailing list</a>
-		 */
-		System.setProperty("prism.lcdtext", "false");
-		System.setProperty("prism.text", "t2k");
+	public void logout() {
+		Profile profile =  sharkNet.getMyProfile();
+		if (profile != null) {
+			Log.info("Logout the profile " + profile.getContact().getName());
+			// TODO: disable of profile before we try to log in to a new user
+		}
 
-		// A pre-loader could be used for the login
-		// System.setProperty("javafx.preloader", AppPreloader.class.getName());
-		launch(App.class, args);
+		stage.hide();
+		Controllers.getInstance().unregister();
+		startLoginController();
 	}
 
-
+	public void startLoginController() {
+		if (! getParameters().getUnnamed().contains("--suppressLogin")) {
+			LoginController login = new LoginController();
+			login.setLoginListener(this);
+		} else {
+			onLoginSuccessful();
+		}
+	}
 
 	@Override
 	public void onLoginSuccessful() {
 		try {
+			stage.setScene(null);
 			frontController = new FrontController(stage);
 
 			String indexController = getParameters().getNamed().get("indexController");
@@ -129,5 +112,25 @@ public class App extends Application implements LoginListener {
      */
 	public static String getAppStyleSheet() {
 		return App.class.getResource("css/style.css").toExternalForm();
+	}
+
+	/**
+	 * Launch the this fx application.
+	 *
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		Log.info("Launching SharkNet");
+		/**
+		 * Improves the poor rendering results of javafx.
+		 *
+		 * @see <a href="http://comments.gmane.org/gmane.comp.java.openjdk.openjfx.devel/5072">Open JavaFX development Mailing list</a>
+		 */
+		System.setProperty("prism.lcdtext", "false");
+		System.setProperty("prism.text", "t2k");
+
+		// A pre-loader could be used for the startLoginController
+		// System.setProperty("javafx.preloader", AppPreloader.class.getName());
+		launch(App.class, args);
 	}
 }

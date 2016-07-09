@@ -4,50 +4,62 @@
 <?import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
-<BorderPane fx:id="appView" styleClass="theme-presets" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
-    <top>
-        <JFXToolbar fx:id="toolbar">
-            <leftItems>
-                <JFXRippler maskType="CIRCLE" style="-fx-ripple-color:WHITE;">
-                    <StackPane fx:id="titleBurgerContainer">
-                        <JFXHamburger fx:id="titleBurger">
-                            <HamburgerBackArrowBasicTransition />
-                        </JFXHamburger>
-                    </StackPane>
-                </JFXRippler>
-                <Label fx:id="appTitle" text="%app.title"></Label>
-            </leftItems>
-            <rightItems>
-                <JFXRippler fx:id="optionsRippler" maskType="CIRCLE"
-                            style="-fx-ripple-color:WHITE;">
-                    <StackPane fx:id="optionsBurger">
-                        <JFXHamburger styleClass="jfx-options-burger">
-                        </JFXHamburger>
-                    </StackPane>
-                </JFXRippler>
-            </rightItems>
-        </JFXToolbar>
-        <!--<ActionBar  title="%app.title"/> -->
-    </top>
-    <center>
-        <JFXDrawer fx:id="workbench" defaultDrawerSize="250">
-            <sidePane>
-                <StackPane fx:id="sidebarPane"/>
-            </sidePane>
-            <content>
-                <StackPane fx:id="mainPane"/>
-            </content>
-        </JFXDrawer>
+<StackPane fx:id="root" styleClass="theme-presets" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="appView">
+        <top>
+            <JFXToolbar fx:id="toolbar">
+                <leftItems>
+                    <JFXRippler maskType="CIRCLE" style="-fx-ripple-color:WHITE;">
+                        <StackPane fx:id="titleBurgerContainer">
+                            <JFXHamburger fx:id="titleBurger">
+                                <HamburgerBackArrowBasicTransition />
+                            </JFXHamburger>
+                        </StackPane>
+                    </JFXRippler>
+                    <Label fx:id="appTitle" text="%app.title"></Label>
+                </leftItems>
+                <rightItems>
+                    <JFXRippler fx:id="optionsRippler" maskType="CIRCLE"
+                                style="-fx-ripple-color:WHITE;">
+                        <StackPane fx:id="optionsBurger">
+                            <JFXHamburger styleClass="jfx-options-burger">
+                            </JFXHamburger>
+                        </StackPane>
+                    </JFXRippler>
+                </rightItems>
+            </JFXToolbar>
+            <!--<ActionBar  title="%app.title"/> -->
+        </top>
+        <center>
+            <JFXDrawer fx:id="workbench" defaultDrawerSize="250">
+                <sidePane>
+                    <StackPane fx:id="sidebarPane"/>
+                </sidePane>
+                <content>
+                    <StackPane fx:id="mainPane"/>
+                </content>
+            </JFXDrawer>
 
-        <!--<Workbench fx:id="workbench" sidebarWidth="250">
-            <sidebar>
-                <StackPane fx:id="sidebarPane"/>
-            </sidebar>
-            <content>
-                <StackPane fx:id="mainPane"/>
-            </content>
-        </Workbench> -->
-   </center>
-</BorderPane>
+            <!--<Workbench fx:id="workbench" sidebarWidth="250">
+                <sidebar>
+                    <StackPane fx:id="sidebarPane"/>
+                </sidebar>
+                <content>
+                    <StackPane fx:id="mainPane"/>
+                </content>
+            </Workbench> -->
+       </center>
+    </BorderPane>
+    <JFXPopup fx:id="toolbarPopup" styleClass="tool-bar-popup">
+        <JFXListView styleClass="option-list-view">
+            <Label fx:id="logout">
+                Logout
+            </Label>
+            <Label fx:id="exit">
+                Exit
+            </Label>
+        </JFXListView>
+    </JFXPopup>
+</StackPane>
 
 

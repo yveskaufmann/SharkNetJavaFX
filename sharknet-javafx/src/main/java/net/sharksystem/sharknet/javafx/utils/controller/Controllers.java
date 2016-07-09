@@ -1,9 +1,11 @@
 package net.sharksystem.sharknet.javafx.utils.controller;
 
 import net.sharksystem.sharknet.javafx.context.ViewContext;
+import net.sharksystem.sharknet.javafx.utils.ReflectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.PreDestroy;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,4 +77,11 @@ public class Controllers {
 		return null;
 	}
 
+	public void unregister() {
+		controllerMap.forEach((controllerCls, ctx) -> {
+			Log.debug("Shutdown controller {}", controllerCls.getName());
+			ReflectionUtils.invokeMethodsWithAnnotation(controllerCls, ctx.getController(), PreDestroy.class);
+		});
+		controllerMap.clear();
+	}
 }

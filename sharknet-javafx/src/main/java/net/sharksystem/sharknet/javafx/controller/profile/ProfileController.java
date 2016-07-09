@@ -69,6 +69,8 @@ public class ProfileController extends AbstractController {
 	 */
 	@Override
 	protected void onFxmlLoaded() {
+
+
 		loadData();
 	}
 
