@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import net.sharksystem.sharknet.api.Content;
 import net.sharksystem.sharknet.api.ImplContent;
 import net.sharksystem.sharknet.api.Profile;
@@ -22,6 +23,7 @@ import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import static net.sharksystem.sharknet.javafx.i18n.I18N.getString;
 
 import java.io.*;
+import java.util.function.Consumer;
 
 
 /**
@@ -29,6 +31,7 @@ import java.io.*;
  */
 public class CreateProfileController extends AbstractController{
 
+	private final Consumer<Profile> onProfileCreation;
 	@Inject
 	private SharkNet sharkNetModel;
 
@@ -56,7 +59,7 @@ public class CreateProfileController extends AbstractController{
 		"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-	public CreateProfileController() {
+	public CreateProfileController(Consumer<Profile> onNewProfile) {
 		super(App.class.getResource("views/createProfileView.fxml"));
 		profileFile = null;
 		Parent root = super.getRoot();
@@ -64,11 +67,12 @@ public class CreateProfileController extends AbstractController{
 		stage.setTitle(getString("login.profile.title"));
 		stage.setScene(new Scene(root, 552, 346));
 		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
+		onProfileCreation = onNewProfile;
 		InputStream in = App.class.getResourceAsStream("images/shark-icon256x256.png");
 		if (in != null) {
 			stage.getIcons().add(new Image(in));
 		}
-		stage.show();
+		stage.showAndWait();
 	}
 
 	@Override
@@ -182,7 +186,10 @@ public class CreateProfileController extends AbstractController{
 			}
 		}
 		// save all profile changes
-		p.save();
+		// p.save leads to the creation of multiple profiles at once
+		// p.save();
+		p.update();
+		onProfileCreation.accept(p);
 		stage.close();
 	}
 }

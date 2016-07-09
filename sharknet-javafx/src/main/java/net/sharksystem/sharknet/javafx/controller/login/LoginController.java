@@ -67,6 +67,7 @@ public class LoginController extends AbstractController {
 	protected void onFxmlLoaded() {
 		buttonLogin.setText(getString("login.login"));
 		buttonRegister.setText(getString("login.register"));
+
 		imageViewScrollLeft.setOnMouseClicked(event -> {
 			onScrollLeftClick();
 			event.consume();
@@ -120,14 +121,27 @@ public class LoginController extends AbstractController {
 
 
 	private void onRegisterClick() {
-		CreateProfileController cp = new CreateProfileController();
+		CreateProfileController cp = new CreateProfileController((p) -> {
+			profileList = sharkNetModel.getProfiles();
+			profileNumber = profileList.indexOf(p);
+			if (profileNumber < 0) profileNumber = 0;
+			onProfileChanged();
+		});
 	}
 
 	private void onProfileChanged() {
-		if (profileList != null) {
+
+		boolean noProfiles = profileList == null || profileList.isEmpty();
+		if (noProfiles) {
+			onRegisterClick();
+		} else {
+			imageViewScrollLeft.setVisible(profileNumber > 0);
+			imageViewScrollRight.setVisible(profileNumber < profileList.size() - 1);
+
 			labelProfileName.setText(profileList.get(profileNumber).getContact().getNickname());
 			imageManager.readImageFrom(profileList.get(profileNumber).getContact().getPicture()).ifPresent(roundImageViewProfilePic::setImage);
 		}
+
 	}
 
 	public void setLoginListener(LoginListener listener) {
