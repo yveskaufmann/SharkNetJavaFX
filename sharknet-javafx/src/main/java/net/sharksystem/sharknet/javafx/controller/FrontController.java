@@ -5,12 +5,16 @@ import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import net.sharksystem.sharknet.javafx.App;
+import net.sharksystem.sharknet.javafx.actions.annotations.Action;
 import net.sharksystem.sharknet.javafx.context.ApplicationContext;
 import net.sharksystem.sharknet.javafx.context.ViewContext;
 import net.sharksystem.sharknet.javafx.controller.chat.ChatController;
@@ -222,12 +226,13 @@ public class FrontController extends AbstractWindowController {
 			toolbarPopup.show(JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT, -12, 15);
 		});
 
-		logout.setOnMouseClicked((e) -> ((App) ApplicationContext.get().getApplication()).logout());
-		exit.setOnMouseClicked((e) -> Platform.exit());
+		logout.setOnMouseClicked(this::onLogout);
+		exit.setOnMouseClicked(this::onExit);
 
 		Log.info("Initialized " + getClass().getSimpleName());
 		goToView(startController);
 	}
+
 
 	/**
 	 * Controller which controller should loaded initially.
@@ -236,5 +241,21 @@ public class FrontController extends AbstractWindowController {
      */
 	public void setDefaultController(Class<? extends AbstractController> startController) {
 		this.startController = Objects.requireNonNull(startController);
+	}
+
+	/******************************************************************************
+	 *
+	 * Event Handling
+	 *
+	 ******************************************************************************/
+
+	private void onExit(MouseEvent e) {
+		e.consume();
+		Platform.exit();
+	}
+
+	private void onLogout(MouseEvent e) {
+		e.consume();
+		((App) ApplicationContext.get().getApplication()).logout();
 	}
 }

@@ -29,32 +29,24 @@ import java.util.List;
  */
 public class LoginController extends AbstractController {
 
-	@Inject
-	private SharkNet sharkNetModel;
-	@Inject
-	private ImageManager imageManager;
 
+	@Inject private SharkNet sharkNetModel;
+	@Inject private ImageManager imageManager;
 	private FrontController frontController;
-
-	@FXML
-	private Label labelProfileName;
-	@FXML
-	private ImageView imageViewScrollLeft;
-	@FXML
-	private ImageView imageViewScrollRight;
-	@FXML
-	private RoundImageView roundImageViewProfilePic;
-	@FXML
-	private JFXButton buttonLogin;
-	@FXML
-	private JFXButton buttonRegister;
-	@FXML
-	private PasswordField passwordfield;
-
 	private List<Profile> profileList;
 	private int profileNumber;
 	private LoginListener listener;
 	private Stage stage;
+
+
+	@FXML private Label labelProfileName;
+	@FXML private ImageView imageViewScrollLeft;
+	@FXML private ImageView imageViewScrollRight;
+	@FXML private RoundImageView roundImageViewProfilePic;
+	@FXML private JFXButton buttonLogin;
+	@FXML private JFXButton buttonRegister;
+	@FXML private PasswordField passwordfield;
+
 
 	public LoginController() {
 		super(App.class.getResource("views/loginView.fxml"));
