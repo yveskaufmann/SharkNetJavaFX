@@ -2,6 +2,7 @@ package net.sharksystem.sharknet.api;
 
 import net.sharkfw.knowledgeBase.SemanticTag;
 import net.sharkfw.knowledgeBase.TXSemanticTag;
+import net.sharkfw.knowledgeBase.Taxonomy;
 
 import java.io.*;
 import java.sql.Date;
@@ -239,6 +240,21 @@ public class Dummy {
 
 
 		s.setProfile(alice_p, "");
+
+		Interest i = s.getMyProfile().getContact().getInterests();
+		TXSemanticTag eltern = i.addInterest("eltern", "www.eltern.de");
+		TXSemanticTag kind = i.addInterest("kind", "www.kind.de");
+		TXSemanticTag kindkind = i.addInterest("kindkind", "www.kindkind.de");
+		TXSemanticTag kindkindkind = i.addInterest("kindkindkind", "www.kindkindkind.de");
+
+
+		i.moveInterest(eltern, kind);
+		i.moveInterest(kind, kindkind);
+		i.moveInterest(kindkind, kindkindkind);
+		i.removeFromParent(kindkind);
+
+
+
 
 
 	}

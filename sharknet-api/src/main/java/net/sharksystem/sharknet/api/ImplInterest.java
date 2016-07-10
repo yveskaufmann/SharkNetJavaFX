@@ -4,10 +4,7 @@ package net.sharksystem.sharknet.api;
 import net.sharkfw.knowledgeBase.*;
 import net.sharkfw.knowledgeBase.inmemory.InMemoSharkKB;
 
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by timol on 18.05.2016.
@@ -88,6 +85,57 @@ public class ImplInterest implements Interest {
 		}
 
 	}
+
+	@Override
+	public void removeFromParent(TXSemanticTag child){
+		HashMap<TXSemanticTag, List <TXSemanticTag>> subtagMap = new HashMap<>();
+		getSubTagsAsMap(child, subtagMap);
+		try {
+			tx.removeSubTree(child);
+		} catch (SharkKBException e) {
+			e.printStackTrace();
+		}
+
+
+		Iterator it = subtagMap.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry pair = (Map.Entry)it.next();
+			TXSemanticTag parent = (TXSemanticTag)pair.getKey();
+			addInterest(parent);
+			List<TXSemanticTag> childList = (List<TXSemanticTag>)pair.getValue();
+
+			for(TXSemanticTag newChild : childList){
+				addInterest(newChild);
+				try {
+					tx.move(tx.getSemanticTag(parent.getSI()), tx.getSemanticTag(newChild.getSI()));
+				} catch (SharkKBException e) {
+					e.printStackTrace();
+				}
+
+			}
+			it.remove(); // avoids a ConcurrentModificationException
+		}
+
+
+
+
+
+	}
+
+	private void getSubTagsAsMap(TXSemanticTag tag, HashMap<TXSemanticTag, List <TXSemanticTag>> subtagMap){
+
+		if(!subtagMap.containsKey(tag)){
+			subtagMap.put(tag, new LinkedList<TXSemanticTag>());
+			Enumeration<TXSemanticTag> enumChilds = tag.getSubTags();
+			while(enumChilds != null && enumChilds.hasMoreElements()){
+				TXSemanticTag child = enumChilds.nextElement();
+				subtagMap.get(tag).add(child);
+				getSubTagsAsMap(child, subtagMap);
+			}
+		}
+	}
+
+
 
 	@Override
 	public boolean contains(Interest i) {

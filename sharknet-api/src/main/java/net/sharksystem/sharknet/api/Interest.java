@@ -74,5 +74,10 @@ public interface Interest {
 	 */
 	public void delete();
 
+	/**
+	 * Removes a TXSemanticTag from Parents and takes childs with him
+	 * @param child
+     */
+	public void removeFromParent(TXSemanticTag child);
 
 }
