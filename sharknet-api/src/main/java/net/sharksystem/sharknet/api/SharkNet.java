@@ -92,6 +92,13 @@ public interface SharkNet {
 	public void addListener(Profile p, GetEvents listener);
 
 	/**
+	 * Removes a Listener
+	 * @param p
+	 * @param listener
+     */
+	public void removeListener(Profile p, GetEvents listener);
+
+	/**
 	 * Methods calls all Methods of registered listeners when the profile matches a contact in the recipientslist of the message
 	 * @param m
      */

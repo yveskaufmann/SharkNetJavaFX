@@ -165,6 +165,15 @@ public class ImplSharkNet implements SharkNet {
 		}
 	}
 
+	@Override
+	public void removeListener(Profile p, GetEvents listener) {
+		if(ListenerMap.containsKey(p)){
+			if(ListenerMap.get(p).contains(listener)){
+				ListenerMap.get(p).remove(listener);
+			}
+		}
+	}
+
 	public void informMessage(Message m){
 		List<Profile> pList = getProfiles();
 		for(Contact c : m.getRecipients()){

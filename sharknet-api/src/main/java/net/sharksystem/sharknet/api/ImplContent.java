@@ -35,6 +35,7 @@ public class ImplContent implements Content {
 		this.fileExtension = fileExtension;
 		this.message = message;
 		this.filename = filename;
+
 	}
 /*
 	public String getMimeType(File f){
