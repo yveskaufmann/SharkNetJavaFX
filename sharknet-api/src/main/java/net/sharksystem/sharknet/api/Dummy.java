@@ -238,10 +238,9 @@ public class Dummy {
 		s.informMessage(mlistener1);
 		s.exchangeContactNFC();
 
-
 		s.setProfile(alice_p, "");
 
-		Interest i = s.getMyProfile().getContact().getInterests();
+		/*Interest i = s.getMyProfile().getContact().getInterests();
 		TXSemanticTag eltern = i.addInterest("eltern", "www.eltern.de");
 		TXSemanticTag kind = i.addInterest("kind", "www.kind.de");
 		TXSemanticTag kindkind = i.addInterest("kindkind", "www.kindkind.de");
@@ -253,7 +252,7 @@ public class Dummy {
 		i.moveInterest(kindkind, kindkindkind);
 		i.removeFromParent(kindkind);
 
-
+*/
 
 
 
