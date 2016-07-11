@@ -1,8 +1,6 @@
 package net.sharksystem.sharknet.api;
 
-import net.sharkfw.knowledgeBase.SemanticTag;
 import net.sharkfw.knowledgeBase.TXSemanticTag;
-import net.sharkfw.knowledgeBase.Taxonomy;
 
 import java.io.*;
 import java.sql.Date;
@@ -173,7 +171,7 @@ public class Dummy {
 		List<Feed> feedlist = s.getFeeds(0, 15, true);
 		// System.out.println(f1.getContent());
 		// System.out.println(feedlist.get(0).getContent());
-		f1.getComments(true).get(0).dislike();
+		f1.getComments(true).get(0).setDisliked(true);
 
 		// System.out.println(feedlist.get(0).getComments());
 

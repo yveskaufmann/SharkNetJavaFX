@@ -1,7 +1,5 @@
 package net.sharksystem.sharknet.api;
 
-import net.sharkfw.knowledgeBase.SemanticTag;
-
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -57,14 +55,16 @@ public interface Feed extends Timeable, ContainsContent{
 	public void delete();
 
 	/**
-	 * marks the Feed as disliked. Shark will collect dislikes and after an special amount it will inform the author
+	 * Marks this Feed as disliked, Shark will collect dislikes and after an special amount it will inform the author
+	 *
+	 * @param disliked if true the feed is marked as disliked or liked
 	 */
-	public void dislike();
+	public void setDisliked(boolean disliked);
 
 	/**
-	 * Returns if the Comment is disliked
+	 * Returns if the Comment is isDisliked
 	 */
-	public boolean isdisliked();
+	public boolean isDisliked();
 
 	/**
 	 * Returns the Owner of a Feed
