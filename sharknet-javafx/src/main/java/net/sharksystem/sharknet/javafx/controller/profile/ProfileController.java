@@ -69,8 +69,7 @@ public class ProfileController extends AbstractController {
 	 */
 	@Override
 	protected void onFxmlLoaded() {
-
-
+		profileImageView.setOnMouseClicked(this::onImageChange);
 		loadData();
 	}
 

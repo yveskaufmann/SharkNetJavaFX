@@ -31,6 +31,7 @@ import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controls.FontIcon;
 import net.sharksystem.sharknet.javafx.utils.FontAwesomeIcon;
 import net.sharksystem.sharknet.javafx.utils.NodeUtils;
+import org.controlsfx.control.SnapshotView;
 
 import java.io.File;
 
@@ -129,6 +130,7 @@ public class ImageChooserDialog extends Dialog<Image> {
 			StackPane.setAlignment(overlay, Pos.CENTER);
 			StackPane.setAlignment(imageSectionRectangle, Pos.TOP_LEFT);
 			StackPane.setAlignment(imageArea, Pos.TOP_LEFT);
+
 
 			getChildren().addAll(imageView, overlay, imageArea, imageSectionRectangle);
 			createResizeHandlers();

@@ -107,6 +107,10 @@
 	-fx-fill: gray;
 }
 
+.text-dark {
+	-fx-text-fill: black!important;
+}
+
 /*------------------------------------------------------------------------------
  * Common style sections
  *------------------------------------------------------------------------------*/
@@ -118,12 +122,9 @@
 	-fx-text-fill: rgba(255, 255, 255, 0.87);
 }
 
-
-
-
 .icon-label,
 .icon-label .text {
-	-fx-font-size: 22px;
+	-fx-font-size: 16px;
 	-fx-font-family: FontAwesome !important;
 	-fx-font-weight: normal;
 	-fx-font-style: normal;
@@ -136,6 +137,8 @@
 	-fx-background-color: null;
 	-fx-padding: 4px;
 	-fx-graphic-text-gap: 30px;
+	-fx-min-width: null;
+	-fx-min-height: null;
 
 }
 
@@ -156,21 +159,6 @@
 .theme-presets .profile-image {
 	-fx-background-color: -sn-secondary-color;
 	-fx-background-radius: 100%;
-}
-
-/*------------------------------------------------------------------------------
- * Text-Fields
- *------------------------------------------------------------------------------*/
-.text-field.material-design {
-	-fx-font-size: 16px;
-	-fx-text-fill: rgba(0, 0, 0, 0.87);
-	-fx-prompt-text-fill: rgba(0, 0, 0, 0.54);
-	-fx-cursor: text;
-}
-
-.text-field:focused.material-design {
-	-fx-cursor-color: -sn-accent-color;
-	-fx-cursor-color: -sn-accent-color;
 }
 
 /*------------------------------------------------------------------------------
@@ -241,7 +229,7 @@
 
 
 /*------------------------------------------------------------------------------
- * Actionbar
+ * Actionbar deprecated
  *------------------------------------------------------------------------------*/
 .actionbar {
 	-fx-min-height: 64px;
@@ -268,44 +256,13 @@
 }
 
 /*------------------------------------------------------------------------------
- * Context Menu
- *------------------------------------------------------------------------------*/
-/*
-.context-menu {
-	-fx-padding: 8px 0 8px 0;
-	-fx-border-radius: 5px;
-	-fx-background-radius: 5px;
-	-fx-min-width: 112px;
-}
-
-.context-menu .menu-item {
-	-fx-pref-height: 48px;
-	-fx-min-width: 56px;
-	-fx-pref-width: -1;
-	-fx-min-width: 112px;
-}
-
-.context-menu .menu-item .label {
-	-fx-padding: 16px 0 20px 0;
-}
-
-.context-menu. .menu-item .label .text {
- 	-fx-font-family: "Roboto Bold"!important;
-	-fx-text-fill: #242424 !important;
-	-fx-fill: #242424 !important;
-	-fx-font-size: 14px;
-	-fx-padding: 0;
-	-fx-margin: 0;
-}
-*/
-/*------------------------------------------------------------------------------
  * MediaList
  *------------------------------------------------------------------------------*/
 
 .media-list {
 	-fx-border-width: 0px;
 	-fx-background-color: white;
-	-fx-padding: 0px;
+	-fx-padding: 5px;
 }
 
 .media-list .media-list-item {
@@ -327,6 +284,61 @@
 
 .media-list .media-list-item:selected{
 	-fx-background-color: derive(-sn-primary-color, 60%);
+}
+
+/*------------------------------------------------------------------------------
+ * Inbox-List
+ *------------------------------------------------------------------------------*/
+
+.inbox-list {
+	-fx-border-width: 0px;
+	-fx-background-color: white;
+	-fx-padding: 5px;
+}
+
+.inbox-list:focused {
+	-fx-background-color: white;
+}
+
+.inbox-list .media-list-item {
+	-fx-background-color: white;
+	-fx-border-width:0;
+}
+.inbox-list .media-list-item:empty {
+	-fx-border-width: 0px;
+	-fx-padding: 0px;
+	-fx-background-color: transparent!important;
+}
+
+.inbox-section {
+	-fx-background-radius: 3px;
+	-fx-border-radius: 3px;
+	-fx-border-width: 1px;
+	-fx-background-color: white;
+	-fx-border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+	-fx-effect: dropshadow(two-pass-box, rgba(0, 0, 0, 0.1),  5, 0, 1px, 2px);
+}
+
+.text-area {
+	-fx-border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+}
+
+/*------------------------------------------------------------------------------
+ * Interest-Tags
+ *------------------------------------------------------------------------------*/
+
+.interest-tag {
+	-fx-padding: 5px;
+	-fx-background-color: -pink-400;
+	-fx-border-width: 0px;;
+	-fx-border-radius: 10px;
+	-fx-background-radius: 10px;
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+}
+
+.interest-tag .icon-label {
+	-fx-text-fill: white;
 }
 
 /*------------------------------------------------------------------------------
@@ -373,6 +385,10 @@
 
 #sidebarHeader .subtitle {
 	-fx-text-fill: #FFFFFF;
+}
+
+#sidebarPane .icon-label .text {
+	-fx-font-size: 22px;
 }
 
 
@@ -435,6 +451,14 @@
 }
 
 /*------------------------------------------------------------------------------
+ * Context Menu
+ *------------------------------------------------------------------------------*/
+
+.context-menu .menu-item {
+	-fx-font-size: 16px;
+}
+
+/*------------------------------------------------------------------------------
  * Validation
  *------------------------------------------------------------------------------*/
 
@@ -447,6 +471,22 @@
 	-fx-border-radius: 5px;
 	-fx-padding: 16px;
 	-fx-alignment: center;
+}
+
+/*------------------------------------------------------------------------------
+ * Textfields
+ *------------------------------------------------------------------------------*/
+
+/*
+ * Ensure that the prompt is only displayed if the user has started typing
+ */
+.text-field,
+.text-area {
+	 -fx-prompt-text-fill: derive(-fx-control-inner-background,-30%);
+ }
+.text-field:focused,
+.text-area:focused{
+	-fx-prompt-text-fill: derive(-fx-control-inner-background,-30%);
 }
 
 /*------------------------------------------------------------------------------
