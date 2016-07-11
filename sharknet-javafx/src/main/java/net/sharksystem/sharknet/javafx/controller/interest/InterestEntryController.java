@@ -13,11 +13,13 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 import net.sharkfw.knowledgeBase.SharkKBException;
 import net.sharkfw.knowledgeBase.TXSemanticTag;
 import net.sharksystem.sharknet.javafx.controls.MessageBanner;
+import net.sharksystem.sharknet.javafx.controls.cell.HyperLinkTableCell;
 import org.controlsfx.control.PopOver;
 import org.controlsfx.validation.ValidationResult;
 import org.controlsfx.validation.ValidationSupport;
@@ -122,10 +124,13 @@ public class InterestEntryController {
 		subscriptionChooser.getItems().addAll(SubscriptionType.ACTIVATED, SubscriptionType.DEACTIVATED);
 
 		TableColumn<LinkEntry, String> linkColumn = new TableColumn<>(getString("interest.si.header"));
-		linkColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+		linkColumn.setCellFactory(HyperLinkTableCell.forTableColumn());
 		linkColumn.setCellValueFactory(new PropertyValueFactory<>("link"));
 		linkColumn.setEditable(true);
 		linkColumn.prefWidthProperty().bind(interestLinkTable.widthProperty().multiply(0.99));
+
+
+
 
 		interestLinkTable.setEditable(true);
 		interestLinkTable.getColumns().add(linkColumn);
