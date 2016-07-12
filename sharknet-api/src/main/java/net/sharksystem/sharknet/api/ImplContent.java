@@ -1,5 +1,6 @@
 package net.sharksystem.sharknet.api;
 
+import net.sharkfw.knowledgeBase.inmemory.InMemoInformation;
 import net.sharksystem.sharknet.api.utils.ResetOnCloseInputStream;
 
 import javax.activation.MimetypesFileTypeMap;
@@ -14,6 +15,8 @@ public class ImplContent implements Content {
 	InputStream file;
 	private byte[] bytesOfFile;
 	ImplVoting voting;
+	InMemoInformation sharkFile;
+
 
 
 	public ImplContent (String message){
@@ -139,5 +142,21 @@ public class ImplContent implements Content {
 	}
 
 
-	//ToDo: Shark - How to save file in Shark
+	public ImplContent(InMemoInformation file){
+		this.sharkFile = file;
+	}
+	@Override
+	public InMemoInformation getInformationFile(){
+		return sharkFile;
+	}
+	@Override
+	public void setInformationFile(InMemoInformation file) {
+		sharkFile = file;
+	}
+
+
+
+
+
+		//ToDo: Shark - How to save file in Shark
 }

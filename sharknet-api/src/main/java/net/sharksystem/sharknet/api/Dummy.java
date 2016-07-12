@@ -1,6 +1,7 @@
 package net.sharksystem.sharknet.api;
 
 import net.sharkfw.knowledgeBase.TXSemanticTag;
+import net.sharkfw.knowledgeBase.inmemory.InMemoInformation;
 
 import java.io.*;
 import java.sql.Date;
@@ -251,7 +252,6 @@ public class Dummy {
 		i.removeFromParent(kindkind);
 
 */
-
 
 
 	}

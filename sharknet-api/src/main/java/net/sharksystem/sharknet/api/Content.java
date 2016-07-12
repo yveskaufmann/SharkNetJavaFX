@@ -1,5 +1,7 @@
 package net.sharksystem.sharknet.api;
 
+import net.sharkfw.knowledgeBase.inmemory.InMemoInformation;
+
 import java.io.InputStream;
 
 /**
@@ -48,5 +50,8 @@ public interface Content {
 	 * @return
      */
 	public ImplVoting getVoting();
+
+	public InMemoInformation getInformationFile();
+	public void setInformationFile(InMemoInformation file);
 
 }
