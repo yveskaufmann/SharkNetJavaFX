@@ -106,7 +106,6 @@ public class ImplFeed implements Feed {
 	@Override
 	public void newComment(Content comment, Contact author) {
 		Comment c = new ImplComment(comment, author, this, owner);
-		DummyDB.getInstance().addComment(c, this);
 	}
 
 	/**
