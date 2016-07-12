@@ -64,7 +64,7 @@ public abstract class MediaListCellController<T> extends AbstractController {
 	 *
 	 * @defaultValue null ==> empty
      */
-	final ObjectProperty<T> itemProperty() {
+	protected final ObjectProperty<T> itemProperty() {
 		if (item == null) {
 			item = new SimpleObjectProperty<T>(this, "item") {
 				@Override
@@ -80,14 +80,14 @@ public abstract class MediaListCellController<T> extends AbstractController {
 	/**
 	 * @see {@link #itemProperty()}
      */
-	final T getItem() {
+	protected final T getItem() {
 		return (item == null) ? null : item.get();
 	}
 
 	/**
 	 * @see {@link #itemProperty()}
 	 */
-	final void setItem(T item) {
+	protected final void setItem(T item) {
 		itemProperty().set(item);
 	}
 

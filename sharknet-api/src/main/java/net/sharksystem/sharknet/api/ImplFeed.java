@@ -14,7 +14,7 @@ public class ImplFeed implements Feed {
 	Timestamp datetime;
 	Interest interest;
 	Contact sender;
-	Boolean disliked = false;
+	Boolean isDisliked = false;
 
 
 	/**
@@ -126,9 +126,9 @@ public class ImplFeed implements Feed {
 	}
 
 	@Override
-	public void dislike() {
-		disliked = true;
-		//ToDo: Shark - safe that the message was disliked
+	public void setDisliked(boolean disliked) {
+		isDisliked = disliked;
+		//ToDo: Shark - safe that the message was isDisliked
 	}
 
 	@Override
@@ -137,8 +137,8 @@ public class ImplFeed implements Feed {
 	}
 
 	@Override
-	public boolean isdisliked() {
-		return disliked;
+	public boolean isDisliked() {
+		return isDisliked;
 	}
 }
 

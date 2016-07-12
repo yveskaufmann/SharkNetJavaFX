@@ -128,9 +128,9 @@ public class ImplMessage implements Message {
 	}
 
 	@Override
-	public void dislike() {
-		disliked = true;
-		//ToDo: Shark - safe that the message was disliked
+	public void setDisliked(boolean isDisliked) {
+		disliked = isDisliked;
+		//ToDo: Shark - safe that the message was isDisliked
 	}
 
 	/**

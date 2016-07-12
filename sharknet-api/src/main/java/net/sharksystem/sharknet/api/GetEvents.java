@@ -14,5 +14,4 @@ public interface GetEvents {
 	public void receivedComment(Comment c);
 	public void receivedContact(Contact c);
 
-
 }

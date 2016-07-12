@@ -39,25 +39,12 @@
                     <StackPane fx:id="mainPane"/>
                 </content>
             </JFXDrawer>
-
-            <!--<Workbench fx:id="workbench" sidebarWidth="250">
-                <sidebar>
-                    <StackPane fx:id="sidebarPane"/>
-                </sidebar>
-                <content>
-                    <StackPane fx:id="mainPane"/>
-                </content>
-            </Workbench> -->
        </center>
     </BorderPane>
     <JFXPopup fx:id="toolbarPopup" styleClass="tool-bar-popup">
         <JFXListView styleClass="option-list-view">
-            <Label fx:id="logout">
-                Logout
-            </Label>
-            <Label fx:id="exit">
-                Exit
-            </Label>
+            <Label fx:id="logout" text="%login.logout"/>
+            <Label fx:id="exit" text="%app.exit"/>
         </JFXListView>
     </JFXPopup>
 </StackPane>

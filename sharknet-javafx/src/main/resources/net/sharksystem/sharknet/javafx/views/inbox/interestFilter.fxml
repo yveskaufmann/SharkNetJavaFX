@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<TitledPane wrapText="true" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="500.0">
+         <children>
+            <DatePicker layoutX="302.0" layoutY="14.0" promptText="Von" AnchorPane.rightAnchor="14.0" />
+            <DatePicker layoutX="312.0" layoutY="50.0" promptText="Bis" AnchorPane.rightAnchor="14.0" />
+            <ToggleButton layoutX="250.0" layoutY="14.0" mnemonicParsing="false" text="Zeige">
+               <toggleGroup>
+                  <ToggleGroup fx:id="aaa" />
+               </toggleGroup>
+            </ToggleButton>
+         </children>
+      </AnchorPane>
+   </content>
+</TitledPane>

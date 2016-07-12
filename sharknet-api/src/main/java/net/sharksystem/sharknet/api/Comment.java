@@ -39,12 +39,13 @@ public interface Comment extends Timeable, ContainsContent {
 	public void delete();
 
 	/**
-	 * marks the Comment as disliked. Shark will collect dislikes and after an special amount it will inform the author
+	 * marks the Comment as is disliked. Shark will collect dislikes and after an special amount it will inform the author
+	 * @param isDisliked
 	 */
-	public void dislike();
+	public void setDisliked(boolean isDisliked);
 
 	/**
-	 * Returns if the Comment is disliked
+	 * Returns if the Comment is isDisliked
 	 */
 	public boolean isdisliked();
 

@@ -2,8 +2,7 @@
  *	Apply google Roboto font to all UI components
  */
 
-.root {
-    -fx-font-family: "Roboto";
+.root {  -fx-font-family: "Roboto";
 }
 
 .side-menu{

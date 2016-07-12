@@ -295,8 +295,17 @@ public class InterestsController {
 
 				item.getParent().getChildren().remove(item);
 				newParent.getChildren().add(item);
-				// And now move the tag to its new parent target
-				item.getValue().move(null);
+
+				/**
+				 *  Remove this child from its Parent,
+				 *
+				 */
+				interest.removeFromParent(item.getValue());
+				try {
+					item.setValue(interest.getInterests().getSemanticTag(item.getValue().getSI()));
+				} catch (SharkKBException e1) {
+					e1.printStackTrace();
+				}
 				item.getValue().move(newParent.getValue());
 				interest.save();
 				e.setDropCompleted(true);
@@ -331,7 +340,7 @@ public class InterestsController {
 			if (srcIndex != row.getIndex()) {
 				TreeItem<TXSemanticTag> srcItem = treeTableView.getTreeItem(srcIndex);
 				TreeItem<TXSemanticTag> target = getTarget(row, treeTableView);
-				isAcceptable = !isParent(srcItem, target);
+				isAcceptable = !isParent(srcItem, target) && srcItem.getParent() != target ;
 			}
 		}
 		return isAcceptable;

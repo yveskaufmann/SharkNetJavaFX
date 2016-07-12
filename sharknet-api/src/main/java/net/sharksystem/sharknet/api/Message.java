@@ -50,12 +50,13 @@ public interface Message extends Timeable, ContainsContent {
 	public void deleteMessage();
 
 	/**
-	 * marks the Message as disliked. Shark will collect dislikes and after an special amount it will inform the author
+	 * marks the Message as is disliked. Shark will collect dislikes and after an special amount it will inform the author
+	 * @param isDisliked
 	 */
-	public void dislike();
+	public void setDisliked(boolean isDisliked);
 
 	/**
-	 * Returns if the Comment is disliked
+	 * Returns if the Comment is isDisliked
 	 */
 	public boolean isdisliked();
 
