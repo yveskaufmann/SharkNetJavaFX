@@ -9,7 +9,7 @@ import java.util.List;
  * Created by timol on 16.05.2016.
  */
 
-public class ImplContact implements Contact {
+public class ImplContact implements Contact, StudentContact {
 
 	String nickname;
 	String name;
@@ -22,6 +22,7 @@ public class ImplContact implements Contact {
 	Profile owner;
 	Content picture;
 	Timestamp lastWifiContact = null;
+	String grade, classSpecification;
 
 
 	/**
@@ -226,5 +227,25 @@ public class ImplContact implements Contact {
 		in = cl.getResourceAsStream("person.png");
 		Content personpic = new ImplContent(in, "png", "Grouppicture");
 		setPicture(personpic);
+	}
+
+	@Override
+	public String getGrade() {
+		return grade;
+	}
+
+	@Override
+	public void setGrade(String grade) {
+		this.grade = grade;
+	}
+
+	@Override
+	public String getClassSpecification() {
+		return classSpecification;
+	}
+
+	@Override
+	public void setClassSpecification(String classSpecification) {
+		this.classSpecification = classSpecification;
 	}
 }
