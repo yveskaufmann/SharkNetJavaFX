@@ -54,4 +54,16 @@ public interface Content {
 	public InMemoInformation getInformationFile();
 	public void setInformationFile(InMemoInformation file);
 
+	/**
+	 * Getter for a Reminder (Bachelor Arbeit)
+	 * @return
+     */
+	public Reminder getReminder();
+
+	/**
+	 * Setter for Reminder (Bechelor Arbeit)
+	 * @param reminder
+     */
+	public void setReminder(Reminder reminder);
+
 }

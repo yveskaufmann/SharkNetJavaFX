@@ -16,6 +16,7 @@ public class ImplContent implements Content {
 	private byte[] bytesOfFile;
 	ImplVoting voting;
 	InMemoInformation sharkFile;
+	Reminder reminder;
 
 
 
@@ -141,6 +142,15 @@ public class ImplContent implements Content {
 		else return voting;
 	}
 
+	@Override
+	public Reminder getReminder() {
+		return reminder;
+	}
+
+	@Override
+	public void setReminder(Reminder reminder) {
+		this.reminder = reminder;
+	}
 
 	public ImplContent(InMemoInformation file){
 		this.sharkFile = file;
@@ -153,6 +163,7 @@ public class ImplContent implements Content {
 	public void setInformationFile(InMemoInformation file) {
 		sharkFile = file;
 	}
+
 
 
 
