@@ -13,6 +13,8 @@ import net.sharksystem.sharknet.javafx.services.ImageManager;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class ShowContactController extends AbstractController {
@@ -56,6 +58,9 @@ public class ShowContactController extends AbstractController {
 
 	private Contact contact;
 	private Stage stage;
+	private List<ContactListener> contactListeners;
+
+
 
 
 	public ShowContactController(Contact c){
@@ -68,6 +73,7 @@ public class ShowContactController extends AbstractController {
 		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
 		stage.show();
 		editLabel.setVisible(false);
+		contactListeners = new ArrayList<>();
 	}
 
 	public ShowContactController(Contact c, boolean nfc_or_qrcode){
@@ -82,7 +88,15 @@ public class ShowContactController extends AbstractController {
 		editButton.setVisible(false);
 		editLabel.setVisible(true);
 		saveButton.setText("Kontakt Übernehmen");
+		contactListeners = new ArrayList<>();
 	}
+
+
+	public void addListener(ContactListener cl) {
+		contactListeners.add(cl);
+	}
+
+
 
 	@Override
 	protected void onFxmlLoaded() {
@@ -117,6 +131,7 @@ public class ShowContactController extends AbstractController {
 			//contact.setName(nameTextField.getText());
 			contact.setEmail(emailTextField.getText());
 			stage.close();
+
 		});
 
 		closeWindowButton.setOnMouseClicked(event -> {
@@ -141,12 +156,13 @@ public class ShowContactController extends AbstractController {
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if(result.get() == loeschenOKButton){
-				sharkNetModel.getContacts().remove(contact);
+				//sharkNetModel.getContacts().remove(contact);
 
-				//TODO changelistener
+				for (ContactListener cl : contactListeners) {
+					cl.onContactDeleted(contact);
+				}
 
 				stage.close();;
-
 			}
 		});
 

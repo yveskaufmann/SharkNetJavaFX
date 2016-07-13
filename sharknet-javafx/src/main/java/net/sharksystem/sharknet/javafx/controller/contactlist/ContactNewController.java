@@ -15,6 +15,7 @@ import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -36,11 +37,8 @@ public class ContactNewController extends AbstractController {
 	@Inject
 	private SharkNet sharkNetModel;
 
-	//@Inject
-	//private ContactController contactController;
-
-
 	private List<Contact> allContacts;
+	private List<ContactListener> contactListeners;
 	private Stage stage;
 	private String uid;
 	private String publickey;
@@ -56,6 +54,7 @@ public class ContactNewController extends AbstractController {
 		stage.setScene(new Scene(root, 600, 400));
 		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
 		stage.show();
+		contactListeners = new ArrayList<>();
 	}
 
 
@@ -103,22 +102,31 @@ public class ContactNewController extends AbstractController {
 	}
 
 
+	public void addListener(ContactListener cl) {
+		contactListeners.add(cl);
+	}
+
 
 	@Override
 	protected void onFxmlLoaded() {
 
 		saveButton.setOnMouseClicked(event -> {
-			if(nameInputTextField.getText().length() > 0){
+			if(nameInputTextField.getText().length() > 0) {
 				System.out.println("Neuen Kontakt erstellen: " + nameInputTextField.getText());
 				ImplContact newContact = new ImplContact(nameInputTextField.getText(), uid, publickey, sharkNetModel.getMyProfile());
-				if(mailInputTextField.getText() != "") {
+				if (mailInputTextField.getText() != "") {
 					newContact.setEmail(mailInputTextField.getText());
 				}
 
 				sharkNetModel.getContacts().add(newContact);
+
+				for (ContactListener cl : contactListeners) {
+					cl.onContactListChanged();
+				}
+
 				stage.close();
 				event.consume();
-				//contactController.loadEntries();
+
 			}
 		});
 
