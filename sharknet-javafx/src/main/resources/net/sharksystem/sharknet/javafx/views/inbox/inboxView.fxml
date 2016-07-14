@@ -7,7 +7,10 @@
 <?import net.sharksystem.sharknet.javafx.controller.inbox.InboxList?>
 <?import net.sharksystem.sharknet.javafx.controls.RoundImageView?>
 <?import org.controlsfx.control.textfield.CustomTextField?>
-<BorderPane style="-fx-padding: 20px 0 0 0;" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane style="-fx-padding: 20px 0 0 10px;" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1">
+    <left>
+        <fx:include source="interestFilter.fxml"/>
+    </left>
     <center>
     <VBox fx:id="inboxView" alignment="TOP_CENTER" fillWidth="true" maxWidth="555.0" prefHeight="200.0" prefWidth="555.0" spacing="5" styleClass="theme-presets" StackPane.alignment="TOP_CENTER">
         <AnchorPane fx:id="messageComposerPane" maxHeight="-Infinity" maxWidth="555.0" minHeight="200.0" minWidth="-Infinity" prefHeight="-Infinity" prefWidth="555.0" styleClass="inbox-section" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1">
@@ -37,7 +40,7 @@
                 </HBox>
             </children>
         </AnchorPane>
-        <InboxList VBox.vgrow="ALWAYS" fx:id = "inboxListView"/>
+        <InboxList VBox.vgrow="ALWAYS" fx:id = "inboxListView" maxWidth="555.0" minWidth="-Infinity" prefWidth="555.0"  />
     </VBox>
     </center>
 </BorderPane>

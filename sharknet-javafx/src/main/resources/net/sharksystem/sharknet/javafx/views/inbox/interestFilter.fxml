@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import org.controlsfx.control.CheckTreeView?>
 
-
-<TitledPane wrapText="true" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1">
-   <content>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="500.0">
-         <children>
-            <DatePicker layoutX="302.0" layoutY="14.0" promptText="Von" AnchorPane.rightAnchor="14.0" />
-            <DatePicker layoutX="312.0" layoutY="50.0" promptText="Bis" AnchorPane.rightAnchor="14.0" />
-            <ToggleButton layoutX="250.0" layoutY="14.0" mnemonicParsing="false" text="Zeige">
-               <toggleGroup>
-                  <ToggleGroup fx:id="aaa" />
-               </toggleGroup>
-            </ToggleButton>
-         </children>
-      </AnchorPane>
-   </content>
-</TitledPane>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="545.0" prefWidth="279.0" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1" styleClass="inbox-section">
+   <children>
+      <Label layoutX="14.0" layoutY="14.0" text="Sortierung" AnchorPane.topAnchor="14.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="79.0" text="Nach Interessen Filtern" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="79.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Separator layoutY="67.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="67.0" />
+      <CheckTreeView fx:id="interestTreeTable" layoutX="14.0" layoutY="39.0" prefHeight="422.0" prefWidth="248.0" showRoot="false" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+      <CheckBox fx:id="sortOrderCheckbox" layoutX="128.0" layoutY="39.0" mnemonicParsing="false" selected="true" text="Aufsteigend Sortieren" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="39.0" />
+   </children>
+</AnchorPane>

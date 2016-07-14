@@ -106,7 +106,6 @@ public class ProfileController extends AbstractController {
 		Optional<Image> newImage = imageChooserDialog.showAndWait();
 		if (newImage.isPresent()) {
 			profileImageView.setImage(newImage.get());
-			// TODO: wait for save image to content
 			Log.info("change profile image of {0}", getCurrentContact().getName());
 		}
 		e.consume();

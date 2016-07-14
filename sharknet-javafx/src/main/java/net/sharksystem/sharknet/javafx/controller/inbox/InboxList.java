@@ -43,7 +43,7 @@ public class InboxList extends MediaListView<Feed> {
 	 *
 	 * Must be called if this list becomes hidden
 	 */
-	public void pauseUpdatee() {
+	public void pauseUpdate() {
 		timeline.pause();
 	}
 

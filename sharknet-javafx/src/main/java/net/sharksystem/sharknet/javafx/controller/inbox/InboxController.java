@@ -2,20 +2,24 @@ package net.sharksystem.sharknet.javafx.controller.inbox;
 
 import com.google.inject.Inject;
 import com.jfoenix.controls.JFXButton;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTreeCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
 import net.sharkfw.knowledgeBase.SharkKBException;
 import net.sharkfw.knowledgeBase.TXSemanticTag;
+import net.sharkfw.knowledgeBase.Taxonomy;
 import net.sharksystem.sharknet.api.*;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
@@ -23,10 +27,13 @@ import net.sharksystem.sharknet.javafx.controls.FontIcon;
 import net.sharksystem.sharknet.javafx.controls.RoundImageView;
 import net.sharksystem.sharknet.javafx.model.StringConverters;
 import net.sharksystem.sharknet.javafx.services.ImageManager;
+import net.sharksystem.sharknet.javafx.services.InterestsManager;
 import net.sharksystem.sharknet.javafx.utils.FontAwesomeIcon;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
+import org.controlsfx.control.CheckModel;
+import org.controlsfx.control.CheckTreeView;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
 import org.slf4j.Logger;
@@ -34,6 +41,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.PreDestroy;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Controller( title = "%inbox.title")
@@ -61,6 +69,7 @@ public class InboxController extends AbstractController  {
 	private int latestFeedIndex;
 	private GetEvents feedHandler;
 	private Set<TXSemanticTag> tagsForNewFeed = FXCollections.observableSet();
+	private Interest filterInterestObject;
 
 	/******************************************************************************
 	 *
@@ -68,16 +77,18 @@ public class InboxController extends AbstractController  {
 	 *
 	 ******************************************************************************/
 
+	@FXML private CheckTreeView<TXSemanticTag> interestTreeTable;
+	@FXML private CheckBox sortOrderCheckbox;
 	@FXML private AnchorPane messageComposerPane;
 	@FXML private InboxList inboxListView;
 	@FXML private JFXButton sendButton;
-	@FXML private JFXButton interestFilterButton;
 	@FXML private TextArea feedMessageArea;
 	@FXML private RoundImageView feedSenderProfile;
 	@FXML private TextField interestTextField;
 	@FXML private JFXButton addInterestTagButton;
 	@FXML private FlowPane tagContainer;
 	private AutoCompletionBinding<TXSemanticTag> autoCompletionBinding;
+	private ListChangeListener<TreeItem<TXSemanticTag>> filterCheckListener;
 
 
 	public InboxController() {
@@ -91,6 +102,27 @@ public class InboxController extends AbstractController  {
 	@Override
 	protected void onFxmlLoaded() {
 
+		Callback<TreeItem<TXSemanticTag>, ObservableValue<Boolean>> getSelectedProperty =
+			item -> {
+				if (item instanceof CheckBoxTreeItem<?>) {
+					return ((CheckBoxTreeItem<?>)item).selectedProperty();
+				}
+				return null;
+			};
+
+		interestTreeTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		interestTreeTable.setCellFactory(CheckBoxTreeCell.forTreeView(getSelectedProperty, new StringConverter<TreeItem<TXSemanticTag>>() {
+			@Override
+			public String toString(TreeItem<TXSemanticTag> object) {
+				return object.getValue().getName();
+			}
+
+			@Override
+			public TreeItem<TXSemanticTag> fromString(String string) {
+				return null;
+			}
+		}));
+
 		autoCompletionBinding = TextFields.bindAutoCompletion(
 			interestTextField,
 			getTagSuggestionRequestCollectionCallback(),
@@ -101,12 +133,11 @@ public class InboxController extends AbstractController  {
 			.bind(tagContainer.heightProperty().add(messageComposerPane.getMinHeight()).add(5));
 
 		registerListeners();
-		loadEntries();
+
 	}
 
 	private void registerListeners() {
 		sendButton.setOnAction(this::onSendButtonClicked);
-		interestFilterButton.setOnAction(this::onInterestFilterButton);
 		interestTextField.setOnKeyReleased((e) -> {
 			if (KeyCode.ENTER.equals(e.getCode())) {
 				addInterestTagButton.fire();
@@ -134,6 +165,8 @@ public class InboxController extends AbstractController  {
 				onNewReceivedFeed(feed);
 			}
 		});
+
+		sortOrderCheckbox.setOnAction((e) -> loadEntries());
 	}
 
 	/******************************************************************************
@@ -144,12 +177,14 @@ public class InboxController extends AbstractController  {
 
 	@Override
 	public void onResume() {
+		loadEntries();
+		loadInterests();
 		inboxListView.resumeUpdate();
 	}
 
 	@Override
 	public void onPause() {
-		inboxListView.pauseUpdatee();
+		inboxListView.pauseUpdate();
 	}
 
 	@PreDestroy
@@ -163,7 +198,18 @@ public class InboxController extends AbstractController  {
 
 		imageManager.readImageFrom(sharkNet.getMyProfile().getContact().getPicture()).ifPresent(feedSenderProfile::setImage);
 		inboxListView.getItems().clear();
-		for(Feed feed : sharkNet.getFeeds(0, 200, feedSortOrder)) {
+
+		boolean sortOrder = sortOrderCheckbox.isSelected();
+		List<Feed> feeds = null;
+
+		// TODO: paging
+		if (filterInterestObject == null) {
+			feeds = sharkNet.getFeeds(0, 200, sortOrder);
+		} else {
+			feeds = sharkNet.getFeeds(filterInterestObject, 0, 200, sortOrder);
+		}
+
+		for(Feed feed : feeds) {
 			inboxListView.getItems().add(feed);
 		}
 	}
@@ -206,6 +252,27 @@ public class InboxController extends AbstractController  {
 		};
 	}
 
+	private void updateFilterInterestObject() {
+		final CheckModel<TreeItem<TXSemanticTag>> checkModel = interestTreeTable.getCheckModel();
+		// Lets keep it simple, build a interest object from the selected
+		// Interests.
+		if (filterInterestObject != null) {
+			filterInterestObject.delete();
+		}
+		// This owner is for nobody its only a filter
+		filterInterestObject = new ImplInterest(null);
+		// Merge our interests into a new taxonomy
+		final Taxonomy taxonomy = filterInterestObject.getInterests();
+		for (TreeItem<TXSemanticTag> checkedTreeItem : checkModel.getCheckedItems()) {
+			final TXSemanticTag semanticTag = checkedTreeItem.getValue();
+			try {
+				taxonomy.merge(taxonomy);
+			} catch (SharkKBException e) {
+				Log.error("Failed to build filterTaxonomy", e);
+				return;
+			}
+		}
+	}
 
 	/******************************************************************************
 	 *
@@ -242,10 +309,6 @@ public class InboxController extends AbstractController  {
 		e.consume();
 	}
 
-	private void onInterestFilterButton(ActionEvent event) {
-
-	}
-
 	private void onNewReceivedFeed(Feed feed) {
 		// should be triggered
 		Log.info("Received new feed from" + feed.getOwner().getContact().getName());
@@ -277,6 +340,26 @@ public class InboxController extends AbstractController  {
 				messageComposerPane.requestLayout();
 			}
 		}
+	}
+
+	private void loadInterests() {
+		CheckModel<TreeItem<TXSemanticTag>> treeItemCheckModel = interestTreeTable.getCheckModel();
+		if (treeItemCheckModel != null)  {
+			if (filterCheckListener  != null) {
+				treeItemCheckModel.getCheckedItems().removeListener(filterCheckListener);
+			}
+			treeItemCheckModel.getCheckedItems().addListener(filterCheckListener = new ListChangeListener<TreeItem<TXSemanticTag>>() {
+				@Override
+				public void onChanged(Change<? extends TreeItem<TXSemanticTag>> c) {
+					System.out.println("yeah");
+				}
+			});
+		}
+
+		CheckBoxTreeItem<TXSemanticTag> root = (CheckBoxTreeItem<TXSemanticTag>) InterestsManager.loadInterestsAsTreeItem(sharkNet.getMyProfile(), () -> new CheckBoxTreeItem<TXSemanticTag>());
+		interestTreeTable.setShowRoot(false);
+		interestTreeTable.setRoot(root);
+		interestTreeTable.getCheckModel().checkAll();
 	}
 
 }
