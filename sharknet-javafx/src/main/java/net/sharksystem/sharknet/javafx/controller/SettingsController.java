@@ -132,7 +132,7 @@ public class SettingsController extends AbstractController {
 	private void onStartTCPServerButtonClick(){
 		try{
 			tcpPort = Integer.parseInt(tcpPortInput.getText());
-		}catch (Exception e){ e.printStackTrace(); }
+		}catch (Exception e){ tcpPort = 6000; }
 		System.out.println("TCP server started on port " + tcpPort);
 		tcpStartedMessageLabel.setText("TCP-Server läuft unter:   " + tcpAddress + ":" + tcpPort);
 		startTCPserver(tcpPort);

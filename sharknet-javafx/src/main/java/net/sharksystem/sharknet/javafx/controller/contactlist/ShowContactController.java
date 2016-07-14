@@ -60,9 +60,6 @@ public class ShowContactController extends AbstractController {
 	private Stage stage;
 	private List<ContactListener> contactListeners;
 
-
-
-
 	public ShowContactController(Contact c){
 		super(App.class.getResource("views/contactlist/showContactView.fxml"));
 		this.contact = c;
@@ -75,22 +72,6 @@ public class ShowContactController extends AbstractController {
 		editLabel.setVisible(false);
 		contactListeners = new ArrayList<>();
 	}
-
-	public ShowContactController(Contact c, boolean nfc_or_qrcode){
-		super(App.class.getResource("views/contactlist/showContactView.fxml"));
-		this.contact = c;
-		stage = new Stage();
-		stage.setTitle("");
-		Parent root = super.getRoot();
-		stage.setScene(new Scene(root, 600, 400));
-		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
-		stage.show();
-		editButton.setVisible(false);
-		editLabel.setVisible(true);
-		saveButton.setText("Kontakt Übernehmen");
-		contactListeners = new ArrayList<>();
-	}
-
 
 	public void addListener(ContactListener cl) {
 		contactListeners.add(cl);
@@ -128,7 +109,6 @@ public class ShowContactController extends AbstractController {
 
 		saveButton.setOnMouseClicked(event -> {
 			contact.setNickname(nicknameTextField.getText());
-			//contact.setName(nameTextField.getText());
 			contact.setEmail(emailTextField.getText());
 			stage.close();
 

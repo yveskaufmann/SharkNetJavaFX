@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
+
 <?import net.sharksystem.sharknet.javafx.controller.contactlist.ContactList?>
 <StackPane fx:id="contactsView" maxHeight="Infinity" maxWidth="Infinity" minHeight="600.0" minWidth="800.0" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -37,7 +45,7 @@
                                                   </AnchorPane>
                                                 <StackPane minHeight="0.0" minWidth="0.0">
                                                      <children>
-                                                         <ContactList fx:id = "contactListView" styleClass=""></ContactList>
+                                                         <ContactList fx:id="contactListView" styleClass="" />
                                                      </children>
                                                   </StackPane>
                                               </items>
@@ -58,7 +66,7 @@
                           <items>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                  <children>
-                                      <Button layoutX="30.0" layoutY="357.0" mnemonicParsing="false" onAction="#onContactUnblockButtonClick" text="Entfernen" />
+                                     <Button layoutX="18.0" layoutY="357.0" mnemonicParsing="false" onAction="#onContactUnblockButtonClick" text="Blockierung aufheben" />
                                  </children>
                               </AnchorPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
@@ -77,7 +85,7 @@
                                           </AnchorPane>
                                         <StackPane minHeight="0.0" minWidth="0.0">
                                              <children>
-                                                 <ContactList fx:id="blackListView"></ContactList>
+                                                 <ContactList fx:id="blackListView" />
                                              </children>
                                           </StackPane>
                                       </items>
