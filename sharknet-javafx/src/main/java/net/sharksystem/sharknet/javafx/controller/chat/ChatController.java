@@ -358,6 +358,8 @@ public class ChatController extends AbstractController implements ChatListener, 
 			if (chatHistoryListView.getItems().size() > 0) {
 				activeChat = chatHistoryListView.getItems().get(0);
 				loadChat(activeChat);
+			} else {
+				chatWindowListView.getChildren().clear();
 			}
 		}
 	}
@@ -611,8 +613,9 @@ public class ChatController extends AbstractController implements ChatListener, 
 	 */
 	private void onEmojiClick() {
 		// open emoji window
-		EmojiController e = new EmojiController();
+		EmojiController e = EmojiController.getInstance();
 		e.addListener(this);
+		e.showWindow();
 	}
 
 	@Override

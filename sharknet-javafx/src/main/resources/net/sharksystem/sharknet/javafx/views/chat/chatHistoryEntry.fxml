@@ -11,17 +11,17 @@
 <?import javafx.scene.text.Text?>
 
 <?import net.sharksystem.sharknet.javafx.controls.RoundImageView?>
-<GridPane fx:id="container" prefHeight="80.0" prefWidth="355.0" styleClass="theme-presets inbox-entry" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane fx:id="container" prefHeight="80.0" prefWidth="340.0" styleClass="theme-presets inbox-entry" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1">
     <columnConstraints>
         <ColumnConstraints halignment="LEFT" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" />
-        <ColumnConstraints halignment="LEFT" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
+        <ColumnConstraints halignment="LEFT" maxWidth="190.0" minWidth="190.0" prefWidth="190.0" />
         <ColumnConstraints halignment="LEFT" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" />
 
     </columnConstraints>
     <rowConstraints>
         <RowConstraints vgrow="NEVER" />
         <RowConstraints vgrow="NEVER" />
-        <RowConstraints vgrow="SOMETIMES" maxHeight="50.0" prefHeight="50.0"/>
+        <RowConstraints vgrow="SOMETIMES" maxHeight="60.0" prefHeight="60.0"/>
 
     </rowConstraints>
     <children>
@@ -39,7 +39,7 @@
 
         <Text fx:id="chatLastMessage" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-small" text="01.01.2000" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.valignment="TOP">
             <GridPane.margin>
-                <Insets right="10.0" top="5.0" />
+                <Insets top="5.0" />
             </GridPane.margin></Text>
 
         <Text fx:id="chatTitle" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-header" text="Chat Title" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">

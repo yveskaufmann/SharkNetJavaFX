@@ -1,8 +1,10 @@
 package net.sharksystem.sharknet.javafx.controller.chat;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -23,15 +25,31 @@ public class EmojiController extends AbstractController {
 	private Emoji emoji;
 	private List<String> emojis;
 	private List<ChatListener> listeners;
+	private Stage stage;
+	private static EmojiController instance = null;
 
-	public EmojiController() {
+	public static EmojiController getInstance() {
+		if (instance == null) {
+			instance = new EmojiController();
+		}
+
+		return instance;
+	}
+
+	private EmojiController() {
 		super(App.class.getResource("views/chat/emojiView.fxml"));
 		listeners = new ArrayList<>();
 		Parent root = super.getRoot();
-		Stage stage = new Stage();
+		stage = new Stage();
 		stage.setScene(new Scene(root, 494, 414));
 		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
 		stage.show();
+		// when user clicks outside of emoji window, the window will be closed
+		stage.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
+			if (!isNowFocused) {
+				stage.hide();
+			}
+		});
 
 		emoji = Emoji.getInstance();
 		emojis = emoji.getEmojis();
@@ -70,5 +88,10 @@ public class EmojiController extends AbstractController {
 
 	public void addListener(ChatListener listener) {
 		listeners.add(listener);
+	}
+
+	public void showWindow() {
+		stage.show();
+		stage.toFront();
 	}
 }
