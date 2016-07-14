@@ -22,7 +22,7 @@
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="565.0" prefWidth="796.0">
                      <children>
                         <Button fx:id="settingsSaveButton" layoutX="620.0" layoutY="467.0" mnemonicParsing="false" onAction="#onSettingsSaveButtonClick" text="Speichern" />
-                        <Label layoutX="163.0" layoutY="37.0" styleClass="title" text="E-Mail-Account">
+                        <Label layoutX="163.0" layoutY="37.0" styleClass="title_text" text="E-Mail-Account">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -34,7 +34,7 @@
                         <TextField fx:id="smtpServerInput" layoutX="218.0" layoutY="143.0" prefHeight="26.0" prefWidth="204.0" />
                         <TextField fx:id="imapServerInput" layoutX="219.0" layoutY="185.0" prefHeight="26.0" prefWidth="203.0" />
                         <Separator layoutY="253.0" minWidth="800.0" prefHeight="3.0" prefWidth="796.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="253.0" />
-                        <Label layoutX="163.0" layoutY="277.0" styleClass="title" text="WiFi Direct">
+                        <Label layoutX="163.0" layoutY="277.0" styleClass="title_text" text="WiFi Direct">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -69,7 +69,7 @@
                             <Label layoutX="481.0" layoutY="475.0" text="MB" />
                      <Button fx:id="startTCPServerButton" layoutX="379.0" layoutY="97.0" mnemonicParsing="false" onAction="#onStartTCPServerButtonClick" text="Start TCP Server" />
                      <Button fx:id="stopTCPServerButton" layoutX="379.0" layoutY="132.0" mnemonicParsing="false" onAction="#onStopTCPServerButtonClick" text="Stop TCP Server" />
-                     <Label layoutX="59.0" layoutY="36.0" text="TCP-Server">
+                     <Label styleClass="title_text" layoutX="59.0" layoutY="36.0" text="TCP-Server">
                         <font>
                            <Font size="18.0" />
                         </font>
@@ -82,7 +82,7 @@
                         </font>
                      </Label>
                      <Separator layoutX="9.0" layoutY="191.0" prefHeight="0.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="191.0" />
-                     <Label layoutX="62.0" layoutY="218.0" text="Daten-Routing">
+                     <Label styleClass="title_text" layoutX="62.0" layoutY="218.0" text="Daten-Routing">
                         <font>
                            <Font size="18.0" />
                         </font>
@@ -111,8 +111,8 @@
                                   <RadioButton fx:id="syncMediumSelectNFC" layoutX="561.0" layoutY="314.0" mnemonicParsing="false" text="NFC" toggleGroup="$syncMedium" />
                                   <RadioButton fx:id="syncMediumSelectTCP" layoutX="561.0" layoutY="351.0" mnemonicParsing="false" text="TCP" toggleGroup="$syncMedium" />
 
-                                  <Label layoutX="70.0" layoutY="154.0" text="Was möchten Sie synchronisieren?" />
-                                  <Label layoutX="487.0" layoutY="154.0" text="WIe soll synchronisiert werden?" />
+                                  <Label styleClass="title_text" layoutX="70.0" layoutY="154.0" text="Was möchten Sie synchronisieren?" />
+                                  <Label styleClass="title_text" layoutX="487.0" layoutY="154.0" text="WIe soll synchronisiert werden?" />
                                   <Button fx:id="syncStartButton" layoutX="638.0" layoutY="512.0" mnemonicParsing="false" onAction="#onStartSyncButtonClick" text="Synchronisieren" />
                                   <Separator layoutX="399.0" maxHeight="1.7976931348623157E308" orientation="VERTICAL" prefHeight="567.0" prefWidth="6.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="397.0" AnchorPane.topAnchor="0.0" />
                                   <CheckBox fx:id="profileSyncCheckbox" layoutX="145.0" layoutY="201.0" mnemonicParsing="false" text="Mein Profil" />

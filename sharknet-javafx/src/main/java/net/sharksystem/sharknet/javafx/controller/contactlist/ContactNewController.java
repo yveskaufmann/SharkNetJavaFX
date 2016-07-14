@@ -12,6 +12,7 @@ import net.sharksystem.sharknet.api.Contact;
 import net.sharksystem.sharknet.api.ImplContact;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
+import net.sharksystem.sharknet.javafx.controller.SettingsController;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
 import javax.inject.Inject;
@@ -60,52 +61,28 @@ public class ContactNewController extends AbstractController {
 
 	private void scanQRCode(){
 		publickey = getQRCodeFromCamera();
-		ImplContact newContact = new ImplContact("", uid, publickey, sharkNetModel.getMyProfile());
+		ImplContact newContact = new ImplContact("-Name aus QR?-", uid, publickey, sharkNetModel.getMyProfile());
 		stage.close();
-		ShowContactController s = new ShowContactController(newContact, true);
-	}
+		ShowContactController s = new ShowContactController(newContact);
 
-	//TODO
-	private void contactExchangeNFC(){
-		nameInputTextField.setVisible(false);
-		mailInputTextField.setVisible(false);
-		switchOnNFC();
-		Contact newContact = waitForContactExchangeNFC();
-		if(newContact != null){
-			stage.close();
-			ShowContactController s = new ShowContactController(newContact, true);
+		for (ContactListener cl : contactListeners) {
+			cl.onContactListChanged();
 		}
-
-		nameInputTextField.setVisible(true);
-		mailInputTextField.setVisible(true);
 	}
 
 
-	//TODO
 	private String getQRCodeFromCamera(){
 		String qrcode = "";
 
 		//dummy
 		qrcode= "DUMMYKEY from QR-Code";
-
 		return qrcode;
-	}
-
-
-	private void switchOnNFC(){}
-	private Contact waitForContactExchangeNFC(){
-		//dummy
-		publickey = "DUMMYKEY from NFC";
-		ImplContact testkontakt = new ImplContact("NFCKontakt", uid, publickey, sharkNetModel.getMyProfile());
-
-		return testkontakt;
 	}
 
 
 	public void addListener(ContactListener cl) {
 		contactListeners.add(cl);
 	}
-
 
 	@Override
 	protected void onFxmlLoaded() {
