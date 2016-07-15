@@ -72,7 +72,7 @@ public class ImageManager {
 
 		if (content != null && isImage(content)) {
 
-			try (InputStream in = content.getFile()) {
+			try (InputStream in = content.getInputstream()) {
 				assert in.available() > 0;
 				BufferedImage bufferedImage = ImageIO.read(in);
 				if (bufferedImage != null) {
@@ -103,7 +103,7 @@ public class ImageManager {
 	 * @return true if the content contains a image with a supported format.
      */
 	public boolean isImage(Content content) {
-		String type = Objects.toString(content.getFileExtension(), "NULL");
+		String type = Objects.toString(content.getMimeType(), "NULL");
 		if(SUPPORTED_FORMATS.contains(type)) return true;
 
 		Log.warn("Content doesn't contains a image, invalid type: '" + type + "'");

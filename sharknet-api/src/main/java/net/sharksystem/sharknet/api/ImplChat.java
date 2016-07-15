@@ -1,5 +1,6 @@
 package net.sharksystem.sharknet.api;
 
+import java.io.File;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -258,23 +259,26 @@ public class ImplChat implements Chat {
 	/**
 	 * Sets a default picture. The Picture of the first Contact in the List
 	 */
+
 	private void setDefaultPic() {
+		Content piccon = new ImplContent(owner);
+
 		if (getContacts().size() > 1) {
-			InputStream in = null;
-			ClassLoader cl = Thread.currentThread().getContextClassLoader();
-			in = cl.getResourceAsStream("group.png");
-			Content grouppic = new ImplContent(in, "png", "Grouppicture");
-			setPicture(grouppic);
+			File grouppic= new File("sharknet-api\\src\\main\\resources\\group.png");
+			piccon = new ImplContent(owner);
+			piccon.setFile(grouppic);
+			piccon.setMimeType("png");
 
 		} else if (getContacts().get(0).getPicture() == null) {
-			InputStream in = null;
-			ClassLoader cl = Thread.currentThread().getContextClassLoader();
-			in = cl.getResourceAsStream("person.png");
-			Content personpic = new ImplContent(in, "png", "Grouppicture");
-			setPicture(personpic);
+			File personpic= new File("sharknet-api\\src\\main\\resources\\person.png");
+			piccon = new ImplContent(owner);
+			piccon.setFile(personpic);
+			piccon.setMimeType("png");
 		} else {
-			setPicture(getContacts().get(0).getPicture());
+			piccon = getContacts().get(0).getPicture();
 		}
+
+		setPicture(piccon);
 	}
 
 

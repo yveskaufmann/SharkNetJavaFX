@@ -1,5 +1,6 @@
 package net.sharksystem.sharknet.api;
 
+import java.io.File;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.LinkedList;
@@ -222,11 +223,11 @@ public class ImplContact implements Contact, StudentContact {
 	}
 
 	private void setDefaultPicture(){
-		InputStream in = null;
-		ClassLoader cl = Thread.currentThread().getContextClassLoader();
-		in = cl.getResourceAsStream("person.png");
-		Content personpic = new ImplContent(in, "png", "Grouppicture");
-		setPicture(personpic);
+		File personpic= new File("sharknet-api\\src\\main\\resources\\person.png");
+		Content piccon = new ImplContent(owner);
+		piccon.setFile(personpic);
+		piccon.setMimeType("png");
+		setPicture(piccon);
 	}
 
 	@Override
