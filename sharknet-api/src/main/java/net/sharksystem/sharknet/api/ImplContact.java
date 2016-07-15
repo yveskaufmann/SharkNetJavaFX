@@ -1,7 +1,9 @@
 package net.sharksystem.sharknet.api;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
@@ -226,7 +228,12 @@ public class ImplContact implements Contact, StudentContact {
 		File personpic= new File("sharknet-api\\src\\main\\resources\\person.png");
 		Content piccon = new ImplContent(owner);
 		piccon.setFile(personpic);
-		piccon.setMimeType("png");
+		try {
+			String mimeType = Files.probeContentType(personpic.toPath());
+			piccon.setMimeType(mimeType);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		setPicture(piccon);
 	}
 

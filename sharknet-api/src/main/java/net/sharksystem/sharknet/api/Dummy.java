@@ -27,6 +27,9 @@ public class Dummy {
 
 	public void fillWithDummyData(ImplSharkNet s){
 
+		//Variables for MimeType
+		String jpg = "jpg";
+
 
 		//Timestamps erzeugen um Messages und Feeds mit von der aktuellen Uhrzeit abweichend zu erzeugen
 		java.util.Date fiveMinAgo = new Date(System.currentTimeMillis()-5*60*1000);
@@ -81,14 +84,14 @@ public class Dummy {
 		File filealice = new File("sharknet-api\\src\\main\\resources\\Alice.jpg");
 		Content alicecon = new ImplContent(alice_p);
 		alicecon.setFile(filealice);
-		alicecon.setMimeType("jpg");
+		alicecon.setMimeType(jpg);
 		alice.setPicture(alicecon);
 
 		File filebob = new File("sharknet-api\\src\\main\\resources\\Bob.jpg");
 		Content bobcon = new ImplContent(bob_p);
 
 		bobcon.setFile(filebob);
-		bobcon.setMimeType("jpg");
+		bobcon.setMimeType(jpg);
 		bob.setPicture(bobcon);
 
 
@@ -103,17 +106,17 @@ public class Dummy {
 		//Profilbild von Charles und Dean und Bob
 		Content bobpic = new ImplContent(alice_p);
 		bobpic.setFile(filebob);
-		bobpic.setMimeType("jpg");
+		bobpic.setMimeType(jpg);
 		alice_bob.setPicture(bobpic);
 
 		Content charlespic = new ImplContent(alice_p);
 		charlespic.setFile(filebob);
-		charlespic.setMimeType("jpg");
+		charlespic.setMimeType(jpg);
 		alice_charles.setPicture(charlespic);
 
 		Content deanpic = new ImplContent(alice_p);
 		deanpic.setFile(filebob);
-		deanpic.setMimeType("jpg");
+		deanpic.setMimeType(jpg);
 		alice_dean.setPicture(deanpic);
 
 
