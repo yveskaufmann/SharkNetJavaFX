@@ -1,7 +1,9 @@
 package net.sharksystem.sharknet.api;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
@@ -261,23 +263,27 @@ public class ImplChat implements Chat {
 	 */
 
 	private void setDefaultPic() {
-		Content piccon = new ImplContent(owner);
-
+		Content piccon;
+		File pic = null;
 		if (getContacts().size() > 1) {
-			File grouppic= new File("sharknet-api\\src\\main\\resources\\group.png");
+			pic= new File("sharknet-api\\src\\main\\resources\\group.png");
 			piccon = new ImplContent(owner);
-			piccon.setFile(grouppic);
-			piccon.setMimeType("png");
-
+			piccon.setFile(pic);
 		} else if (getContacts().get(0).getPicture() == null) {
-			File personpic= new File("sharknet-api\\src\\main\\resources\\person.png");
+			pic= new File("sharknet-api\\src\\main\\resources\\person.png");
 			piccon = new ImplContent(owner);
-			piccon.setFile(personpic);
-			piccon.setMimeType("png");
+			piccon.setFile(pic);
 		} else {
 			piccon = getContacts().get(0).getPicture();
 		}
-
+		if(pic != null){
+			try {
+				String mimeType = Files.probeContentType(pic.toPath());
+				piccon.setMimeType(mimeType);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		setPicture(piccon);
 	}
 
