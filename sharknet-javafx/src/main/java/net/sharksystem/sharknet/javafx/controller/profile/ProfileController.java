@@ -119,8 +119,12 @@ public class ProfileController extends AbstractController {
 		Optional<Image> newImage = imageChooserDialog.showAndWait();
 		if (newImage.isPresent()) {
 			profileImageView.setImage(newImage.get());
-			imageManager.writeImageToContent(newImage.get(), sharkNet.getMyProfile());
+			Profile myProfile = sharkNet.getMyProfile();
+			imageManager.writeImageToContent(newImage.get(), myProfile);
+			myProfile.save();
+			getRoot().fireEvent(ProfileEvent.changed(myProfile));
 			Log.info("change profile image of {0}", getCurrentContact().getName());
+
 		}
 		e.consume();
 	}
