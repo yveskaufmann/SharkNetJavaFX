@@ -2,12 +2,20 @@ package net.sharksystem.sharknet.javafx.services;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelFormat;
+import net.sharkfw.knowledgeBase.Information;
+import net.sharkfw.knowledgeBase.SharkKBException;
+import net.sharkfw.knowledgeBase.inmemory.InMemoInformation;
 import net.sharksystem.sharknet.api.Content;
+import net.sharksystem.sharknet.api.ImplContent;
+import net.sharksystem.sharknet.api.Profile;
+import net.sharksystem.sharknet.javafx.context.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -25,7 +33,13 @@ public class ImageManager {
 	 ******************************************************************************/
 
 	private Logger Log = LoggerFactory.getLogger(ImageManager.class);
-	private final static List<String> SUPPORTED_FORMATS = Arrays.asList("png", "jpg", "jpeg", "bmp");
+	private final static List<String> SUPPORTED_FORMATS = Arrays.asList(
+		"image/png",
+		"image/jpg",
+		"image/jpeg",
+		"image/bmp",
+		"image/x-windows-bmp"
+	);
 
 	/******************************************************************************
 	 *
@@ -60,10 +74,8 @@ public class ImageManager {
 	 *
 	 * @param content the content to read from
 	 * @return a optional which contains the image if content is not null and readable.
-     */
+	 */
 	public Optional<Image> readImageFrom(Content content) {
-		//TODO: check mime type
-		//TODO: test image object caching with changed profile image
 
 		if (alreadyLoadedContentImages.containsKey(content)) {
 			Log.debug("Load image from cache: " + content);
@@ -88,6 +100,27 @@ public class ImageManager {
 		return Optional.empty();
 	}
 
+	public void writeImageToContent(Image image, Profile owner) {
+		try {
+			final BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
+			final InMemoInformation information = new InMemoInformation();
+			final Content content = new ImplContent(information, owner);
+
+			information.setContentType("image/png");
+			int sizeInBytes = bufferedImage.getRaster().getDataBuffer().getSize();
+			final ByteArrayOutputStream bos = new ByteArrayOutputStream(sizeInBytes);
+
+			ImageIO.write(bufferedImage, "png", bos);
+			information.setContent(bos.toByteArray());
+
+			owner.getContact().setPicture(content);
+		} catch (IOException e) {
+			Log.warn("Could not write image to content", e);
+		}
+	}
+
+
+
 	/**
 	 * Checks if content contains a image with a supported format.
 	 *
@@ -101,7 +134,7 @@ public class ImageManager {
 	 *
 	 * @param content content to check for
 	 * @return true if the content contains a image with a supported format.
-     */
+	 */
 	public boolean isImage(Content content) {
 		String type = Objects.toString(content.getMimeType(), "NULL");
 		if(SUPPORTED_FORMATS.contains(type)) return true;
@@ -109,21 +142,5 @@ public class ImageManager {
 		Log.warn("Content doesn't contains a image, invalid type: '" + type + "'");
 		return false;
 	}
-
-	/**
-	 * Writes a image synchronously to a {@link OutputStream} in specified image format.
-	 *
-	 * @param image the image object to write
-	 * @param targetFormat the target format in which the image is written to the stream
-	 * @param out a stream which receives the formatted image data
-	 * @throws IOException
-     */
-	public void write(Image image, String targetFormat, OutputStream out) throws IOException {
-		// TODO: discuss content saving
-		// TODO: writing should not happen in the gui thread
-		BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
-		ImageIO.write(bufferedImage, targetFormat, out);
-	}
-
 
 }
