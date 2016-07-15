@@ -55,6 +55,7 @@ public class ImplProfile implements Profile {
 
 	@Override
 	public Setting getSettings() {
+		if(setting == null) setting = new ImplSetting(this);
 		return setting;
 	}
 
