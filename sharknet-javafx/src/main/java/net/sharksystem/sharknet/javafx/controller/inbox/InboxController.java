@@ -220,8 +220,8 @@ public class InboxController extends AbstractController  {
 		}
 	}
 
-	private Content createMessageContent(String message) {
-		Content content = new ImplContent(message);
+	private Content createMessageContent(String message, Profile profile) {
+		Content content = new ImplContent(message, profile);
 		return content;
 	}
 
@@ -291,7 +291,7 @@ public class InboxController extends AbstractController  {
 		if (!message.trim().isEmpty()) {
 			Profile myProfile =  sharkNet.getMyProfile();
 			Contact contact = myProfile.getContact();
-			Content content = createMessageContent(message);
+			Content content = createMessageContent(message, myProfile);
 
 			// Build interest object which contains all interests
 			Interest interest = new ImplInterest(contact);
