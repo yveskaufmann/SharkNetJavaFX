@@ -508,13 +508,8 @@ public class ChatController extends AbstractController implements ChatListener, 
 					//hatWindowListView.getItems().add(msg);
 					ChatBox chatmsg = new ChatBox(msg);
 					// bugfix -> scroll to end of chatlist
-					chatmsg.heightProperty().addListener(new ChangeListener() {
-
-						@Override
-						public void changed(ObservableValue observable, Object oldvalue, Object newValue) {
-
-							scrollPaneChat.setVvalue((Double) newValue);
-						}
+					chatmsg.heightProperty().addListener((observable, oldValue, newValue) -> {
+						scrollPaneChat.setVvalue((Double) newValue);
 					});
 					chatmsg.setOnMouseEntered(event -> {
 						selectedMessage = chatmsg.getMessage();
