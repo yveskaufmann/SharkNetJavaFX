@@ -4,10 +4,7 @@ import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -86,6 +83,7 @@ public class CreateProfileController extends AbstractController{
 			onPictureClick();
 			event.consume();
 		});
+		Tooltip.install(imageViewPicture, new Tooltip(getString("register.pic")));
 	}
 
 	private void onPictureClick() {
@@ -119,7 +117,7 @@ public class CreateProfileController extends AbstractController{
 			return;
 		}
 		// if user wants to use password, check if they are identical
-		if (passwordFieldPass.getText().length() > 0 && passwordFieldPassRepeat.getText().length() > 0) {
+		if (passwordFieldPass.getText().length() > 0 || passwordFieldPassRepeat.getText().length() > 0) {
 			if (!passwordFieldPass.getText().equals(passwordFieldPassRepeat.getText())) {
 				Alert alert = new Alert(Alert.AlertType.ERROR);
 				alert.setTitle(getString("login.profile.error"));

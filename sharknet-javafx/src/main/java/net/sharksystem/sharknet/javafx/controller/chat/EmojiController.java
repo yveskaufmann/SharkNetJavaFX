@@ -4,6 +4,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -11,6 +12,7 @@ import javafx.stage.Stage;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +52,11 @@ public class EmojiController extends AbstractController {
 				stage.hide();
 			}
 		});
+
+		InputStream in = App.class.getResourceAsStream("images/shark-icon256x256.png");
+		if (in != null) {
+			stage.getIcons().add(new Image(in));
+		}
 
 		emoji = Emoji.getInstance();
 		emojis = emoji.getEmojis();

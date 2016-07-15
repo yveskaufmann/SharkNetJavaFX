@@ -190,7 +190,8 @@ public class ChatController extends AbstractController implements ChatListener, 
 	 * triggered by pressing "DEL", message is selected via hover
 	 */
 	private void onMessageDelete() {
-		if (selectedMessage != null) {
+		if (selectedMessage != null
+			&& !selectedMessage.getContent().getMessage().equals(":datedivider:")) {
 			// delete msg dialog
 			Alert alert = new Alert(Alert.AlertType.WARNING);
 			alert.setTitle("Delete Message");
@@ -251,7 +252,8 @@ public class ChatController extends AbstractController implements ChatListener, 
 		// if user wants to send attachment
 		if (activeChat != null && attachment != null) {
 			// append filename to chat message
-			attachment.setMessage(textFieldMessage.getText() + "<" + attachment.getFileName() + ">");
+			//attachment.setMessage(textFieldMessage.getText() + "<" + attachment.getFileName() + ">");
+			attachment.setMessage(textFieldMessage.getText() + ":attachmentplaceholder:");
 			// send message and attachment
 			activeChat.sendMessage(attachment);
 		}
@@ -360,6 +362,8 @@ public class ChatController extends AbstractController implements ChatListener, 
 				loadChat(activeChat);
 			} else {
 				chatWindowListView.getChildren().clear();
+				labelChatRecipients.setText("");
+				activeChat = null;
 			}
 		}
 	}
@@ -512,9 +516,10 @@ public class ChatController extends AbstractController implements ChatListener, 
 							scrollPaneChat.setVvalue((Double) newValue);
 						}
 					});
-					chatmsg.setOnMouseEntered( event -> {
+					chatmsg.setOnMouseEntered(event -> {
 						selectedMessage = chatmsg.getMessage();
 					});
+
 					chatWindowListView.getChildren().add(chatmsg);
 				}
 			}

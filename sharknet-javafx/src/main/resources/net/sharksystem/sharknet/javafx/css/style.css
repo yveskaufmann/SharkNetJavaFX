@@ -587,3 +587,8 @@
 .imageViewAdd:hover{
 	-fx-opacity: 100%;
 }
+
+.attachment {
+	-fx-text-fill: blue;
+	-fx-underline: true;
+}
