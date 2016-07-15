@@ -37,6 +37,20 @@ public class ImplContent implements Content {
 		this.owner = owner;
 	}
 
+	@Override
+	public boolean setInputstream(InputStream is){
+		int isSize = 0;
+		try {
+				isSize = getLengthOfIS(is);
+				if(isSize <= (owner.getSettings().getMaxFileSize()*1024 *1024)){
+					sharkFile = new InMemoInformation();
+					sharkFile.setContent(is, getLengthOfIS(is));
+					return true;
+				}else return false;
+			} catch (IOException e) {
+				return false;
+			}
+	}
 
 	@Override
 	public boolean setFile(File f){

@@ -11,11 +11,17 @@ import java.io.*;
 public interface Content {
 
 	/**
-	 * Add a File to the Content
+	 * Add a File to the Content, returns true if the Inputstream got saved, false if the Inputstream was bigger than maxfilesize
 	 * @param f
      * @return
      */
 	public boolean setFile(File f);
+
+	/**
+	 * Add a File as Inputstream to the Content, returns true if the Inputstream got saved, false if the Inputstream was bigger than maxfilesize
+	 * @param is
+     */
+	public boolean setInputstream(InputStream is);
 
 	/**
 	 * Returns a Outputstream of the File
