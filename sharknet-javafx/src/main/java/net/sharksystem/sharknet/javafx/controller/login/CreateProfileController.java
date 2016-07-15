@@ -20,6 +20,7 @@ import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import static net.sharksystem.sharknet.javafx.i18n.I18N.getString;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.function.Consumer;
 
 
@@ -166,19 +167,24 @@ public class CreateProfileController extends AbstractController{
 		// if picture is set and loaded to stream
 		if (in != null) {
 			// extract extension
-			String extension = "jpg";
 			if (profileFile != null) {
-				int i = profileFile.getPath().lastIndexOf('.');
-				if (i > 0) {
-					extension = profileFile.getPath().substring(i + 1);
+				Content picture = new ImplContent("", sharkNetModel.getMyProfile());
+				picture.setFile(profileFile);
+				String mimeType = null;
+				try {
+					mimeType = Files.probeContentType(profileFile.toPath());
+					picture.setMimeType(mimeType);
+					// add the picture to contact
+					p.getContact().setPicture(picture);
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-				// create content for the picture
-				Content pic = new ImplContent(in, extension, profileFile.getName());
-				// add the picture to contact
-				p.getContact().setPicture(pic);
+
 			}
 			else {
-				Content pic = new ImplContent(in, extension, "profile placeholder");
+				Content pic = new ImplContent("", sharkNetModel.getMyProfile());
+				pic.setInputstream(in);
+				pic.setMimeType("image/jpeg");
 				// add the picture to contact
 				p.getContact().setPicture(pic);
 			}
