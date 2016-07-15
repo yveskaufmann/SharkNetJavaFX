@@ -13,6 +13,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import net.sharkfw.knowledgeBase.inmemory.InMemoInformation;
 import net.sharksystem.sharknet.api.*;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
@@ -171,10 +172,16 @@ public class ChatController extends AbstractController implements ChatListener, 
 		// hidden label to trigger new message event
 		labelNewMsgEvent.setOnMouseClicked(event -> {
 			if (activeChat != null) {
-				Message m = new ImplMessage(new ImplContent("Das ist eine neue Nachricht. Bla blub keks tralalalalalala wer wie wo was der die das bla blub keks"), activeChat.getContacts(), activeChat.getContacts().get(0), sharkNetModel.getMyProfile());
+				Message m = new ImplMessage(new ImplContent("Das ist eine neue Nachricht. Bla blub keks tralalalalalala wer wie wo was der die das bla blub keks", sharkNetModel.getMyProfile()), activeChat.getContacts(), activeChat.getContacts().get(0), sharkNetModel.getMyProfile());
 				receivedMessage(m);
 			}
 		});
+		refreshChats();
+		// prevent horizontal scrollbar
+		scrollPaneChat.setFitToWidth(true);
+	}
+
+	public void refreshChats() {
 		// load all chats into chathistorylistview
 		loadChatHistory();
 		// load first chat from history if there is one
@@ -182,8 +189,6 @@ public class ChatController extends AbstractController implements ChatListener, 
 			activeChat = chatHistoryListView.getItems().get(0);
 			loadChat(activeChat);
 		}
-		// prevent horizontal scrollbar
-		scrollPaneChat.setFitToWidth(true);
 	}
 
 	/**
@@ -233,8 +238,10 @@ public class ChatController extends AbstractController implements ChatListener, 
 						extension = file.getPath().substring(i + 1);
 					}
 					// create attachment object
-					// ToDo: set mimetype
-					Content attachment = new ImplContent(fileAttachment, extension, file.getName());
+					Content attachment = new ImplContent("", sharkNetModel.getMyProfile());
+					attachment.setFile(file);
+					attachment.setFilename(file.getName());
+					attachment.setMimeType(mimeType);
 					sendAttachment(attachment);
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
@@ -305,12 +312,15 @@ public class ChatController extends AbstractController implements ChatListener, 
 			File file = fileChooser.showOpenDialog(stage);
 			// if a file is selected
 			if (file != null) {
+				Content picture = new ImplContent("", sharkNetModel.getMyProfile());
+				picture.setFile(file);
 				try {
-					InputStream in = new BufferedInputStream(new FileInputStream(file.getAbsolutePath()));
-					activeChat.setPicture(new ImplContent(in, "jpg", "grppicture"));
+					String mimeType = Files.probeContentType(file.toPath());
+					picture.setMimeType(mimeType);
+					activeChat.setPicture(picture);
 					imageManager.readImageFrom(activeChat.getPicture()).ifPresent(imageViewContactProfile::setImage);
 					loadChatHistory();
-				} catch (FileNotFoundException e) {
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
@@ -384,7 +394,8 @@ public class ChatController extends AbstractController implements ChatListener, 
 		if (activeChat != null) {
 			if (textFieldMessage.getText().length() > 0){
 				// just send chat message
-				activeChat.sendMessage(new ImplContent(null, "", "", textFieldMessage.getText()));
+				Content msg = new ImplContent(textFieldMessage.getText(), sharkNetModel.getMyProfile());
+				activeChat.sendMessage(msg);
 				loadChat(activeChat);
 				//chatHistoryListView.refresh();
 				loadChatHistory();
@@ -528,7 +539,7 @@ public class ChatController extends AbstractController implements ChatListener, 
 	 */
 	private List<List<Message>> insertDateDivider(List<List<Message>> list) {
 		for (List<Message> partList : list) {
-			Message divider = new ImplMessage(new ImplContent(":datedivider:"), partList.get(0).getTimestamp(), null, null, null, false, false);
+			Message divider = new ImplMessage(new ImplContent(":datedivider:", sharkNetModel.getMyProfile()), partList.get(0).getTimestamp(), null, null, null, false, false);
 			partList.add(0, divider);
 		}
 		return list;

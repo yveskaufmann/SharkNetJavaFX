@@ -113,7 +113,7 @@ public class ChatBox extends HBox {
 				onVote();
 			}
 			// if msg contains attachment
-			else if (msg.getContent().getFileName() != null && !msg.getContent().getFileName().equals("")) {
+			else if (msg.getContent().getInformationFile() != null) {
 				onAttachment();
 			}
 			// if it's just a simple message
