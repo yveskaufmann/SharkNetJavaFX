@@ -244,7 +244,7 @@ public class ChatBox extends HBox {
 		Label questionLabel = new Label();
 		questionLabel.setMaxHeight(100);
 		questionLabel.setPrefWidth(300);
-		questionLabel.setText(msg.getContent().getVoting().getQuestion());
+		questionLabel.setText("Frage: " + msg.getContent().getVoting().getQuestion());
 		questionLabel.setWrapText(true);
 		grid.add(labelSender, 0, 0);
 		grid.add(questionLabel, 1, 0);
@@ -265,15 +265,12 @@ public class ChatBox extends HBox {
 			if (msg.getContent().getVoting().isSingleqoice()) {
 				RadioButton rb = new RadioButton();
 				rb.setUserData(pair.getKey());
-				rb.selectedProperty().addListener(new ChangeListener<Boolean>() {
-					@Override
-					public void changed(ObservableValue<? extends Boolean> obs, Boolean wasPreviouslySelected, Boolean isNowSelected) {
-						HashMap<String, Contact> map = new HashMap<>();
-						String answer = (String) rb.getUserData();
-						if (sharkNetModel.getMyProfile() != null && sharkNetModel.getMyProfile().getContact() != null) {
-							map.put(answer, sharkNetModel.getMyProfile().getContact());
-							msg.getContent().getVoting().vote(map);
-						}
+				rb.selectedProperty().addListener( (observable, oldValue, newValue) -> {
+					HashMap<String, Contact> map = new HashMap<>();
+					String answer = (String) rb.getUserData();
+					if (sharkNetModel.getMyProfile() != null && sharkNetModel.getMyProfile().getContact() != null) {
+						map.put(answer, sharkNetModel.getMyProfile().getContact());
+						msg.getContent().getVoting().vote(map);
 					}
 				});
 				rb.setToggleGroup(toggle);
