@@ -213,40 +213,18 @@ public class ImplContent implements Content {
 
 	@Deprecated
 	public ImplContent(InputStream file, String fileExtension, String filename){
-
-		if(file != null) {
-			sharkFile = new InMemoInformation();
-			try {
-				sharkFile.setContent(file, getLengthOfIS(file));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			sharkFile.setContentType(fileExtension);
-		}
-
+		setInputstream(file);
 		sharkFile.setContentType(fileExtension);
 		setFilename(filename);
 		this.message = null;
-
 	}
 
 	@Deprecated
 	public ImplContent(InputStream file, String fileExtension, String filename, String message){
-
-		if(file != null) {
-			sharkFile = new InMemoInformation();
-			try {
-				sharkFile.setContent(file, getLengthOfIS(file));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-			sharkFile.setContentType(fileExtension);
-		}
+		setInputstream(file);
 		sharkFile.setContentType(fileExtension);
 		setFilename(filename);
 		this.message = message;
-
 	}
 
 }
