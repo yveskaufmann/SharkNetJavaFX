@@ -187,11 +187,16 @@ public class ContactController extends AbstractController implements ContactList
 		});
 	}
 
-
+	@Override
+	public void onResume() {
+		// Will be triggered before this view becomes visible,
+		// which ensures that the data is reloaded when the user
+		// re/opens the contact list.
+		loadEntries();
+	}
 
 	@Override
 	protected void onFxmlLoaded() {
-		loadEntries();
 
 		// Reaktion auf Klick auf Eintag in der Kontaktliste
 		contactListView.setOnMouseClicked(event -> {

@@ -71,6 +71,11 @@ public class InboxController extends AbstractController  {
 	private Set<TXSemanticTag> tagsForNewFeed = FXCollections.observableSet();
 	private Interest filterInterestObject;
 
+	/**
+	 * Determines if interest should be loaded
+	 */
+	private boolean isTagListDirty = true;
+
 	/******************************************************************************
 	 *
 	 * FXML Fields
@@ -177,6 +182,7 @@ public class InboxController extends AbstractController  {
 
 	@Override
 	public void onResume() {
+		isTagListDirty = true;
 		loadEntries();
 		loadInterests();
 		inboxListView.resumeUpdate();
@@ -237,7 +243,7 @@ public class InboxController extends AbstractController  {
 	 * Controls if tags should be reloaded,
 	 * this is the case when new tags are created by the user.
 	 */
-	private boolean isTagListDirty = true;
+
 	private ObservableList<TXSemanticTag> loadedTagList = FXCollections.observableArrayList();
 	private Callback<AutoCompletionBinding.ISuggestionRequest, Collection<TXSemanticTag>> getTagSuggestionRequestCollectionCallback() {
 		return param -> {

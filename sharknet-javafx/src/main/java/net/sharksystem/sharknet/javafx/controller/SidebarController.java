@@ -3,7 +3,6 @@ package net.sharksystem.sharknet.javafx.controller;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import net.sharksystem.sharknet.api.Contact;
@@ -14,6 +13,7 @@ import net.sharksystem.sharknet.javafx.controller.chat.ChatController;
 import net.sharksystem.sharknet.javafx.controller.contactlist.ContactController;
 import net.sharksystem.sharknet.javafx.controller.inbox.InboxController;
 import net.sharksystem.sharknet.javafx.controller.profile.ProfileController;
+import net.sharksystem.sharknet.javafx.controller.profile.ProfileEvent;
 import net.sharksystem.sharknet.javafx.controls.Navigation;
 import net.sharksystem.sharknet.javafx.controls.RoundImageView;
 import net.sharksystem.sharknet.javafx.services.ImageManager;
@@ -58,6 +58,8 @@ public class SidebarController extends AbstractController {
 
 	}
 
+
+
 	/**
 	 * Called when the fxml file was loaded
 	 */
@@ -77,23 +79,24 @@ public class SidebarController extends AbstractController {
 		profileImage.setOnMouseClicked(this::goToProfileHandler);
 		profileUsername.setOnMouseClicked(this::goToProfileHandler);
 		profileEmail.setOnMouseClicked(this::goToProfileHandler);
-		readProfileInformation();
+		reloadProfile();
 	}
 
 	private void goToProfileHandler(MouseEvent e) {
 		frontController.goToView(ProfileController.class);
 	}
 
-	private void changeProfileImage(Image image) {
-		// sidebarProfileImage.setImage(image);
-		// TODO: save in profile
+	public void reloadProfile() {
+		final Profile profile = sharkNet.getMyProfile();
+		readProfile(profile);
 	}
 
-	private void readProfileInformation() {
-		Profile profile = sharkNet.getMyProfile();
+	private void readProfile(Profile profile) {
+
 		Contact contact = profile.getContact();
 		profileUsername.setText(contact.getNickname());
 		profileEmail.setText(contact.getEmail());
 		imageManager.readImageFrom(profile.getContact().getPicture()).ifPresent((image -> profileImage.setImage(image)));
 	}
+
 }

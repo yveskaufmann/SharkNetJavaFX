@@ -176,7 +176,6 @@ public class ChatController extends AbstractController implements ChatListener, 
 				receivedMessage(m);
 			}
 		});
-		refreshChats();
 		// prevent horizontal scrollbar
 		scrollPaneChat.setFitToWidth(true);
 	}
@@ -189,6 +188,14 @@ public class ChatController extends AbstractController implements ChatListener, 
 			activeChat = chatHistoryListView.getItems().get(0);
 			loadChat(activeChat);
 		}
+	}
+
+	@Override
+	public void onResume() {
+		// Will be triggered before this view becomes visible,
+		// which ensures that all chats are reloaded when the user
+		// re/opens the chat view.
+		refreshChats();
 	}
 
 	/**

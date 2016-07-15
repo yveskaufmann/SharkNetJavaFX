@@ -21,6 +21,7 @@ import net.sharksystem.sharknet.javafx.controller.chat.ChatController;
 import net.sharksystem.sharknet.javafx.controller.contactlist.ContactController;
 import net.sharksystem.sharknet.javafx.controller.inbox.InboxController;
 import net.sharksystem.sharknet.javafx.controller.profile.ProfileController;
+import net.sharksystem.sharknet.javafx.controller.profile.ProfileEvent;
 import net.sharksystem.sharknet.javafx.i18n.I18N;
 import net.sharksystem.sharknet.javafx.services.ReleaseManager;
 import net.sharksystem.sharknet.javafx.utils.controller.*;
@@ -224,6 +225,12 @@ public class FrontController extends AbstractWindowController {
 
 		optionsBurger.setOnMouseClicked((e) -> {
 			toolbarPopup.show(JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT, -12, 15);
+		});
+
+		getRoot().addEventHandler(ProfileEvent.CHANGED, event -> {
+			sidebarController.reloadProfile();
+			// the event has already traversed the whole scene
+			event.consume();
 		});
 
 		logout.setOnMouseClicked(this::onLogout);
