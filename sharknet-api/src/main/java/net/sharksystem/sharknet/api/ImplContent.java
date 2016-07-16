@@ -50,6 +50,7 @@ public class ImplContent implements Content {
 			} catch (IOException e) {
 				return false;
 			}
+
 	}
 
 	@Override
@@ -69,6 +70,7 @@ public class ImplContent implements Content {
 
 		if(bFile.length <= (owner.getSettings().getMaxFileSize()*1024 *1024)){
 			sharkFile = new InMemoInformation(bFile);
+			setFilename(f.getName());
 			return true;
 		}
 		else return false;

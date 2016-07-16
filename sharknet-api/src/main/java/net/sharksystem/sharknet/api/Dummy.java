@@ -65,20 +65,6 @@ public class Dummy {
 		Contact bob = bob_p.getContact();
 
 
-		InputStream in = null;
-		ClassLoader cl = Thread.currentThread().getContextClassLoader();
-
-	/*	in = cl.getResourceAsStream("Alice.jpg");
-		Content alicepic = new ImplContent(in, "jpg", "Alice profile picture");
-		alice.setPicture(alicepic);
-
-		in = cl.getResourceAsStream("Bob.jpg");
-		Content bobpic = new ImplContent(in, "jpg", "Bob profile picture");
-		bob.setPicture(bobpic);
-*/
-
-
-
 		//Profilbilder von Alice und Bob setzen
 
 		File filealice = new File("sharknet-api\\src\\main\\resources\\Alice.jpg");
