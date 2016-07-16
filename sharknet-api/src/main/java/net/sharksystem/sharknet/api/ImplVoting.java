@@ -57,21 +57,33 @@ public class ImplVoting implements Voting{
 	}
 
 	@Override
-	public void vote(HashMap<String, Contact> votes){
+	public boolean vote(HashMap<String, Contact> votes){
+		if(isSingleqoice()){
+			Collection<Contact> contactColl = votes.values();
+			if(contactColl.size() > 1 ){
+				return false;
+			}
+			if(contactColl.toArray()[0] != null){
+				if(alreadyVoted((Contact)contactColl.toArray()[0])){
+					return false;
+				}
+			}
+		}
 		Iterator it = votes.entrySet().iterator();
 		while(it.hasNext()){
 			Map.Entry pair = (Map.Entry)it.next();
 			Contact c = (Contact)pair.getValue();
-			if(c != null){
-				if(alreadyVoted(c)){
-					break;
+			String a = (String)pair.getKey();
+			if(c != null) {
+				if (this.answers.get(a).contains(c)) {
+					return false;
+				} else {
+					this.answers.get(a).add(c);
 				}
-				else{
-					this.answers.get((String)pair.getKey()).add(c);
-				}
-
 			}
+
 		}
+		return true;
 	}
 
 	@Override

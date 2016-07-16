@@ -50,6 +50,7 @@ public class ImplContent implements Content {
 			} catch (IOException e) {
 				return false;
 			}
+
 	}
 
 	@Override
@@ -69,6 +70,7 @@ public class ImplContent implements Content {
 
 		if(bFile.length <= (owner.getSettings().getMaxFileSize()*1024 *1024)){
 			sharkFile = new InMemoInformation(bFile);
+			setFilename(f.getName());
 			return true;
 		}
 		else return false;
@@ -205,27 +207,6 @@ public class ImplContent implements Content {
 		return buf.length;
 	}
 
-
-	@Deprecated
-	public ImplContent (String message){
-		this.message = message;
-	}
-
-	@Deprecated
-	public ImplContent(InputStream file, String fileExtension, String filename){
-		setInputstream(file);
-		sharkFile.setContentType(fileExtension);
-		setFilename(filename);
-		this.message = null;
-	}
-
-	@Deprecated
-	public ImplContent(InputStream file, String fileExtension, String filename, String message){
-		setInputstream(file);
-		sharkFile.setContentType(fileExtension);
-		setFilename(filename);
-		this.message = message;
-	}
 
 }
 

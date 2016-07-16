@@ -65,20 +65,6 @@ public class Dummy {
 		Contact bob = bob_p.getContact();
 
 
-		InputStream in = null;
-		ClassLoader cl = Thread.currentThread().getContextClassLoader();
-
-	/*	in = cl.getResourceAsStream("Alice.jpg");
-		Content alicepic = new ImplContent(in, "jpg", "Alice profile picture");
-		alice.setPicture(alicepic);
-
-		in = cl.getResourceAsStream("Bob.jpg");
-		Content bobpic = new ImplContent(in, "jpg", "Bob profile picture");
-		bob.setPicture(bobpic);
-*/
-
-
-
 		//Profilbilder von Alice und Bob setzen
 
 		File filealice = new File("sharknet-api\\src\\main\\resources\\Alice.jpg");
@@ -99,6 +85,8 @@ public class Dummy {
 		Contact alice_bob = s.newContact(bob.getNickname(), bob.getUID(), bob.getPublicKey());
 		Contact alice_charles = s.newContact("charles", "charlesuid", "charlespublickey");
 		Contact alice_dean = s.newContact("dean", "deanuid", "deanpublickey");
+		Contact alice_erica = s.newContact("erica", "ericauid", "ericapublickey");
+		Contact alice_frank = s.newContact("frank", "frankuid", "frankpublickey");
 
 		//Letzter Wifi-Kontakt mit Charles setzen
 		alice_charles.setLastWifiContact(timenow);
@@ -124,6 +112,10 @@ public class Dummy {
 		//1. Kontaktlisten anlegen
 		List<Contact> recipients1 = new ArrayList<>();
 		recipients1.add(bob);
+		recipients1.add(alice_charles);
+		recipients1.add(alice_dean);
+		recipients1.add(alice_erica);
+		recipients1.add(alice_frank);
 		List<Contact> recipients2 = new ArrayList<>();
 		recipients2.add(alice_charles);
 		List<Contact> recipients3 = new ArrayList<>();
@@ -147,6 +139,37 @@ public class Dummy {
 		DummyDB.getInstance().addMessage(m2, chat1);
 		Message m3 = new ImplMessage(new ImplContent("answer 1", alice_p), timeTwoDayAgo, bob, s.getMyProfile(), recipients1, false, false);
 		DummyDB.getInstance().addMessage(m3, chat1);
+
+		// vote
+		Content content = new ImplContent("", alice_p);
+		Voting votedummy = content.addVoting("Wann soll die nächste WG-Party stattfinden?", false);
+		List<String> answersdummy = Arrays.asList(
+			"Montag",
+			"Dienstag",
+			"Mittwoch",
+			"Donnerstag",
+			"Freitag",
+			"Samstag",
+			"Sonntag"
+		);
+		votedummy.addAnswers(answersdummy);
+
+		HashMap<String, Contact> answersmap = votedummy.getAnswers();
+		answersmap.put(answersdummy.get(4), alice_p.getContact());
+		answersmap.put(answersdummy.get(5), alice_dean);
+		answersmap.put(answersdummy.get(6), alice_frank);
+		votedummy.vote(answersmap);
+
+		answersmap = votedummy.getAnswers();
+		answersmap.put(answersdummy.get(4), alice_bob);
+		answersmap.put(answersdummy.get(5), alice_erica);
+		votedummy.vote(answersmap);
+
+		answersmap = votedummy.getAnswers();
+		answersmap.put(answersdummy.get(4), alice_charles);
+		votedummy.vote(answersmap);
+
+		chat1.sendMessage(content);
 
 		//Senden von Nachrichten aus dem Chat 2 und 3
 		chat2.sendMessage(new ImplContent("bla bla bla", alice_p));
@@ -254,6 +277,7 @@ public class Dummy {
 
 
 		//Set Default Profile to alice
+
 		s.setProfile(alice_p, "");
 	}
 }
