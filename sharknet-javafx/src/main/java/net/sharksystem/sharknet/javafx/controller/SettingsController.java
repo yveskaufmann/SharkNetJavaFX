@@ -3,6 +3,8 @@ package net.sharksystem.sharknet.javafx.controller;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import net.sharksystem.sharknet.api.Contact;
+import net.sharksystem.sharknet.api.Interest;
 import net.sharksystem.sharknet.api.Setting;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
@@ -12,20 +14,24 @@ import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
 
+import java.util.LinkedList;
+import java.util.List;
+
 @Controller( title = "%sidebar.settings")
 public class SettingsController extends AbstractController {
-
-	private FrontController frontController;
 
 	@Inject
 	private SharkNet sharkNetModel;
 
+	private FrontController frontController;
 	private Setting settings;
 	private int MAXMBTEST;
 	private int switchOffWifiDirectAfterMin;
 	private boolean radar;
 	private String tcpAddress = "tcp://TEST....";
 	private int tcpPort = 6000;
+	private List<Contact> routingContacts = new LinkedList<>();
+	private List<Interest> routingInterest = new LinkedList<>();
 
 	@FXML
 	private Button settingsSaveButton;
@@ -60,6 +66,8 @@ public class SettingsController extends AbstractController {
 	@FXML
 	private TextField imapPasswordInput;
 	@FXML
+	private TextField maxMailSizeInput;
+	@FXML
 	private TextField maximumRouteSizeInput;
 	@FXML
 	private TextField wifiDirectOffMinutesInput;
@@ -80,21 +88,20 @@ public class SettingsController extends AbstractController {
 	@FXML
 	private RadioButton syncMediumSelectMail;
 	@FXML
-	private RadioButton syncMediumSelectNFC;
-	@FXML
 	private RadioButton syncMediumSelectTCP;
 	@FXML
 	private Label tcpStartedMessageLabel;
 
 
+	// Konstruktor
 	public SettingsController() {
 		super(App.class.getResource("views/settingsView.fxml"));
 		this.frontController = Controllers.getInstance().get(FrontController.class);
-
 	}
 
 
 
+	// Klick auf Speichern-Button
 	@FXML
 	private void onSettingsSaveButtonClick() {
 		//mailAddress = mailAddressInput.getText();
@@ -106,19 +113,22 @@ public class SettingsController extends AbstractController {
 		settings.setSmtpPassword(smtpPasswordInput.getText());
 		settings.setImapPassword(imapPasswordInput.getText());
 
+		// Maximale Mailgröße speichern
+		try {
+			settings.setMailboxSize(Integer.parseInt(maxMailSizeInput.getText()));
+		}catch (Exception e){e.printStackTrace();}
+
+		// Speichern, nach wie vielen Min. WiFi Direct ausgeschaltet werden soll
 		try{
 			// TODO
 			settings.setWifiON(Integer.parseInt(wifiDirectOffMinutesInput.getText()));
-		}catch (Exception e){
-			e.printStackTrace();
-		}
+		}catch (Exception e){e.printStackTrace();}
 
 		System.out.println("Mail address= "+ mailAddressInput.getText());
 		System.out.println("Port: " + portInput.getText());
 		System.out.println("SMTP= "+ smtpServerInput.getText());
 		System.out.println("IMAP= " + imapServerInput.getText());
 		System.out.println("Wifi Direct off after: " + wifiDirectOffMinutesInput.getText() + " min");
-
 
 		if(radarOnRadioButton.isSelected()){
 			settings.setRadarON(true);
@@ -128,6 +138,7 @@ public class SettingsController extends AbstractController {
 	}
 
 
+	// TCP-Server starten
 	@FXML
 	private void onStartTCPServerButtonClick(){
 		try{
@@ -138,6 +149,7 @@ public class SettingsController extends AbstractController {
 		startTCPserver(tcpPort);
 	}
 
+	// TCP-Server stoppen
 	@FXML
 	private void onStopTCPServerButtonClick(){
 		System.out.println("TCP server stopped");
@@ -145,11 +157,13 @@ public class SettingsController extends AbstractController {
 		tcpStartedMessageLabel.setText("");
 	}
 
+	// Routingliste für Kontakte öffnen
 	@FXML
 	private void onChooseContactsRoutingButtonClick(){
 		System.out.println("choose contacts for routing");
 		new ChooseRoutingContactsController();
 	}
+	// Routingliste für Interessen öffnen
 	@FXML
 	private void onChooseInterestsRoutingButtonClick(){
 		System.out.println("choose interests for routing");
@@ -157,7 +171,7 @@ public class SettingsController extends AbstractController {
 	}
 
 
-
+	// Routing-Einstellungen speichern
 	@FXML
 	private void onRoutingSaveButtonClick() {
 		//TODO
@@ -170,7 +184,6 @@ public class SettingsController extends AbstractController {
 		}
 		System.out.println("MaxMB= " + MAXMBTEST);
 
-
 		System.out.println("Routing-Einstellungen speichern");
 
 		if(maximumRouteSizeInput.getText() != "") {
@@ -182,6 +195,7 @@ public class SettingsController extends AbstractController {
 		}
 	}
 
+	// Sync starten
 	@FXML
 	private void onStartSyncButtonClick() {
 		if(settings.getBluetooth()){
@@ -192,10 +206,6 @@ public class SettingsController extends AbstractController {
 			System.out.println("Medium= Mail");
 			syncViaMail();
 		}
-		if(syncMediumSelectNFC.isSelected()){
-			System.out.println("Medium= NFC");
-			syncViaNFC();
-		}
 		if(settings.getWifi()){
 			System.out.println("Medium= Wifi");
 			syncViaWifi();
@@ -204,7 +214,6 @@ public class SettingsController extends AbstractController {
 			System.out.println("Medium= TCP");
 			syncViaTCP();
 		}
-
 
 
 		// TODO aus Model holen:
@@ -230,23 +239,20 @@ public class SettingsController extends AbstractController {
 	}
 
 
-	private void syncViaWifi(){}
-	private void syncViaNFC(){}
-	private void syncViaMail(){}
-	private void syncViaBluetooth(){}
-	private void syncViaTCP(){}
-	private void startTCPserver(int tcpPort){}
-	private void stopTCPserver(){}
 
 
 	@Override
 	protected void onFxmlLoaded() {
 		settings = sharkNetModel.getMyProfile().getSettings();
+		routingContacts = settings.getRoutingContacts();
+		routingInterest = settings.getRoutingInterests();
+
 
 		tcpStartedMessageLabel.setText("");
 
 		//TODO switchOffWifiDirectAfterMin = settings.getWiFiOffMin();
 
+		// Radar-Radiobutton setzen
 		if(settings.getRadarON()){
 			radarOnRadioButton.setSelected(true);
 		}else radarOffRadioButton.setSelected(true);
@@ -261,13 +267,10 @@ public class SettingsController extends AbstractController {
 		else if(settings.getWifi()){
 			syncMediumSelectWifi.setSelected(true);
 		}
-		else if(settings.getNfc()){
-			syncMediumSelectNFC.setSelected(true);
-		}
+
 		else if(settings.getTcp()){
 			syncMediumSelectTCP.setSelected(true);
 		}
-
 
 		// Textfelder und Checkboxen füllen
 		mailAddressInput.setText("" + settings.getEmail());
@@ -276,14 +279,25 @@ public class SettingsController extends AbstractController {
 		smtpServerInput.setText("" + settings.getSmtpServer());
 		smtpPasswordInput.setText("" + settings.getSmtpPassword());
 		imapPasswordInput.setText("" + settings.getImapPassword());
+		maxMailSizeInput.setText("" + settings.getMailboxSize());
 		maximumRouteSizeInput.setText("" + settings.getMaxFileSize());
 		wifiDirectOffMinutesInput.setText("" + switchOffWifiDirectAfterMin);
 
+		// Checkboxen setzen
 		if(settings.isSyncProfile()){ profileSyncCheckbox.setSelected(true); }
 		if(settings.isSyncConctact()){ contactsSyncCheckbox.setSelected(true); }
 		if(settings.isSyncTimeline()){	timelineSyncCheckbox.setSelected(true); }
 		if(settings.isSyncChat()){ messagesSyncCheckbox.setSelected(true); }
 		if(settings.isSyncHausaufgaben()){ homeworkSyncCheckbox.setSelected(true); }
-
 	}
+
+
+	// Methoden stubs für Sync
+	private void syncViaWifi(){}
+	private void syncViaMail(){}
+	private void syncViaBluetooth(){}
+	private void syncViaTCP(){}
+	private void startTCPserver(int tcpPort){}
+	private void stopTCPserver(){}
+
 }

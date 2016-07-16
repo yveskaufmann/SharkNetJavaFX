@@ -4,8 +4,14 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import net.sharkfw.knowledgeBase.SemanticTag;
+import net.sharkfw.knowledgeBase.TXSemanticTag;
+import net.sharkfw.knowledgeBase.Taxonomy;
 import net.sharksystem.sharknet.api.Contact;
+import net.sharksystem.sharknet.api.ImplInterest;
+import net.sharksystem.sharknet.api.Interest;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controls.RoundImageView;
@@ -42,7 +48,8 @@ public class ShowContactController extends AbstractController {
 	@FXML
 	private Button deleteContactButton;
 	@FXML
-	private RoundImageView profilePictureImageView;
+	//private RoundImageView profilePictureImageView;
+	private ImageView profilePictureImageView;
 	@FXML
 	private Label nameLabel;
 	@FXML
@@ -84,6 +91,16 @@ public class ShowContactController extends AbstractController {
 
 		imageManager.readImageFrom(contact.getPicture()).ifPresent(profilePictureImageView::setImage);
 
+		// Interessen in Ansicht laden
+		// Falls keine vorhanden:
+		if(contact.getInterests().getAllTopics().isEmpty()){
+			interestsListView.getItems().add("Keine Interessen vorhanden.");
+		}
+		//TODO?
+		for (SemanticTag s : contact.getInterests().getAllTopics()) {
+			interestsListView.getItems().add(s.getName());
+		}
+
 		nicknameTextField.setEditable(false);
 		//nameTextField.setEditable(false);
 		emailTextField.setEditable(false);
@@ -110,8 +127,12 @@ public class ShowContactController extends AbstractController {
 		saveButton.setOnMouseClicked(event -> {
 			contact.setNickname(nicknameTextField.getText());
 			contact.setEmail(emailTextField.getText());
-			stage.close();
+			//TODO contact.setTelephone
 
+			for (ContactListener cl : contactListeners) {
+				cl.onContactListChanged();
+			}
+			stage.close();
 		});
 
 		closeWindowButton.setOnMouseClicked(event -> {

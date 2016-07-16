@@ -7,11 +7,11 @@
 
 <AnchorPane maxHeight="Infinity" maxWidth="Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label styleClass="subheading" layoutX="45.0" layoutY="18.0" text="Hier kannst du festlegen, Daten welcher Kontakte weitergeleitet werden sollen." />
+      <Label layoutX="29.0" layoutY="18.0" styleClass="subheading" text="Hier kannst du festlegen, zu welchen Themen Beiträge weitergeleitet werden sollen." />
       <Label layoutX="59.0" layoutY="99.0" text="Routing erlaubt:" />
       <Label layoutX="431.0" layoutY="101.0" text="Routing verboten:" />
-      <ListView fx:id="allowedContactsListView" layoutX="31.0" layoutY="125.0" prefHeight="243.0" prefWidth="170.0" />
-      <ListView fx:id="deniedContactsListView" layoutX="402.0" layoutY="125.0" prefHeight="243.0" prefWidth="170.0" />
+      <ListView fx:id="allowedInterestsListView" layoutX="31.0" layoutY="125.0" prefHeight="243.0" prefWidth="170.0" />
+      <ListView fx:id="deniedInterestssListView" layoutX="402.0" layoutY="125.0" prefHeight="243.0" prefWidth="170.0" />
       <Button fx:id="allowButton" layoutX="244.0" layoutY="166.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="121.0" text="&lt;&lt; erlauben" />
       <Button fx:id="denyButton" layoutX="244.0" layoutY="206.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="121.0" text="verbieten &gt;&gt;" />
       <Button fx:id="okButton" layoutX="273.0" layoutY="359.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" text="OK" />

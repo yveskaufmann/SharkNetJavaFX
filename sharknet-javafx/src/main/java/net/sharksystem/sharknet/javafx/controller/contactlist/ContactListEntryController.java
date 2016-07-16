@@ -46,15 +46,9 @@ public class ContactListEntryController extends MediaListCellController<Contact>
 	@Override
 	protected void onItemChanged(Contact contact) {
 		contactImage.setImage(null);
-
 		contactName.setText("");
-
 		if (contact == null) return;
-
-
-		//Log.info("BILD:" + contact.getPicture());
 		imageManager.readImageFrom(contact.getPicture()).ifPresent(contactImage::setImage);
-
 		contactName.setText(contact.getNickname());
 	}
 }

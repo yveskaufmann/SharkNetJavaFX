@@ -8,6 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.Contact;
+import net.sharksystem.sharknet.api.ImplContact;
+import net.sharksystem.sharknet.api.Setting;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
@@ -16,9 +18,6 @@ import java.util.List;
 
 
 public class ChooseRoutingContactsController extends AbstractController {
-
-	//TODO Could not obtain root node??!?!?
-
 
 	@FXML
 	private ListView allowedContactsListView;
@@ -38,45 +37,49 @@ public class ChooseRoutingContactsController extends AbstractController {
 	private List<Contact> allowedContacts;
 	private List<Contact> deniedContacts;
 	private Stage stage;
+	private Setting settings;
 
 	public ChooseRoutingContactsController() {
 		super(App.class.getResource("views/routingContactsView.fxml"));
-
 		allowedContacts = new ArrayList<>();
 		deniedContacts = new ArrayList<>();
 		Parent root = super.getRoot();
 		stage = new Stage();
-		stage.setTitle("Für Routing zugelassene Kontakte");
-		stage.setScene(new Scene(root, 800, 600));
+		stage.setTitle("Fürs Routing zugelassene Kontakte");
+		stage.setScene(new Scene(root, 600, 400));
 		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
 		stage.show();
 	}
 
 	@Override
 	protected void onFxmlLoaded() {
+		this.settings = sharkNetModel.getMyProfile().getSettings();
 
 		loadContacts();
 
 		allowButton.setOnMouseClicked(event -> {
-			onAllowContact(allowedContactsListView.getSelectionModel().getSelectedIndex());
+			onAllowContact(deniedContactsListView.getSelectionModel().getSelectedIndex());
 			event.consume();
 		});
 
 		denyButton.setOnMouseClicked(event -> {
-			onDenyContact(deniedContactsListView.getSelectionModel().getSelectedIndex());
+			onDenyContact(allowedContactsListView.getSelectionModel().getSelectedIndex());
 			event.consume();
 		});
 
 		okButton.setOnMouseClicked(event -> {
 			event.consume();
+			stage.close();
 		});
 	}
 
 
 	private void onAllowContact(int selectedIndex){
 		if (selectedIndex >= 0) {
+			System.out.println("onAllowContact INDEX: "+ selectedIndex);
 			allowedContactsListView.getItems().add(deniedContacts.get(selectedIndex).getNickname());
 			allowedContacts.add(deniedContacts.get(selectedIndex));
+
 			deniedContactsListView.getItems().remove(selectedIndex);
 			deniedContacts.remove(selectedIndex);
 		}
@@ -84,8 +87,10 @@ public class ChooseRoutingContactsController extends AbstractController {
 
 	private void onDenyContact(int selectedIndex) {
 		if (selectedIndex >= 0) {
-			deniedContactsListView.getItems().add(allowedContacts.get(selectedIndex).getNickname());
+			System.out.println("DENY: " + selectedIndex);
 			deniedContacts.add(allowedContacts.get(selectedIndex));
+			deniedContactsListView.getItems().add(allowedContacts.get(selectedIndex).getNickname());
+
 			allowedContactsListView.getItems().remove(selectedIndex);
 			allowedContacts.remove(selectedIndex);
 		}
@@ -93,10 +98,17 @@ public class ChooseRoutingContactsController extends AbstractController {
 
 	private void loadContacts() {
 		allContacts = sharkNetModel.getContacts();
+		allowedContacts = settings.getRoutingContacts();
+
+		// Daten von diesen Kontakten weiterleiten
 		for (Contact c : allContacts) {
-			System.out.println(c.getNickname());
-			allowedContacts.add(c);
-			allowedContactsListView.getItems().add(c.getNickname());
+
+			if (allowedContacts.contains(c)) { allowedContactsListView.getItems().add(c.getNickname());	}
+			else{
+				deniedContactsListView.getItems().add(c.getNickname());
+				deniedContacts.add(c);
+			}
+
 		}
 	}
 }

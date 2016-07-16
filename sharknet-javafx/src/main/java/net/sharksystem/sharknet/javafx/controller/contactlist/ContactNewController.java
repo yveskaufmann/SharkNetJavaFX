@@ -12,7 +12,6 @@ import net.sharksystem.sharknet.api.Contact;
 import net.sharksystem.sharknet.api.ImplContact;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
-import net.sharksystem.sharknet.javafx.controller.SettingsController;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
 import javax.inject.Inject;

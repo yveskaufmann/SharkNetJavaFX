@@ -8,8 +8,6 @@ import java.util.List;
  * Created by ich on 08.07.16.
  */
 public interface ContactListener {
-
-	//void onContactListChanged(List<Contact> c);
 	void onContactListChanged();
 	void onContactDeleted(Contact c);
 }
