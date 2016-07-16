@@ -31,7 +31,7 @@ public class ImageManagerTest {
 	@Test
 	public void testReadImageFromValidContent() throws IOException {
 		Content validImage = Mockito.mock(Content.class);
-		Mockito.when(validImage.getMimeType()).thenReturn("jpg");
+		Mockito.when(validImage.getMimeType()).thenReturn("image/jpg");
 		Mockito.when(validImage.getInputstream()).thenReturn(App.class.getResource("images/profile-placeholder.jpg").openStream());
 
 		Optional<Image> image = imageManager.readImageFrom(validImage);
@@ -50,7 +50,7 @@ public class ImageManagerTest {
 	public void isImage() throws Exception {
 
 
-		String[] requiredSupportedTypes = {"bmp","jpg","jpeg","png"};
+		String[] requiredSupportedTypes = {"image/bmp","image/jpg","image/jpeg","image/png"};
 
 		for(String format : requiredSupportedTypes) {
 			Content content = Mockito.mock(Content.class);

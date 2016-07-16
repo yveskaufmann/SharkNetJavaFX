@@ -146,7 +146,8 @@ public class InboxEntryController extends MediaListCellController<Feed> {
 					String comment = messageTextfield.getText().trim();
 					if (!"".equals(comment)) {
 						messageTextfield.clear();
-						feed.newComment(new ImplContent(comment), sharkNet.getMyProfile().getContact());
+						Profile profile = sharkNet.getMyProfile();
+						feed.newComment(new ImplContent(comment, profile), profile.getContact());
 						reloadCommentsFeed(feed);
 						updateCommentsButton(feed);
 					}

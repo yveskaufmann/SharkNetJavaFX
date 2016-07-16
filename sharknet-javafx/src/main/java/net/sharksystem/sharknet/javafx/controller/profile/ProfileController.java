@@ -1,13 +1,17 @@
 package net.sharksystem.sharknet.javafx.controller.profile;
 
+import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import net.sharksystem.sharknet.api.Contact;
+import net.sharksystem.sharknet.api.Content;
 import net.sharksystem.sharknet.api.Profile;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
+import net.sharksystem.sharknet.javafx.context.ApplicationContext;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
 import net.sharksystem.sharknet.javafx.controller.interest.InterestsController;
 import net.sharksystem.sharknet.javafx.controls.RoundImageView;
@@ -70,9 +74,14 @@ public class ProfileController extends AbstractController {
 	@Override
 	protected void onFxmlLoaded() {
 		profileImageView.setOnMouseClicked(this::onImageChange);
-		loadData();
+		getRoot().addEventHandler(ProfileEvent.CHANGED, event -> loadData());
 	}
 
+	@Override
+	public void onResume() {
+		loadData();
+
+	}
 
 	/******************************************************************************
 	 *
@@ -83,6 +92,10 @@ public class ProfileController extends AbstractController {
 	private void loadData() {
 		Profile profile = getCurrentProfile();
 		Contact contact = profile.getContact();
+
+		nicknameLabel.setText(contact.getNickname());
+		nameLabel.setText(contact.getName());
+
 		imageManager.readImageFrom(contact.getPicture()).ifPresent(profileImageView::setImage);
 	}
 
@@ -106,7 +119,12 @@ public class ProfileController extends AbstractController {
 		Optional<Image> newImage = imageChooserDialog.showAndWait();
 		if (newImage.isPresent()) {
 			profileImageView.setImage(newImage.get());
+			Profile myProfile = sharkNet.getMyProfile();
+			imageManager.writeImageToContent(newImage.get(), myProfile);
+			myProfile.save();
+			getRoot().fireEvent(ProfileEvent.changed(myProfile));
 			Log.info("change profile image of {0}", getCurrentContact().getName());
+
 		}
 		e.consume();
 	}

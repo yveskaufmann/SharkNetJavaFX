@@ -28,7 +28,7 @@ public class Dummy {
 	public void fillWithDummyData(ImplSharkNet s){
 
 		//Variables for MimeType
-		String jpg = "jpg";
+		String jpg = "image/jpeg";
 
 
 		//Timestamps erzeugen um Messages und Feeds mit von der aktuellen Uhrzeit abweichend zu erzeugen
