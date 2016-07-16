@@ -208,27 +208,6 @@ public class ImplContent implements Content {
 	}
 
 
-	@Deprecated
-	public ImplContent (String message){
-		this.message = message;
-	}
-
-	@Deprecated
-	public ImplContent(InputStream file, String fileExtension, String filename){
-		setInputstream(file);
-		sharkFile.setContentType(fileExtension);
-		setFilename(filename);
-		this.message = null;
-	}
-
-	@Deprecated
-	public ImplContent(InputStream file, String fileExtension, String filename, String message){
-		setInputstream(file);
-		sharkFile.setContentType(fileExtension);
-		setFilename(filename);
-		this.message = message;
-	}
-
 }
 
 
