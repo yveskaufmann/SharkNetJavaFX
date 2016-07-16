@@ -4,10 +4,7 @@ import javafx.util.Pair;
 import net.sharkfw.security.key.SharkKeyGenerator;
 import net.sharkfw.security.key.SharkKeyPairAlgorithm;
 import net.sharkfw.system.Base64;
-import net.sharksystem.sharknet.api.Contact;
-import net.sharksystem.sharknet.api.ImplContact;
 
-import java.lang.reflect.Field;
 import java.security.*;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -24,7 +21,7 @@ import java.util.Date;
  */
 public class DummyKeyPairHelper {
 
-	private static final long AVG_SECONDS_PER_MONTH = 1000L * 60L * 60L * 24L * 30L;
+	private static final long AVG_MILLI_SECONDS_PER_MONTH = 1000L * 60L * 60L * 24L * 30L;
 
 	/**
 	 * Generates a dummy public and private key.
@@ -46,12 +43,24 @@ public class DummyKeyPairHelper {
 	public static void createNewKeyForContact(ImplContact contact) {
 		final Pair<PublicKey, PrivateKey> keyPair = generateNewKeyPair();
 		final String fingerprint = createFingerPrint(keyPair.getKey());
-		final Timestamp expirationDate = new Timestamp(new Date().getTime() + AVG_SECONDS_PER_MONTH * 6);
+		final Timestamp expirationDate = new Timestamp(new Date().getTime() + AVG_MILLI_SECONDS_PER_MONTH * 6);
 
 		contact.publicKeyFingerPrint = fingerprint;
 		contact.keyExpiration = expirationDate;
 		if (contact.publickey == null || contact.publickey.equals("")) {
-			contact.publickey = Base64.encodeBytes(keyPair.getKey().getEncoded());
+			String key = Base64.encodeBytes(keyPair.getKey().getEncoded());
+			StringBuilder newKey = new StringBuilder();
+			newKey.append("-----BEGIN PUBLIC KEY-----");
+			newKey.append("\n");
+			int keyLen = key.length();
+			for (int i = 0; i < keyLen; i += 72) {
+				int endIndex = (i + 72);
+				if (endIndex > keyLen) endIndex = keyLen;
+				newKey.append(key.substring(i, endIndex));
+				newKey.append("\n");
+			}
+			newKey.append("-----END-PUBLIC KEY-------");
+			contact.publickey = newKey.toString();
 		}
 	}
 
