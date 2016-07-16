@@ -199,10 +199,15 @@ public class Dummy {
 		Interest i2 = new ImplInterest(bob);
 		TXSemanticTag si3 = i2.addInterest("shark", "www.sharknet.de");
 
+		bob.getInterests().addInterest(si1);
+		bob.getInterests().addInterest(si2);
+		bob.getInterests().addInterest(si3);
+
+
 		//Feeds anlegen
 		Feed f1 = s.newFeed(new ImplContent("this is the fist feed of sharkNet", alice_p), i2, bob);
-		Feed f2 = s.newFeed(new ImplContent("sth about football", alice_p), i1, alice);
-		Feed f3 = s.newFeed(new ImplContent("football sucks", alice_p), i1, alice);
+		Feed f2 = s.newFeed(new ImplContent("i <3 football", alice_p), i1, alice);
+		Feed f3 = s.newFeed(new ImplContent("portugal is european champion", alice_p), i1, alice);
 
 		//Comments an die Fees anhängen
 		f1.newComment(new ImplContent("this is amazing", alice_p), alice);
