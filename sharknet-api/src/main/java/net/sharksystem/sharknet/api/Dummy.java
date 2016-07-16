@@ -110,35 +110,35 @@ public class Dummy {
 
 		//Anlegen von Chats
 		//1. Kontaktlisten anlegen
-		List<Contact> recipients1 = new ArrayList<>();
-		recipients1.add(bob);
-		recipients1.add(alice_charles);
-		recipients1.add(alice_dean);
-		recipients1.add(alice_erica);
-		recipients1.add(alice_frank);
-		List<Contact> recipients2 = new ArrayList<>();
-		recipients2.add(alice_charles);
-		List<Contact> recipients3 = new ArrayList<>();
-		recipients3.add(bob);
-		recipients3.add(alice_charles);
+		List<Contact> grouprecipients = new ArrayList<>();
+		grouprecipients.add(bob);
+		grouprecipients.add(alice_charles);
+		grouprecipients.add(alice_dean);
+		grouprecipients.add(alice_erica);
+		grouprecipients.add(alice_frank);
+		List<Contact> charlesrecipient = new ArrayList<>();
+		charlesrecipient.add(alice_charles);
+		List<Contact> bobandcharlesrecipients = new ArrayList<>();
+		bobandcharlesrecipients.add(bob);
+		bobandcharlesrecipients.add(alice_charles);
 
 		//2.Chats mit Kontaktlisten anelgen
-		Chat chat1 = s.newChat(recipients1);
-		Chat chat2  = s.newChat(recipients2);
-		Chat chat3  = s.newChat(recipients3);
+		Chat chatgroup = s.newChat(grouprecipients);
+		Chat chatcharles  = s.newChat(charlesrecipient);
+		Chat chatbobandcharles  = s.newChat(bobandcharlesrecipients);
 
 		//3. Senden von Nachrichten
-		chat1.sendMessage(new ImplContent("lorem ipsum", alice_p));
-		chat1.sendMessage(new ImplContent("bla bla bla", alice_p));
-		chat1.sendMessage(new ImplContent("fooo", alice_p));
+		chatgroup.sendMessage(new ImplContent("Hallo zusammen", alice_p));
+		chatgroup.sendMessage(new ImplContent("Eine tolle Idee", alice_p));
+		chatgroup.sendMessage(new ImplContent("Ich erstelle ein Umfage wann der beste Termin ist", alice_p));
 
 		//4. Nachrichten hinzufügen die Alice bekommen hat
-		Message m1 = new ImplMessage(new ImplContent("answer 3", alice_p), time5ago, bob, s.getMyProfile(), recipients1, false, false);
-		DummyDB.getInstance().addMessage(m1, chat1);
-		Message m2 = new ImplMessage(new ImplContent("answer 2", alice_p), timeOneDayAgo, bob, s.getMyProfile(), recipients1, false, false);
-		DummyDB.getInstance().addMessage(m2, chat1);
-		Message m3 = new ImplMessage(new ImplContent("answer 1", alice_p), timeTwoDayAgo, bob, s.getMyProfile(), recipients1, false, false);
-		DummyDB.getInstance().addMessage(m3, chat1);
+		Message m1 = new ImplMessage(new ImplContent("Wir wollen eine WG-Party veranstalten", alice_p), time5ago, bob, s.getMyProfile(), grouprecipients, false, false);
+		DummyDB.getInstance().addMessage(m1, chatgroup);
+		Message m2 = new ImplMessage(new ImplContent("Willkommen in unserer Gruppe", alice_p), timeOneDayAgo, bob, s.getMyProfile(), grouprecipients, false, false);
+		DummyDB.getInstance().addMessage(m2, chatgroup);
+		Message m3 = new ImplMessage(new ImplContent("Hallo zusammen", alice_p), timeTwoDayAgo, bob, s.getMyProfile(), grouprecipients, false, false);
+		DummyDB.getInstance().addMessage(m3, chatgroup);
 
 		// vote
 		Content content = new ImplContent("", alice_p);
@@ -169,17 +169,17 @@ public class Dummy {
 		answersmap.put(answersdummy.get(4), alice_charles);
 		votedummy.vote(answersmap);
 
-		chat1.sendMessage(content);
+		chatgroup.sendMessage(content);
 
 		//Senden von Nachrichten aus dem Chat 2 und 3
-		chat2.sendMessage(new ImplContent("bla bla bla", alice_p));
-		chat2.sendMessage(new ImplContent("arg", alice_p));
-		chat2.sendMessage(new ImplContent("lorem ipsum", alice_p));
-		chat3.sendMessage(new ImplContent("this is a group message", alice_p));
+		chatcharles.sendMessage(new ImplContent("Hallo Charles", alice_p));
+		chatcharles.sendMessage(new ImplContent("Wie geht es dir?", alice_p));
+		chatcharles.sendMessage(new ImplContent("Es freut mich das du auch bei SharkNet bist", alice_p));
+		chatbobandcharles.sendMessage(new ImplContent("Treffen wir uns in der Mensa?", alice_p));
 
 
 		//Setzen von Encryted und Signiert usw auf True
-		List<Message> chat1_m = chat1.getMessages(true);
+		List<Message> chat1_m = chatgroup.getMessages(true);
 		for(Message m : chat1_m){
 			m.setEncrypted(true);
 			m.setSigned(true);
@@ -226,7 +226,7 @@ public class Dummy {
 		List<Contact> recipients = new LinkedList<>();
 		recipients.add(peter);
 		Chat bob_peter = s.newChat(recipients);
-		Message m_peter_bob = new ImplMessage(new ImplContent("hallo bob", bob_p), time5ago, peter, s.getMyProfile(), recipients1, false, false);
+		Message m_peter_bob = new ImplMessage(new ImplContent("hallo bob", bob_p), time5ago, peter, s.getMyProfile(), grouprecipients, false, false);
 		DummyDB.getInstance().addMessage(m_peter_bob, bob_peter);
 		bob_peter.sendMessage(new ImplContent("hallo peter", bob_p));
 
@@ -272,8 +272,8 @@ public class Dummy {
 		TestListener foolistener = new TestListener();
 		s.addListener(alice_p, foolistener);
 
-		Message mlistener1 = new ImplMessage(new ImplContent("received through listener - bob to alice", bob_p), time5ago, bob, s.getMyProfile(), recipients1, false, false);
-		Message mlistener2 = new ImplMessage(new ImplContent("received through listener - alice to bob", bob_p), time5ago, alice, s.getMyProfile(), recipients2, false, false);
+		Message mlistener1 = new ImplMessage(new ImplContent("received through listener - bob to alice", bob_p), time5ago, bob, s.getMyProfile(), grouprecipients, false, false);
+		Message mlistener2 = new ImplMessage(new ImplContent("received through listener - alice to bob", bob_p), time5ago, alice, s.getMyProfile(), charlesrecipient, false, false);
 
 
 		s.informMessage(mlistener2);
