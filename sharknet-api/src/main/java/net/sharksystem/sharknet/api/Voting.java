@@ -43,7 +43,7 @@ public interface Voting {
 	 * add the contact to the answers they voted for
 	 * @param votes
      */
-	public void vote(HashMap<String, Contact> votes);
+	public boolean vote(HashMap<String, Contact> votes);
 
 	/**
 	 * Evaluates if the Contact already has voted
