@@ -1,10 +1,16 @@
 package net.sharksystem.sharknet.api;
 
+import javafx.util.Pair;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.security.KeyPair;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,13 +25,17 @@ public class ImplContact implements Contact, StudentContact {
 	String email;
 	String notes;
 	String uid;
-	String publickey;
 	Interest interest;
 	List<String> telephonnumber_list = new LinkedList<>();
 	Profile owner;
 	Content picture;
 	Timestamp lastWifiContact = null;
 	String grade, classSpecification;
+
+
+	String publickey;
+	Timestamp keyExpiration;
+	String publicKeyFingerPrint;
 
 
 	/**
@@ -40,6 +50,10 @@ public class ImplContact implements Contact, StudentContact {
 		this.publickey = publickey;
 		this.owner = owner;
 		this.interest = new ImplInterest(this);
+
+		// Dummy public key generation
+		DummyKeyPairHelper.createNewKeyForContact(this);
+
 		setDefaultPicture();
 		save();
 
@@ -56,6 +70,9 @@ public class ImplContact implements Contact, StudentContact {
 		this.publickey = publickey;
 		this.owner = owner;
 		this.picture = pic;
+
+		// Dummy public key generation
+		DummyKeyPairHelper.createNewKeyForContact(this);
 
 		if(interest == null) {
 			this.interest = new ImplInterest(this);
@@ -171,8 +188,13 @@ public class ImplContact implements Contact, StudentContact {
 
 	@Override
 	public Timestamp getPublicKeyExpiration() {
+		return keyExpiration;
 		//ToDo: Shark - get Expiration of Key
-		return null;
+	}
+
+	@Override
+	public String getPublicKeyFingerprint() {
+		return publicKeyFingerPrint;
 	}
 
 	@Override
@@ -256,4 +278,6 @@ public class ImplContact implements Contact, StudentContact {
 	public void setClassSpecification(String classSpecification) {
 		this.classSpecification = classSpecification;
 	}
+
+
 }
