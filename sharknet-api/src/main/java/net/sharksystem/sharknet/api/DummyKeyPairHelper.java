@@ -31,7 +31,7 @@ public class DummyKeyPairHelper {
      */
 	public static Pair<PublicKey, PrivateKey> generateNewKeyPair() {
 		// the key size can be low its only a demo key security doesn't matters here
-		final SharkKeyGenerator keyGenerator = new SharkKeyGenerator(SharkKeyPairAlgorithm.RSA, 2048);
+		final SharkKeyGenerator keyGenerator = new SharkKeyGenerator(SharkKeyPairAlgorithm.RSA, 512);
 		return new Pair<>(keyGenerator.getPublicKey(), keyGenerator.getPrivateKey());
 	}
 
