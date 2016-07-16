@@ -10,17 +10,17 @@
 <SectionPane text="%profile.publicKey.title" collapsible="false" xmlns="http://javafx.com/javafx/8.0.92"
              xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.sharksystem.sharknet.javafx.controller.profile.PublicKeyController">
     <VBox>
-        <Label text="%profile.publicKey.description"/>
+        <Label text="%profile.publicKey.description" style="-fx-padding: 5 0 5 0"/>
         <Separator orientation="HORIZONTAL" />
-        <HBox>
-            <Label text="%profile.publicKey.label"/>
+        <HBox spacing="5" style="-fx-padding: 15 0 0 0">
+            <Label text="%profile.publicKey.label" style="-fx-font-weight: bold"/>
             <Label fx:id="publicKeyField" />
         </HBox>
-        <HBox>
-            <Label text="%profile.publicKey.expirationLabel"/>
+        <HBox spacing="5">
+            <Label text="%profile.publicKey.expirationLabel" style="-fx-font-weight: bold"/>
             <Label fx:id="expirationField"/>
         </HBox>
-        <HBox spacing="5">
+        <HBox spacing="5" alignment="BASELINE_RIGHT">
             <JFXButton fx:id="generateNewPublicKey" text="%profile.publicKey.generate"/>
         </HBox>
     </VBox>
