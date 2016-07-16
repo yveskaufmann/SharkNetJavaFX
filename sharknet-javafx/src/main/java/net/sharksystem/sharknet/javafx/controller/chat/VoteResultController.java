@@ -62,6 +62,7 @@ public class VoteResultController extends AbstractController {
 			Iterator it = vote.getVotings().entrySet().iterator();
 			HashMap<String, Integer> resultMap = new HashMap<>();
 
+			// count the votings in a seperated map
 			while (it.hasNext()) {
 				Map.Entry pair = (Map.Entry)it.next();
 				String answer = pair.getKey().toString();
@@ -74,9 +75,8 @@ public class VoteResultController extends AbstractController {
 				}
 				resultMap.put(answer, count);
 			}
-
+			// add the result map to piechart
 			Iterator iterator = resultMap.entrySet().iterator();
-
 			while (iterator.hasNext()) {
 				Map.Entry pair = (Map.Entry)iterator.next();
 				String answer = pair.getKey().toString();
@@ -87,7 +87,7 @@ public class VoteResultController extends AbstractController {
 			pieChartView.setTitle(vote.getQuestion());
 			pieChartView.setLabelsVisible(true);
 			pieChartView.setLegendSide(Side.LEFT);
-
+			// caption for chart pies
 			pieChartView.getData().forEach(data ->
 					data.nameProperty().bind(
 						Bindings.concat(

@@ -98,7 +98,14 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 			labelNewMsgCount.setText(String.valueOf(newMsgCount));
 			labelNewMsgCount.setVisible(true);
 		}
-		String senders = String.join(", ", contactNames);
+		// if there are too many senders, just shorten the list
+		String senders = "";
+		if (contactNames.size() > 3) {
+			senders = String.join(", ", contactNames.subList(0,3));
+			senders += ", ...";
+		} else {
+			senders = String.join(", ", contactNames);
+		}
 		// set sender label
 		chatContacts.setText(senders);
 		if (chat.getMessages(false) != null && chat.getMessages(false).size() > 0) {

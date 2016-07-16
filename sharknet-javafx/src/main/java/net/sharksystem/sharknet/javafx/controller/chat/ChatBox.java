@@ -6,10 +6,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -237,6 +234,8 @@ public class ChatBox extends HBox {
 				voteResultController.drawChart();
 			}
 		});
+
+		Tooltip.install(this, new Tooltip(getString("chat.tooltip.votemsg")));
 
 		hboxMessage.getChildren().remove(labelMessage);
 		GridPane grid = new GridPane();
