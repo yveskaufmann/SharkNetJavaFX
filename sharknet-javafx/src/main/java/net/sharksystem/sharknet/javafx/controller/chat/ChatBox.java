@@ -231,16 +231,24 @@ public class ChatBox extends HBox {
 	 * if message contains any vote
 	 */
 	private void onVote() {
+		setOnMouseClicked(event -> {
+			if (event.getClickCount() == 2) {
+				VoteResultController voteResultController = new VoteResultController(msg.getContent().getVoting());
+				voteResultController.drawChart();
+			}
+		});
+
 		hboxMessage.getChildren().remove(labelMessage);
 		GridPane grid = new GridPane();
-		grid.getColumnConstraints().add(new ColumnConstraints(35));
+		grid.getColumnConstraints().add(new ColumnConstraints(60));
 		grid.getColumnConstraints().add(new ColumnConstraints(175));
 		// first row
 		grid.getRowConstraints().add(new RowConstraints(75));
 		//grid.setPrefHeight(25);
-		grid.setPrefWidth(210);
+		grid.setPrefWidth(235);
 		Label labelSender = new Label();
 		labelSender.setText("<" + msg.getSender().getNickname() + ">");
+		//labelSender.setPrefWidth(75.0);
 		Label questionLabel = new Label();
 		questionLabel.setMaxHeight(100);
 		questionLabel.setPrefWidth(300);
@@ -268,10 +276,9 @@ public class ChatBox extends HBox {
 				rb.selectedProperty().addListener( (observable, oldValue, newValue) -> {
 					HashMap<String, Contact> map = new HashMap<>();
 					String answer = (String) rb.getUserData();
-					if (sharkNetModel.getMyProfile() != null && sharkNetModel.getMyProfile().getContact() != null) {
-						map.put(answer, sharkNetModel.getMyProfile().getContact());
-						msg.getContent().getVoting().vote(map);
-					}
+					map.put(answer, sharkNetModel.getMyProfile().getContact());
+					msg.getContent().getVoting().vote(map);
+
 				});
 				rb.setToggleGroup(toggle);
 				grid.add(rb, 0, index);
@@ -279,6 +286,15 @@ public class ChatBox extends HBox {
 			// multi choice
 			else {
 				CheckBox cb = new CheckBox();
+				cb.setUserData(pair.getKey());
+				cb.selectedProperty().addListener( (observable, oldValue, newValue) -> {
+					HashMap<String, Contact> map = new HashMap<>();
+					String answer = (String) cb.getUserData();
+					map.put(answer, sharkNetModel.getMyProfile().getContact());
+					msg.getContent().getVoting().vote(map);
+
+				});
+
 				grid.add(cb, 0, index);
 			}
 			grid.add(answerLabel, 1, index);

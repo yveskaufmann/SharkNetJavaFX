@@ -58,9 +58,6 @@ public class ImplVoting implements Voting{
 
 	@Override
 	public boolean vote(HashMap<String, Contact> votes){
-		if(isSingleqoice() && votes.values().size() > 1){
-			 return false;
-		}
 		Iterator it = votes.entrySet().iterator();
 		while(it.hasNext()){
 			Map.Entry pair = (Map.Entry)it.next();
@@ -72,7 +69,6 @@ public class ImplVoting implements Voting{
 				else{
 					this.answers.get((String)pair.getKey()).add(c);
 				}
-
 			}
 		}
 		return true;
