@@ -44,7 +44,10 @@ public interface Contact {
     public String getPublicKey();
 	public void setPublicKey(String publicKey);
 	public Timestamp getPublicKeyExpiration();
+	public String getPublicKeyFingerprint();
+
 	public void deleteKey();
+
 
 	/**
 	 * Deletes the Contact from the Database

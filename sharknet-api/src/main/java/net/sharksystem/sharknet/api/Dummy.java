@@ -142,7 +142,7 @@ public class Dummy {
 
 		// vote
 		Content content = new ImplContent("", alice_p);
-		Voting votedummy = content.addVoting("Wann soll die nächste WG-Party stattfinden?", true);
+		Voting votedummy = content.addVoting("Wann soll die nächste WG-Party stattfinden?", false);
 		List<String> answersdummy = Arrays.asList(
 			"Montag",
 			"Dienstag",
@@ -284,13 +284,6 @@ public class Dummy {
 		//Set Default Profile to alice
 
 		s.setProfile(alice_p, "");
-
-
 	}
-
-
-
-
-
 }
 
