@@ -53,11 +53,13 @@
                                 <TextField fx:id="imapPasswordInput" layoutX="553.0" layoutY="185.0" prefHeight="26.0" prefWidth="204.0" />
                                 <Label layoutX="442.0" layoutY="148.0" text="SMTP-Passwort:" />
                                 <Label layoutX="443.0" layoutY="189.0" text="IMAP-Passwort:" />
-                                <TextField fx:id="portInput" layoutX="552.0" layoutY="103.0" prefHeight="26.0" prefWidth="73.0" />
-                                <Label layoutX="443.0" layoutY="109.0" text="Port:" />
+                                <TextField fx:id="smtpPortInput" layoutX="855.0" layoutY="143.0" prefHeight="26.0" prefWidth="73.0" />
+                                <Label layoutX="776.0" layoutY="148.0" text="SMTP-Port:" />
                         <Label layoutX="96.0" layoutY="254.0" text="Maximale Mailgröße der Mailbox (optional):" />
                         <TextField fx:id="maxMailSizeInput" layoutX="390.0" layoutY="249.0" prefHeight="26.0" prefWidth="60.0" />
                         <Label layoutX="461.0" layoutY="254.0" text="MB" />
+                        <TextField fx:id="imapPortInput" layoutX="855.0" layoutY="184.0" prefHeight="26.0" prefWidth="73.0" />
+                        <Label layoutX="776.0" layoutY="189.0" text="IMAP-Port:" />
                              </children>
                           </AnchorPane>
                        </content>
@@ -65,12 +67,12 @@
                   <Tab text="Routing">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                            <Label layoutX="113.0" layoutY="380.0" text="Weiterleitung von Datenpakteten bis:" />
-                            <TextField fx:id="maximumRouteSizeInput" layoutX="370.0" layoutY="376.0" prefHeight="25.0" prefWidth="52.0" promptText="MB" />
+                            <Label layoutX="214.0" layoutY="380.0" text="Weiterleitung von Datenpakteten bis:" />
+                            <TextField fx:id="maximumRouteSizeInput" layoutX="471.0" layoutY="376.0" prefHeight="25.0" prefWidth="52.0" promptText="MB" />
                             <Button fx:id="routingSaveButton" layoutX="708.0" layoutY="515.0" mnemonicParsing="false" onAction="#onRoutingSaveButtonClick" text="Speichern" />
-                            <Label layoutX="432.0" layoutY="380.0" text="MB" />
-                     <Button fx:id="startTCPServerButton" layoutX="379.0" layoutY="97.0" mnemonicParsing="false" onAction="#onStartTCPServerButtonClick" text="Start TCP Server" />
-                     <Button fx:id="stopTCPServerButton" layoutX="379.0" layoutY="132.0" mnemonicParsing="false" onAction="#onStopTCPServerButtonClick" text="Stop TCP Server" />
+                            <Label layoutX="533.0" layoutY="380.0" text="MB" />
+                     <Button fx:id="startTCPServerButton" layoutX="600.0" layoutY="97.0" mnemonicParsing="false" onAction="#onStartTCPServerButtonClick" text="Start TCP Server" />
+                     <Button fx:id="stopTCPServerButton" layoutX="600.0" layoutY="132.0" mnemonicParsing="false" onAction="#onStopTCPServerButtonClick" text="Stop TCP Server" />
                      <Label layoutX="163.0" layoutY="37.0" styleClass="title_text" text="TCP-Server">
                         <font>
                            <Font size="18.0" />
@@ -78,7 +80,7 @@
                      </Label>
                      <TextField fx:id="tcpPortInput" layoutX="260.0" layoutY="97.0" prefHeight="26.0" prefWidth="60.0" />
                      <Label layoutX="215.0" layoutY="102.0" text="Port:" />
-                     <Label fx:id="tcpStartedMessageLabel" layoutX="124.0" layoutY="186.0" textFill="#ee0707">
+                     <Label fx:id="tcpStartedMessageLabel" layoutX="215.0" layoutY="135.0" prefHeight="20.0" prefWidth="358.0" styleClass="text-header" textFill="#ee0707">
                         <font>
                            <Font size="16.0" />
                         </font>
@@ -89,8 +91,8 @@
                            <Font size="18.0" />
                         </font>
                      </Label>
-                     <Button fx:id="chooseRoutingContactsButton" layoutX="114.0" layoutY="307.0" mnemonicParsing="false" onAction="#onChooseContactsRoutingButtonClick" text="Kontakte auswählen" />
-                     <Button fx:id="chooseInterestsRoutingButton" layoutX="281.0" layoutY="307.0" mnemonicParsing="false" onAction="#onChooseInterestsRoutingButtonClick" text="Interessen auswählen" />
+                     <Button fx:id="chooseRoutingContactsButton" layoutX="215.0" layoutY="307.0" mnemonicParsing="false" onAction="#onChooseContactsRoutingButtonClick" text="Kontakte auswählen" />
+                     <Button fx:id="chooseInterestsRoutingButton" layoutX="382.0" layoutY="307.0" mnemonicParsing="false" onAction="#onChooseInterestsRoutingButtonClick" text="Interessen auswählen" />
                         </AnchorPane>
                     </content>
                   </Tab>

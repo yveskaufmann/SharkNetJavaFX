@@ -10,15 +10,10 @@ import net.sharksystem.sharknet.api.Contact;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
-import net.sharksystem.sharknet.javafx.services.ImageManager;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
-
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Optional;
 
 @Controller(title = "%sidebar.contacts")
@@ -28,20 +23,15 @@ public class ContactController extends AbstractController implements ContactList
 	private ObservableList<Contact> blockedContacts = FXCollections.observableArrayList();
 	private FilteredList<Contact> filteredContactsData;
 	private FilteredList<Contact> filteredBlacklistData;
-	private List<ContactListener> contactListeners;
-
 
 	public ContactController() {
 		super(App.class.getResource("views/contactlist/contactsView.fxml"));
 		this.appController = Controllers.getInstance().get(FrontController.class);
-		contactListeners = new ArrayList<>();
 	}
-
 
 	private FrontController appController;
 	@Inject
 	private SharkNet sharkNetModel;
-	private ImageManager imageManager;
 	@FXML
 	private ContactList contactListView;
 	@FXML
@@ -155,7 +145,6 @@ public class ContactController extends AbstractController implements ContactList
 		
 		filteredContactsData = new FilteredList<>(contacts, s -> true);
 		filteredBlacklistData = new FilteredList<>(blockedContacts, s -> true);
-
 		contactListView.getItems().setAll(filteredContactsData);
 		blackListView.getItems().setAll(filteredBlacklistData);
 
@@ -222,10 +211,10 @@ public class ContactController extends AbstractController implements ContactList
 	}
 
 
+	// Listener-Methoden
 	public void onContactListChanged() {
 		loadEntries();
 	}
-
 	public void onContactDeleted(Contact c) {
 		sharkNetModel.getMyProfile().getBlacklist().remove(c);
 		c.delete();

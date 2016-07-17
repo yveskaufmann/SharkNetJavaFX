@@ -98,15 +98,18 @@ public class ChooseRoutingContactsController extends AbstractController {
 
 	private void loadContacts() {
 		allContacts = sharkNetModel.getContacts();
+		allContacts.addAll(sharkNetModel.getMyProfile().getBlacklist().getList());
 		allowedContacts = settings.getRoutingContacts();
 
 		// Daten von diesen Kontakten weiterleiten
 		for (Contact c : allContacts) {
 
-			if (allowedContacts.contains(c)) { allowedContactsListView.getItems().add(c.getNickname());	}
+			if (allowedContacts.contains(c)) {
+				allowedContactsListView.getItems().add(c.getNickname());
+			}
 			else{
-				deniedContactsListView.getItems().add(c.getNickname());
 				deniedContacts.add(c);
+				deniedContactsListView.getItems().add(c.getNickname());
 			}
 
 		}

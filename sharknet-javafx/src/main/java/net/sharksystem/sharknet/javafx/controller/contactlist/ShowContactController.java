@@ -19,9 +19,13 @@ import net.sharksystem.sharknet.javafx.services.ImageManager;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
 import javax.inject.Inject;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static android.R.attr.mimeType;
+import static net.sharksystem.sharknet.javafx.i18n.I18N.getString;
 
 public class ShowContactController extends AbstractController {
 
@@ -66,6 +70,10 @@ public class ShowContactController extends AbstractController {
 	private Contact contact;
 	private Stage stage;
 	private List<ContactListener> contactListeners;
+	private static final String EMAIL_PATTERN =
+		"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
 
 	public ShowContactController(Contact c){
 		super(App.class.getResource("views/contactlist/showContactView.fxml"));
@@ -92,7 +100,6 @@ public class ShowContactController extends AbstractController {
 		imageManager.readImageFrom(contact.getPicture()).ifPresent(profilePictureImageView::setImage);
 
 		// Interessen in Ansicht laden
-		// Falls keine vorhanden:
 		if(contact.getInterests().getAllTopics().isEmpty()){
 			interestsListView.getItems().add("Keine Interessen vorhanden.");
 		}
@@ -112,7 +119,7 @@ public class ShowContactController extends AbstractController {
 		//nameTextField.setText(contact.getName());
 		nameLabel.setText(contact.getName());
 		emailTextField.setText(contact.getEmail());
-		//telephoneTextField.setText(testkontakt.getTelephonnumber());
+		telephoneTextField.setText("" + contact.getTelephonnumber());
 		infoTextField.setText(contact.getNote());
 		publicKeyTextField.setText(contact.getPublicKey());
 
@@ -126,27 +133,51 @@ public class ShowContactController extends AbstractController {
 
 		saveButton.setOnMouseClicked(event -> {
 			contact.setNickname(nicknameTextField.getText());
-			contact.setEmail(emailTextField.getText());
-			//TODO contact.setTelephone
 
+			// Prüfen der Mailadresse
+			if (emailTextField.getText() != null) {
+				if(emailTextField.getText().matches(EMAIL_PATTERN)) {
+					contact.setEmail(emailTextField.getText());
+				} else {
+					Alert alert = new Alert(Alert.AlertType.ERROR);
+					alert.setTitle("Ungültige E-Mail-Adresse");
+					alert.setContentText("Die eingegebene E-Mail-Adresse ist ungültig.");
+					alert.setHeaderText("");
+					alert.showAndWait();
+					return;
+				}
+			}
+
+			contact.getTelephonnumber().clear();
+			contact.addTelephonnumber(telephoneTextField.getText());
+
+			// Kontaktliste aktualisieren
 			for (ContactListener cl : contactListeners) {
 				cl.onContactListChanged();
 			}
 			stage.close();
 		});
 
-		closeWindowButton.setOnMouseClicked(event -> {
-			stage.close();
-			event.consume();
-		});
-
+		// Public Key löschen
 		deletePublicKeyButton.setOnMouseClicked(event -> {
-			contact.deleteKey();
-			publicKeyTextField.setText(contact.getPublicKey());
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("Public Key löschen");
+			alert.setHeaderText("Soll der Public Key von " + contact.getNickname() + " wirklich gelöscht werden?");
+
+			ButtonType loeschenOKButton = new ButtonType("Löschen");
+			ButtonType abbruchButton = new ButtonType("Abbrechen", ButtonBar.ButtonData.CANCEL_CLOSE);
+			alert.getButtonTypes().setAll(loeschenOKButton, abbruchButton);
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if(result.get() == loeschenOKButton){
+				contact.deleteKey();
+				publicKeyTextField.setText(contact.getPublicKey());
+			}
+
 		});
 
+		// Kontakt löschen
 		deleteContactButton.setOnMouseClicked(event -> {
-
 			Alert alert = new Alert(Alert.AlertType.WARNING);
 			alert.setTitle("Kontakt löschen");
 			alert.setHeaderText("Soll " + contact.getNickname() + " wirklich gelöscht werden?");
@@ -157,14 +188,16 @@ public class ShowContactController extends AbstractController {
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if(result.get() == loeschenOKButton){
-				//sharkNetModel.getContacts().remove(contact);
-
 				for (ContactListener cl : contactListeners) {
 					cl.onContactDeleted(contact);
 				}
-
 				stage.close();;
 			}
+		});
+
+		closeWindowButton.setOnMouseClicked(event -> {
+			stage.close();
+			event.consume();
 		});
 
 	}

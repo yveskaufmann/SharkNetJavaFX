@@ -20,13 +20,10 @@ public class ContactListEntryController extends MediaListCellController<Contact>
 
 	@Inject
 	private ImageManager imageManager;
-
 	@FXML
 	private GridPane container;
-
 	@FXML
 	private RoundImageView contactImage;
-
 	@FXML
 	private Text contactName;
 

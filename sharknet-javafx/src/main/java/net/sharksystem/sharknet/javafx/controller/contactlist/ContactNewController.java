@@ -3,10 +3,7 @@ package net.sharksystem.sharknet.javafx.controller.contactlist;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.Contact;
 import net.sharksystem.sharknet.api.ImplContact;
@@ -43,7 +40,9 @@ public class ContactNewController extends AbstractController {
 	private String uid;
 	private String publickey;
 	//private String email;
-
+	private static final String EMAIL_PATTERN =
+		"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
 
 	public ContactNewController(){
@@ -51,16 +50,16 @@ public class ContactNewController extends AbstractController {
 		Parent root = super.getRoot();
 		stage = new Stage();
 		stage.setTitle("Neuen Kontakt erstellen");
-		stage.setScene(new Scene(root, 600, 400));
+		stage.setScene(new Scene(root, 600, 300));
 		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
 		stage.show();
 		contactListeners = new ArrayList<>();
 	}
 
-
+	// Erstellt einen neuen Kontakt mit dem von getQRCodeFromCamera() bereitgestellten publickey
 	private void scanQRCode(){
 		publickey = getQRCodeFromCamera();
-		ImplContact newContact = new ImplContact("-Name aus QR?-", uid, publickey, sharkNetModel.getMyProfile());
+		ImplContact newContact = new ImplContact("Neuer Kontakt", uid, publickey, sharkNetModel.getMyProfile());
 		stage.close();
 		ShowContactController s = new ShowContactController(newContact);
 
@@ -69,16 +68,15 @@ public class ContactNewController extends AbstractController {
 		}
 	}
 
-
+	// Diese Methode soll später den von der Kamera erhaltenen QR-Code in einen String umwandeln
 	private String getQRCodeFromCamera(){
-		String qrcode = "";
-
-		//dummy
-		qrcode= "DUMMYKEY from QR-Code";
+		//DUMMY
+		String qrcode= "<Dummy-Key aus QR-Code>";
 		return qrcode;
 	}
 
 
+	// Listener
 	public void addListener(ContactListener cl) {
 		contactListeners.add(cl);
 	}
@@ -86,23 +84,30 @@ public class ContactNewController extends AbstractController {
 	@Override
 	protected void onFxmlLoaded() {
 
+		// Klick auf Kontakt Speichern
 		saveButton.setOnMouseClicked(event -> {
 			if(nameInputTextField.getText().length() > 0) {
-				System.out.println("Neuen Kontakt erstellen: " + nameInputTextField.getText());
-				ImplContact newContact = new ImplContact(nameInputTextField.getText(), uid, publickey, sharkNetModel.getMyProfile());
-				if (mailInputTextField.getText() != "") {
-					newContact.setEmail(mailInputTextField.getText());
+				Contact newContact = new ImplContact(nameInputTextField.getText(), uid, "<ausstehend>", sharkNetModel.getMyProfile());
+				if ((mailInputTextField.getText() != null) && (mailInputTextField.getText() != "")) {
+					if (mailInputTextField.getText().matches(EMAIL_PATTERN)) {
+						newContact.setEmail(mailInputTextField.getText());
+					} else {
+						Alert alert = new Alert(Alert.AlertType.ERROR);
+						alert.setTitle("Ungültige E-Mail-Adresse");
+						alert.setContentText("Die eingegebene E-Mail-Adresse ist ungültig.");
+						alert.setHeaderText("");
+						alert.showAndWait();
+						newContact.delete();
+						return;
+					}
 				}
-
 				sharkNetModel.getContacts().add(newContact);
 
 				for (ContactListener cl : contactListeners) {
 					cl.onContactListChanged();
 				}
-
 				stage.close();
 				event.consume();
-
 			}
 		});
 
