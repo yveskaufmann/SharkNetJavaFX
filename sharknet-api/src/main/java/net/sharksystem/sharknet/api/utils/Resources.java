@@ -24,6 +24,5 @@ public class Resources {
 			throw new RuntimeException(e);
 		}
 
-		return null;
 	}
 }
