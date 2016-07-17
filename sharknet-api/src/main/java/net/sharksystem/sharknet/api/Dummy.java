@@ -147,7 +147,7 @@ public class Dummy {
 
 		// vote
 		Content content = new ImplContent("", alice_p);
-		Voting votedummy = content.addVoting("Wann soll die nächste WG-Party stattfinden?", false);
+		Voting votedummy = content.addVoting("Wann soll die nächste WG-Party stattfinden?", true);
 		List<String> answersdummy = Arrays.asList(
 			"Montag",
 			"Dienstag",
@@ -159,18 +159,24 @@ public class Dummy {
 		);
 		votedummy.addAnswers(answersdummy);
 
-		HashMap<String, Contact> answersmap = votedummy.getAnswers();
+		HashMap<String, Contact> answersmap = new HashMap<>();
 		answersmap.put(answersdummy.get(4), alice_p.getContact());
+		votedummy.vote(answersmap);
+		answersmap = new HashMap<>();
 		answersmap.put(answersdummy.get(5), alice_dean);
+		votedummy.vote(answersmap);
+		answersmap = new HashMap<>();
 		answersmap.put(answersdummy.get(6), alice_frank);
 		votedummy.vote(answersmap);
 
-		answersmap = votedummy.getAnswers();
+		answersmap = new HashMap<>();
 		answersmap.put(answersdummy.get(4), alice_bob);
+		votedummy.vote(answersmap);
+		answersmap = new HashMap<>();
 		answersmap.put(answersdummy.get(5), alice_erica);
 		votedummy.vote(answersmap);
 
-		answersmap = votedummy.getAnswers();
+		answersmap = new HashMap<>();
 		answersmap.put(answersdummy.get(4), alice_charles);
 		votedummy.vote(answersmap);
 

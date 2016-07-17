@@ -247,7 +247,7 @@ public class ChatController extends AbstractController implements ChatListener, 
 					// create attachment object
 					Content attachment = new ImplContent("", sharkNetModel.getMyProfile());
 					attachment.setFile(file);
-					attachment.setFilename(file.getName());
+					//attachment.setFilename(file.getName());
 					attachment.setMimeType(mimeType);
 					sendAttachment(attachment);
 				} catch (FileNotFoundException e) {

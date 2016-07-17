@@ -4,6 +4,7 @@ import javafx.beans.binding.Bindings;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
@@ -95,6 +96,14 @@ public class VoteResultController extends AbstractController {
 						)
 					)
 			);
+
+			for (Node node : pieChartView.lookupAll(".chart-legend-item")) {
+				if (node instanceof Label) {
+					((Label) node).setWrapText(true);
+					((Label) node).setManaged(true);
+					((Label) node).setPrefWidth(150);
+				}
+			}
 		}
 	}
 }
