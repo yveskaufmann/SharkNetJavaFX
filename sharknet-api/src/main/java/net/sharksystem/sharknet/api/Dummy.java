@@ -1,7 +1,9 @@
 package net.sharksystem.sharknet.api;
 
+import javafx.application.Application;
 import net.sharkfw.knowledgeBase.TXSemanticTag;
 import net.sharkfw.knowledgeBase.inmemory.InMemoInformation;
+import net.sharksystem.sharknet.api.utils.Resources;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -67,13 +69,16 @@ public class Dummy {
 
 		//Profilbilder von Alice und Bob setzen
 
-		File filealice = new File("sharknet-api\\src\\main\\resources\\Alice.jpg");
+
+
+
+		File filealice = Resources.get("Alice.jpg");
 		Content alicecon = new ImplContent(alice_p);
 		alicecon.setFile(filealice);
 		alicecon.setMimeType(jpg);
 		alice.setPicture(alicecon);
 
-		File filebob = new File("sharknet-api\\src\\main\\resources\\Bob.jpg");
+		File filebob = Resources.get("Bob.jpg");
 		Content bobcon = new ImplContent(bob_p);
 
 		bobcon.setFile(filebob);

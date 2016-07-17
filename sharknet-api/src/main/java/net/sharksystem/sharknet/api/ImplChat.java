@@ -1,5 +1,7 @@
 package net.sharksystem.sharknet.api;
 
+import net.sharksystem.sharknet.api.utils.Resources;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -266,11 +268,11 @@ public class ImplChat implements Chat {
 		Content piccon;
 		File pic = null;
 		if (getContacts().size() > 1) {
-			pic= new File("sharknet-api\\src\\main\\resources\\group.png");
+			pic = Resources.get("group.png");
 			piccon = new ImplContent(owner);
 			piccon.setFile(pic);
 		} else if (getContacts().get(0).getPicture() == null) {
-			pic= new File("sharknet-api\\src\\main\\resources\\person.png");
+			pic = Resources.get("person.png");
 			piccon = new ImplContent(owner);
 			piccon.setFile(pic);
 		} else {

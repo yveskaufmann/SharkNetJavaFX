@@ -2,6 +2,9 @@ package net.sharksystem.sharknet.api;
 
 import net.sharkfw.knowledgeBase.SharkKBException;
 import net.sharkfw.knowledgeBase.inmemory.InMemoInformation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.*;
 
 /**
@@ -63,8 +66,10 @@ public class ImplContent implements Content {
 			fileInputStream.close();
 
 		} catch (FileNotFoundException e) {
+			System.out.println("specified file not found: " + f.getAbsolutePath() + " " + e);
 			return false;
 		} catch (IOException e) {
+			System.out.println("Failed to read file: " + f.getAbsolutePath()  + " " + e);
 			return false;
 		}
 
