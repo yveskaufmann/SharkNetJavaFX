@@ -1,6 +1,7 @@
 package net.sharksystem.sharknet.api;
 
 import javafx.util.Pair;
+import net.sharksystem.sharknet.api.utils.Resources;
 
 import java.io.File;
 import java.io.IOException;
@@ -247,7 +248,7 @@ public class ImplContact implements Contact, StudentContact {
 	}
 
 	private void setDefaultPicture(){
-		File personpic= new File("sharknet-api\\src\\main\\resources\\person.png");
+		File personpic= Resources.get("person.png");
 		Content piccon = new ImplContent(owner);
 		piccon.setFile(personpic);
 		try {
