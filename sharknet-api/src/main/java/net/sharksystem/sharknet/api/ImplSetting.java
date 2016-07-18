@@ -40,6 +40,7 @@ public class ImplSetting implements Setting{
 	String imapPassword;
 	String smtpPassword;
 	String email;
+	int imapPort, smtpPort;
 	int mailboxSize;
 	/**
 	 * Owner of the Settings
@@ -313,13 +314,34 @@ public class ImplSetting implements Setting{
 		this.syncProfile = syncProfile;
 	}
 
+	@Override
 	public String getImapPassword() {
 		return imapPassword;
 	}
 
-
+	@Override
 	public void setImapPassword(String imapPassword) {
 		this.imapPassword = imapPassword;
+	}
+
+	@Override
+	public int getImapPort() {
+		return imapPort;
+	}
+
+	@Override
+	public void setImapPort(int imapPort) {
+		this.imapPort = imapPort;
+	}
+
+	@Override
+	public int getSmtpPort() {
+		return smtpPort;
+	}
+
+	@Override
+	public void setSmtpPort(int smtpPort) {
+		this.smtpPort = smtpPort;
 	}
 
 	@Override
