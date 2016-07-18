@@ -123,10 +123,6 @@ public class SettingsController extends AbstractController {
 			}
 		}
 
-		// TODO settings.setSmtpPort(smtpPortInput.getText());
-		// TODO settings.setImapPort(imapPortInput.getText());
-
-
 		// Prüfen der Eingabe von SMTP- und IMAP-Server
 		if(smtpServerInput.getText() != null){
 			if(smtpServerInput.getText().matches(SERVER_PATTERN)){
@@ -164,6 +160,12 @@ public class SettingsController extends AbstractController {
 		// Speichern, nach wie vielen Min. WiFi Direct ausgeschaltet werden soll
 		try{ settings.setWifiON(Integer.parseInt(wifiDirectOffMinutesInput.getText())); }
 			catch (Exception e){e.printStackTrace();}
+
+		// Port für SMTP- und IMAP- Server holen
+		try{ settings.setSmtpPort(Integer.parseInt(smtpPortInput.getText())); }
+			catch (Exception e){ e.printStackTrace(); }
+		try{ settings.setImapPort(Integer.parseInt(imapPortInput.getText())); }
+			catch (Exception e){ e.printStackTrace(); }
 
 		System.out.println("Mail address= "+ mailAddressInput.getText());
 		System.out.println("SMTP-Port: " + smtpPortInput.getText());
@@ -301,8 +303,8 @@ public class SettingsController extends AbstractController {
 		mailAddressInput.setText("" + settings.getEmail());
 		imapServerInput.setText("" + settings.getImapServer());
 		smtpServerInput.setText("" + settings.getSmtpServer());
-		//TODO smtpPortInput.setText("" + settings.getSmtpPort());
-		//TODO imapPortInput.setText("" + settings.getImapPort());
+		smtpPortInput.setText("" + settings.getSmtpPort());
+		imapPortInput.setText("" + settings.getImapPort());
 		smtpPasswordInput.setText("" + settings.getSmtpPassword());
 		imapPasswordInput.setText("" + settings.getImapPassword());
 		maxMailSizeInput.setText("" + settings.getMailboxSize());
