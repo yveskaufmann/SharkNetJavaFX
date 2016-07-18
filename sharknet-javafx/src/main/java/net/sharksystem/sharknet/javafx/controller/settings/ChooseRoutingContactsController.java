@@ -76,7 +76,6 @@ public class ChooseRoutingContactsController extends AbstractController {
 
 	private void onAllowContact(int selectedIndex){
 		if (selectedIndex >= 0) {
-			System.out.println("onAllowContact INDEX: "+ selectedIndex);
 			allowedContactsListView.getItems().add(deniedContacts.get(selectedIndex).getNickname());
 			allowedContacts.add(deniedContacts.get(selectedIndex));
 
@@ -87,7 +86,6 @@ public class ChooseRoutingContactsController extends AbstractController {
 
 	private void onDenyContact(int selectedIndex) {
 		if (selectedIndex >= 0) {
-			System.out.println("DENY: " + selectedIndex);
 			deniedContacts.add(allowedContacts.get(selectedIndex));
 			deniedContactsListView.getItems().add(allowedContacts.get(selectedIndex).getNickname());
 

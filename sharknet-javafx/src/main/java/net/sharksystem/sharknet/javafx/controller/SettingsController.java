@@ -170,11 +170,10 @@ public class SettingsController extends AbstractController {
 		System.out.println("SMTP= "+ smtpServerInput.getText());
 		System.out.println("IMAP= " + imapServerInput.getText());
 		System.out.println("IMAP-Port: " + imapPortInput.getText());
-		System.out.println("Wifi Direct off after: " + wifiDirectOffMinutesInput.getText() + " min");
+		System.out.println("Wifi Direct off after: " + wifiDirectOffMinutesInput.getText() + " min.");
 		System.out.println("SMTP-Port: " + smtpPortInput.getText());
 		System.out.println("SMTP-PW: " + smtpPasswordInput.getText());
 		System.out.println("IMAP-PW: " + imapPasswordInput.getText());
-
 
 		if(radarOnRadioButton.isSelected()){
 			settings.setRadarON(true);
@@ -187,34 +186,32 @@ public class SettingsController extends AbstractController {
 	// TCP-Server starten
 	@FXML
 	private void onStartTCPServerButtonClick(){
+		tcpAddress = getMyInternalIP();
 		try{
 			tcpPort = Integer.parseInt(tcpPortInput.getText());
 		}catch (Exception e){
 			e.printStackTrace();
 		}
-		System.out.println("TCP server started on port " + tcpPort);
 		tcpStartedMessageLabel.setText("TCP-Server läuft unter:   " + tcpAddress + " : " + tcpPort);
-		startTCPserver(tcpPort);
+		settings.startTCP();
 	}
+
 
 	// TCP-Server stoppen
 	@FXML
 	private void onStopTCPServerButtonClick(){
-		System.out.println("TCP server stopped");
-		stopTCPserver();
+		settings.stopTCP();
 		tcpStartedMessageLabel.setText("");
 	}
 
 	// Routingliste für Kontakte öffnen
 	@FXML
 	private void onChooseContactsRoutingButtonClick(){
-		System.out.println("choose contacts for routing");
 		new ChooseRoutingContactsController();
 	}
 	// Routingliste für Interessen öffnen
 	@FXML
 	private void onChooseInterestsRoutingButtonClick(){
-		System.out.println("choose interests for routing");
 		new ChooseRoutingInterestsController();
 	}
 
@@ -253,7 +250,7 @@ public class SettingsController extends AbstractController {
 		}
 
 
-		// TODO aus Model holen:
+		// Auswerten der Checkboxen, was synchronisiert werden soll
 		if(profileSyncCheckbox.isSelected()){
 			System.out.println("Profil synchronisieren");
 		}
@@ -269,10 +266,6 @@ public class SettingsController extends AbstractController {
 		if(homeworkSyncCheckbox.isSelected()){
 			System.out.println("Hausaufgaben synchronisieren");
 		}
-
-
-		//TODO Sync
-
 	}
 
 
@@ -283,7 +276,6 @@ public class SettingsController extends AbstractController {
 		settings = sharkNetModel.getMyProfile().getSettings();
 		routingContacts = settings.getRoutingContacts();
 		routingInterest = settings.getRoutingInterests();
-
 		tcpStartedMessageLabel.setText("");
 
 		// Radar-Radiobutton setzen
@@ -291,7 +283,7 @@ public class SettingsController extends AbstractController {
 			radarOnRadioButton.setSelected(true);
 		}else radarOffRadioButton.setSelected(true);
 
-		// Sync
+		// Syncmedium-Radiobutton setzen
 		if(settings.getMail()){
 			syncMediumSelectMail.setSelected(true);
 		}
@@ -301,7 +293,6 @@ public class SettingsController extends AbstractController {
 		else if(settings.getWifi()){
 			syncMediumSelectWifi.setSelected(true);
 		}
-
 		else if(settings.getTcp()){
 			syncMediumSelectTCP.setSelected(true);
 		}
@@ -333,7 +324,10 @@ public class SettingsController extends AbstractController {
 	private void syncViaMail(){}
 	private void syncViaBluetooth(){}
 	private void syncViaTCP(){}
-	private void startTCPserver(int tcpPort){}
-	private void stopTCPserver(){}
+
+	// Dummy, soll später die interne IP zurückgeben
+	private String getMyInternalIP(){
+		return "<Interne IP>";
+	}
 
 }
