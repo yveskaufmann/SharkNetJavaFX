@@ -130,6 +130,31 @@ public interface Setting {
 	public void setImapServer(String imapServer);
 
 	/**
+	 * Returns SMTP-Server-Port for Exchange Data per Mail
+	 * @return
+     */
+	public int getSmtpPort();
+
+	/**
+	 * Returns IMAP-Server-Port for Exchange Data per Mail
+	 * @return
+     */
+    public int getImapPort();
+
+	/**
+	 * Sets SMTP-Server-Port for Exchange Data per Mail
+	 * @param portnumber
+     */
+    public void setSmtpPort(int portnumber);
+
+	/**
+	 * Sets IMAP-Server-Port for Exchange Data per Mail
+	 * @param portnumber
+     */
+    public void setImapPort(int portnumber);
+
+
+	/**
 	 * Save Settings in Database
 	 */
 	public void save();
