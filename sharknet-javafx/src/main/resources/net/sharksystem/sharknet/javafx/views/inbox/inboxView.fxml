@@ -17,7 +17,7 @@
         <padding>
             <Insets top="0" left="20" right="20" bottom="0"/>
         </padding>
-        <AnchorPane fx:id="messageComposerPane" VBox.vgrow="ALWAYS" maxHeight="-Infinity"  minHeight="200.0" minWidth="-Infinity" prefHeight="-Infinity" styleClass="inbox-section" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1">
+        <AnchorPane fx:id="messageComposerPane" VBox.vgrow="ALWAYS" maxHeight="-Infinity"  minHeight="150" minWidth="-Infinity" prefHeight="-Infinity" styleClass="inbox-section" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1">
             <children>
                 <RoundImageView fx:id="feedSenderProfile" fitHeight="40.0" fitWidth="40.0" layoutX="12.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="12.0" AnchorPane.topAnchor="12.0">
                     <image>
@@ -25,23 +25,22 @@
                     </image>
                 </RoundImageView>
                 <TextArea fx:id="feedMessageArea" layoutX="65.0" layoutY="12.0" prefHeight="95.0" prefRowCount="5" promptText="%feed.message.prompt" wrapText="true" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0" />
-                <VBox fx:id="interestTags" layoutX="65.0" layoutY="117.0" spacing="5.0" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="12.0">
+                <VBox fx:id="interestTags" spacing="5.0" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="12.0" AnchorPane.bottomAnchor="12" AnchorPane.topAnchor="112">
                     <children>
                         <HBox spacing="5.0">
                             <children>
-                                <CustomTextField fx:id="interestTextField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Welchem Interessen entspricht dieser Post ?" HBox.hgrow="SOMETIMES" />
+                                <CustomTextField fx:id="interestTextField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Welchen Interessen entspricht dieser Post ?" HBox.hgrow="SOMETIMES" />
                                 <JFXButton fx:id="addInterestTagButton" mnemonicParsing="false" text="Add" />
+                                <JFXButton fx:id="sendButton" mnemonicParsing="false" text="%feed.send" >
+                                    <HBox.margin>
+                                        <Insets top="0" bottom="0" left="5" />
+                                    </HBox.margin>
+                                </JFXButton>
                             </children>
                         </HBox>
                         <FlowPane fx:id="tagContainer" orientation="HORIZONTAL" hgap="5" vgap="5"/>
                     </children>
                 </VBox>
-                <HBox fx:id="feedsMessageComposerButtonsRow" layoutX="216.0" layoutY="111.0" spacing="5.0" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="12.0">
-                    <children>
-                        <JFXButton fx:id="interestFilterButton" text="interests" visible="false" />
-                        <JFXButton fx:id="sendButton" mnemonicParsing="false" text="%feed.send" />
-                    </children>
-                </HBox>
             </children>
         </AnchorPane>
         <InboxList VBox.vgrow="ALWAYS" fx:id = "inboxListView"/>
