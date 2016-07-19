@@ -140,7 +140,7 @@ public class ImplInterest implements Interest {
 	@Override
 	public boolean contains(Interest i) {
 		List<TXSemanticTag> it = i.getAllTopics();
-		Boolean contains = true;
+		Boolean contains = false;
 		for(TXSemanticTag tag : it){
 			SemanticTag st = null;
 			try {
@@ -148,8 +148,8 @@ public class ImplInterest implements Interest {
 			} catch (SharkKBException e) {
 				e.printStackTrace();
 			}
-			if(st== null){
-				contains = false;
+			if(st!= null){
+				contains = true;
 			}
 		}
 		return contains;
