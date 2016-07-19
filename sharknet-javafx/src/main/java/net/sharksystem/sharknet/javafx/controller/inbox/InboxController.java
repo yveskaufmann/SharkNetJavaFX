@@ -115,6 +115,7 @@ public class InboxController extends AbstractController  {
 				return null;
 			};
 
+		interestTreeTable.setContextMenu(createFilterContextMenu());
 		interestTreeTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		interestTreeTable.setCellFactory(CheckBoxTreeCell.forTreeView(getSelectedProperty, new StringConverter<TreeItem<TXSemanticTag>>() {
 			@Override
@@ -139,6 +140,17 @@ public class InboxController extends AbstractController  {
 
 		registerListeners();
 
+	}
+
+	private ContextMenu createFilterContextMenu() {
+		final MenuItem allCheckButton = new MenuItem("Alle Aktivieren");
+		final MenuItem allUnCheckButton = new MenuItem("Alle Deaktivieren");
+
+		allCheckButton.setOnAction((e) -> interestTreeTable.getCheckModel().checkAll());
+		allUnCheckButton.setOnAction((e) -> interestTreeTable.getCheckModel().clearChecks());
+
+		final ContextMenu contextMenu = new ContextMenu(allCheckButton, allUnCheckButton);
+		return contextMenu;
 	}
 
 	private void registerListeners() {
@@ -208,7 +220,6 @@ public class InboxController extends AbstractController  {
 		boolean sortOrder = sortOrderCheckbox.isSelected();
 		List<Feed> feeds = null;
 
-		// TODO: paging
 		if (filterInterestObject == null) {
 			feeds = sharkNet.getFeeds(0, 200, sortOrder);
 		} else {
@@ -265,8 +276,9 @@ public class InboxController extends AbstractController  {
 		if (filterInterestObject != null) {
 			filterInterestObject.delete();
 		}
-		// This owner is for nobody its only a filter
-		filterInterestObject = new ImplInterest(null);
+
+		// this our filter interest object
+		filterInterestObject = new ImplInterest(sharkNet.getMyProfile().getContact());
 		// Merge our interests into a new taxonomy
 		final Taxonomy taxonomy = filterInterestObject.getInterests();
 		for (TreeItem<TXSemanticTag> checkedTreeItem : checkModel.getCheckedItems()) {
@@ -349,6 +361,11 @@ public class InboxController extends AbstractController  {
 	}
 
 	private void loadInterests() {
+		CheckBoxTreeItem<TXSemanticTag> root = (CheckBoxTreeItem<TXSemanticTag>) InterestsManager.loadInterestsAsTreeItem(sharkNet.getMyProfile(), CheckBoxTreeItem::new);
+		interestTreeTable.setShowRoot(false);
+		interestTreeTable.setRoot(root);
+		interestTreeTable.getCheckModel().checkAll();
+
 		CheckModel<TreeItem<TXSemanticTag>> treeItemCheckModel = interestTreeTable.getCheckModel();
 		if (treeItemCheckModel != null)  {
 			if (filterCheckListener  != null) {
@@ -357,15 +374,13 @@ public class InboxController extends AbstractController  {
 			treeItemCheckModel.getCheckedItems().addListener(filterCheckListener = new ListChangeListener<TreeItem<TXSemanticTag>>() {
 				@Override
 				public void onChanged(Change<? extends TreeItem<TXSemanticTag>> c) {
-					System.out.println("yeah");
+					updateFilterInterestObject();
+					loadEntries();
 				}
 			});
 		}
 
-		CheckBoxTreeItem<TXSemanticTag> root = (CheckBoxTreeItem<TXSemanticTag>) InterestsManager.loadInterestsAsTreeItem(sharkNet.getMyProfile(), () -> new CheckBoxTreeItem<TXSemanticTag>());
-		interestTreeTable.setShowRoot(false);
-		interestTreeTable.setRoot(root);
-		interestTreeTable.getCheckModel().checkAll();
+
 	}
 
 }
