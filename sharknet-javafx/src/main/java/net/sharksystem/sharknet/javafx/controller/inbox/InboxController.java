@@ -16,6 +16,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.util.Callback;
+import javafx.util.Pair;
 import javafx.util.StringConverter;
 import net.sharkfw.knowledgeBase.SharkKBException;
 import net.sharkfw.knowledgeBase.TXSemanticTag;
@@ -94,6 +95,7 @@ public class InboxController extends AbstractController  {
 	@FXML private FlowPane tagContainer;
 	private AutoCompletionBinding<TXSemanticTag> autoCompletionBinding;
 	private ListChangeListener<TreeItem<TXSemanticTag>> filterCheckListener;
+	private Integer countOfInterests;
 
 
 	public InboxController() {
@@ -270,22 +272,32 @@ public class InboxController extends AbstractController  {
 	}
 
 	private void updateFilterInterestObject() {
+
+		// retrieve all selected TXSemantigTags/interests
 		final CheckModel<TreeItem<TXSemanticTag>> checkModel = interestTreeTable.getCheckModel();
-		// Lets keep it simple, build a interest object from the selected
-		// Interests.
+
+		// remove the old filter object
 		if (filterInterestObject != null) {
 			filterInterestObject.delete();
+			filterInterestObject = null;
 		}
 
-		// this our filter interest object
+
+		// when all interests are checked we assume a filter isn't desired by the user
+		// the root element must be ignored because it isn't visible
+		if (countOfInterests == interestTreeTable.getCheckModel().getCheckedItems().size() - 1) {
+			return;
+		}
+
+		// create empty filter object assigned to the current profile contact
 		filterInterestObject = new ImplInterest(sharkNet.getMyProfile().getContact());
-		// Merge our interests into a new taxonomy
-		final Taxonomy taxonomy = filterInterestObject.getInterests();
+
+		// add all selected interest to the filter object
 		for (TreeItem<TXSemanticTag> checkedTreeItem : checkModel.getCheckedItems()) {
 			final TXSemanticTag semanticTag = checkedTreeItem.getValue();
 			try {
-				taxonomy.merge(taxonomy);
-			} catch (SharkKBException e) {
+				filterInterestObject.addInterest(semanticTag);
+			} catch (Exception e) {
 				Log.error("Failed to build filterTaxonomy", e);
 				return;
 			}
@@ -361,8 +373,12 @@ public class InboxController extends AbstractController  {
 	}
 
 	private void loadInterests() {
-		CheckBoxTreeItem<TXSemanticTag> root = (CheckBoxTreeItem<TXSemanticTag>) InterestsManager.loadInterestsAsTreeItem(sharkNet.getMyProfile(), CheckBoxTreeItem::new);
+		Pair<TreeItem<TXSemanticTag>, Integer> interestsAndCount = InterestsManager.loadInterestsAsTreeItem(sharkNet.getMyProfile(), CheckBoxTreeItem::new);
+		CheckBoxTreeItem<TXSemanticTag> root = (CheckBoxTreeItem<TXSemanticTag>) interestsAndCount.getKey();
+
+		countOfInterests = interestsAndCount.getValue();
 		interestTreeTable.setShowRoot(false);
+
 		interestTreeTable.setRoot(root);
 		interestTreeTable.getCheckModel().checkAll();
 
