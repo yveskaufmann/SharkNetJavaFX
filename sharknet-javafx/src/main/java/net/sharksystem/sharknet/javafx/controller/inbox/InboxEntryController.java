@@ -115,7 +115,6 @@ public class InboxEntryController extends MediaListCellController<Feed> {
 		Feed feed = getItem();
 		List<Comment> comments = feed.getComments(true);
 		boolean hasComments = comments.size() > 0;
-		// TODO: refactor me
 		commentsList.setVisible(! commentsList.isVisible());
 		commentsList.setManaged(commentsList.isVisible());
 		if (commentsList.isVisible()) {

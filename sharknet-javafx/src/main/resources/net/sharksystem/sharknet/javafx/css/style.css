@@ -293,7 +293,6 @@
 .inbox-list {
 	-fx-border-width: 0px;
 	-fx-background-color: white;
-	-fx-padding: 5px;
 }
 
 .inbox-list:focused {
@@ -303,6 +302,7 @@
 .inbox-list .media-list-item {
 	-fx-background-color: white;
 	-fx-border-width:0;
+	-fx-padding:0;
 }
 .inbox-list .media-list-item:empty {
 	-fx-border-width: 0px;

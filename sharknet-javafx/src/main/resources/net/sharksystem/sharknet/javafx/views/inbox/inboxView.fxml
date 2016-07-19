@@ -7,13 +7,17 @@
 <?import net.sharksystem.sharknet.javafx.controller.inbox.InboxList?>
 <?import net.sharksystem.sharknet.javafx.controls.RoundImageView?>
 <?import org.controlsfx.control.textfield.CustomTextField?>
+<?import javafx.geometry.Insets?>
 <BorderPane style="-fx-padding: 20px 0 0 10px;" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1">
     <left>
         <fx:include source="interestFilter.fxml"/>
     </left>
     <center>
-    <VBox fx:id="inboxView" alignment="TOP_CENTER" fillWidth="true" maxWidth="555.0" prefHeight="200.0" prefWidth="555.0" spacing="5" styleClass="theme-presets" StackPane.alignment="TOP_CENTER">
-        <AnchorPane fx:id="messageComposerPane" maxHeight="-Infinity" maxWidth="555.0" minHeight="200.0" minWidth="-Infinity" prefHeight="-Infinity" prefWidth="555.0" styleClass="inbox-section" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1">
+    <VBox fx:id="inboxView" alignment="TOP_CENTER" fillWidth="true" prefHeight="200.0"  spacing="5" styleClass="theme-presets" StackPane.alignment="TOP_CENTER">
+        <padding>
+            <Insets top="0" left="20" right="20" bottom="0"/>
+        </padding>
+        <AnchorPane fx:id="messageComposerPane" VBox.vgrow="ALWAYS" maxHeight="-Infinity"  minHeight="200.0" minWidth="-Infinity" prefHeight="-Infinity" styleClass="inbox-section" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1">
             <children>
                 <RoundImageView fx:id="feedSenderProfile" fitHeight="40.0" fitWidth="40.0" layoutX="12.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="12.0" AnchorPane.topAnchor="12.0">
                     <image>
@@ -40,7 +44,7 @@
                 </HBox>
             </children>
         </AnchorPane>
-        <InboxList VBox.vgrow="ALWAYS" fx:id = "inboxListView" maxWidth="555.0" minWidth="-Infinity" prefWidth="555.0"  />
+        <InboxList VBox.vgrow="ALWAYS" fx:id = "inboxListView"/>
     </VBox>
     </center>
 </BorderPane>
