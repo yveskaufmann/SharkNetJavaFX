@@ -6,6 +6,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import net.sharksystem.sharknet.api.Contact;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
@@ -186,30 +187,43 @@ public class ContactController extends AbstractController implements ContactList
 
 	@Override
 	protected void onFxmlLoaded() {
-
 		// Reaktion auf Klick auf Eintag in der Kontaktliste
-		contactListView.setOnMouseClicked(event -> {
-			if (event.getButton() == MouseButton.PRIMARY) {
-				if (contactListView.getSelectionModel().getSelectedItem() != null) {
-					ShowContactController s = new ShowContactController(contactListView.getSelectionModel().getSelectedItem());
-					s.addListener(this);
-					contactListView.getSelectionModel().clearSelection();
-				}
-			}
-		});
+		contactListView.setOnMouseClicked(this::onContactClicked);
+		blackListView.setOnMouseClicked(this::onContactClicked);
+	}
 
-		// Reaktion auf Klick auf Eintag in der Blocklist
-		blackListView.setOnMouseClicked(event -> {
-			if (event.getButton() == MouseButton.PRIMARY) {
-				if (blackListView.getSelectionModel().getSelectedItem() != null) {
-					ShowContactController s = new ShowContactController(blackListView.getSelectionModel().getSelectedItem());
-					s.addListener(this);
-					contactListView.getSelectionModel().clearSelection();
-				}
+
+	private void onContactClicked(MouseEvent e) {
+		if (e.getButton() == MouseButton.PRIMARY) {
+			Contact selectedContact = contactListView.getSelectionModel().getSelectedItem();
+			if (selectedContact != null) {
+				showContact(selectedContact, null);
+				contactListView.getSelectionModel().clearSelection();
+			}
+		}
+	}
+
+	/******************************************************************************
+	 *
+	 * Public Api
+	 *
+	 ******************************************************************************/
+
+	public void showContact(Contact contact, Runnable onContactsChanged) {
+		ShowContactController s = new ShowContactController(contact);
+		s.addListener(this);
+		s.addListener(new ContactListener() {
+			@Override
+			public void onContactListChanged() {
+				if (onContactsChanged != null) onContactsChanged.run();
+			}
+
+			@Override
+			public void onContactDeleted(Contact c) {
+				if (onContactsChanged != null) onContactsChanged.run();
 			}
 		});
 	}
-
 
 	// Listener-Methoden
 	public void onContactListChanged() {

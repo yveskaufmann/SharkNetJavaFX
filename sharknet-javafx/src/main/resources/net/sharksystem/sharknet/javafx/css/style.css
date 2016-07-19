@@ -323,6 +323,16 @@
 	-fx-border-color: #e5e6e9 #dfe0e4 #d0d1d5;
 }
 
+.sender-name {
+	-fx-cursor: hand;
+	-fx-font-weight: bold;
+	-fx-text-fill: -pink-A400;
+}
+
+.sender-name:hover {
+	-fx-underline: true;
+}
+
 /*------------------------------------------------------------------------------
  * Interest-Tags
  *------------------------------------------------------------------------------*/
