@@ -218,6 +218,7 @@ public class VoteController extends AbstractController {
 							if (childChild instanceof Label) {
 								String oldAnswer = ((Label) childChild).getText();
 								((Label) childChild).setText(result.get());
+								((Label) childChild).setUserData(result.get());
 								editAnswer(oldAnswer, result.get());
 								return;
 							}
@@ -240,9 +241,9 @@ public class VoteController extends AbstractController {
 	}
 
 	private void editAnswer(String oldAnswer, String newAnswer) {
-		for (String entry : answers) {
-			if (entry.equals(oldAnswer)) {
-				entry = newAnswer;
+		for (int i = 0; i < answers.size(); i++) {
+			if (answers.get(i).equals(oldAnswer)) {
+				answers.set(i, newAnswer);
 			}
 		}
 	}
