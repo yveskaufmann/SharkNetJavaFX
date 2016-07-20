@@ -10,11 +10,16 @@ import net.sharksystem.sharknet.api.ImplContact;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
-
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
+/******************************************************************************
+ *
+ * Dieser Controller kümmert sich um das Erstellen eines neuen Kontakts und
+ * die zugehürige newContactView.fxml.
+ *
+ ******************************************************************************/
 
 public class ContactNewController extends AbstractController {
 
@@ -39,7 +44,6 @@ public class ContactNewController extends AbstractController {
 	private Stage stage;
 	private String uid;
 	private String publickey;
-	//private String email;
 	private static final String EMAIL_PATTERN =
 		"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -70,9 +74,7 @@ public class ContactNewController extends AbstractController {
 
 	// Diese Methode soll später den von der Kamera erhaltenen QR-Code in einen String umwandeln
 	private String getQRCodeFromCamera(){
-		//DUMMY
-		String qrcode= "<Dummy-Key aus QR-Code>";
-		return qrcode;
+		return  "<Dummy-Key aus QR-Code>";
 	}
 
 
@@ -80,6 +82,7 @@ public class ContactNewController extends AbstractController {
 	public void addListener(ContactListener cl) {
 		contactListeners.add(cl);
 	}
+
 
 	@Override
 	protected void onFxmlLoaded() {

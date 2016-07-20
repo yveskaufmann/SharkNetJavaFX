@@ -3,8 +3,6 @@ package net.sharksystem.sharknet.javafx.controller;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import net.sharksystem.sharknet.api.Contact;
-import net.sharksystem.sharknet.api.Interest;
 import net.sharksystem.sharknet.api.Setting;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
@@ -14,8 +12,14 @@ import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
 
-import java.util.LinkedList;
-import java.util.List;
+
+/******************************************************************************
+ *
+ * Dieser Controller kümmert sich um die Einstellungsseite der Anwendung.
+ * Es werden allgemeine Einstellungen, Routing-Einstellungen und die Sync
+ * verwaltet. Zugehörige View: settingsView.fxml
+ *
+ ******************************************************************************/
 
 @Controller( title = "%sidebar.settings")
 public class SettingsController extends AbstractController {
@@ -28,8 +32,6 @@ public class SettingsController extends AbstractController {
 	private boolean radar;
 	private String tcpAddress = "tcp://192.168....";
 	private int tcpPort = 6000;
-	private List<Contact> routingContacts = new LinkedList<>();
-	private List<Interest> routingInterest = new LinkedList<>();
 	private static final String EMAIL_PATTERN =
 		"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -104,7 +106,6 @@ public class SettingsController extends AbstractController {
 	}
 
 
-
 	// Einstellungen speichern
 	@FXML
 	private void onSettingsSaveButtonClick() {
@@ -123,7 +124,7 @@ public class SettingsController extends AbstractController {
 			}
 		}
 
-		// Prüfen der Eingabe von SMTP- und IMAP-Server
+		// Prüfen der Eingabe von SMTP-Server
 		if(smtpServerInput.getText() != null){
 			if(smtpServerInput.getText().matches(SERVER_PATTERN)){
 				settings.setSmtpServer(smtpServerInput.getText() + ":" + smtpPortInput);
@@ -136,6 +137,7 @@ public class SettingsController extends AbstractController {
 				return;
 			}
 		}
+		// Prüfen der Eingabe von IMAP-Server
 		if(imapServerInput.getText() != null){
 			if(imapServerInput.getText().matches(SERVER_PATTERN)){
 				settings.setImapServer(imapServerInput.getText());
@@ -166,16 +168,6 @@ public class SettingsController extends AbstractController {
 			catch (Exception e){ e.printStackTrace(); }
 		try{ settings.setImapPort(Integer.parseInt(imapPortInput.getText())); }
 			catch (Exception e){ e.printStackTrace(); }
-
-		System.out.println("Mail address= "+ mailAddressInput.getText());
-		System.out.println("SMTP-Port: " + smtpPortInput.getText());
-		System.out.println("SMTP= "+ smtpServerInput.getText());
-		System.out.println("IMAP= " + imapServerInput.getText());
-		System.out.println("IMAP-Port: " + imapPortInput.getText());
-		System.out.println("Wifi Direct off after: " + wifiDirectOffMinutesInput.getText() + " min.");
-		System.out.println("SMTP-Port: " + smtpPortInput.getText());
-		System.out.println("SMTP-PW: " + smtpPasswordInput.getText());
-		System.out.println("IMAP-PW: " + imapPasswordInput.getText());
 
 		if(radarOnRadioButton.isSelected()){
 			settings.setRadarON(true);
@@ -228,7 +220,6 @@ public class SettingsController extends AbstractController {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("MaxMB= " + maximumRouteSizeInput.getText());
 	}
 
 	// Sync starten
@@ -251,7 +242,6 @@ public class SettingsController extends AbstractController {
 			syncViaTCP();
 		}
 
-
 		// Auswerten der Checkboxen, was synchronisiert werden soll
 		if(profileSyncCheckbox.isSelected()){
 			System.out.println("Profil synchronisieren");
@@ -271,13 +261,9 @@ public class SettingsController extends AbstractController {
 	}
 
 
-
-
 	@Override
 	protected void onFxmlLoaded() {
 		settings = sharkNetModel.getMyProfile().getSettings();
-		routingContacts = settings.getRoutingContacts();
-		routingInterest = settings.getRoutingInterests();
 		tcpStartedMessageLabel.setText("");
 
 		// Radar-Radiobutton setzen
@@ -320,7 +306,6 @@ public class SettingsController extends AbstractController {
 		if(settings.isSyncHausaufgaben()){ homeworkSyncCheckbox.setSelected(true); }
 	}
 
-
 	// Methoden stubs für Sync
 	private void syncViaWifi(){}
 	private void syncViaMail(){}
@@ -331,5 +316,4 @@ public class SettingsController extends AbstractController {
 	private String getMyInternalIP(){
 		return "<Interne IP>";
 	}
-
 }

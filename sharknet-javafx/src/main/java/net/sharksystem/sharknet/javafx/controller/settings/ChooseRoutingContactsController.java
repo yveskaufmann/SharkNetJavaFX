@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.Contact;
-import net.sharksystem.sharknet.api.ImplContact;
 import net.sharksystem.sharknet.api.Setting;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
@@ -16,6 +15,12 @@ import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import java.util.ArrayList;
 import java.util.List;
 
+/******************************************************************************
+ *
+ * Dieser Controller kümmert sich um die Auswahl der zu routenden Kontakte
+ * (siehe Settings). Zugehörige View: routingContactsView.fxml.
+ *
+ ******************************************************************************/
 
 public class ChooseRoutingContactsController extends AbstractController {
 
@@ -54,7 +59,6 @@ public class ChooseRoutingContactsController extends AbstractController {
 	@Override
 	protected void onFxmlLoaded() {
 		this.settings = sharkNetModel.getMyProfile().getSettings();
-
 		loadContacts();
 
 		allowButton.setOnMouseClicked(event -> {
@@ -73,7 +77,7 @@ public class ChooseRoutingContactsController extends AbstractController {
 		});
 	}
 
-
+	// Kontakt zulassen
 	private void onAllowContact(int selectedIndex){
 		if (selectedIndex >= 0) {
 			allowedContactsListView.getItems().add(deniedContacts.get(selectedIndex).getNickname());
@@ -84,6 +88,7 @@ public class ChooseRoutingContactsController extends AbstractController {
 		}
 	}
 
+	// Kontakt verweigern
 	private void onDenyContact(int selectedIndex) {
 		if (selectedIndex >= 0) {
 			deniedContacts.add(allowedContacts.get(selectedIndex));
@@ -94,6 +99,7 @@ public class ChooseRoutingContactsController extends AbstractController {
 		}
 	}
 
+	// Laden der Listen
 	private void loadContacts() {
 		allContacts = sharkNetModel.getContacts();
 		allContacts.addAll(sharkNetModel.getMyProfile().getBlacklist().getList());
@@ -101,7 +107,6 @@ public class ChooseRoutingContactsController extends AbstractController {
 
 		// Daten von diesen Kontakten weiterleiten
 		for (Contact c : allContacts) {
-
 			if (allowedContacts.contains(c)) {
 				allowedContactsListView.getItems().add(c.getNickname());
 			}
@@ -109,7 +114,6 @@ public class ChooseRoutingContactsController extends AbstractController {
 				deniedContacts.add(c);
 				deniedContactsListView.getItems().add(c.getNickname());
 			}
-
 		}
 	}
 }

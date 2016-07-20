@@ -7,30 +7,25 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import net.sharkfw.knowledgeBase.SemanticTag;
-import net.sharkfw.knowledgeBase.TXSemanticTag;
-import net.sharkfw.knowledgeBase.Taxonomy;
 import net.sharksystem.sharknet.api.Contact;
-import net.sharksystem.sharknet.api.ImplInterest;
-import net.sharksystem.sharknet.api.Interest;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
-import net.sharksystem.sharknet.javafx.controls.RoundImageView;
 import net.sharksystem.sharknet.javafx.services.ImageManager;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
-
 import javax.inject.Inject;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static android.R.attr.mimeType;
-import static net.sharksystem.sharknet.javafx.i18n.I18N.getString;
+/******************************************************************************
+ *
+ * Dieser Controller kümmert sich das Anzeigen und Bearbeiten eines Kontaktes.
+ * Zugehörige View: showContactView.fxml.
+ *
+ ******************************************************************************/
 
 public class ShowContactController extends AbstractController {
 
-	//@FXML
-	//private TextField nameTextField;
 	@FXML
 	private TextField nicknameTextField;
 	@FXML
@@ -52,7 +47,6 @@ public class ShowContactController extends AbstractController {
 	@FXML
 	private Button deleteContactButton;
 	@FXML
-	//private RoundImageView profilePictureImageView;
 	private ImageView profilePictureImageView;
 	@FXML
 	private Label nameLabel;
@@ -88,11 +82,10 @@ public class ShowContactController extends AbstractController {
 		contactListeners = new ArrayList<>();
 	}
 
+	// listener
 	public void addListener(ContactListener cl) {
 		contactListeners.add(cl);
 	}
-
-
 
 	@Override
 	protected void onFxmlLoaded() {
@@ -103,20 +96,17 @@ public class ShowContactController extends AbstractController {
 		if(contact.getInterests().getAllTopics().isEmpty()){
 			interestsListView.getItems().add("Keine Interessen vorhanden.");
 		}
-		//TODO?
 		for (SemanticTag s : contact.getInterests().getAllTopics()) {
 			interestsListView.getItems().add(s.getName());
 		}
 
 		nicknameTextField.setEditable(false);
-		//nameTextField.setEditable(false);
 		emailTextField.setEditable(false);
 		telephoneTextField.setEditable(false);
 		infoTextField.setEditable(false);
 		publicKeyTextField.setEditable(false);
 
 		nicknameTextField.setText(contact.getNickname());
-		//nameTextField.setText(contact.getName());
 		nameLabel.setText(contact.getName());
 		emailTextField.setText(contact.getEmail());
 		telephoneTextField.setText("" + contact.getTelephonnumber());
@@ -125,7 +115,6 @@ public class ShowContactController extends AbstractController {
 
 		editButton.setOnMouseClicked(event -> {
 			nicknameTextField.setEditable(true);
-			//nameTextField.setEditable(true);
 			emailTextField.setEditable(true);
 			telephoneTextField.setEditable(true);
 			editLabel.setVisible(true);
@@ -158,7 +147,7 @@ public class ShowContactController extends AbstractController {
 			stage.close();
 		});
 
-		// Public Key löschen
+		// Public Key löschen-Button
 		deletePublicKeyButton.setOnMouseClicked(event -> {
 			Alert alert = new Alert(Alert.AlertType.WARNING);
 			alert.setTitle("Public Key löschen");
@@ -176,7 +165,7 @@ public class ShowContactController extends AbstractController {
 
 		});
 
-		// Kontakt löschen
+		// Kontakt löschen-Button
 		deleteContactButton.setOnMouseClicked(event -> {
 			Alert alert = new Alert(Alert.AlertType.WARNING);
 			alert.setTitle("Kontakt löschen");
@@ -191,7 +180,7 @@ public class ShowContactController extends AbstractController {
 				for (ContactListener cl : contactListeners) {
 					cl.onContactDeleted(contact);
 				}
-				stage.close();;
+				stage.close();
 			}
 		});
 

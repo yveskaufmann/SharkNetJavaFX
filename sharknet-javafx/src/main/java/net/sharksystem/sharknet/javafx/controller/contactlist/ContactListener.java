@@ -2,11 +2,13 @@ package net.sharksystem.sharknet.javafx.controller.contactlist;
 
 import net.sharksystem.sharknet.api.Contact;
 
-import java.util.List;
+/******************************************************************************
+ *
+ * Listener-Interface zum aktualisieren der Kontaktliste bei verändern/löschen
+ * von Kontakten.
+ *
+ ******************************************************************************/
 
-/**
- * Created by ich on 08.07.16.
- */
 public interface ContactListener {
 	void onContactListChanged();
 	void onContactDeleted(Contact c);

@@ -13,6 +13,11 @@ import net.sharksystem.sharknet.javafx.services.ImageManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/******************************************************************************
+ *
+ * Dieser Controller kümmert sich den Aufbau der einzelnen Kontaktlisteneinträge.
+ *
+ ******************************************************************************/
 
 public class ContactListEntryController extends MediaListCellController<Contact> {
 
@@ -26,8 +31,6 @@ public class ContactListEntryController extends MediaListCellController<Contact>
 	private RoundImageView contactImage;
 	@FXML
 	private Text contactName;
-
-
 
 	public ContactListEntryController(MediaListCell<Contact> contactListCell) {
 		super(App.class.getResource("views/contactlist/contactListEntry.fxml"), contactListCell);

@@ -17,6 +17,15 @@ import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
 import javax.inject.Inject;
 import java.util.Optional;
 
+/******************************************************************************
+ *
+ * Dieser Controller kümmert sich um Kontaktliste und Blacklist.
+ * Für die einzelnen Einträge ist der ContactListEntryControler verantwortlich.
+ * Zugehörige View: contactsView.fxml
+ *
+ ******************************************************************************/
+
+
 @Controller(title = "%sidebar.contacts")
 public class ContactController extends AbstractController implements ContactListener {
 
@@ -82,7 +91,6 @@ public class ContactController extends AbstractController implements ContactList
 			Alert alert = new Alert(Alert.AlertType.WARNING);
 			alert.setTitle("Kontakt blockieren");
 			alert.setHeaderText(contactListView.getSelectionModel().getSelectedItem().getNickname() + " blockieren? ");
-
 			ButtonType blockierenButton = new ButtonType("Blockieren");
 			ButtonType abbruchButton = new ButtonType("Abbrechen", ButtonBar.ButtonData.CANCEL_CLOSE);
 			alert.getButtonTypes().setAll(blockierenButton, abbruchButton);
@@ -104,7 +112,7 @@ public class ContactController extends AbstractController implements ContactList
 		if (selectedIndex >= 0) {
 			Alert alert = new Alert(Alert.AlertType.WARNING);
 			alert.setTitle("Blockierung aufhaben?");
-			alert.setHeaderText(blackListView.getSelectionModel().getSelectedItem().getNickname() + " entblocken? ");
+			alert.setHeaderText("Blockierung für " + blackListView.getSelectionModel().getSelectedItem().getNickname() + " aufheben? ");
 
 			ButtonType entblockenButton = new ButtonType("Entblocken");
 			ButtonType abbruchButton = new ButtonType("Abbrechen", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -123,7 +131,7 @@ public class ContactController extends AbstractController implements ContactList
 
 
 	// Kontakt- und Blacklist laden
-	public void loadEntries() {
+	private void loadEntries() {
 		contacts.clear();
 		blockedContacts.clear();
 
@@ -156,12 +164,9 @@ public class ContactController extends AbstractController implements ContactList
 			if (filter == null || filter.length() == 0) {
 				filteredContactsData.setPredicate(s -> true);
 				contactListView.getItems().setAll(filteredContactsData);
-
-
 			} else {
 				filteredContactsData.setPredicate(s -> s.getNickname().contains(filter));
 				contactListView.getItems().setAll(filteredContactsData);
-
 			}
 		});
 		blacklistSearchTextfield.textProperty().addListener(observable -> {
@@ -191,7 +196,6 @@ public class ContactController extends AbstractController implements ContactList
 		contactListView.setOnMouseClicked(this::onContactClicked);
 		blackListView.setOnMouseClicked(this::onContactClicked);
 	}
-
 
 	private void onContactClicked(MouseEvent e) {
 		if (e.getButton() == MouseButton.PRIMARY) {
@@ -225,7 +229,7 @@ public class ContactController extends AbstractController implements ContactList
 		});
 	}
 
-	// Listener-Methoden
+	// Listener-Implementierung
 	public void onContactListChanged() {
 		loadEntries();
 	}
@@ -234,5 +238,4 @@ public class ContactController extends AbstractController implements ContactList
 		c.delete();
 		loadEntries();
 	}
-
 }

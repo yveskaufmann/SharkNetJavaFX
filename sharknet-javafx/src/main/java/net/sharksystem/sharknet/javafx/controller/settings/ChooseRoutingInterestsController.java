@@ -12,9 +12,17 @@ import net.sharkfw.knowledgeBase.TXSemanticTag;
 import net.sharksystem.sharknet.api.*;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
-
 import java.util.ArrayList;
 import java.util.List;
+
+
+/******************************************************************************
+ *
+ * Dieser Controller kümmert sich um die Auswahl der zu routenden Themen
+ * (siehe Settings). Zugehörige View: routingInterestsView.fxml.
+ *
+ ******************************************************************************/
+
 
 public class ChooseRoutingInterestsController extends AbstractController {
 
@@ -31,6 +39,7 @@ public class ChooseRoutingInterestsController extends AbstractController {
 
 	@Inject
 	private SharkNet sharkNetModel;
+
 	private List<TXSemanticTag> allInterests;
 	private List<SemanticTag> allowedInterests;
 	private List<SemanticTag> deniedInterests;
@@ -95,22 +104,10 @@ public class ChooseRoutingInterestsController extends AbstractController {
 
 	// Laden der Listen
 	private void loadInterests() {
-		//allowedInterests = settings.getRoutingInterests();
-
 		for (SemanticTag s : c.getInterests().getAllTopics()) {
 			allowedInterestsListView.getItems().add(s.getName());
 			allowedInterests.add(s);
 		}
-		/*
-		for (SemanticTag s : allInterests) {
-			if (allowedInterests.contains(s)) {
-				allowedInterestsListView.getItems().add(s.getName());
-			} else {
-				deniedInterests.add(s);
-				deniedInterestsListView.getItems().add(s.getName());
-			}
-		}
-		*/
 	}
 }
 
