@@ -5,9 +5,10 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
+<?import javafx.scene.image.ImageView?>
+<?import net.sharksystem.sharknet.javafx.controls.RoundImageView?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="393.0" layoutY="45.0" styleClass="text-header" text="Nickname:" />
@@ -17,7 +18,7 @@
       <Label layoutX="393.0" layoutY="216.0" styleClass="text-header" text="Info:" />
       <Label layoutX="393.0" layoutY="311.0" styleClass="text-header" text="Public Key:" />
       <Label layoutX="393.0" layoutY="423.0" styleClass="text-header" text="Interessen:" />
-      <ImageView fx:id="profilePictureImageView" fitHeight="215.0" fitWidth="239.0" layoutX="63.0" layoutY="77.0" pickOnBounds="true" preserveRatio="true" />
+      <RoundImageView fx:id="profilePictureImageView" fitHeight="250.0" fitWidth="250.0" layoutX="45.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" />
       <TextField fx:id="nicknameTextField" layoutX="536.0" layoutY="42.0" />
       <TextField fx:id="emailTextField" layoutX="536.0" layoutY="115.0" />
       <TextField fx:id="telephoneTextField" layoutX="536.0" layoutY="152.0" />

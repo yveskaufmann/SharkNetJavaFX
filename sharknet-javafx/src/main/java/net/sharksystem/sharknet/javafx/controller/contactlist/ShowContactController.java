@@ -4,12 +4,12 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import net.sharkfw.knowledgeBase.SemanticTag;
 import net.sharksystem.sharknet.api.Contact;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
+import net.sharksystem.sharknet.javafx.controls.RoundImageView;
 import net.sharksystem.sharknet.javafx.services.ImageManager;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import javax.inject.Inject;
@@ -47,7 +47,7 @@ public class ShowContactController extends AbstractController {
 	@FXML
 	private Button deleteContactButton;
 	@FXML
-	private ImageView profilePictureImageView;
+	private RoundImageView profilePictureImageView;
 	@FXML
 	private Label nameLabel;
 	@FXML
@@ -109,9 +109,14 @@ public class ShowContactController extends AbstractController {
 		nicknameTextField.setText(contact.getNickname());
 		nameLabel.setText(contact.getName());
 		emailTextField.setText(contact.getEmail());
-		telephoneTextField.setText("" + contact.getTelephonnumber());
 		infoTextField.setText(contact.getNote());
 		publicKeyTextField.setText(contact.getPublicKey());
+
+		if(!contact.getTelephonnumber().isEmpty()){
+			telephoneTextField.setText("" + contact.getTelephonnumber().get(0));
+		}
+
+
 
 		editButton.setOnMouseClicked(event -> {
 			nicknameTextField.setEditable(true);
