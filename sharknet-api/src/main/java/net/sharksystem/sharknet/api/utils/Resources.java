@@ -23,6 +23,5 @@ public class Resources {
 		} catch (URISyntaxException e) {
 			throw new RuntimeException(e);
 		}
-
 	}
 }

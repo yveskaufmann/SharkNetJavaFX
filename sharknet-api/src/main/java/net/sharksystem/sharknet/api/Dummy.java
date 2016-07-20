@@ -202,8 +202,8 @@ public class Dummy {
 
 		// Interessen anlegen, Fussball wird unter Sport eingeordnet
 		Interest i1 = new ImplInterest(alice);
-		TXSemanticTag si1 = i1.addInterest("sport", "www.sport.de");
-		TXSemanticTag si2 = i1.addInterest("fußball", "www.fußball.de");
+		TXSemanticTag si1 = i1.addInterest("sport", "https://de.wikipedia.org/wiki/Sport");
+		TXSemanticTag si2 = i1.addInterest("fußball", "https://de.wikipedia.org/wiki/Fußball");
 		i1.moveInterest(si1, si2);
 
 		//Bob hat nur das interesse shark
