@@ -7,6 +7,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -18,6 +19,8 @@ import net.sharksystem.sharknet.api.*;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
 import net.sharksystem.sharknet.javafx.controller.contactlist.ShowContactController;
+import net.sharksystem.sharknet.javafx.controller.profile.ProfileEvent;
+import net.sharksystem.sharknet.javafx.controls.dialogs.ImageChooserDialog;
 import net.sharksystem.sharknet.javafx.services.ImageManager;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
@@ -121,7 +124,7 @@ public class ChatController extends AbstractController implements ChatListener, 
 	protected void onFxmlLoaded() {
 		buttonNewChat.setText(getString("chat.button.newchat"));
 		buttonSend.setText(getString("chat.button.send"));
-		textFieldMessage.setText(getString("chat.textinput.typemsg"));
+		//textFieldMessage.setText(getString("chat.textinput.typemsg"));
 		// set tooltips
 		labelChatRecipients.setTooltip(new Tooltip(getString("chat.tooltip.contacts")));
 		Tooltip.install(imageViewAttachment, new Tooltip(getString("chat.tooltip.attachment")));
