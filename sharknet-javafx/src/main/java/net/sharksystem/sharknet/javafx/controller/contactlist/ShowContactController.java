@@ -29,13 +29,15 @@ public class ShowContactController extends AbstractController {
 	@FXML
 	private TextField nicknameTextField;
 	@FXML
+	private TextField nameTextField;
+	@FXML
 	private TextField emailTextField;
 	@FXML
 	private TextField telephoneTextField;
 	@FXML
 	private TextArea infoTextField;
 	@FXML
-	private TextArea publicKeyTextField;
+	private TextField publicKeyTextField;
 	@FXML
 	private Button editButton;
 	@FXML
@@ -48,8 +50,6 @@ public class ShowContactController extends AbstractController {
 	private Button deleteContactButton;
 	@FXML
 	private RoundImageView profilePictureImageView;
-	@FXML
-	private Label nameLabel;
 	@FXML
 	private Label editLabel;
 	@FXML
@@ -101,16 +101,16 @@ public class ShowContactController extends AbstractController {
 		}
 
 		nicknameTextField.setEditable(false);
+		nameTextField.setEditable(false);
 		emailTextField.setEditable(false);
 		telephoneTextField.setEditable(false);
 		infoTextField.setEditable(false);
-		publicKeyTextField.setEditable(false);
 
 		nicknameTextField.setText(contact.getNickname());
-		nameLabel.setText(contact.getName());
+		nameTextField.setText(contact.getName());
 		emailTextField.setText(contact.getEmail());
 		infoTextField.setText(contact.getNote());
-		publicKeyTextField.setText(contact.getPublicKey());
+		publicKeyTextField.setText(contact.getPublicKeyFingerprint());
 
 		if(!contact.getTelephonnumber().isEmpty()){
 			telephoneTextField.setText("" + contact.getTelephonnumber().get(0));
@@ -120,6 +120,7 @@ public class ShowContactController extends AbstractController {
 
 		editButton.setOnMouseClicked(event -> {
 			nicknameTextField.setEditable(true);
+			nameTextField.setEditable(true);
 			emailTextField.setEditable(true);
 			telephoneTextField.setEditable(true);
 			editLabel.setVisible(true);
@@ -127,6 +128,7 @@ public class ShowContactController extends AbstractController {
 
 		saveButton.setOnMouseClicked(event -> {
 			contact.setNickname(nicknameTextField.getText());
+			contact.addName(nameTextField.getText());
 
 			// Prüfen der Mailadresse
 			if (emailTextField.getText() != null) {
@@ -165,7 +167,7 @@ public class ShowContactController extends AbstractController {
 			Optional<ButtonType> result = alert.showAndWait();
 			if(result.get() == loeschenOKButton){
 				contact.deleteKey();
-				publicKeyTextField.setText(contact.getPublicKey());
+				publicKeyTextField.setText(contact.getPublicKeyFingerprint());
 			}
 
 		});

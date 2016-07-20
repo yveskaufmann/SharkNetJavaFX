@@ -68,9 +68,9 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <Label layoutX="214.0" layoutY="380.0" text="Weiterleitung von Datenpakteten bis:" />
-                            <TextField fx:id="maximumRouteSizeInput" layoutX="471.0" layoutY="376.0" prefHeight="25.0" prefWidth="52.0" promptText="MB" />
+                            <TextField fx:id="maximumRouteSizeInput" layoutX="463.0" layoutY="376.0" prefHeight="25.0" prefWidth="52.0" promptText="MB" />
                             <Button fx:id="routingSaveButton" layoutX="708.0" layoutY="515.0" mnemonicParsing="false" onAction="#onRoutingSaveButtonClick" text="Speichern" />
-                            <Label layoutX="533.0" layoutY="380.0" text="MB" />
+                            <Label layoutX="525.0" layoutY="380.0" text="MB" />
                      <Button fx:id="startTCPServerButton" layoutX="600.0" layoutY="97.0" mnemonicParsing="false" onAction="#onStartTCPServerButtonClick" text="Start TCP Server" />
                      <Button fx:id="stopTCPServerButton" layoutX="600.0" layoutY="132.0" mnemonicParsing="false" onAction="#onStopTCPServerButtonClick" text="Stop TCP Server" />
                      <Label layoutX="163.0" layoutY="37.0" styleClass="title_text" text="TCP-Server">

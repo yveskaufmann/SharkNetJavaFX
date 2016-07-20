@@ -7,23 +7,21 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<?import javafx.scene.image.ImageView?>
 <?import net.sharksystem.sharknet.javafx.controls.RoundImageView?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="theme-presets" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="393.0" layoutY="45.0" styleClass="text-header" text="Nickname:" />
-      <Label layoutX="393.0" layoutY="81.0" styleClass="text-header" text="Name:" />
-      <Label layoutX="393.0" layoutY="119.0" styleClass="text-header" text="E-Mail:" />
-      <Label layoutX="393.0" layoutY="154.0" styleClass="text-header" text="Telefon:" />
-      <Label layoutX="393.0" layoutY="216.0" styleClass="text-header" text="Info:" />
-      <Label layoutX="393.0" layoutY="311.0" styleClass="text-header" text="Public Key:" />
+      <Label layoutX="393.0" layoutY="116.0" styleClass="text-header" text="Nickname:" />
+      <Label layoutX="393.0" layoutY="152.0" styleClass="text-header" text="Name:" />
+      <Label layoutX="393.0" layoutY="190.0" styleClass="text-header" text="E-Mail:" />
+      <Label layoutX="393.0" layoutY="225.0" styleClass="text-header" text="Telefon:" />
+      <Label layoutX="393.0" layoutY="287.0" styleClass="text-header" text="Info:" />
+      <Label layoutX="393.0" layoutY="349.0" styleClass="text-header" text="Fingerprint:" />
       <Label layoutX="393.0" layoutY="423.0" styleClass="text-header" text="Interessen:" />
       <RoundImageView fx:id="profilePictureImageView" fitHeight="250.0" fitWidth="250.0" layoutX="45.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" />
-      <TextField fx:id="nicknameTextField" layoutX="536.0" layoutY="42.0" />
-      <TextField fx:id="emailTextField" layoutX="536.0" layoutY="115.0" />
-      <TextField fx:id="telephoneTextField" layoutX="536.0" layoutY="152.0" />
-      <TextArea fx:id="infoTextField" layoutX="495.0" layoutY="190.0" prefHeight="71.0" prefWidth="239.0" />
-      <TextArea fx:id="publicKeyTextField" layoutX="495.0" layoutY="272.0" prefHeight="94.0" prefWidth="239.0" />
+      <TextField fx:id="nicknameTextField" layoutX="536.0" layoutY="113.0" />
+      <TextField fx:id="emailTextField" layoutX="536.0" layoutY="186.0" />
+      <TextField fx:id="telephoneTextField" layoutX="536.0" layoutY="223.0" />
+      <TextArea fx:id="infoTextField" layoutX="495.0" layoutY="261.0" prefHeight="71.0" prefWidth="239.0" />
       <Label fx:id="nameLabel" layoutX="537.0" layoutY="82.0" prefHeight="16.0" prefWidth="171.0" />
       <ListView fx:id="interestsListView" layoutX="494.0" layoutY="382.0" prefHeight="105.0" prefWidth="239.0" />
       <Label fx:id="editLabel" layoutX="270.0" layoutY="502.0" styleClass="text-header" text="Du kannst nun bearbeiten." textFill="#e80202" />
@@ -32,5 +30,7 @@
       <Button fx:id="saveButton" layoutX="677.0" layoutY="547.0" mnemonicParsing="false" text="Speichern" />
       <Button fx:id="deletePublicKeyButton" layoutX="310.0" layoutY="547.0" mnemonicParsing="false" text="Public Key löschen" />
       <Button fx:id="deleteContactButton" layoutX="466.0" layoutY="547.0" mnemonicParsing="false" text="Löschen" />
+      <TextField fx:id="publicKeyTextField" layoutX="494.0" layoutY="344.0" prefHeight="26.0" prefWidth="239.0" />
+      <TextField fx:id="nameTextField" layoutX="536.0" layoutY="150.0" />
    </children>
 </AnchorPane>
