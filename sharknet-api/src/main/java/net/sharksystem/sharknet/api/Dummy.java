@@ -127,6 +127,9 @@ public class Dummy {
 		bobandcharlesrecipients.add(bob);
 		bobandcharlesrecipients.add(alice_charles);
 
+		List<Contact> alicerecipient = new ArrayList<>();
+		alicerecipient.add(alice);
+
 		//2.Chats mit Kontaktlisten anelgen
 		Chat chatgroup = s.newChat(grouprecipients);
 		Chat chatcharles  = s.newChat(charlesrecipient);
@@ -186,8 +189,11 @@ public class Dummy {
 		chatcharles.sendMessage(new ImplContent("Hallo Charles", alice_p));
 		chatcharles.sendMessage(new ImplContent("Wie geht es dir?", alice_p));
 		chatcharles.sendMessage(new ImplContent("Es freut mich das du auch bei SharkNet bist", alice_p));
-		chatbobandcharles.sendMessage(new ImplContent("Treffen wir uns in der Mensa?", alice_p));
 
+		DummyDB.getInstance().addMessage(new ImplMessage(new ImplContent("Ja, SharkNet ist super", alice_p), time5after, alice_charles, s.getMyProfile(), alicerecipient , false, false) , chatcharles);
+		chatbobandcharles.sendMessage(new ImplContent("Treffen wir uns in der Mensa?", alice_p));
+		DummyDB.getInstance().addMessage(new ImplMessage(new ImplContent("Ja, klar ich bin am start", alice_p), time5after, bob, s.getMyProfile(), alicerecipient , false, false) , chatbobandcharles);
+		DummyDB.getInstance().addMessage(new ImplMessage(new ImplContent("Ja, aber ich bin später", alice_p), time5after, alice_charles, s.getMyProfile(), alicerecipient , false, false) , chatbobandcharles);
 
 		//Setzen von Encryted und Signiert usw auf True
 		List<Message> chat1_m = chatgroup.getMessages(true);
@@ -213,6 +219,10 @@ public class Dummy {
 		bob.getInterests().addInterest(si1);
 		bob.getInterests().addInterest(si2);
 		bob.getInterests().addInterest(si3);
+
+		alice.getInterests().addInterest(si1);
+		alice.getInterests().addInterest(si2);
+		alice.getInterests().addInterest(si3);
 
 
 		//Feeds anlegen
