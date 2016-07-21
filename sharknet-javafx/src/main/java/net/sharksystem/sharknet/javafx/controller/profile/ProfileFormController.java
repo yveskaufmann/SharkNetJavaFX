@@ -37,7 +37,6 @@ public class ProfileFormController  {
 		"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-
 	/******************************************************************************
 	 *
 	 * FXML Fields
@@ -47,6 +46,7 @@ public class ProfileFormController  {
 	@FXML private TextField nicknameTextfield;
 	@FXML private TextField realnameTextfield;
 	@FXML private TextField emailTextfield;
+	@FXML private TextField teleponeField;
 	@FXML private TextArea userInfoTextfield;
 	@FXML private Button cancelButton;
 	@FXML private Button saveButton;
@@ -103,6 +103,10 @@ public class ProfileFormController  {
 		realnameTextfield.setText(contact.getName());
 		emailTextfield.setText(contact.getEmail());
 		userInfoTextfield.setText(contact.getNote());
+
+		if (contact.getTelephonnumber().size() > 0) {
+			teleponeField.setText(contact.getTelephonnumber().get(0));
+		}
 	}
 
 	/******************************************************************************
@@ -120,6 +124,15 @@ public class ProfileFormController  {
 			contact.setEmail(emailTextfield.getText());
 			contact.addName(realnameTextfield.getText());
 			contact.addNote(userInfoTextfield.getText());
+
+			String telephoneNumber = teleponeField.getText().trim();
+
+			if (contact.getTelephonnumber().size() > 0) {
+				contact.getTelephonnumber().set(0, telephoneNumber);
+			} else {
+				contact.addTelephonnumber(telephoneNumber);
+			}
+
 			contact.update();
 
 			// notify other controllers about the change
