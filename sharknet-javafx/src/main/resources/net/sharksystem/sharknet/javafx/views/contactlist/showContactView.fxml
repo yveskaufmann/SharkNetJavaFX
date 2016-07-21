@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <?import net.sharksystem.sharknet.javafx.controls.RoundImageView?>
@@ -21,7 +22,7 @@
       <TextField fx:id="nicknameTextField" layoutX="536.0" layoutY="113.0" />
       <TextField fx:id="emailTextField" layoutX="536.0" layoutY="186.0" />
       <TextField fx:id="telephoneTextField" layoutX="536.0" layoutY="223.0" />
-      <TextArea fx:id="infoTextField" layoutX="495.0" layoutY="261.0" prefHeight="71.0" prefWidth="239.0" />
+      <TextArea fx:id="infoTextField" layoutX="495.0" layoutY="261.0" prefHeight="71.0" prefWidth="239.0" wrapText="true" />
       <Label fx:id="nameLabel" layoutX="537.0" layoutY="82.0" prefHeight="16.0" prefWidth="171.0" />
       <ListView fx:id="interestsListView" layoutX="494.0" layoutY="382.0" prefHeight="105.0" prefWidth="239.0" />
       <Label fx:id="editLabel" layoutX="270.0" layoutY="502.0" styleClass="text-header" text="Du kannst nun bearbeiten." textFill="#e80202" />

@@ -80,6 +80,14 @@ public class ShowContactController extends AbstractController {
 		stage.show();
 		editLabel.setVisible(false);
 		contactListeners = new ArrayList<>();
+
+		// falls es sich um das eigene Profil handelt
+		if(c == sharkNetModel.getMyProfile().getContact()){
+			deletePublicKeyButton.setVisible(false);
+			deleteContactButton.setVisible(false);
+			editButton.setVisible(false);
+			saveButton.setVisible(false);
+		}
 	}
 
 	// listener
