@@ -295,6 +295,8 @@ public class InboxController extends AbstractController  {
 		// add all selected interest to the filter object
 		for (TreeItem<TXSemanticTag> checkedTreeItem : checkModel.getCheckedItems()) {
 			final TXSemanticTag semanticTag = checkedTreeItem.getValue();
+			if (semanticTag == null) continue;
+			System.out.println(checkedTreeItem.getValue().getName());
 			try {
 				filterInterestObject.addInterest(semanticTag);
 			} catch (Exception e) {

@@ -198,11 +198,17 @@ public class ContactController extends AbstractController implements ContactList
 	}
 
 	private void onContactClicked(MouseEvent e) {
+
 		if (e.getButton() == MouseButton.PRIMARY) {
-			Contact selectedContact = contactListView.getSelectionModel().getSelectedItem();
-			if (selectedContact != null) {
-				showContact(selectedContact, null);
-				contactListView.getSelectionModel().clearSelection();
+
+			final Object source = e.getSource();
+			if (source instanceof ContactList) {
+				final ContactList contactList = (ContactList) source;
+				Contact selectedContact = contactList.getSelectionModel().getSelectedItem();
+				if (selectedContact != null) {
+					showContact(selectedContact, null);
+					contactList.getSelectionModel().clearSelection();
+				}
 			}
 		}
 	}
