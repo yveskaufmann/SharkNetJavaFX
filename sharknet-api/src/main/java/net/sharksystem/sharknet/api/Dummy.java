@@ -230,6 +230,25 @@ public class Dummy {
 		//Blacklist anlegen, Alice hat ihren Exfreund auf der Liste
 		alice_p.getBlacklist().add(new ImplContact("alice exboyfriend", "hotboy@elitepartner.com", "", alice_p));
 
+		//Settings für Alice setzten
+		Setting aliceSet = s.getMyProfile().getSettings();
+		aliceSet.setEmail("alice@sharknet.de");
+		aliceSet.setMailboxSize(10);
+		aliceSet.setImapServer("imap.sharknet.de");
+		aliceSet.setSmtpServer("smtp.sharknet.de");
+		aliceSet.setImapPort(8080);
+		aliceSet.setSmtpPort(8080);
+		aliceSet.setImapPassword("imappassword");
+		aliceSet.setSmtpPassword("smtppassword");
+
+		s.getMyProfile().getContact().setEmail("alice@sharknet.de");
+		s.getMyProfile().getContact().addName("Alice Mustermann");
+		s.getMyProfile().getContact().addNote("Hello I`M Alice one of the Example Account for Sharknet");
+		s.getMyProfile().getContact().addTelephonnumber("0123456789");
+
+
+
+
 
 //Bobs stuff
 		s.setProfile(bob_p, "");

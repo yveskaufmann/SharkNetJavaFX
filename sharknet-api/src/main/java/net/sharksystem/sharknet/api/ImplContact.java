@@ -135,6 +135,13 @@ public class ImplContact implements Contact, StudentContact {
 	}
 
 	@Override
+	public void removeTelephonenumber(String teleponenumber) {
+		if(getTelephonnumber().contains(teleponenumber)){
+			getTelephonnumber().remove(teleponenumber);
+		}
+	}
+
+	@Override
 	public void addNote(String note) {
 		this.notes = note;
 	}
