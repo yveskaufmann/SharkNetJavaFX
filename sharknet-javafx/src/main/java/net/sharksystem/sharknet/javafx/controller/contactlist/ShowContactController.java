@@ -113,6 +113,7 @@ public class ShowContactController extends AbstractController {
 		emailTextField.setEditable(false);
 		telephoneTextField.setEditable(false);
 		infoTextField.setEditable(false);
+		publicKeyTextField.setEditable(false);
 
 		nicknameTextField.setText(contact.getNickname());
 		nameTextField.setText(contact.getName());

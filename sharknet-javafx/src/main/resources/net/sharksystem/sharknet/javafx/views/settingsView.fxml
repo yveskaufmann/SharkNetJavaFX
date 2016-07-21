@@ -21,7 +21,7 @@
                        <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="565.0" prefWidth="796.0">
                              <children>
-                                <Button fx:id="settingsSaveButton" layoutX="708.0" layoutY="515.0" mnemonicParsing="false" onAction="#onSettingsSaveButtonClick" text="Speichern" />
+                                <Button fx:id="settingsSaveButton" layoutX="836.0" layoutY="515.0" mnemonicParsing="false" onAction="#onSettingsSaveButtonClick" text="Speichern" />
                                 <Label layoutX="163.0" layoutY="37.0" styleClass="title_text" text="E-Mail-Account">
                                    <font>
                                       <Font size="18.0" />
@@ -69,7 +69,7 @@
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <Label layoutX="214.0" layoutY="380.0" text="Weiterleitung von Datenpakteten bis:" />
                             <TextField fx:id="maximumRouteSizeInput" layoutX="463.0" layoutY="376.0" prefHeight="25.0" prefWidth="52.0" promptText="MB" />
-                            <Button fx:id="routingSaveButton" layoutX="708.0" layoutY="515.0" mnemonicParsing="false" onAction="#onRoutingSaveButtonClick" text="Speichern" />
+                            <Button fx:id="routingSaveButton" layoutX="836.0" layoutY="515.0" mnemonicParsing="false" onAction="#onRoutingSaveButtonClick" text="Speichern" />
                             <Label layoutX="525.0" layoutY="380.0" text="MB" />
                      <Button fx:id="startTCPServerButton" layoutX="600.0" layoutY="97.0" mnemonicParsing="false" onAction="#onStartTCPServerButtonClick" text="Start TCP Server" />
                      <Button fx:id="stopTCPServerButton" layoutX="600.0" layoutY="132.0" mnemonicParsing="false" onAction="#onStopTCPServerButtonClick" text="Stop TCP Server" />
@@ -114,7 +114,7 @@
                                   <RadioButton fx:id="syncMediumSelectTCP" layoutX="561.0" layoutY="319.0" mnemonicParsing="false" text="TCP" toggleGroup="$syncMedium" />
                                   <Label layoutX="70.0" layoutY="154.0" styleClass="title_text" text="Was möchtest du synchronisieren?" />
                                   <Label layoutX="487.0" layoutY="154.0" styleClass="title_text" text="Wie soll synchronisiert werden?" />
-                                  <Button fx:id="syncStartButton" layoutX="638.0" layoutY="512.0" mnemonicParsing="false" onAction="#onStartSyncButtonClick" text="Synchronisieren" />
+                                  <Button fx:id="syncStartButton" layoutX="836.0" layoutY="515.0" mnemonicParsing="false" onAction="#onStartSyncButtonClick" text="Synchronisieren" />
                                   <Separator layoutX="423.0" layoutY="-1.0" maxHeight="1.7976931348623157E308" orientation="VERTICAL" prefHeight="567.0" prefWidth="6.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="423.0" AnchorPane.topAnchor="-1.0" />
                                   <CheckBox fx:id="profileSyncCheckbox" layoutX="145.0" layoutY="201.0" mnemonicParsing="false" text="Mein Profil" />
                               </children>
