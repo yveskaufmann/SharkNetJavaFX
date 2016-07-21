@@ -21,7 +21,7 @@
       </Text>
       <Separator layoutX="114.0" layoutY="24.0" prefHeight="3.0" prefWidth="472.0" AnchorPane.leftAnchor="114.0" AnchorPane.rightAnchor="14.0" />
       <TextField fx:id="interestNameTextbox" layoutX="112.0" layoutY="37.0" prefHeight="25.0" prefWidth="472.0" promptText="%interest.name.prompt" AnchorPane.leftAnchor="112.0" AnchorPane.rightAnchor="16.0" />
-      <ComboBox fx:id="subscriptionChooser" layoutX="112.0" layoutY="76.0" prefHeight="25.0" prefWidth="472.0" promptText="%interest.subscription.prompt" AnchorPane.leftAnchor="112.0" AnchorPane.rightAnchor="16.0" />
+      <ComboBox fx:id="subscriptionChooser" layoutX="112.0" layoutY="76.0" prefHeight="25.0" prefWidth="472.0" promptText="%interest.public.prompt" AnchorPane.leftAnchor="112.0" AnchorPane.rightAnchor="16.0" />
       <TableView fx:id="interestLinkTable" layoutX="17.0" layoutY="161.0" prefHeight="218.0" prefWidth="567.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="16.0" AnchorPane.topAnchor="161.0" />
       <Separator layoutX="18.0" layoutY="23.0" prefHeight="3.0" prefWidth="26.0" AnchorPane.leftAnchor="18.0" />
       <Text layoutX="18.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%interest.si.description" wrappingWidth="450.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="132.0" />
@@ -35,6 +35,6 @@
             <JFXButton fx:id="removeLinkButton" mnemonicParsing="false" text="%interest.si.remove.caption" />
          </children>
       </HBox>
-      <Label layoutX="17.0" layoutY="80.0" prefHeight="17.0" prefWidth="67.0" text="%interest.subscription.caption" AnchorPane.leftAnchor="17.0" />
+      <Label layoutX="17.0" layoutY="80.0" prefHeight="17.0" prefWidth="67.0" text="%interest.public.caption" AnchorPane.leftAnchor="17.0" />
    </children>
 </AnchorPane>

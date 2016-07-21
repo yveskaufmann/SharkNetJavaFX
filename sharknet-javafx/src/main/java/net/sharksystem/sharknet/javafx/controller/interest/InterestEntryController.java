@@ -33,8 +33,8 @@ import static net.sharksystem.sharknet.javafx.i18n.I18N.getString;
 public class InterestEntryController {
 
 	private enum SubscriptionType {
-		ACTIVATED(getString("interest.subscription.activated")),
-		DEACTIVATED(getString("interest.subscription.deactivated"));
+		ACTIVATED(getString("interest.public.activated")),
+		DEACTIVATED(getString("interest.public.deactivated"));
 
 		private String caption;
 
