@@ -12,16 +12,15 @@ import javafx.scene.control.*;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
 import javafx.scene.text.TextFlow;
 import jdk.nashorn.internal.runtime.regexp.joni.ast.ConsAltNode;
+import net.sharkfw.knowledgeBase.TXSemanticTag;
 import net.sharksystem.sharknet.api.*;
 import net.sharksystem.sharknet.javafx.App;
+import net.sharksystem.sharknet.javafx.context.ApplicationContext;
 import net.sharksystem.sharknet.javafx.context.Context;
 import net.sharksystem.sharknet.javafx.controller.contactlist.ContactController;
 import net.sharksystem.sharknet.javafx.controls.*;
@@ -59,6 +58,7 @@ public class InboxEntryController extends MediaListCellController<Feed> {
 	private AnchorPane commentsEditor;
 
 
+
 	/******************************************************************************
 	 *
 	 * FXML Fields
@@ -75,6 +75,7 @@ public class InboxEntryController extends MediaListCellController<Feed> {
 	@FXML private Text feedContent;
 	@FXML private AnchorPane feedAnchorPane;
 	@FXML private VBox commentsList;
+	@FXML private FlowPane feedInterests;
 
 
 	/******************************************************************************
@@ -107,6 +108,37 @@ public class InboxEntryController extends MediaListCellController<Feed> {
 		commentButton.setOnMouseClicked(this::onCommentsToggle);
 		unlikeButton.setOnMouseClicked(this::onFeedDislikeClicked);
 		feedSenderName.setOnMouseClicked(this::onSenderClicked);
+		feedInterstsButton.setOnMouseClicked(this::onInterestTagsClicked);
+
+		feedInterests.getParent().visibleProperty().bind(feedInterests.visibleProperty());
+		feedInterests.getParent().managedProperty().bind(feedInterests.managedProperty());
+		feedInterests.managedProperty().bind(feedInterests.visibleProperty());
+	}
+
+	private void onInterestTagsClicked(MouseEvent mouseEvent) {
+		final Feed feed = getItem();
+		if (feedInterests.isVisible() || feed == null) {
+			feedInterests.getChildren().clear();
+			feedInterests.setVisible(false);
+		} else {
+			final Interest interest = feed.getInterest();
+			for (TXSemanticTag interestTag : interest.getAllTopics()) {
+				Label tag = new Label(interestTag.getName());
+				tag.setContentDisplay(ContentDisplay.RIGHT);
+				tag.getStyleClass().add("interest-tag");
+				tag.setCursor(Cursor.HAND);
+				tag.setOnMouseClicked((e) -> {
+					String si[] = interestTag.getSI();
+					if (si.length > 0) {
+						ApplicationContext.get()
+							.getApplication().getHostServices()
+							.showDocument(si[0]);
+					}
+				});
+				feedInterests.getChildren().add(tag);
+			}
+			feedInterests.setVisible(true);
+		}
 	}
 
 	private void reloadCommentsFeed(Feed feed) {
