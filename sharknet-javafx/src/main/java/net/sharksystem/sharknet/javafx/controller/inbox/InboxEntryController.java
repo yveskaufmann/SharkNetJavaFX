@@ -239,6 +239,8 @@ public class InboxEntryController extends MediaListCellController<Feed> {
 		feedContent.setText("");
 		unlikeButton.setGraphic(null);
 		commentButton.setGraphic(null);
+		feedInterests.getChildren().clear();
+		feedInterests.setVisible(false);
 
 		if (feed == null) return;
 
@@ -255,6 +257,8 @@ public class InboxEntryController extends MediaListCellController<Feed> {
 		updateLikeButton(feed);
 		updateCommentsButton(feed);
 		feedInterstsButton.setGraphic(interestTagIcon);
+
+
 	}
 
 	private void updateCommentsButton(Feed feed) {
