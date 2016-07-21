@@ -60,7 +60,7 @@ public class ContactController extends AbstractController implements ContactList
 		c.addListener(this);
 	}
 
-	// Klick auf Kontakt-löschen-Button
+	// Klick auf Kontakt-löschen-Button (Kontaktliste)
 	@FXML
 	private void onContactDeleteButtonClick() {
 		int indexContactList = contactListView.getSelectionModel().getSelectedIndex();
@@ -77,6 +77,27 @@ public class ContactController extends AbstractController implements ContactList
 			Optional<ButtonType> result = alert.showAndWait();
 			if (result.get() == loeschenOKButton) {
 				onContactDeleted(sharkNetModel.getContacts().get(indexContactList));
+			}
+		}
+	}
+
+	// Klick auf Kontakt-löschen-Button (Blacklist)
+	@FXML
+	private void onContactDeleteButtonClickBlackList() {
+		int indexContactList = blackListView.getSelectionModel().getSelectedIndex();
+		if (indexContactList >= 0) {
+			// Löschdialog
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("Kontakt löschen");
+			alert.setHeaderText("Soll " + blackListView.getSelectionModel().getSelectedItem().getNickname() + " wirklich gelöscht werden?");
+
+			ButtonType loeschenOKButton = new ButtonType("Löschen");
+			ButtonType abbruchButton = new ButtonType("Abbrechen", ButtonBar.ButtonData.CANCEL_CLOSE);
+			alert.getButtonTypes().setAll(loeschenOKButton, abbruchButton);
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == loeschenOKButton) {
+				onContactDeleted(sharkNetModel.getMyProfile().getBlacklist().getList().get(indexContactList));
 			}
 		}
 	}
