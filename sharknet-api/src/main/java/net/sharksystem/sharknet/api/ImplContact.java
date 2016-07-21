@@ -208,6 +208,9 @@ public class ImplContact implements Contact, StudentContact {
 	@Override
 	public void deleteKey() {
 		this.publickey = null;
+		this.publicKeyFingerPrint = null;
+		this.keyExpiration = null;
+
 		//ToDo: Shark - delete Key
 	}
 
