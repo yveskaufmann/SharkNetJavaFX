@@ -13,6 +13,11 @@ import net.sharksystem.sharknet.javafx.services.ImageManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/******************************************************************************
+ *
+ * Dieser Controller kümmert sich den Aufbau der einzelnen Kontaktlisteneinträge.
+ *
+ ******************************************************************************/
 
 public class ContactListEntryController extends MediaListCellController<Contact> {
 
@@ -20,17 +25,12 @@ public class ContactListEntryController extends MediaListCellController<Contact>
 
 	@Inject
 	private ImageManager imageManager;
-
 	@FXML
 	private GridPane container;
-
 	@FXML
 	private RoundImageView contactImage;
-
 	@FXML
 	private Text contactName;
-
-
 
 	public ContactListEntryController(MediaListCell<Contact> contactListCell) {
 		super(App.class.getResource("views/contactlist/contactListEntry.fxml"), contactListCell);
@@ -46,15 +46,9 @@ public class ContactListEntryController extends MediaListCellController<Contact>
 	@Override
 	protected void onItemChanged(Contact contact) {
 		contactImage.setImage(null);
-
 		contactName.setText("");
-
 		if (contact == null) return;
-
-
-		//Log.info("BILD:" + contact.getPicture());
 		imageManager.readImageFrom(contact.getPicture()).ifPresent(contactImage::setImage);
-
 		contactName.setText(contact.getNickname());
 	}
 }

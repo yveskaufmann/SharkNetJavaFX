@@ -10,7 +10,7 @@
 
 <StackPane  xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.sharksystem.sharknet.javafx.controller.profile.ProfileFormController">
     <padding>
-        <Insets top="30" bottom="30" left="150" right="150"/>
+       <!-- <Insets top="30" bottom="30" left="150" right="150"/> -->
     </padding>
     <SectionPane text="%profile.header" collapsible="false" prefWidth="-1" minWidth="-1">
         <titleControl>
@@ -23,6 +23,7 @@
           </columnConstraints>
           <rowConstraints>
             <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" vgrow="NEVER" />
+            <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES" />
             <RowConstraints vgrow="SOMETIMES" />
               <RowConstraints vgrow="SOMETIMES" />
@@ -41,19 +42,25 @@
                     <TextField fx:id="realnameTextfield" promptText="%profile.realname" />
                  </children>
               </VBox>
-              <VBox GridPane.rowIndex="2">
+               <VBox GridPane.rowIndex="2">
+                   <children>
+                       <Label text="%profile.telephone" />
+                       <TextField fx:id="teleponeField" promptText="%profile.telephone" />
+                   </children>
+               </VBox>
+              <VBox GridPane.rowIndex="3">
                  <children>
                     <Label text="%profile.email" />
                     <TextField fx:id="emailTextfield" promptText="%profile.email" />
                  </children>
               </VBox>
-              <VBox GridPane.rowIndex="3">
+              <VBox GridPane.rowIndex="4">
                  <children>
                     <Label text="%profile.info" />
                     <TextArea fx:id="userInfoTextfield" promptText="%profile.info" />
                  </children>
               </VBox>
-              <HBox alignment="CENTER_RIGHT" spacing="5.0" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+              <HBox alignment="CENTER_RIGHT" spacing="5.0" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
                  <children>
                      <JFXButton fx:id="cancelButton" mnemonicParsing="false" text="Abbrechen" />
                      <JFXButton fx:id="saveButton" mnemonicParsing="false" text="Speichern" />

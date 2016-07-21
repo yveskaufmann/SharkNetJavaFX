@@ -48,8 +48,7 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 	private Label labelNewMsgCount;
 
 	private ObjectProperty<Chat> chatProp;
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy H:mm");
-
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy H:mm");
 	public ChatHistoryEntryController(MediaListCell<Chat> chatHistoryListCell) {
 		super(App.class.getResource("views/chat/chatHistoryEntry.fxml"), chatHistoryListCell);
 	}
@@ -99,7 +98,14 @@ public class ChatHistoryEntryController extends MediaListCellController<Chat> {
 			labelNewMsgCount.setText(String.valueOf(newMsgCount));
 			labelNewMsgCount.setVisible(true);
 		}
-		String senders = String.join(", ", contactNames);
+		// if there are too many senders, just shorten the list
+		String senders = "";
+		if (contactNames.size() > 3) {
+			senders = String.join(", ", contactNames.subList(0,3));
+			senders += ", ...";
+		} else {
+			senders = String.join(", ", contactNames);
+		}
 		// set sender label
 		chatContacts.setText(senders);
 		if (chat.getMessages(false) != null && chat.getMessages(false).size() > 0) {

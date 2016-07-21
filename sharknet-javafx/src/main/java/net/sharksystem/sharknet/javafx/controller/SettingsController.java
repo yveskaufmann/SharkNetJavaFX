@@ -12,20 +12,30 @@ import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
 import net.sharksystem.sharknet.javafx.utils.controller.annotations.Controller;
 
+
+/******************************************************************************
+ *
+ * Dieser Controller kümmert sich um die Einstellungsseite der Anwendung.
+ * Es werden allgemeine Einstellungen, Routing-Einstellungen und die Sync
+ * verwaltet. Zugehörige View: settingsView.fxml
+ *
+ ******************************************************************************/
+
 @Controller( title = "%sidebar.settings")
 public class SettingsController extends AbstractController {
-
-	private FrontController frontController;
 
 	@Inject
 	private SharkNet sharkNetModel;
 
+	private FrontController frontController;
 	private Setting settings;
-	private int MAXMBTEST;
-	private int switchOffWifiDirectAfterMin;
 	private boolean radar;
-	private String tcpAddress = "tcp://TEST....";
+	private String tcpAddress = "tcp://192.168....";
 	private int tcpPort = 6000;
+	private static final String EMAIL_PATTERN =
+		"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+	private static final String SERVER_PATTERN = "^[-a-zA-Z0-9_.]+\\.[-a-zA-Z0-9_]+";
 
 	@FXML
 	private Button settingsSaveButton;
@@ -50,7 +60,9 @@ public class SettingsController extends AbstractController {
 	@FXML
 	private TextField mailAddressInput;
 	@FXML
-	private TextField portInput;
+	private TextField smtpPortInput;
+	@FXML
+	private TextField imapPortInput;
 	@FXML
 	private TextField smtpServerInput;
 	@FXML
@@ -59,6 +71,8 @@ public class SettingsController extends AbstractController {
 	private TextField smtpPasswordInput;
 	@FXML
 	private TextField imapPasswordInput;
+	@FXML
+	private TextField maxMailSizeInput;
 	@FXML
 	private TextField maximumRouteSizeInput;
 	@FXML
@@ -80,45 +94,80 @@ public class SettingsController extends AbstractController {
 	@FXML
 	private RadioButton syncMediumSelectMail;
 	@FXML
-	private RadioButton syncMediumSelectNFC;
-	@FXML
 	private RadioButton syncMediumSelectTCP;
 	@FXML
 	private Label tcpStartedMessageLabel;
 
 
+	// Konstruktor
 	public SettingsController() {
 		super(App.class.getResource("views/settingsView.fxml"));
 		this.frontController = Controllers.getInstance().get(FrontController.class);
-
 	}
 
 
-
+	// Einstellungen speichern
 	@FXML
 	private void onSettingsSaveButtonClick() {
-		//mailAddress = mailAddressInput.getText();
 
-		settings.setEmail(mailAddressInput.getText());
-		// TODO settings.setPort(portInput.getText());
-		settings.setSmtpServer(smtpServerInput.getText());
-		settings.setImapServer(imapServerInput.getText());
+		// Prüfen der Mailadresse
+		if (mailAddressInput.getText() != null) {
+			if(mailAddressInput.getText().matches(EMAIL_PATTERN)) {
+				settings.setEmail(mailAddressInput.getText());
+			} else {
+				Alert alert = new Alert(Alert.AlertType.ERROR);
+				alert.setTitle("Ungültige E-Mail-Adresse");
+				alert.setContentText("Die eingegebene E-Mail-Adresse ist ungültig.");
+				alert.setHeaderText("");
+				alert.showAndWait();
+				return;
+			}
+		}
+
+		// Prüfen der Eingabe von SMTP-Server
+		if(smtpServerInput.getText() != null){
+			if(smtpServerInput.getText().matches(SERVER_PATTERN)){
+				settings.setSmtpServer(smtpServerInput.getText() + ":" + smtpPortInput);
+			}else {
+				Alert alert = new Alert(Alert.AlertType.ERROR);
+				alert.setTitle("Ungültiger SMTP-Server");
+				alert.setContentText("Die eingegebene SMTP-Serveradresse ist ungültig.");
+				alert.setHeaderText("");
+				alert.showAndWait();
+				return;
+			}
+		}
+		// Prüfen der Eingabe von IMAP-Server
+		if(imapServerInput.getText() != null){
+			if(imapServerInput.getText().matches(SERVER_PATTERN)){
+				settings.setImapServer(imapServerInput.getText());
+				settings.setImapServer(imapServerInput.getText() + ":" + imapPortInput);
+			}else {
+				Alert alert = new Alert(Alert.AlertType.ERROR);
+				alert.setTitle("Ungültiger IMAP-Server");
+				alert.setContentText("Die eingegebene IMAP-Serveradresse ist ungültig.");
+				alert.setHeaderText("");
+				alert.showAndWait();
+				return;
+			}
+		}
+
 		settings.setSmtpPassword(smtpPasswordInput.getText());
 		settings.setImapPassword(imapPasswordInput.getText());
 
-		try{
-			// TODO
-			settings.setWifiON(Integer.parseInt(wifiDirectOffMinutesInput.getText()));
-		}catch (Exception e){
-			e.printStackTrace();
-		}
+		// Maximale Mailgröße speichern
+		try { settings.setMailboxSize(Integer.parseInt(maxMailSizeInput.getText())); }
+			catch (Exception e){e.printStackTrace();}
 
-		System.out.println("Mail address= "+ mailAddressInput.getText());
-		System.out.println("Port: " + portInput.getText());
-		System.out.println("SMTP= "+ smtpServerInput.getText());
-		System.out.println("IMAP= " + imapServerInput.getText());
-		System.out.println("Wifi Direct off after: " + wifiDirectOffMinutesInput.getText() + " min");
+		// Speichern, nach wie vielen Min. WiFi Direct ausgeschaltet werden soll
+		try{ settings.setWifiON(Integer.parseInt(wifiDirectOffMinutesInput.getText())); }
+			catch (Exception e){e.printStackTrace();}
 
+		// Port für SMTP- und IMAP- Server holen
+		try{ settings.setSmtpPort(Integer.parseInt(smtpPortInput.getText())); }
+			catch (Exception e){ e.printStackTrace(); }
+		try{ settings.setImapPort(Integer.parseInt(imapPortInput.getText())); }
+			catch (Exception e){ e.printStackTrace(); }
 
 		if(radarOnRadioButton.isSelected()){
 			settings.setRadarON(true);
@@ -128,52 +177,43 @@ public class SettingsController extends AbstractController {
 	}
 
 
+	// TCP-Server starten
 	@FXML
 	private void onStartTCPServerButtonClick(){
+		tcpAddress = getMyInternalIP();
 		try{
 			tcpPort = Integer.parseInt(tcpPortInput.getText());
-		}catch (Exception e){ e.printStackTrace(); }
-		System.out.println("TCP server started on port " + tcpPort);
-		tcpStartedMessageLabel.setText("TCP-Server läuft unter:   " + tcpAddress + ":" + tcpPort);
-		startTCPserver(tcpPort);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		tcpStartedMessageLabel.setText("TCP-Server läuft unter:   " + tcpAddress + " : " + tcpPort);
+		settings.startTCP();
 	}
 
+
+	// TCP-Server stoppen
 	@FXML
 	private void onStopTCPServerButtonClick(){
-		System.out.println("TCP server stopped");
-		stopTCPserver();
+		settings.stopTCP();
 		tcpStartedMessageLabel.setText("");
 	}
 
+	// Routingliste für Kontakte öffnen
 	@FXML
 	private void onChooseContactsRoutingButtonClick(){
-		System.out.println("choose contacts for routing");
 		new ChooseRoutingContactsController();
 	}
+	// Routingliste für Interessen öffnen
 	@FXML
 	private void onChooseInterestsRoutingButtonClick(){
-		System.out.println("choose interests for routing");
 		new ChooseRoutingInterestsController();
 	}
 
 
-
+	// Routing-Einstellungen speichern
 	@FXML
 	private void onRoutingSaveButtonClick() {
-		//TODO
 		if (maximumRouteSizeInput.getText() != "") {
-			try {
-				MAXMBTEST = Integer.parseInt(maximumRouteSizeInput.getText());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		System.out.println("MaxMB= " + MAXMBTEST);
-
-
-		System.out.println("Routing-Einstellungen speichern");
-
-		if(maximumRouteSizeInput.getText() != "") {
 			try {
 				settings.setMaxFileSize(Integer.parseInt(maximumRouteSizeInput.getText()));
 			} catch (Exception e) {
@@ -182,6 +222,7 @@ public class SettingsController extends AbstractController {
 		}
 	}
 
+	// Sync starten
 	@FXML
 	private void onStartSyncButtonClick() {
 		if(settings.getBluetooth()){
@@ -192,10 +233,6 @@ public class SettingsController extends AbstractController {
 			System.out.println("Medium= Mail");
 			syncViaMail();
 		}
-		if(syncMediumSelectNFC.isSelected()){
-			System.out.println("Medium= NFC");
-			syncViaNFC();
-		}
 		if(settings.getWifi()){
 			System.out.println("Medium= Wifi");
 			syncViaWifi();
@@ -205,9 +242,7 @@ public class SettingsController extends AbstractController {
 			syncViaTCP();
 		}
 
-
-
-		// TODO aus Model holen:
+		// Auswerten der Checkboxen, was synchronisiert werden soll
 		if(profileSyncCheckbox.isSelected()){
 			System.out.println("Profil synchronisieren");
 		}
@@ -223,35 +258,20 @@ public class SettingsController extends AbstractController {
 		if(homeworkSyncCheckbox.isSelected()){
 			System.out.println("Hausaufgaben synchronisieren");
 		}
-
-
-		//TODO Sync
-
 	}
-
-
-	private void syncViaWifi(){}
-	private void syncViaNFC(){}
-	private void syncViaMail(){}
-	private void syncViaBluetooth(){}
-	private void syncViaTCP(){}
-	private void startTCPserver(int tcpPort){}
-	private void stopTCPserver(){}
 
 
 	@Override
 	protected void onFxmlLoaded() {
 		settings = sharkNetModel.getMyProfile().getSettings();
-
 		tcpStartedMessageLabel.setText("");
 
-		//TODO switchOffWifiDirectAfterMin = settings.getWiFiOffMin();
-
+		// Radar-Radiobutton setzen
 		if(settings.getRadarON()){
 			radarOnRadioButton.setSelected(true);
 		}else radarOffRadioButton.setSelected(true);
 
-		// Sync
+		// Syncmedium-Radiobutton setzen
 		if(settings.getMail()){
 			syncMediumSelectMail.setSelected(true);
 		}
@@ -261,29 +281,39 @@ public class SettingsController extends AbstractController {
 		else if(settings.getWifi()){
 			syncMediumSelectWifi.setSelected(true);
 		}
-		else if(settings.getNfc()){
-			syncMediumSelectNFC.setSelected(true);
-		}
 		else if(settings.getTcp()){
 			syncMediumSelectTCP.setSelected(true);
 		}
 
-
 		// Textfelder und Checkboxen füllen
 		mailAddressInput.setText("" + settings.getEmail());
-		//TODO portInput.setText("" + settings.getPort());
 		imapServerInput.setText("" + settings.getImapServer());
 		smtpServerInput.setText("" + settings.getSmtpServer());
+		smtpPortInput.setText("" + settings.getSmtpPort());
+		imapPortInput.setText("" + settings.getImapPort());
 		smtpPasswordInput.setText("" + settings.getSmtpPassword());
 		imapPasswordInput.setText("" + settings.getImapPassword());
+		maxMailSizeInput.setText("" + settings.getMailboxSize());
 		maximumRouteSizeInput.setText("" + settings.getMaxFileSize());
-		wifiDirectOffMinutesInput.setText("" + switchOffWifiDirectAfterMin);
+		wifiDirectOffMinutesInput.setText("" + settings.getWifiON());
+		tcpPortInput.setText("6000");
 
+		// Checkboxen setzen
 		if(settings.isSyncProfile()){ profileSyncCheckbox.setSelected(true); }
 		if(settings.isSyncConctact()){ contactsSyncCheckbox.setSelected(true); }
 		if(settings.isSyncTimeline()){	timelineSyncCheckbox.setSelected(true); }
 		if(settings.isSyncChat()){ messagesSyncCheckbox.setSelected(true); }
 		if(settings.isSyncHausaufgaben()){ homeworkSyncCheckbox.setSelected(true); }
+	}
 
+	// Methoden stubs für Sync
+	private void syncViaWifi(){}
+	private void syncViaMail(){}
+	private void syncViaBluetooth(){}
+	private void syncViaTCP(){}
+
+	// Dummy, soll später die interne IP zurückgeben
+	private String getMyInternalIP(){
+		return "<Interne IP>";
 	}
 }

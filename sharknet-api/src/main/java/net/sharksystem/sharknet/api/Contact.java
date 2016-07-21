@@ -44,7 +44,10 @@ public interface Contact {
     public String getPublicKey();
 	public void setPublicKey(String publicKey);
 	public Timestamp getPublicKeyExpiration();
+	public String getPublicKeyFingerprint();
+
 	public void deleteKey();
+
 
 	/**
 	 * Deletes the Contact from the Database
@@ -87,7 +90,6 @@ public interface Contact {
 	public String getName();
 
 	/**
-	 * spelling suggestion- addTelephoneNumber()
 	 * add a Telephonnumber to the Contact. The Contact has a List which can include more phone numbers (no validation included)
 	 * @param telephonnumber
      */
@@ -98,6 +100,13 @@ public interface Contact {
 	 * @return
      */
 	public List<String> getTelephonnumber();
+
+
+	/**
+	 * removes a Telephonnumber
+	 */
+
+	public void removeTelephonenumber(String teleponenumber);
 
 	/**
 	 * Adds/Or overwrites the Note to a contact

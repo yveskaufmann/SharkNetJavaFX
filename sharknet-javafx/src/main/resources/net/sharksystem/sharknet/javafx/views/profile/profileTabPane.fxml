@@ -18,9 +18,6 @@
 
             <Tab fx:id="keyTab" text="%profile.keyManagment">
                 <VBox spacing="15" fillWidth="true">
-                    <padding>
-                        <Insets top="15" bottom="15" left="15" right="15"/>
-                    </padding>
                     <fx:include fx:id="publicKey" source="publicKey.fxml"/>
                     <fx:include fx:id="changePassword" source="changePassword.fxml"/>
                 </VBox>

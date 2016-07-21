@@ -1,5 +1,6 @@
 package net.sharksystem.sharknet.javafx.controller.chat;
 
+import com.google.inject.Inject;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -16,8 +17,10 @@ import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 import net.sharksystem.sharknet.api.Content;
 import net.sharksystem.sharknet.api.ImplContent;
+import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.api.Voting;
 import net.sharksystem.sharknet.javafx.App;
+import net.sharksystem.sharknet.javafx.context.ApplicationContext;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
 import static net.sharksystem.sharknet.javafx.i18n.I18N.getString;
@@ -31,6 +34,8 @@ import java.util.List;
  */
 public class VoteController extends AbstractController {
 
+	@Inject
+	private SharkNet sharkNetModel;
 	@FXML
 	private ImageView imageViewAdd;
 	@FXML
@@ -53,6 +58,7 @@ public class VoteController extends AbstractController {
 	public VoteController() {
 		super(App.class.getResource("views/chat/voteView.fxml"));
 		Parent root = super.getRoot();
+		ApplicationContext.get().getInjector().injectMembers(this);
 		stage = new Stage();
 		stage.setScene(new Scene(root, 494, 350));
 		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
@@ -157,7 +163,7 @@ public class VoteController extends AbstractController {
 		}
 		// if a question is set and min. one answer
 		if (textFieldQuestion.getText().length() > 0 && answers.size() > 0) {
-			Content content = new ImplContent("");
+			Content content = new ImplContent("", sharkNetModel.getMyProfile());
 			Voting vote = content.addVoting(textFieldQuestion.getText(), singleChoice);
 			vote.addAnswers(answers);
 			vote.save();
@@ -212,6 +218,7 @@ public class VoteController extends AbstractController {
 							if (childChild instanceof Label) {
 								String oldAnswer = ((Label) childChild).getText();
 								((Label) childChild).setText(result.get());
+								((Label) childChild).setUserData(result.get());
 								editAnswer(oldAnswer, result.get());
 								return;
 							}
@@ -234,9 +241,9 @@ public class VoteController extends AbstractController {
 	}
 
 	private void editAnswer(String oldAnswer, String newAnswer) {
-		for (String entry : answers) {
-			if (entry.equals(oldAnswer)) {
-				entry = newAnswer;
+		for (int i = 0; i < answers.size(); i++) {
+			if (answers.get(i).equals(oldAnswer)) {
+				answers.set(i, newAnswer);
 			}
 		}
 	}

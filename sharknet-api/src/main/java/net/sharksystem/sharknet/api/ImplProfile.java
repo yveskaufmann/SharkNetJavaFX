@@ -55,6 +55,7 @@ public class ImplProfile implements Profile {
 
 	@Override
 	public Setting getSettings() {
+		if(setting == null) setting = new ImplSetting(this);
 		return setting;
 	}
 
@@ -109,7 +110,10 @@ public class ImplProfile implements Profile {
 
 	@Override
 	public void renewKeys() {
-		this.c.deleteKey();
+		// Generate a new dummy public key
+		if (getContact() instanceof ImplContact) {
+			DummyKeyPairHelper.createNewKeyForContact((ImplContact) getContact());
+		}
 		//ToDo: Shark - Renew the keypair
 	}
 

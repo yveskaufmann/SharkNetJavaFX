@@ -1,9 +1,19 @@
 package net.sharksystem.sharknet.api;
 
+import javafx.application.Application;
 import net.sharkfw.knowledgeBase.TXSemanticTag;
 import net.sharkfw.knowledgeBase.inmemory.InMemoInformation;
+import net.sharksystem.sharknet.api.utils.Resources;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.*;
@@ -19,83 +29,14 @@ public class Dummy {
 
 	public void fillWithDummyData(ImplSharkNet s){
 
-		//Anlegen von Profilen
-
-		Profile bob_p = s.newProfile("bob", "bobsDevice");
-		Profile alice_p  = s.newProfile("alice", "alicesDevice");
-
-		s.setProfile(alice_p, "");
-
-		Contact alice = alice_p.getContact();
-		Contact bob = bob_p.getContact();
+		//Variables for MimeType
+		String jpg = "image/jpeg";
 
 
-		//Set Profilepictures
-		InputStream in = null;
-		ClassLoader cl = Thread.currentThread().getContextClassLoader();
-		in = cl.getResourceAsStream("Alice.jpg");
-		Content alicepic = new ImplContent(in, "jpg", "Alice profile picture");
-		alice.setPicture(alicepic);
-
-		in = cl.getResourceAsStream("Bob.jpg");
-		Content bobpic = new ImplContent(in, "jpg", "Bob profile picture");
-		bob.setPicture(bobpic);
-
- //Copy File with the ContentObject
-/*		OutputStream out = null;
-		try {
-			out = new FileOutputStream("C:/tmp/picture.jpg");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		int c;
-
-		try {
-			while ((c = alice.getPicture().getFile().read()) != -1) {
-                out.write(c);
-            }
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-*/
-		Contact alice_bob = s.newContact(bob.getNickname(), bob.getUID(), bob.getPublicKey());
-		Contact alice_charles = s.newContact("charles", "charlesuid", "charlespublickey");
-
-		Contact alice_dean = s.newContact("dean", "deanuid", "deanpublickey");
-		//Anlegen von Chats
-		List<Contact> recipients1 = new ArrayList<>();
-		recipients1.add(bob);
-		List<Contact> recipients2 = new ArrayList<>();
-		recipients2.add(alice_charles);
-
-		List<Contact> recipients3 = new ArrayList<>();
-		recipients3.add(bob);
-		recipients3.add(alice_charles);
-
-		in = cl.getResourceAsStream("Bob.jpg");
-		Content charlespic = new ImplContent(in, "jpg", "Charles profile picture");
-		alice_charles.setPicture(charlespic);
-
-		in = cl.getResourceAsStream("Bob.jpg");
-		Content deanpic = new ImplContent(in, "jpg", "Deans profile picture");
-	alice_dean.setPicture(deanpic);
-
-		Chat chat1 = s.newChat(recipients1);
-		Chat chat2  = s.newChat(recipients2);
-		Chat chat3  = s.newChat(recipients3);
-
-
-		//Senden von Nachrichten
-
-		chat1.sendMessage(new ImplContent("lorem ipsum"));
-		chat1.sendMessage(new ImplContent("bla bla bla"));
-		chat1.sendMessage(new ImplContent("fooo"));
-
-
+		//Timestamps erzeugen um Messages und Feeds mit von der aktuellen Uhrzeit abweichend zu erzeugen
 		java.util.Date fiveMinAgo = new Date(System.currentTimeMillis()-5*60*1000);
 		Timestamp time5ago = new java.sql.Timestamp(fiveMinAgo.getTime());
-			;
+		;
 		java.util.Date fiveMinAfter = new Date(System.currentTimeMillis()+5*60*1000);
 		Timestamp time5after = new java.sql.Timestamp(fiveMinAfter.getTime());
 
@@ -114,28 +55,148 @@ public class Dummy {
 		java.util.Date now = new Date(System.currentTimeMillis());
 		Timestamp timenow = new java.sql.Timestamp(now.getTime());
 
+		//Anlegen von Profilen
+		Profile bob_p = s.newProfile("bob", "bobsDevice");
+		Profile alice_p  = s.newProfile("alice", "alicesDevice");
 
+		//Aktives Profil ist Alice
+		s.setProfile(alice_p, "");
+
+		//Kontakte von Alice und Bob laden
+		Contact alice = alice_p.getContact();
+		Contact bob = bob_p.getContact();
+
+
+		//Profilbilder von Alice und Bob setzen
+
+
+
+
+		File filealice = Resources.get("Alice.jpg");
+		Content alicecon = new ImplContent(alice_p);
+		alicecon.setFile(filealice);
+		alicecon.setMimeType(jpg);
+		alice.setPicture(alicecon);
+
+		File filebob = Resources.get("Bob.jpg");
+		Content bobcon = new ImplContent(bob_p);
+
+		bobcon.setFile(filebob);
+		bobcon.setMimeType(jpg);
+		bob.setPicture(bobcon);
+
+
+		//Kontakte von Alice setzen
+		Contact alice_bob = s.newContact(bob.getNickname(), bob.getUID(), bob.getPublicKey());
+		Contact alice_charles = s.newContact("charles", "charlesuid", "charlespublickey");
+		Contact alice_dean = s.newContact("dean", "deanuid", "deanpublickey");
+		Contact alice_erica = s.newContact("erica", "ericauid", "ericapublickey");
+		Contact alice_frank = s.newContact("frank", "frankuid", "frankpublickey");
+
+		//Letzter Wifi-Kontakt mit Charles setzen
 		alice_charles.setLastWifiContact(timenow);
 
-		Message m1 = new ImplMessage(new ImplContent("answer 3"), time5ago, bob, s.getMyProfile(), recipients1, false, false);
-		DummyDB.getInstance().addMessage(m1, chat1);
-		Message m2 = new ImplMessage(new ImplContent("answer 2"), timeOneDayAgo, bob, s.getMyProfile(), recipients1, false, false);
-		DummyDB.getInstance().addMessage(m2, chat1);
-		Message m3 = new ImplMessage(new ImplContent("answer 1"), timeTwoDayAgo, bob, s.getMyProfile(), recipients1, false, false);
-		DummyDB.getInstance().addMessage(m3, chat1);
+		//Profilbild von Charles und Dean und Bob
+		Content bobpic = new ImplContent(alice_p);
+		bobpic.setFile(filebob);
+		bobpic.setMimeType(jpg);
+		alice_bob.setPicture(bobpic);
+
+		Content charlespic = new ImplContent(alice_p);
+		charlespic.setFile(filebob);
+		charlespic.setMimeType(jpg);
+		alice_charles.setPicture(charlespic);
+
+		Content deanpic = new ImplContent(alice_p);
+		deanpic.setFile(filebob);
+		deanpic.setMimeType(jpg);
+		alice_dean.setPicture(deanpic);
 
 
+		//Anlegen von Chats
+		//1. Kontaktlisten anlegen
+		List<Contact> grouprecipients = new ArrayList<>();
+		grouprecipients.add(bob);
+		grouprecipients.add(alice_charles);
+		grouprecipients.add(alice_dean);
+		grouprecipients.add(alice_erica);
+		grouprecipients.add(alice_frank);
+		List<Contact> charlesrecipient = new ArrayList<>();
+		charlesrecipient.add(alice_charles);
+		List<Contact> bobandcharlesrecipients = new ArrayList<>();
+		bobandcharlesrecipients.add(bob);
+		bobandcharlesrecipients.add(alice_charles);
 
+		List<Contact> alicerecipient = new ArrayList<>();
+		alicerecipient.add(alice);
 
-//		ImplMessage(String message, Timestamp time, Contact sender, List<Contact> recipient_list, boolean isSigned, boolean isEncrypted)
+		//2.Chats mit Kontaktlisten anelgen
+		Chat chatgroup = s.newChat(grouprecipients);
+		Chat chatcharles  = s.newChat(charlesrecipient);
+		Chat chatbobandcharles  = s.newChat(bobandcharlesrecipients);
 
-		chat2.sendMessage(new ImplContent("bla bla bla"));
-		chat2.sendMessage(new ImplContent("arg"));
-		chat2.sendMessage(new ImplContent("lorem ipsum"));
+		//3. Senden von Nachrichten
+		chatgroup.sendMessage(new ImplContent("Hallo zusammen", alice_p));
+		chatgroup.sendMessage(new ImplContent("Eine tolle Idee", alice_p));
+		chatgroup.sendMessage(new ImplContent("Ich erstelle ein Umfage wann der beste Termin ist", alice_p));
 
-		chat3.sendMessage(new ImplContent("this is a group message"));
+		//4. Nachrichten hinzufügen die Alice bekommen hat
+		Message m1 = new ImplMessage(new ImplContent("Wir wollen eine WG-Party veranstalten", alice_p), time5ago, bob, s.getMyProfile(), grouprecipients, false, false);
+		DummyDB.getInstance().addMessage(m1, chatgroup);
+		Message m2 = new ImplMessage(new ImplContent("Willkommen in unserer Gruppe", alice_p), timeOneDayAgo, bob, s.getMyProfile(), grouprecipients, false, false);
+		DummyDB.getInstance().addMessage(m2, chatgroup);
+		Message m3 = new ImplMessage(new ImplContent("Hallo zusammen", alice_p), timeTwoDayAgo, bob, s.getMyProfile(), grouprecipients, false, false);
+		DummyDB.getInstance().addMessage(m3, chatgroup);
 
-		List<Message> chat1_m = chat1.getMessages(true);
+		// vote
+		Content content = new ImplContent("", alice_p);
+		Voting votedummy = content.addVoting("Wann soll die nächste WG-Party stattfinden?", true);
+		List<String> answersdummy = Arrays.asList(
+			"Montag",
+			"Dienstag",
+			"Mittwoch",
+			"Donnerstag",
+			"Freitag",
+			"Samstag",
+			"Sonntag"
+		);
+		votedummy.addAnswers(answersdummy);
+
+		HashMap<String, Contact> answersmap = new HashMap<>();
+		answersmap.put(answersdummy.get(4), alice_p.getContact());
+		votedummy.vote(answersmap);
+		answersmap = new HashMap<>();
+		answersmap.put(answersdummy.get(5), alice_dean);
+		votedummy.vote(answersmap);
+		answersmap = new HashMap<>();
+		answersmap.put(answersdummy.get(6), alice_frank);
+		votedummy.vote(answersmap);
+
+		answersmap = new HashMap<>();
+		answersmap.put(answersdummy.get(4), alice_bob);
+		votedummy.vote(answersmap);
+		answersmap = new HashMap<>();
+		answersmap.put(answersdummy.get(5), alice_erica);
+		votedummy.vote(answersmap);
+
+		answersmap = new HashMap<>();
+		answersmap.put(answersdummy.get(4), alice_charles);
+		votedummy.vote(answersmap);
+
+		chatgroup.sendMessage(content);
+
+		//Senden von Nachrichten aus dem Chat 2 und 3
+		chatcharles.sendMessage(new ImplContent("Hallo Charles", alice_p));
+		chatcharles.sendMessage(new ImplContent("Wie geht es dir?", alice_p));
+		chatcharles.sendMessage(new ImplContent("Es freut mich das du auch bei SharkNet bist", alice_p));
+
+		DummyDB.getInstance().addMessage(new ImplMessage(new ImplContent("Ja, SharkNet ist super", alice_p), time5after, alice_charles, s.getMyProfile(), alicerecipient , false, false) , chatcharles);
+		chatbobandcharles.sendMessage(new ImplContent("Treffen wir uns in der Mensa?", alice_p));
+		DummyDB.getInstance().addMessage(new ImplMessage(new ImplContent("Ja, klar ich bin am start", alice_p), time5after, bob, s.getMyProfile(), alicerecipient , false, false) , chatbobandcharles);
+		DummyDB.getInstance().addMessage(new ImplMessage(new ImplContent("Ja, aber ich bin später", alice_p), time5after, alice_charles, s.getMyProfile(), alicerecipient , false, false) , chatbobandcharles);
+
+		//Setzen von Encryted und Signiert usw auf True
+		List<Message> chat1_m = chatgroup.getMessages(true);
 		for(Message m : chat1_m){
 			m.setEncrypted(true);
 			m.setSigned(true);
@@ -143,38 +204,60 @@ public class Dummy {
 			m.setVerified(true);
 		}
 
-// Interest Managemnt
+
+
+		// Interessen anlegen, Fussball wird unter Sport eingeordnet
 		Interest i1 = new ImplInterest(alice);
-		TXSemanticTag si1 = i1.addInterest("sport", "www.sport.de");
-		TXSemanticTag si2 = i1.addInterest("fußball", "www.fußball.de");
+		TXSemanticTag si1 = i1.addInterest("sport", "https://de.wikipedia.org/wiki/Sport");
+		TXSemanticTag si2 = i1.addInterest("fußball", "https://de.wikipedia.org/wiki/Fußball");
 		i1.moveInterest(si1, si2);
 
+		//Bob hat nur das interesse shark
 		Interest i2 = new ImplInterest(bob);
 		TXSemanticTag si3 = i2.addInterest("shark", "www.sharknet.de");
 
-		i1.save();
-		i2.save();
+		bob.getInterests().addInterest(si1);
+		bob.getInterests().addInterest(si2);
+		bob.getInterests().addInterest(si3);
 
-		Feed f1 = s.newFeed(new ImplContent("this is the fist feed of sharkNet"), i2, bob);
-		Feed f2 = s.newFeed(new ImplContent("sth about football"), i1, alice);
-		Feed f3 = s.newFeed(new ImplContent("football sucks"), i1, alice);
-
-		//Add Comments
-
-		f1.newComment(new ImplContent("this is amazing"), alice);
-		f1.newComment(new ImplContent("i know"), bob);
+		alice.getInterests().addInterest(si1);
+		alice.getInterests().addInterest(si2);
+		alice.getInterests().addInterest(si3);
 
 
-		alice_p.getBlacklist().add(new ImplContact("alice exboyfriend", "hotboy@elitepartner.com", "", alice_p));
+		//Feeds anlegen
+		Feed f1 = s.newFeed(new ImplContent("this is the fist feed of sharkNet", alice_p), i2, bob);
+		Feed f2 = s.newFeed(new ImplContent("i <3 football", alice_p), i1, alice);
+		Feed f3 = s.newFeed(new ImplContent("portugal is european champion", alice_p), i1, alice);
 
+		//Comments an die Fees anhängen
+		f1.newComment(new ImplContent("this is amazing", alice_p), alice);
+		f1.newComment(new ImplContent("i know", alice_p), bob);
 
-
-		List<Feed> feedlist = s.getFeeds(0, 15, true);
-		// System.out.println(f1.getContent());
-		// System.out.println(feedlist.get(0).getContent());
+		// Dislike eines Comments
 		f1.getComments(true).get(0).setDisliked(true);
 
-		// System.out.println(feedlist.get(0).getComments());
+		//Blacklist anlegen, Alice hat ihren Exfreund auf der Liste
+		alice_p.getBlacklist().add(new ImplContact("alice exboyfriend", "hotboy@elitepartner.com", "", alice_p));
+
+		//Settings für Alice setzten
+		Setting aliceSet = s.getMyProfile().getSettings();
+		aliceSet.setEmail("alice@sharknet.de");
+		aliceSet.setMailboxSize(10);
+		aliceSet.setImapServer("imap.sharknet.de");
+		aliceSet.setSmtpServer("smtp.sharknet.de");
+		aliceSet.setImapPort(8080);
+		aliceSet.setSmtpPort(8080);
+		aliceSet.setImapPassword("imappassword");
+		aliceSet.setSmtpPassword("smtppassword");
+
+		s.getMyProfile().getContact().setEmail("alice@sharknet.de");
+		s.getMyProfile().getContact().addName("Alice Mustermann");
+		s.getMyProfile().getContact().addNote("Hello I`M Alice one of the Example Account for Sharknet");
+		s.getMyProfile().getContact().addTelephonnumber("0123456789");
+
+
+
 
 
 //Bobs stuff
@@ -183,14 +266,14 @@ public class Dummy {
 		List<Contact> recipients = new LinkedList<>();
 		recipients.add(peter);
 		Chat bob_peter = s.newChat(recipients);
-		Message m_peter_bob = new ImplMessage(new ImplContent("hallo bob"), time5ago, peter, s.getMyProfile(), recipients1, false, false);
+		Message m_peter_bob = new ImplMessage(new ImplContent("hallo bob", bob_p), time5ago, peter, s.getMyProfile(), grouprecipients, false, false);
 		DummyDB.getInstance().addMessage(m_peter_bob, bob_peter);
-		bob_peter.sendMessage(new ImplContent("hallo peter"));
+		bob_peter.sendMessage(new ImplContent("hallo peter", bob_p));
 
 
-		Feed bob_feed1 = s.newFeed(new ImplContent("bob thinks shark net is amazing"), i2, bob);
+		Feed bob_feed1 = s.newFeed(new ImplContent("bob thinks shark net is amazing", bob_p), i2, bob);
 
-		bob_feed1.newComment(new ImplContent("Peter thinks so too"), peter);
+		bob_feed1.newComment(new ImplContent("Peter thinks so too", bob_p), peter);
 		s.getFeeds(5, 10, true);
 
 		bob_p.getBlacklist().add(new ImplContact("bad hacker", "bad@hacker.com", "", bob_p));
@@ -202,7 +285,7 @@ public class Dummy {
 
 
 		//Generate a Content and add a Voting
-		Content c_test = new ImplContent("foo");
+		Content c_test = new ImplContent("foo", bob_p);
 		ImplVoting vote = c_test.addVoting("what is foo", false);
 
 		//Generate a list of Answers
@@ -229,36 +312,18 @@ public class Dummy {
 		TestListener foolistener = new TestListener();
 		s.addListener(alice_p, foolistener);
 
-		Message mlistener1 = new ImplMessage(new ImplContent("received through listener - bob to alice"), time5ago, bob, s.getMyProfile(), recipients1, false, false);
-		Message mlistener2 = new ImplMessage(new ImplContent("received through listener - alice to bob"), time5ago, alice, s.getMyProfile(), recipients2, false, false);
+		Message mlistener1 = new ImplMessage(new ImplContent("received through listener - bob to alice", bob_p), time5ago, bob, s.getMyProfile(), grouprecipients, false, false);
+		Message mlistener2 = new ImplMessage(new ImplContent("received through listener - alice to bob", bob_p), time5ago, alice, s.getMyProfile(), charlesrecipient, false, false);
 
 
 		s.informMessage(mlistener2);
 		s.informMessage(mlistener1);
 		s.exchangeContactNFC();
 
+
+		//Set Default Profile to alice
+
 		s.setProfile(alice_p, "");
-
-		/*Interest i = s.getMyProfile().getContact().getInterests();
-		TXSemanticTag eltern = i.addInterest("eltern", "www.eltern.de");
-		TXSemanticTag kind = i.addInterest("kind", "www.kind.de");
-		TXSemanticTag kindkind = i.addInterest("kindkind", "www.kindkind.de");
-		TXSemanticTag kindkindkind = i.addInterest("kindkindkind", "www.kindkindkind.de");
-
-
-		i.moveInterest(eltern, kind);
-		i.moveInterest(kind, kindkind);
-		i.moveInterest(kindkind, kindkindkind);
-		i.removeFromParent(kindkind);
-
-*/
-
-
 	}
-
-
-
-
-
 }
 

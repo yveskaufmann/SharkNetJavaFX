@@ -4,10 +4,7 @@ import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -23,6 +20,7 @@ import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import static net.sharksystem.sharknet.javafx.i18n.I18N.getString;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.function.Consumer;
 
 
@@ -86,6 +84,7 @@ public class CreateProfileController extends AbstractController{
 			onPictureClick();
 			event.consume();
 		});
+		Tooltip.install(imageViewPicture, new Tooltip(getString("register.pic")));
 	}
 
 	private void onPictureClick() {
@@ -119,7 +118,7 @@ public class CreateProfileController extends AbstractController{
 			return;
 		}
 		// if user wants to use password, check if they are identical
-		if (passwordFieldPass.getText().length() > 0 && passwordFieldPassRepeat.getText().length() > 0) {
+		if (passwordFieldPass.getText().length() > 0 || passwordFieldPassRepeat.getText().length() > 0) {
 			if (!passwordFieldPass.getText().equals(passwordFieldPassRepeat.getText())) {
 				Alert alert = new Alert(Alert.AlertType.ERROR);
 				alert.setTitle(getString("login.profile.error"));
@@ -168,19 +167,24 @@ public class CreateProfileController extends AbstractController{
 		// if picture is set and loaded to stream
 		if (in != null) {
 			// extract extension
-			String extension = "jpg";
 			if (profileFile != null) {
-				int i = profileFile.getPath().lastIndexOf('.');
-				if (i > 0) {
-					extension = profileFile.getPath().substring(i + 1);
+				Content picture = new ImplContent("", sharkNetModel.getMyProfile());
+				picture.setFile(profileFile);
+				String mimeType = null;
+				try {
+					mimeType = Files.probeContentType(profileFile.toPath());
+					picture.setMimeType(mimeType);
+					// add the picture to contact
+					p.getContact().setPicture(picture);
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-				// create content for the picture
-				Content pic = new ImplContent(in, extension, profileFile.getName());
-				// add the picture to contact
-				p.getContact().setPicture(pic);
+
 			}
 			else {
-				Content pic = new ImplContent(in, extension, "profile placeholder");
+				Content pic = new ImplContent("", sharkNetModel.getMyProfile());
+				pic.setInputstream(in);
+				pic.setMimeType("image/jpeg");
 				// add the picture to contact
 				p.getContact().setPicture(pic);
 			}

@@ -7,7 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
+import javafx.scene.image.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -17,6 +17,7 @@ import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 
 import java.awt.*;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -54,6 +55,10 @@ public class NewMessageController extends AbstractController {
 		Scene scene = new Scene(root, WINDOWWIDTH, WINDOWHEIGHT);
 		scene.setFill(Color.TRANSPARENT);
 		stage.setScene(scene);
+		InputStream in = App.class.getResourceAsStream("images/shark-icon256x256.png");
+		if (in != null) {
+			stage.getIcons().add(new javafx.scene.image.Image(in));
+		}
 		// get monitor settings
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		GraphicsConfiguration gc = gd.getDefaultConfiguration();

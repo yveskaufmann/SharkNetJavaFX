@@ -5,24 +5,31 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import net.sharkfw.knowledgeBase.SemanticTag;
 import net.sharksystem.sharknet.api.Contact;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controls.RoundImageView;
 import net.sharksystem.sharknet.javafx.services.ImageManager;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
-
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/******************************************************************************
+ *
+ * Dieser Controller kümmert sich das Anzeigen und Bearbeiten eines Kontaktes.
+ * Zugehörige View: showContactView.fxml.
+ *
+ ******************************************************************************/
+
 public class ShowContactController extends AbstractController {
 
-	//@FXML
-	//private TextField nameTextField;
 	@FXML
 	private TextField nicknameTextField;
+	@FXML
+	private TextField nameTextField;
 	@FXML
 	private TextField emailTextField;
 	@FXML
@@ -30,7 +37,7 @@ public class ShowContactController extends AbstractController {
 	@FXML
 	private TextArea infoTextField;
 	@FXML
-	private TextArea publicKeyTextField;
+	private TextField publicKeyTextField;
 	@FXML
 	private Button editButton;
 	@FXML
@@ -43,8 +50,6 @@ public class ShowContactController extends AbstractController {
 	private Button deleteContactButton;
 	@FXML
 	private RoundImageView profilePictureImageView;
-	@FXML
-	private Label nameLabel;
 	@FXML
 	private Label editLabel;
 	@FXML
@@ -59,8 +64,9 @@ public class ShowContactController extends AbstractController {
 	private Contact contact;
 	private Stage stage;
 	private List<ContactListener> contactListeners;
-
-
+	private static final String EMAIL_PATTERN =
+		"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
 
 	public ShowContactController(Contact c){
@@ -74,53 +80,55 @@ public class ShowContactController extends AbstractController {
 		stage.show();
 		editLabel.setVisible(false);
 		contactListeners = new ArrayList<>();
+
+		// falls es sich um das eigene Profil handelt
+		if(c == sharkNetModel.getMyProfile().getContact()){
+			deletePublicKeyButton.setVisible(false);
+			deleteContactButton.setVisible(false);
+			editButton.setVisible(false);
+			saveButton.setVisible(false);
+		}
 	}
 
-	public ShowContactController(Contact c, boolean nfc_or_qrcode){
-		super(App.class.getResource("views/contactlist/showContactView.fxml"));
-		this.contact = c;
-		stage = new Stage();
-		stage.setTitle("");
-		Parent root = super.getRoot();
-		stage.setScene(new Scene(root, 600, 400));
-		stage.getScene().getStylesheets().add(App.class.getResource("css/style.css").toExternalForm());
-		stage.show();
-		editButton.setVisible(false);
-		editLabel.setVisible(true);
-		saveButton.setText("Kontakt Übernehmen");
-		contactListeners = new ArrayList<>();
-	}
-
-
+	// listener
 	public void addListener(ContactListener cl) {
 		contactListeners.add(cl);
 	}
-
-
 
 	@Override
 	protected void onFxmlLoaded() {
 
 		imageManager.readImageFrom(contact.getPicture()).ifPresent(profilePictureImageView::setImage);
 
+		// Interessen in Ansicht laden
+		if(contact.getInterests().getAllTopics().isEmpty()){
+			interestsListView.getItems().add("Keine Interessen vorhanden.");
+		}
+		for (SemanticTag s : contact.getInterests().getAllTopics()) {
+			interestsListView.getItems().add(s.getName());
+		}
+
 		nicknameTextField.setEditable(false);
-		//nameTextField.setEditable(false);
+		nameTextField.setEditable(false);
 		emailTextField.setEditable(false);
 		telephoneTextField.setEditable(false);
 		infoTextField.setEditable(false);
-		publicKeyTextField.setEditable(false);
 
 		nicknameTextField.setText(contact.getNickname());
-		//nameTextField.setText(contact.getName());
-		nameLabel.setText(contact.getName());
+		nameTextField.setText(contact.getName());
 		emailTextField.setText(contact.getEmail());
-		//telephoneTextField.setText(testkontakt.getTelephonnumber());
 		infoTextField.setText(contact.getNote());
-		publicKeyTextField.setText(contact.getPublicKey());
+		publicKeyTextField.setText(contact.getPublicKeyFingerprint());
+
+		if(!contact.getTelephonnumber().isEmpty()){
+			telephoneTextField.setText("" + contact.getTelephonnumber().get(0));
+		}
+
+
 
 		editButton.setOnMouseClicked(event -> {
 			nicknameTextField.setEditable(true);
-			//nameTextField.setEditable(true);
+			nameTextField.setEditable(true);
 			emailTextField.setEditable(true);
 			telephoneTextField.setEditable(true);
 			editLabel.setVisible(true);
@@ -128,24 +136,52 @@ public class ShowContactController extends AbstractController {
 
 		saveButton.setOnMouseClicked(event -> {
 			contact.setNickname(nicknameTextField.getText());
-			//contact.setName(nameTextField.getText());
-			contact.setEmail(emailTextField.getText());
-			stage.close();
+			contact.addName(nameTextField.getText());
 
+			// Prüfen der Mailadresse
+			if (emailTextField.getText() != null) {
+				if(emailTextField.getText().matches(EMAIL_PATTERN)) {
+					contact.setEmail(emailTextField.getText());
+				} else {
+					Alert alert = new Alert(Alert.AlertType.ERROR);
+					alert.setTitle("Ungültige E-Mail-Adresse");
+					alert.setContentText("Die eingegebene E-Mail-Adresse ist ungültig.");
+					alert.setHeaderText("");
+					alert.showAndWait();
+					return;
+				}
+			}
+
+			contact.getTelephonnumber().clear();
+			contact.addTelephonnumber(telephoneTextField.getText());
+
+			// Kontaktliste aktualisieren
+			for (ContactListener cl : contactListeners) {
+				cl.onContactListChanged();
+			}
+			stage.close();
 		});
 
-		closeWindowButton.setOnMouseClicked(event -> {
-			stage.close();
-			event.consume();
-		});
-
+		// Public Key löschen-Button
 		deletePublicKeyButton.setOnMouseClicked(event -> {
-			contact.deleteKey();
-			publicKeyTextField.setText(contact.getPublicKey());
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("Public Key löschen");
+			alert.setHeaderText("Soll der Public Key von " + contact.getNickname() + " wirklich gelöscht werden?");
+
+			ButtonType loeschenOKButton = new ButtonType("Löschen");
+			ButtonType abbruchButton = new ButtonType("Abbrechen", ButtonBar.ButtonData.CANCEL_CLOSE);
+			alert.getButtonTypes().setAll(loeschenOKButton, abbruchButton);
+
+			Optional<ButtonType> result = alert.showAndWait();
+			if(result.get() == loeschenOKButton){
+				contact.deleteKey();
+				publicKeyTextField.setText(contact.getPublicKeyFingerprint());
+			}
+
 		});
 
+		// Kontakt löschen-Button
 		deleteContactButton.setOnMouseClicked(event -> {
-
 			Alert alert = new Alert(Alert.AlertType.WARNING);
 			alert.setTitle("Kontakt löschen");
 			alert.setHeaderText("Soll " + contact.getNickname() + " wirklich gelöscht werden?");
@@ -156,14 +192,16 @@ public class ShowContactController extends AbstractController {
 
 			Optional<ButtonType> result = alert.showAndWait();
 			if(result.get() == loeschenOKButton){
-				//sharkNetModel.getContacts().remove(contact);
-
 				for (ContactListener cl : contactListeners) {
 					cl.onContactDeleted(contact);
 				}
-
-				stage.close();;
+				stage.close();
 			}
+		});
+
+		closeWindowButton.setOnMouseClicked(event -> {
+			stage.close();
+			event.consume();
 		});
 
 	}

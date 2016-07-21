@@ -1,11 +1,13 @@
 package net.sharksystem.sharknet.javafx.controller.inbox;
 
 import com.google.inject.Inject;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Side;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -16,10 +18,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
+import javafx.scene.text.TextFlow;
 import jdk.nashorn.internal.runtime.regexp.joni.ast.ConsAltNode;
 import net.sharksystem.sharknet.api.*;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.context.Context;
+import net.sharksystem.sharknet.javafx.controller.contactlist.ContactController;
 import net.sharksystem.sharknet.javafx.controls.*;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCell;
 import net.sharksystem.sharknet.javafx.controls.medialist.MediaListCellController;
@@ -28,6 +32,7 @@ import net.sharksystem.sharknet.javafx.services.ImageManager;
 import net.sharksystem.sharknet.javafx.utils.FontAwesomeIcon;
 import net.sharksystem.sharknet.javafx.utils.NodeUtils;
 import net.sharksystem.sharknet.javafx.utils.TimeUtils;
+import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
 import org.apache.commons.lang3.NotImplementedException;
 import org.controlsfx.control.textfield.TextFields;
 
@@ -51,6 +56,7 @@ public class InboxEntryController extends MediaListCellController<Feed> {
 	private FontIcon commentedIcon = new FontIcon(FontAwesomeIcon.COMMENT);
 	private FontIcon interestTagIcon = new FontIcon(FontAwesomeIcon.TAGS);
 	private ContextMenu contextMenu;
+	private AnchorPane commentsEditor;
 
 
 	/******************************************************************************
@@ -84,7 +90,6 @@ public class InboxEntryController extends MediaListCellController<Feed> {
 	@Override
 	protected void onFxmlLoaded() {
 
-
 		contextMenu = createContextMenu();
 		feedMenuButton.setText(FontAwesomeIcon.ANGLE_DOWN.getText());
 		feedMenuButton.getStyleClass().addAll("icon-label", "text-dark");
@@ -100,64 +105,8 @@ public class InboxEntryController extends MediaListCellController<Feed> {
 		feedInterstsButton.setCursor(Cursor.HAND);
 
 		commentButton.setOnMouseClicked(this::onCommentsToggle);
-
-		unlikeButton.setOnMouseClicked((e) -> {
-			Feed feed = getItem();
-			if (feed != null) {
-				feed.setDisliked(!feed.isDisliked());
-				updateLikeButton(feed);
-			}
-		});
-	}
-
-	private AnchorPane commentsEditor;
-	private void onCommentsToggle(MouseEvent mouseEvent) {
-		Feed feed = getItem();
-		List<Comment> comments = feed.getComments(true);
-		boolean hasComments = comments.size() > 0;
-		// TODO: refactor me
-		commentsList.setVisible(! commentsList.isVisible());
-		commentsList.setManaged(commentsList.isVisible());
-		if (commentsList.isVisible()) {
-			commentsList.setMaxWidth(feedAnchorPane.getWidth() * 0.9);
-			commentsList.getChildren().clear();
-
-			TextField messageTextfield = TextFields.createClearableTextField();
-			messageTextfield.setPromptText("Kommentieren ...");
-			RoundImageView commentsComposerImage = new RoundImageView();
-			commentsComposerImage.setFitWidth(30);
-			commentsComposerImage.setFitHeight(30);
-			Content profileImage = sharkNet.getMyProfile().getContact().getPicture();
-
-			commentsEditor = new AnchorPane(
-				commentsComposerImage,
-				messageTextfield
-			);
-
-			commentsEditor.setPadding(new Insets(0, 0, 10, 0));
-			AnchorPane.setTopAnchor(commentsComposerImage, 12.0);
-			AnchorPane.setLeftAnchor(commentsComposerImage, 12.0);
-			AnchorPane.setTopAnchor(messageTextfield, 12.0);
-			AnchorPane.setLeftAnchor(messageTextfield, 12.0 + commentsComposerImage.getFitWidth() + 5);
-			AnchorPane.setRightAnchor(messageTextfield, 12.0);
-
-			messageTextfield.setOnKeyPressed((e) -> {
-				if (KeyCode.ENTER.equals(e.getCode())) {
-					String comment = messageTextfield.getText().trim();
-					if (!"".equals(comment)) {
-						messageTextfield.clear();
-						feed.newComment(new ImplContent(comment), sharkNet.getMyProfile().getContact());
-						reloadCommentsFeed(feed);
-						updateCommentsButton(feed);
-					}
-				}
-			});
-
-			imageManager.readImageFrom(profileImage).ifPresent(commentsComposerImage::setImage);
-			commentsList.getChildren().add(commentsEditor);
-			reloadCommentsFeed(feed);
-		}
-
+		unlikeButton.setOnMouseClicked(this::onFeedDislikeClicked);
+		feedSenderName.setOnMouseClicked(this::onSenderClicked);
 	}
 
 	private void reloadCommentsFeed(Feed feed) {
@@ -174,17 +123,41 @@ public class InboxEntryController extends MediaListCellController<Feed> {
 
 		for(int i =0 ; i < comments.size(); i++) {
             Comment comment = comments.get(i);
-			System.out.println(comment.getContent().getMessage());
-			RoundImageView commentSenderImage = new RoundImageView();
+			Contact sender = comment.getSender();
+			final RoundImageView commentSenderImage = new RoundImageView();
             commentSenderImage.setFitWidth(40);
             commentSenderImage.setFitHeight(40);
-            VBox commentsEntry = new VBox();
 
-            commentsEntry.getChildren().add(
-                new HBox(5, commentSenderImage, new Text(comment.getContent().getMessage())));
+			final AnchorPane commentsEntry = new AnchorPane();
+			final Label userNameLabel = new Label(sender.getNickname());
+			userNameLabel.getStyleClass().add("sender-name");
+			userNameLabel.setUserData(sender);
+			userNameLabel.setOnMouseClicked(this::onSenderClicked);
 
-            if (i < comments.size() - 1) {
-                commentsEntry.getChildren().add(new Separator(Orientation.HORIZONTAL));
+
+			final Label timeLabel = new Label(TimeUtils.formatTimeAgo(comment.getTimestamp()));
+			final VBox nameTimeWrapper = new VBox(5, userNameLabel, timeLabel);
+			final Text commentMessage = new Text(comment.getContent().getMessage());
+			final TextFlow textFlow = new TextFlow(nameTimeWrapper, commentMessage);
+
+			// Ensures that the text is wrapped at the end of the comment entry box
+			textFlow.maxWidthProperty().bind(commentsList.widthProperty().subtract(commentSenderImage.fitWidthProperty()).subtract(10));
+
+			AnchorPane.setTopAnchor(commentSenderImage, 5.0);
+			AnchorPane.setLeftAnchor(commentSenderImage, 5.0);
+
+			AnchorPane.setTopAnchor(textFlow, 5.0);
+			AnchorPane.setLeftAnchor(textFlow, commentSenderImage.getFitWidth() + 5);
+
+			commentsEntry.getChildren().addAll(commentSenderImage,textFlow);
+
+
+			if (i < comments.size() - 1) {
+				final Separator separator = new Separator(Orientation.HORIZONTAL);
+				AnchorPane.setLeftAnchor(separator, 0.0);
+				AnchorPane.setRightAnchor(separator, 0.0);
+				AnchorPane.setBottomAnchor(separator, -8.0);
+				commentsEntry.getChildren().add(separator);
             }
 
             imageManager.readImageFrom(comment.getSender().getPicture())
@@ -229,6 +202,7 @@ public class InboxEntryController extends MediaListCellController<Feed> {
 	protected void onItemChanged(Feed feed) {
 		profileImage.setImage(null);
 		feedSenderName.setText("");
+		feedSenderName.setUserData(null);
 		feedReceiveDate.setText("");
 		feedContent.setText("");
 		unlikeButton.setGraphic(null);
@@ -236,8 +210,10 @@ public class InboxEntryController extends MediaListCellController<Feed> {
 
 		if (feed == null) return;
 
-		imageManager.readImageFrom(feed.getSender().getPicture()).ifPresent(profileImage::setImage);
-		feedSenderName.setText(feed.getSender().getNickname());
+		final Contact sender = feed.getSender();
+		imageManager.readImageFrom(sender.getPicture()).ifPresent(profileImage::setImage);
+		feedSenderName.setText(sender.getNickname());
+		feedSenderName.setUserData(sender);
 		feedContent.setText(feed.getContent().getMessage());
 		feedReceiveDate.setText(TimeUtils.formatTimeAgo(feed.getTimestamp()));
 
@@ -263,5 +239,79 @@ public class InboxEntryController extends MediaListCellController<Feed> {
 		} else {
 			unlikeButton.setGraphic(unlikedIcon);
 		}
+	}
+
+	/******************************************************************************
+	 *
+	 * Events Handling
+	 *
+	 ******************************************************************************/
+
+	private void onSenderClicked(MouseEvent e) {
+		final Controllers controllers = Controllers.getInstance();
+		final ContactController contactController = controllers.get(ContactController.class);
+		final Node node = (Node) e.getSource();
+
+		final Object senderContact = node.getUserData();
+		if (senderContact instanceof Contact) {
+			contactController.showContact((Contact) senderContact, this::onResume);
+		}
+	}
+
+	private void onFeedDislikeClicked(MouseEvent e) {
+		Feed feed = getItem();
+		if (feed != null) {
+			feed.setDisliked(!feed.isDisliked());
+			updateLikeButton(feed);
+		}
+	}
+
+	private void onCommentsToggle(MouseEvent mouseEvent) {
+		Feed feed = getItem();
+		List<Comment> comments = feed.getComments(true);
+		boolean hasComments = comments.size() > 0;
+		commentsList.setVisible(! commentsList.isVisible());
+		commentsList.setManaged(commentsList.isVisible());
+		if (commentsList.isVisible()) {
+			commentsList.setMaxWidth(feedAnchorPane.getWidth() * 0.9);
+			commentsList.getChildren().clear();
+
+			TextField messageTextfield = TextFields.createClearableTextField();
+			messageTextfield.setPromptText("Kommentieren ...");
+			RoundImageView commentsComposerImage = new RoundImageView();
+			commentsComposerImage.setFitWidth(30);
+			commentsComposerImage.setFitHeight(30);
+			Content profileImage = sharkNet.getMyProfile().getContact().getPicture();
+
+			commentsEditor = new AnchorPane(
+				commentsComposerImage,
+				messageTextfield
+			);
+
+			commentsEditor.setPadding(new Insets(0, 0, 10, 0));
+			AnchorPane.setTopAnchor(commentsComposerImage, 12.0);
+			AnchorPane.setLeftAnchor(commentsComposerImage, 12.0);
+			AnchorPane.setTopAnchor(messageTextfield, 12.0);
+			AnchorPane.setLeftAnchor(messageTextfield, 12.0 + commentsComposerImage.getFitWidth() + 5);
+			AnchorPane.setRightAnchor(messageTextfield, 12.0);
+
+			messageTextfield.setOnKeyPressed((e) -> {
+				if (KeyCode.ENTER.equals(e.getCode())) {
+					String comment = messageTextfield.getText().trim();
+					if (!"".equals(comment)) {
+						messageTextfield.clear();
+						Profile profile = sharkNet.getMyProfile();
+						feed.newComment(new ImplContent(comment, profile), profile.getContact());
+						reloadCommentsFeed(feed);
+						updateCommentsButton(feed);
+					}
+				}
+			});
+
+			imageManager.readImageFrom(profileImage).ifPresent(commentsComposerImage::setImage);
+			commentsList.getChildren().add(commentsEditor);
+			reloadCommentsFeed(feed);
+		}
+
 	}
 }

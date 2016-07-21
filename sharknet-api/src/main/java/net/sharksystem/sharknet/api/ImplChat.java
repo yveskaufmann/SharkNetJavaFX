@@ -1,6 +1,11 @@
 package net.sharksystem.sharknet.api;
 
+import net.sharksystem.sharknet.api.utils.Resources;
+
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
@@ -258,23 +263,30 @@ public class ImplChat implements Chat {
 	/**
 	 * Sets a default picture. The Picture of the first Contact in the List
 	 */
-	private void setDefaultPic() {
-		if (getContacts().size() > 1) {
-			InputStream in = null;
-			ClassLoader cl = Thread.currentThread().getContextClassLoader();
-			in = cl.getResourceAsStream("group.png");
-			Content grouppic = new ImplContent(in, "png", "Grouppicture");
-			setPicture(grouppic);
 
+	private void setDefaultPic() {
+		Content piccon;
+		File pic = null;
+		if (getContacts().size() > 1) {
+			pic = Resources.get("group.png");
+			piccon = new ImplContent(owner);
+			piccon.setFile(pic);
 		} else if (getContacts().get(0).getPicture() == null) {
-			InputStream in = null;
-			ClassLoader cl = Thread.currentThread().getContextClassLoader();
-			in = cl.getResourceAsStream("person.png");
-			Content personpic = new ImplContent(in, "png", "Grouppicture");
-			setPicture(personpic);
+			pic = Resources.get("person.png");
+			piccon = new ImplContent(owner);
+			piccon.setFile(pic);
 		} else {
-			setPicture(getContacts().get(0).getPicture());
+			piccon = getContacts().get(0).getPicture();
 		}
+		if(pic != null){
+			try {
+				String mimeType = Files.probeContentType(pic.toPath());
+				piccon.setMimeType(mimeType);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		setPicture(piccon);
 	}
 
 

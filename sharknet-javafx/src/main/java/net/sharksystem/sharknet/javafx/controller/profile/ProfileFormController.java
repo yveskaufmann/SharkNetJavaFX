@@ -9,9 +9,7 @@ import net.sharksystem.sharknet.api.Profile;
 import net.sharksystem.sharknet.api.SharkNet;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.context.ApplicationContext;
-import net.sharksystem.sharknet.javafx.controller.FrontController;
 import net.sharksystem.sharknet.javafx.services.ImageManager;
-import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
 import org.controlsfx.validation.Severity;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
@@ -39,7 +37,6 @@ public class ProfileFormController  {
 		"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-
 	/******************************************************************************
 	 *
 	 * FXML Fields
@@ -49,6 +46,7 @@ public class ProfileFormController  {
 	@FXML private TextField nicknameTextfield;
 	@FXML private TextField realnameTextfield;
 	@FXML private TextField emailTextfield;
+	@FXML private TextField teleponeField;
 	@FXML private TextArea userInfoTextfield;
 	@FXML private Button cancelButton;
 	@FXML private Button saveButton;
@@ -63,6 +61,7 @@ public class ProfileFormController  {
 	@Inject private SharkNet sharkNet;
 	@Inject private ImageManager imageManager;
 	private ValidationSupport profileFormValidation;
+	private ProfileController profileController;
 
 	/******************************************************************************
 	 *
@@ -77,13 +76,15 @@ public class ProfileFormController  {
 	public void initialize() {
 		profileFormValidation = new ValidationSupport();
 		profileFormValidation.registerValidator(nicknameTextfield, Validator.createEmptyValidator("Ein Nickname ist erforderlich"));
-		profileFormValidation.registerValidator(emailTextfield, Validator.createRegexValidator("", Pattern.compile(EMAIL_PATTERN), Severity.ERROR));
+		profileFormValidation.registerValidator(emailTextfield, false, Validator.createRegexValidator("", Pattern.compile(EMAIL_PATTERN), Severity.WARNING));
 
 		profileFormValidation.validationResultProperty().addListener((observable, oldValue, newValue) -> {
 			saveButton.setDisable(profileFormValidation.isInvalid());
 		});
 
 		removeProfileButton.setOnAction(this::onRemoveProfileClicked);
+		saveButton.setOnAction(this::onSaveProfile);
+		cancelButton.setOnAction(this::onResetProfile);
 
 		loadData();
 	}
@@ -102,6 +103,10 @@ public class ProfileFormController  {
 		realnameTextfield.setText(contact.getName());
 		emailTextfield.setText(contact.getEmail());
 		userInfoTextfield.setText(contact.getNote());
+
+		if (contact.getTelephonnumber().size() > 0) {
+			teleponeField.setText(contact.getTelephonnumber().get(0));
+		}
 	}
 
 	/******************************************************************************
@@ -110,7 +115,7 @@ public class ProfileFormController  {
 	 *
 	 ******************************************************************************/
 
-	@FXML
+
 	void onSaveProfile(ActionEvent event) {
 		if(!profileFormValidation.isInvalid()) {
 			Profile profile = sharkNet.getMyProfile();
@@ -119,11 +124,23 @@ public class ProfileFormController  {
 			contact.setEmail(emailTextfield.getText());
 			contact.addName(realnameTextfield.getText());
 			contact.addNote(userInfoTextfield.getText());
+
+			String telephoneNumber = teleponeField.getText().trim();
+
+			if (contact.getTelephonnumber().size() > 0) {
+				contact.getTelephonnumber().set(0, telephoneNumber);
+			} else {
+				contact.addTelephonnumber(telephoneNumber);
+			}
+
 			contact.update();
+
+			// notify other controllers about the change
+			saveButton.fireEvent(ProfileEvent.changed(profile));
 		}
 	}
 
-	@FXML
+
 	void onResetProfile(ActionEvent event) {
 		Log.debug("Reset Profile");
 		loadData();

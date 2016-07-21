@@ -18,81 +18,84 @@
       <TabPane tabClosingPolicy="UNAVAILABLE">
               <tabs>
                   <Tab text="Einstellungen">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="565.0" prefWidth="796.0">
-                     <children>
-                        <Button fx:id="settingsSaveButton" layoutX="620.0" layoutY="467.0" mnemonicParsing="false" onAction="#onSettingsSaveButtonClick" text="Speichern" />
-                        <Label layoutX="163.0" layoutY="37.0" styleClass="title" text="E-Mail-Account">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="mailAddressInput" layoutX="218.0" layoutY="104.0" prefHeight="26.0" prefWidth="204.0" />
-                        <Label layoutX="96.0" layoutY="108.0" text="Mail-Adresse:" />
-                        <Label layoutX="97.0" layoutY="149.0" text="SMTP-Server:" />
-                        <Label layoutX="97.0" layoutY="191.0" text="IMAP-Server:" />
-                        <TextField fx:id="smtpServerInput" layoutX="218.0" layoutY="143.0" prefHeight="26.0" prefWidth="204.0" />
-                        <TextField fx:id="imapServerInput" layoutX="219.0" layoutY="185.0" prefHeight="26.0" prefWidth="203.0" />
-                        <Separator layoutY="253.0" minWidth="800.0" prefHeight="3.0" prefWidth="796.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="253.0" />
-                        <Label layoutX="163.0" layoutY="277.0" styleClass="title" text="WiFi Direct">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                        <Label layoutX="97.0" layoutY="330.0" text="Radar:" />
-                        <Label layoutX="96.0" layoutY="371.0" text="WiFi Direct automatisch ausschalten nach:" />
-                        <Label layoutX="436.0" layoutY="371.0" text="Min Inaktivität" />
-                        <TextField fx:id="wifiDirectOffMinutesInput" layoutX="386.0" layoutY="365.0" prefHeight="25.0" prefWidth="38.0" />
-                        <RadioButton fx:id="radarOnRadioButton" layoutX="166.0" layoutY="329.0" mnemonicParsing="false" text="ON">
-                           <toggleGroup>
-                              <ToggleGroup fx:id="radarSwitch" />
-                           </toggleGroup>
-                        </RadioButton>
-                        <RadioButton fx:id="radarOffRadioButton" layoutX="231.0" layoutY="329.0" mnemonicParsing="false" text="OFF" toggleGroup="$radarSwitch" />
-                        <TextField fx:id="smtpPasswordInput" layoutX="552.0" layoutY="145.0" prefHeight="26.0" prefWidth="204.0" />
-                        <TextField fx:id="imapPasswordInput" layoutX="553.0" layoutY="185.0" prefHeight="26.0" prefWidth="204.0" />
-                        <Label layoutX="442.0" layoutY="148.0" text="SMTP-Passwort:" />
-                        <Label layoutX="443.0" layoutY="189.0" text="IMAP-Passwort:" />
-                        <TextField fx:id="portInput" layoutX="552.0" layoutY="103.0" />
-                        <Label layoutX="443.0" layoutY="109.0" text="Port:" />
-                     </children>
-                  </AnchorPane>
-               </content>
+                       <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="565.0" prefWidth="796.0">
+                             <children>
+                                <Button fx:id="settingsSaveButton" layoutX="708.0" layoutY="515.0" mnemonicParsing="false" onAction="#onSettingsSaveButtonClick" text="Speichern" />
+                                <Label layoutX="163.0" layoutY="37.0" styleClass="title_text" text="E-Mail-Account">
+                                   <font>
+                                      <Font size="18.0" />
+                                   </font>
+                                </Label>
+                                <TextField fx:id="mailAddressInput" layoutX="218.0" layoutY="104.0" prefHeight="26.0" prefWidth="204.0" />
+                                <Label layoutX="96.0" layoutY="108.0" text="Mail-Adresse:" />
+                                <Label layoutX="97.0" layoutY="149.0" text="SMTP-Server:" />
+                                <Label layoutX="97.0" layoutY="191.0" text="IMAP-Server:" />
+                                <TextField fx:id="smtpServerInput" layoutX="218.0" layoutY="143.0" prefHeight="26.0" prefWidth="204.0" />
+                                <TextField fx:id="imapServerInput" layoutX="219.0" layoutY="185.0" prefHeight="26.0" prefWidth="203.0" />
+                                <Separator layoutY="318.0" minWidth="800.0" prefHeight="0.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="318.0" />
+                                <Label layoutX="163.0" layoutY="352.0" styleClass="title_text" text="WiFi Direct">
+                                   <font>
+                                      <Font size="18.0" />
+                                   </font>
+                                </Label>
+                                <Label layoutX="97.0" layoutY="405.0" text="Radar:" />
+                                <Label layoutX="96.0" layoutY="446.0" text="WiFi Direct automatisch ausschalten nach:" />
+                                <Label layoutX="456.0" layoutY="446.0" text="min. Inaktivität" />
+                                <TextField fx:id="wifiDirectOffMinutesInput" layoutX="386.0" layoutY="440.0" prefHeight="26.0" prefWidth="60.0" />
+                                <RadioButton fx:id="radarOnRadioButton" layoutX="166.0" layoutY="404.0" mnemonicParsing="false" text="ON">
+                                   <toggleGroup>
+                                      <ToggleGroup fx:id="radarSwitch" />
+                                   </toggleGroup>
+                                </RadioButton>
+                                <RadioButton fx:id="radarOffRadioButton" layoutX="231.0" layoutY="404.0" mnemonicParsing="false" text="OFF" toggleGroup="$radarSwitch" />
+                                <TextField fx:id="smtpPasswordInput" layoutX="552.0" layoutY="145.0" prefHeight="26.0" prefWidth="204.0" />
+                                <TextField fx:id="imapPasswordInput" layoutX="553.0" layoutY="185.0" prefHeight="26.0" prefWidth="204.0" />
+                                <Label layoutX="442.0" layoutY="148.0" text="SMTP-Passwort:" />
+                                <Label layoutX="443.0" layoutY="189.0" text="IMAP-Passwort:" />
+                                <TextField fx:id="smtpPortInput" layoutX="855.0" layoutY="143.0" prefHeight="26.0" prefWidth="73.0" />
+                                <Label layoutX="776.0" layoutY="148.0" text="SMTP-Port:" />
+                        <Label layoutX="96.0" layoutY="254.0" text="Maximale Mailgröße der Mailbox (optional):" />
+                        <TextField fx:id="maxMailSizeInput" layoutX="390.0" layoutY="249.0" prefHeight="26.0" prefWidth="60.0" />
+                        <Label layoutX="461.0" layoutY="254.0" text="MB" />
+                        <TextField fx:id="imapPortInput" layoutX="855.0" layoutY="184.0" prefHeight="26.0" prefWidth="73.0" />
+                        <Label layoutX="776.0" layoutY="189.0" text="IMAP-Port:" />
+                             </children>
+                          </AnchorPane>
+                       </content>
                   </Tab>
-
                   <Tab text="Routing">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                            <Label layoutX="162.0" layoutY="475.0" text="Weiterleitung von Datenpakteten bis:" />
-                            <TextField fx:id="maximumRouteSizeInput" layoutX="419.0" layoutY="471.0" prefHeight="25.0" prefWidth="52.0" promptText="MB" />
-                            <Button fx:id="routingSaveButton" layoutX="685.0" layoutY="512.0" mnemonicParsing="false" onAction="#onRoutingSaveButtonClick" text="Speichern" />
-                            <Label layoutX="481.0" layoutY="475.0" text="MB" />
-                     <Button fx:id="startTCPServerButton" layoutX="379.0" layoutY="97.0" mnemonicParsing="false" onAction="#onStartTCPServerButtonClick" text="Start TCP Server" />
-                     <Button fx:id="stopTCPServerButton" layoutX="379.0" layoutY="132.0" mnemonicParsing="false" onAction="#onStopTCPServerButtonClick" text="Stop TCP Server" />
-                     <Label layoutX="59.0" layoutY="36.0" text="TCP-Server">
+                            <Label layoutX="214.0" layoutY="380.0" text="Weiterleitung von Datenpakteten bis:" />
+                            <TextField fx:id="maximumRouteSizeInput" layoutX="463.0" layoutY="376.0" prefHeight="25.0" prefWidth="52.0" promptText="MB" />
+                            <Button fx:id="routingSaveButton" layoutX="708.0" layoutY="515.0" mnemonicParsing="false" onAction="#onRoutingSaveButtonClick" text="Speichern" />
+                            <Label layoutX="525.0" layoutY="380.0" text="MB" />
+                     <Button fx:id="startTCPServerButton" layoutX="600.0" layoutY="97.0" mnemonicParsing="false" onAction="#onStartTCPServerButtonClick" text="Start TCP Server" />
+                     <Button fx:id="stopTCPServerButton" layoutX="600.0" layoutY="132.0" mnemonicParsing="false" onAction="#onStopTCPServerButtonClick" text="Stop TCP Server" />
+                     <Label layoutX="163.0" layoutY="37.0" styleClass="title_text" text="TCP-Server">
                         <font>
                            <Font size="18.0" />
                         </font>
                      </Label>
-                     <TextField fx:id="tcpPortInput" layoutX="105.0" layoutY="102.0" prefHeight="26.0" prefWidth="57.0" />
-                     <Label layoutX="60.0" layoutY="107.0" text="Port:" />
-                     <Label fx:id="tcpStartedMessageLabel" layoutX="124.0" layoutY="186.0" textFill="#ee0707">
+                     <TextField fx:id="tcpPortInput" layoutX="260.0" layoutY="97.0" prefHeight="26.0" prefWidth="60.0" />
+                     <Label layoutX="215.0" layoutY="102.0" text="Port:" />
+                     <Label fx:id="tcpStartedMessageLabel" layoutX="215.0" layoutY="135.0" prefHeight="20.0" prefWidth="358.0" styleClass="text-header" textFill="#ee0707">
                         <font>
                            <Font size="16.0" />
                         </font>
                      </Label>
                      <Separator layoutX="9.0" layoutY="191.0" prefHeight="0.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="191.0" />
-                     <Label layoutX="62.0" layoutY="218.0" text="Daten-Routing">
+                     <Label layoutX="163.0" layoutY="224.0" styleClass="title_text" text="Daten-Routing">
                         <font>
                            <Font size="18.0" />
                         </font>
                      </Label>
-                     <Button fx:id="chooseRoutingContactsButton" onAction="#onChooseContactsRoutingButtonClick" layoutX="64.0" layoutY="270.0" mnemonicParsing="false" text="Kontakte auswählen" />
-                     <Button fx:id="chooseInterestsRoutingButton" onAction="#onChooseInterestsRoutingButtonClick" layoutX="64.0" layoutY="308.0" mnemonicParsing="false" text="Interessen auswählen" />
+                     <Button fx:id="chooseRoutingContactsButton" layoutX="215.0" layoutY="307.0" mnemonicParsing="false" onAction="#onChooseContactsRoutingButtonClick" text="Kontakte auswählen" />
+                     <Button fx:id="chooseInterestsRoutingButton" layoutX="382.0" layoutY="307.0" mnemonicParsing="false" onAction="#onChooseInterestsRoutingButtonClick" text="Interessen auswählen" />
                         </AnchorPane>
                     </content>
                   </Tab>
-
                   <Tab text="Synchronisieren">
                       <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -100,23 +103,20 @@
                                   <CheckBox fx:id="contactsSyncCheckbox" layoutX="145.0" layoutY="239.0" mnemonicParsing="false" text="Kontakte" />
                                   <CheckBox fx:id="messagesSyncCheckbox" layoutX="145.0" layoutY="278.0" mnemonicParsing="false" text="Chats" />
                                   <CheckBox fx:id="homeworkSyncCheckbox" layoutX="145.0" layoutY="359.0" mnemonicParsing="false" text="Hausaufgaben" />
-                                  <CheckBox fx:id="timelineSyncCheckbox" layoutX="145.0" layoutY="319.0" mnemonicParsing="false" text="Timeline" />
-                                  <RadioButton fx:id="syncMediumSelectWifi" layoutX="561.0" layoutY="194.0" mnemonicParsing="false" text="WiFi">
+                                  <CheckBox fx:id="timelineSyncCheckbox" layoutX="145.0" layoutY="319.0" mnemonicParsing="false" text="Timeline (Inbox)" />
+                                  <RadioButton fx:id="syncMediumSelectWifi" layoutX="561.0" layoutY="201.0" mnemonicParsing="false" text="WiFi">
                                       <toggleGroup>
                                           <ToggleGroup fx:id="syncMedium" />
                                       </toggleGroup>
                                   </RadioButton>
-                                  <RadioButton fx:id="syncMediumSelectBluetooth" layoutX="561.0" layoutY="233.0" mnemonicParsing="false" text="Bluetooth" toggleGroup="$syncMedium" />
-                                  <RadioButton fx:id="syncMediumSelectMail" layoutX="561.0" layoutY="274.0" mnemonicParsing="false" text="Mail" toggleGroup="$syncMedium" />
-                                  <RadioButton fx:id="syncMediumSelectNFC" layoutX="561.0" layoutY="314.0" mnemonicParsing="false" text="NFC" toggleGroup="$syncMedium" />
-                                  <RadioButton fx:id="syncMediumSelectTCP" layoutX="561.0" layoutY="351.0" mnemonicParsing="false" text="TCP" toggleGroup="$syncMedium" />
-
-                                  <Label layoutX="70.0" layoutY="154.0" text="Was möchten Sie synchronisieren?" />
-                                  <Label layoutX="487.0" layoutY="154.0" text="WIe soll synchronisiert werden?" />
+                                  <RadioButton fx:id="syncMediumSelectBluetooth" layoutX="561.0" layoutY="239.0" mnemonicParsing="false" text="Bluetooth" toggleGroup="$syncMedium" />
+                                  <RadioButton fx:id="syncMediumSelectMail" layoutX="561.0" layoutY="278.0" mnemonicParsing="false" text="Mail" toggleGroup="$syncMedium" />
+                                  <RadioButton fx:id="syncMediumSelectTCP" layoutX="561.0" layoutY="319.0" mnemonicParsing="false" text="TCP" toggleGroup="$syncMedium" />
+                                  <Label layoutX="70.0" layoutY="154.0" styleClass="title_text" text="Was möchtest du synchronisieren?" />
+                                  <Label layoutX="487.0" layoutY="154.0" styleClass="title_text" text="Wie soll synchronisiert werden?" />
                                   <Button fx:id="syncStartButton" layoutX="638.0" layoutY="512.0" mnemonicParsing="false" onAction="#onStartSyncButtonClick" text="Synchronisieren" />
-                                  <Separator layoutX="399.0" maxHeight="1.7976931348623157E308" orientation="VERTICAL" prefHeight="567.0" prefWidth="6.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="397.0" AnchorPane.topAnchor="0.0" />
+                                  <Separator layoutX="423.0" layoutY="-1.0" maxHeight="1.7976931348623157E308" orientation="VERTICAL" prefHeight="567.0" prefWidth="6.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="423.0" AnchorPane.topAnchor="-1.0" />
                                   <CheckBox fx:id="profileSyncCheckbox" layoutX="145.0" layoutY="201.0" mnemonicParsing="false" text="Mein Profil" />
-
                               </children>
                           </AnchorPane>
                       </content>

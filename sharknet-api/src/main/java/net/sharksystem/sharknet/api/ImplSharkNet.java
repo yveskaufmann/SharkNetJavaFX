@@ -147,7 +147,7 @@ public class ImplSharkNet implements SharkNet {
 	public void exchangeContactNFC() {
 		//ToDo: Shark - Implement Contact Exchange via NFC
 		//This Contact gets generated to see that sth is happening
-		informContact(new ImplContact("nfc contact", "www.nfccontact.de", "", myProfile, new ImplContent(""), null));
+		informContact(new ImplContact("nfc contact", "www.nfccontact.de", "", myProfile, new ImplContent(myProfile), null));
 
 	}
 

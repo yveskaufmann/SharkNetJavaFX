@@ -9,9 +9,12 @@ import javafx.scene.control.Label;
 import net.sharksystem.sharknet.api.Contact;
 import net.sharksystem.sharknet.api.Profile;
 import net.sharksystem.sharknet.api.SharkNet;
+import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.i18n.I18N;
 import org.apache.commons.lang3.NotImplementedException;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static net.sharksystem.sharknet.javafx.i18n.I18N.getString;
@@ -47,22 +50,18 @@ public class PublicKeyController {
 	 ******************************************************************************/
 
 	public void initialize() {
-		Profile myProfile = sharkNet.getMyProfile();
-		Contact contact = myProfile.getContact();
-		String key = contact.getPublicKey();
-		Date keyExpiration = contact.getPublicKeyExpiration();
-
-		// TODO: request public key and date
-		if (key == null || "".equals(key)) key = "5b:6b:4a:b9:18:f7:bd:03:ef:e4:d0:93:6b:10:cc:99";
-		if (keyExpiration == null) keyExpiration = new Date();
-
-		publicKeyField.setText(key);
-		expirationField.setText(getString("profile.publicKey.expiration", keyExpiration));
-
-		generateNewPublicKey.setOnAction((e) -> onGenerateNewKeyClicked(myProfile));
+		generateNewPublicKey.setOnAction((e) -> onGenerateNewKeyClicked());
+		refreshData();
 	}
 
-
+	private void refreshData() {
+		Profile myProfile = sharkNet.getMyProfile();
+		Contact contact = myProfile.getContact();
+		String key = contact.getPublicKeyFingerprint();
+		Date keyExpiration = contact.getPublicKeyExpiration();
+		publicKeyField.setText(key);
+		expirationField.setText(getString("profile.publicKey.expiration", keyExpiration));
+	}
 
 	/******************************************************************************
 	 *
@@ -70,15 +69,21 @@ public class PublicKeyController {
 	 *
 	 ******************************************************************************/
 
-	private void onGenerateNewKeyClicked(Profile myProfile) {
-		Alert shouldPublicKeyGenerated = new Alert(Alert.AlertType.INFORMATION);
-		shouldPublicKeyGenerated.setContentText(getString("%profile.publicKey.generate.dlg.confirmation"));
-		shouldPublicKeyGenerated.getDialogPane().getStyleClass().add("theme-preset");
+	private void onGenerateNewKeyClicked() {
+
+		Alert shouldPublicKeyGenerated = new Alert(Alert.AlertType.CONFIRMATION);
+		shouldPublicKeyGenerated.setHeaderText(getString("profile.publicKey.generate.dlg.title"));
+		shouldPublicKeyGenerated.setContentText(getString("profile.publicKey.generate.dlg.confirmation"));
 		shouldPublicKeyGenerated.initOwner(generateNewPublicKey.getScene().getWindow());
+
+		shouldPublicKeyGenerated.getDialogPane().getStylesheets().add(App.getAppStyleSheet());
+		shouldPublicKeyGenerated.getDialogPane().getStyleClass().add("theme-presets");
+		shouldPublicKeyGenerated.getDialogPane().getScene().getWindow().sizeToScene();
 		shouldPublicKeyGenerated.showAndWait().ifPresent((buttonType) -> {
 			if (ButtonType.OK.equals(buttonType)) {
-				// TODO: add a progress bar but first the api must provide a specific interface
+				Profile myProfile = sharkNet.getMyProfile();
 				myProfile.renewKeys();
+				refreshData();
 			}
 		});
 	}

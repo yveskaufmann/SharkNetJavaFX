@@ -7,16 +7,20 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import net.sharkfw.knowledgeBase.inmemory.InMemoInformation;
 import net.sharksystem.sharknet.api.*;
 import net.sharksystem.sharknet.javafx.App;
 import net.sharksystem.sharknet.javafx.controller.FrontController;
 import net.sharksystem.sharknet.javafx.controller.contactlist.ShowContactController;
+import net.sharksystem.sharknet.javafx.controller.profile.ProfileEvent;
+import net.sharksystem.sharknet.javafx.controls.dialogs.ImageChooserDialog;
 import net.sharksystem.sharknet.javafx.services.ImageManager;
 import net.sharksystem.sharknet.javafx.utils.controller.AbstractController;
 import net.sharksystem.sharknet.javafx.utils.controller.Controllers;
@@ -120,7 +124,7 @@ public class ChatController extends AbstractController implements ChatListener, 
 	protected void onFxmlLoaded() {
 		buttonNewChat.setText(getString("chat.button.newchat"));
 		buttonSend.setText(getString("chat.button.send"));
-		textFieldMessage.setText(getString("chat.textinput.typemsg"));
+		//textFieldMessage.setText(getString("chat.textinput.typemsg"));
 		// set tooltips
 		labelChatRecipients.setTooltip(new Tooltip(getString("chat.tooltip.contacts")));
 		Tooltip.install(imageViewAttachment, new Tooltip(getString("chat.tooltip.attachment")));
@@ -171,10 +175,15 @@ public class ChatController extends AbstractController implements ChatListener, 
 		// hidden label to trigger new message event
 		labelNewMsgEvent.setOnMouseClicked(event -> {
 			if (activeChat != null) {
-				Message m = new ImplMessage(new ImplContent("Das ist eine neue Nachricht. Bla blub keks tralalalalalala wer wie wo was der die das bla blub keks"), activeChat.getContacts(), activeChat.getContacts().get(0), sharkNetModel.getMyProfile());
+				Message m = new ImplMessage(new ImplContent("Das ist eine neue Nachricht. Bla blub keks tralalalalalala wer wie wo was der die das bla blub keks", sharkNetModel.getMyProfile()), activeChat.getContacts(), activeChat.getContacts().get(0), sharkNetModel.getMyProfile());
 				receivedMessage(m);
 			}
 		});
+		// prevent horizontal scrollbar
+		scrollPaneChat.setFitToWidth(true);
+	}
+
+	public void refreshChats() {
 		// load all chats into chathistorylistview
 		loadChatHistory();
 		// load first chat from history if there is one
@@ -182,15 +191,22 @@ public class ChatController extends AbstractController implements ChatListener, 
 			activeChat = chatHistoryListView.getItems().get(0);
 			loadChat(activeChat);
 		}
-		// prevent horizontal scrollbar
-		scrollPaneChat.setFitToWidth(true);
+	}
+
+	@Override
+	public void onResume() {
+		// Will be triggered before this view becomes visible,
+		// which ensures that all chats are reloaded when the user
+		// re/opens the chat view.
+		refreshChats();
 	}
 
 	/**
 	 * triggered by pressing "DEL", message is selected via hover
 	 */
 	private void onMessageDelete() {
-		if (selectedMessage != null) {
+		if (selectedMessage != null
+			&& !selectedMessage.getContent().getMessage().equals(":datedivider:")) {
 			// delete msg dialog
 			Alert alert = new Alert(Alert.AlertType.WARNING);
 			alert.setTitle("Delete Message");
@@ -232,8 +248,10 @@ public class ChatController extends AbstractController implements ChatListener, 
 						extension = file.getPath().substring(i + 1);
 					}
 					// create attachment object
-					// ToDo: set mimetype
-					Content attachment = new ImplContent(fileAttachment, extension, file.getName());
+					Content attachment = new ImplContent("", sharkNetModel.getMyProfile());
+					attachment.setFile(file);
+					//attachment.setFilename(file.getName());
+					attachment.setMimeType(mimeType);
 					sendAttachment(attachment);
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
@@ -251,7 +269,8 @@ public class ChatController extends AbstractController implements ChatListener, 
 		// if user wants to send attachment
 		if (activeChat != null && attachment != null) {
 			// append filename to chat message
-			attachment.setMessage(textFieldMessage.getText() + "<" + attachment.getFileName() + ">");
+			//attachment.setMessage(textFieldMessage.getText() + "<" + attachment.getFileName() + ">");
+			attachment.setMessage(textFieldMessage.getText() + ":attachmentplaceholder:");
 			// send message and attachment
 			activeChat.sendMessage(attachment);
 		}
@@ -303,12 +322,15 @@ public class ChatController extends AbstractController implements ChatListener, 
 			File file = fileChooser.showOpenDialog(stage);
 			// if a file is selected
 			if (file != null) {
+				Content picture = new ImplContent("", sharkNetModel.getMyProfile());
+				picture.setFile(file);
 				try {
-					InputStream in = new BufferedInputStream(new FileInputStream(file.getAbsolutePath()));
-					activeChat.setPicture(new ImplContent(in, "jpg", "grppicture"));
+					String mimeType = Files.probeContentType(file.toPath());
+					picture.setMimeType(mimeType);
+					activeChat.setPicture(picture);
 					imageManager.readImageFrom(activeChat.getPicture()).ifPresent(imageViewContactProfile::setImage);
 					loadChatHistory();
-				} catch (FileNotFoundException e) {
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
@@ -358,6 +380,10 @@ public class ChatController extends AbstractController implements ChatListener, 
 			if (chatHistoryListView.getItems().size() > 0) {
 				activeChat = chatHistoryListView.getItems().get(0);
 				loadChat(activeChat);
+			} else {
+				chatWindowListView.getChildren().clear();
+				labelChatRecipients.setText("");
+				activeChat = null;
 			}
 		}
 	}
@@ -378,7 +404,8 @@ public class ChatController extends AbstractController implements ChatListener, 
 		if (activeChat != null) {
 			if (textFieldMessage.getText().length() > 0){
 				// just send chat message
-				activeChat.sendMessage(new ImplContent(null, "", "", textFieldMessage.getText()));
+				Content msg = new ImplContent(textFieldMessage.getText(), sharkNetModel.getMyProfile());
+				activeChat.sendMessage(msg);
 				loadChat(activeChat);
 				//chatHistoryListView.refresh();
 				loadChatHistory();
@@ -502,17 +529,13 @@ public class ChatController extends AbstractController implements ChatListener, 
 					//hatWindowListView.getItems().add(msg);
 					ChatBox chatmsg = new ChatBox(msg);
 					// bugfix -> scroll to end of chatlist
-					chatmsg.heightProperty().addListener(new ChangeListener() {
-
-						@Override
-						public void changed(ObservableValue observable, Object oldvalue, Object newValue) {
-
-							scrollPaneChat.setVvalue((Double) newValue);
-						}
+					chatmsg.heightProperty().addListener((observable, oldValue, newValue) -> {
+						scrollPaneChat.setVvalue((Double) newValue);
 					});
-					chatmsg.setOnMouseEntered( event -> {
+					chatmsg.setOnMouseEntered(event -> {
 						selectedMessage = chatmsg.getMessage();
 					});
+
 					chatWindowListView.getChildren().add(chatmsg);
 				}
 			}
@@ -526,7 +549,7 @@ public class ChatController extends AbstractController implements ChatListener, 
 	 */
 	private List<List<Message>> insertDateDivider(List<List<Message>> list) {
 		for (List<Message> partList : list) {
-			Message divider = new ImplMessage(new ImplContent(":datedivider:"), partList.get(0).getTimestamp(), null, null, null, false, false);
+			Message divider = new ImplMessage(new ImplContent(":datedivider:", sharkNetModel.getMyProfile()), partList.get(0).getTimestamp(), null, null, null, false, false);
 			partList.add(0, divider);
 		}
 		return list;
@@ -611,8 +634,9 @@ public class ChatController extends AbstractController implements ChatListener, 
 	 */
 	private void onEmojiClick() {
 		// open emoji window
-		EmojiController e = new EmojiController();
+		EmojiController e = EmojiController.getInstance();
 		e.addListener(this);
+		e.showWindow();
 	}
 
 	@Override
