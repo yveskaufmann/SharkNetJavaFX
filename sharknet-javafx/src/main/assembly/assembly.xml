@@ -2,7 +2,7 @@
     <id>bin</id>
     <!-- Specifies that our binary distribution is a zip package -->
     <formats>
-        <format>zip</format>
+        <format>dir</format>
     </formats>
 
     <!-- Adds the dependencies of our application to the lib directory -->
@@ -19,6 +19,14 @@
     </dependencySets>
 
     <fileSets>
+        <fileSet>
+            <directory>${project.parent.basedir}</directory>
+            <outputDirectory/>
+            <includes>
+                <include>README.*</include>
+                <include>LICENSE.*</include>
+            </includes>
+        </fileSet>
         <!--
             Adds startup scripts to the root directory of zip package. The startup
             scripts are copied from the src/main/scripts directory.

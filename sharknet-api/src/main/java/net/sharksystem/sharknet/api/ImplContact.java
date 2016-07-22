@@ -258,16 +258,7 @@ public class ImplContact implements Contact, StudentContact {
 	}
 
 	private void setDefaultPicture(){
-		File personpic= Resources.get("person.png");
-		Content piccon = new ImplContent(owner);
-		piccon.setFile(personpic);
-		try {
-			String mimeType = Files.probeContentType(personpic.toPath());
-			piccon.setMimeType(mimeType);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		setPicture(piccon);
+		setPicture(Resources.getImage("person.png", "image/png", owner));
 	}
 
 	@Override

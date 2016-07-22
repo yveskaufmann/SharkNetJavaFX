@@ -36,14 +36,15 @@
 
     <distributionManagement>
         <repository>
-            <id>bintray-yveskaufmann-maven</id>
-            <url>https://api.bintray.com/maven/yveskaufmann/maven/sharknet/;publish=1</url>
+            <id>bintray-sharedknowledge-maven</id>
+            <name>sharedknowledge-maven</name>
+            <url>https://api.bintray.com/maven/sharedknowledge/maven/sharknet/;publish=1</url>
         </repository>
     </distributionManagement>
 
     <modules>
-        <module>sharknet-javafx</module>
         <module>sharknet-api</module>
+        <module>sharknet-javafx</module>
     </modules>
 
     <dependencies>
@@ -60,6 +61,11 @@
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.19.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.5.1</version>
                     <configuration>
@@ -70,7 +76,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.0.1</version>
+                    <version>3.0.2</version>
                     <configuration>
                         <archive>
                             <manifest>
@@ -109,6 +115,11 @@
                             </configuration>
                         </execution>
                     </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>2.6</version>
                 </plugin>
             </plugins>
         </pluginManagement>

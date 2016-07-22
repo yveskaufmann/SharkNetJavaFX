@@ -268,24 +268,13 @@ public class ImplChat implements Chat {
 		Content piccon;
 		File pic = null;
 		if (getContacts().size() > 1) {
-			pic = Resources.get("group.png");
-			piccon = new ImplContent(owner);
-			piccon.setFile(pic);
+			piccon = Resources.getImage("group.png", "image/png", owner);
 		} else if (getContacts().get(0).getPicture() == null) {
-			pic = Resources.get("person.png");
-			piccon = new ImplContent(owner);
-			piccon.setFile(pic);
+			piccon = Resources.getImage("person.png", "image/png", owner);
 		} else {
 			piccon = getContacts().get(0).getPicture();
 		}
-		if(pic != null){
-			try {
-				String mimeType = Files.probeContentType(pic.toPath());
-				piccon.setMimeType(mimeType);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+
 		setPicture(piccon);
 	}
 

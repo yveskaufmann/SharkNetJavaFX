@@ -69,21 +69,8 @@ public class Dummy {
 
 		//Profilbilder von Alice und Bob setzen
 
-
-
-
-		File filealice = Resources.get("Alice.jpg");
-		Content alicecon = new ImplContent(alice_p);
-		alicecon.setFile(filealice);
-		alicecon.setMimeType(jpg);
-		alice.setPicture(alicecon);
-
-		File filebob = Resources.get("Bob.jpg");
-		Content bobcon = new ImplContent(bob_p);
-
-		bobcon.setFile(filebob);
-		bobcon.setMimeType(jpg);
-		bob.setPicture(bobcon);
+		alice.setPicture(Resources.getImage("Alice.jpg", jpg, alice_p));
+		bob.setPicture(Resources.getImage("Bob.jpg", jpg, bob_p));
 
 
 		//Kontakte von Alice setzen
@@ -97,21 +84,9 @@ public class Dummy {
 		alice_charles.setLastWifiContact(timenow);
 
 		//Profilbild von Charles und Dean und Bob
-		Content bobpic = new ImplContent(alice_p);
-		bobpic.setFile(filebob);
-		bobpic.setMimeType(jpg);
-		alice_bob.setPicture(bobpic);
-
-		Content charlespic = new ImplContent(alice_p);
-		charlespic.setFile(filebob);
-		charlespic.setMimeType(jpg);
-		alice_charles.setPicture(charlespic);
-
-		Content deanpic = new ImplContent(alice_p);
-		deanpic.setFile(filebob);
-		deanpic.setMimeType(jpg);
-		alice_dean.setPicture(deanpic);
-
+		alice_bob.setPicture(Resources.getImage("Bob.jpg", jpg, alice_p));
+		alice_charles.setPicture(Resources.getImage("Bob.jpg", jpg, alice_p));
+		alice_dean.setPicture(Resources.getImage("Bob.jpg", jpg, alice_p));
 
 		//Anlegen von Chats
 		//1. Kontaktlisten anlegen
