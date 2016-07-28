@@ -22,6 +22,12 @@
             <artifactId>SharkFW</artifactId>
             <version>2.9.3</version>
         </dependency>
+        <dependency>
+            <groupId>org.javatuples</groupId>
+            <artifactId>javatuples</artifactId>
+            <version>1.1</version>
+        </dependency>
+
     </dependencies>
 
     <repositories>
