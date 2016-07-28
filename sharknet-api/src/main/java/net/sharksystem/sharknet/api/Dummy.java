@@ -1,19 +1,8 @@
 package net.sharksystem.sharknet.api;
 
-import javafx.application.Application;
 import net.sharkfw.knowledgeBase.TXSemanticTag;
-import net.sharkfw.knowledgeBase.inmemory.InMemoInformation;
 import net.sharksystem.sharknet.api.utils.Resources;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.*;

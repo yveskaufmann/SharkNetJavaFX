@@ -1,6 +1,5 @@
 package net.sharksystem.sharknet.api.utils;
 
-import net.sharkfw.knowledgeBase.Information;
 import net.sharkfw.knowledgeBase.inmemory.InMemoInformation;
 import net.sharksystem.sharknet.api.Content;
 import net.sharksystem.sharknet.api.ImplContent;
@@ -12,9 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Paths;
 
 /**
  * Helper class which supports

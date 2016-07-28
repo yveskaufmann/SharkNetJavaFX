@@ -15,6 +15,7 @@ public class ImplProfile implements Profile {
 	String password ="";
 	Setting setting;
 	Blacklist blacklist;
+	ScheduleWeek scheduleWeek = null;
 
 
 	/**
@@ -25,7 +26,6 @@ public class ImplProfile implements Profile {
 		c = new ImplContact(nickname, gernateUID(nickname, deviceID), "", this);
 		setting = new ImplSetting(this);
 		save();
-
 	}
 
 	/**
@@ -78,6 +78,17 @@ public class ImplProfile implements Profile {
 	@Override
 	public void update() {
 		//ToDo: Shark - update Profile in the KB
+	}
+
+	@Override
+	public ScheduleWeek getScheduleWeek() {
+		return scheduleWeek;
+	}
+
+	@Override
+	public void setScheduleWeek(ScheduleWeek scheduleWeek) {
+		this.scheduleWeek = scheduleWeek;
+		save();
 	}
 
 	@Override

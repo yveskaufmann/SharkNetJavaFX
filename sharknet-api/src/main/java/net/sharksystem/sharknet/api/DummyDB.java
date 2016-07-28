@@ -19,6 +19,8 @@ public class DummyDB {
 	List<Chat> chat_list = new LinkedList<>();
 	HashMap<Chat, List<Message>> chatmessage = new HashMap<>();
 	HashMap<Feed, List<Comment>> feedcomment = new HashMap<>();
+	//SchoolMetadata represents all information about a school and is used by all students of this school
+	SchoolMetadata schoolMetadata = null;
 
 
 
@@ -625,5 +627,12 @@ public class DummyDB {
 	}
 
 
+	public SchoolMetadata getSchoolMetadata() {
+		return schoolMetadata;
+	}
+
+	public void setSchoolMetadata(SchoolMetadata schoolMetadata) {
+		this.schoolMetadata = schoolMetadata;
+	}
 }
 

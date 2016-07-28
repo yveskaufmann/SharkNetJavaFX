@@ -16,6 +16,7 @@ public interface SharkNet {
      */
     public List<Profile> getProfiles();
 
+
 	/**
 	 * Returns a list of all Feeds which should be displayed in the Timeline
 	 * @return
@@ -79,6 +80,9 @@ public interface SharkNet {
      */
 	public Profile getMyProfile();
 
+	public SchoolMetadata getSchoolMetadata();
+
+	public void setSchoolMetadata(SchoolMetadata schoolMetadata);
 	/**
 	 * Exchange Contact via NFC (just Method, not implemented)
      */

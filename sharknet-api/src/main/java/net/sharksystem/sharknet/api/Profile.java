@@ -33,6 +33,18 @@ public interface Profile {
 	public void update();
 
 	/**
+	 * Returns the personal configured schedule week.
+	 * @return
+	 */
+	public ScheduleWeek getScheduleWeek();
+
+	/**
+	 * Set the personal configured schedule week.
+	 * @param scheduleWeek
+     */
+	public void setScheduleWeek(ScheduleWeek scheduleWeek);
+
+	/**
 	 * Method for the Login
 	 */
 

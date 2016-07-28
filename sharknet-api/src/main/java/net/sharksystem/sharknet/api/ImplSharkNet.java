@@ -130,6 +130,12 @@ public class ImplSharkNet implements SharkNet {
 	}
 
 	@Override
+	public Profile getMyProfile() {
+		return myProfile;
+	}
+
+
+	@Override
 	public boolean setProfile(Profile myProfile, String password) {
 		if(myProfile.login(password)){
 			this.myProfile = myProfile;
@@ -139,9 +145,15 @@ public class ImplSharkNet implements SharkNet {
 	}
 
 	@Override
-	public Profile getMyProfile() {
-		return myProfile;
+	public SchoolMetadata getSchoolMetadata() {
+		return DummyDB.getInstance().getSchoolMetadata();
 	}
+
+	@Override
+	public void setSchoolMetadata(SchoolMetadata schoolMetadata) {
+		DummyDB.getInstance().setSchoolMetadata(schoolMetadata);
+	}
+
 
 	@Override
 	public void exchangeContactNFC() {

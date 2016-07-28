@@ -1,11 +1,14 @@
 package net.sharksystem.sharknet.api;
 
-import javafx.util.Pair;
+import org.javatuples.Pair;
 import net.sharkfw.security.key.SharkKeyGenerator;
 import net.sharkfw.security.key.SharkKeyPairAlgorithm;
 import net.sharkfw.system.Base64;
 
-import java.security.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -42,13 +45,13 @@ public class DummyKeyPairHelper {
      */
 	public static void createNewKeyForContact(ImplContact contact) {
 		final Pair<PublicKey, PrivateKey> keyPair = generateNewKeyPair();
-		final String fingerprint = createFingerPrint(keyPair.getKey());
+		final String fingerprint = createFingerPrint(keyPair.getValue0());
 		final Timestamp expirationDate = new Timestamp(new Date().getTime() + AVG_MILLI_SECONDS_PER_MONTH * 6);
 
 		contact.publicKeyFingerPrint = fingerprint;
 		contact.keyExpiration = expirationDate;
 		if (contact.publickey == null || contact.publickey.equals("")) {
-			String key = Base64.encodeBytes(keyPair.getKey().getEncoded());
+			String key = Base64.encodeBytes(keyPair.getValue0().getEncoded());
 			StringBuilder newKey = new StringBuilder();
 			newKey.append("-----BEGIN PUBLIC KEY-----");
 			newKey.append("\n");

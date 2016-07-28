@@ -1,17 +1,8 @@
 package net.sharksystem.sharknet.api;
 
-import javafx.util.Pair;
 import net.sharksystem.sharknet.api.utils.Resources;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.security.KeyPair;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
