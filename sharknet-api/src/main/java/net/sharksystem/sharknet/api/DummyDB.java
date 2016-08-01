@@ -634,5 +634,9 @@ public class DummyDB {
 	public void setSchoolMetadata(SchoolMetadata schoolMetadata) {
 		this.schoolMetadata = schoolMetadata;
 	}
+
+	public SchoolMetadata getDummySchoolMetadata() {
+		return new DummySchoolMetadata().getSchoolMetadata();
+	}
 }
 

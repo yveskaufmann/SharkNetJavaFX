@@ -146,7 +146,13 @@ public class ImplSharkNet implements SharkNet {
 
 	@Override
 	public SchoolMetadata getSchoolMetadata() {
+		//TODO Shark - Lookup if SchoolMetadata already exists if yes return the SchoolMetadataObject of the existing SchoolMetadata, if no make a new SchoolMetadataObject
 		return DummyDB.getInstance().getSchoolMetadata();
+	}
+
+	@Override
+	public SchoolMetadata getDummySchoolMetadata() {
+		return DummyDB.getInstance().getDummySchoolMetadata();
 	}
 
 	@Override

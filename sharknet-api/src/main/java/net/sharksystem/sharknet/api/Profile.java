@@ -1,5 +1,7 @@
 package net.sharksystem.sharknet.api;
 
+import java.util.List;
+
 /**
  * Created by timol on 12.05.2016.
  *
@@ -47,6 +49,12 @@ public interface Profile {
 	/**
 	 * Method for the Login
 	 */
+
+	public List<Lesson> getLessons();
+
+	public void addLesson(Lesson lesson);
+
+	public boolean deleteLesson(int index);
 
 	public boolean login(String password);
 	/**

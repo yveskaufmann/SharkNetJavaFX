@@ -82,6 +82,8 @@ public interface SharkNet {
 
 	public SchoolMetadata getSchoolMetadata();
 
+	public SchoolMetadata getDummySchoolMetadata();
+
 	public void setSchoolMetadata(SchoolMetadata schoolMetadata);
 	/**
 	 * Exchange Contact via NFC (just Method, not implemented)

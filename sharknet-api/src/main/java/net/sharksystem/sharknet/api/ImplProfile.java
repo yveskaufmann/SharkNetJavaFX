@@ -2,8 +2,8 @@ package net.sharksystem.sharknet.api;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -16,6 +16,7 @@ public class ImplProfile implements Profile {
 	Setting setting;
 	Blacklist blacklist;
 	ScheduleWeek scheduleWeek = null;
+	List<Lesson> lessons = new ArrayList<>();
 
 
 	/**
@@ -89,6 +90,27 @@ public class ImplProfile implements Profile {
 	public void setScheduleWeek(ScheduleWeek scheduleWeek) {
 		this.scheduleWeek = scheduleWeek;
 		save();
+	}
+
+	@Override
+	public List<Lesson> getLessons() {
+		return lessons;
+	}
+
+	@Override
+	public void addLesson(Lesson lesson) {
+		this.lessons.add(lesson);
+	}
+
+	@Override
+	public boolean deleteLesson(int index) {
+		if (lessons.size() == 0) {
+			return false;
+		} else {
+			int count = lessons.size();
+			lessons.remove(index);
+			return count > lessons.size();
+		}
 	}
 
 	@Override
